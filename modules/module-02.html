@@ -3,25 +3,1177 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Module 2 - Advanced Web Development">
-    <title>Module 2: Topic TBD | Advanced Web Development</title>
+    <meta name="description" content="Module 2: Web Foundations - Understanding HTTP, Web Servers, and Technology Stacks">
+    <title>Module 2: Web Foundations | Advanced Web Development</title>
     <link rel="stylesheet" href="../css/slides.css">
+    <style>
+        /* Module 2 specific styles for visual elements */
+        .stack-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin: 1rem 0;
+        }
+        .stack-card {
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            border-radius: 8px;
+            padding: 1rem;
+            text-align: center;
+            border-top: 4px solid var(--secondary-color);
+        }
+        .stack-card h3 {
+            margin: 0 0 0.5rem 0;
+            color: var(--primary-color);
+            font-size: 1.1rem;
+        }
+        .stack-card .stack-items {
+            font-size: 0.85rem;
+            color: var(--text-light);
+        }
+        .stack-card .stack-items span {
+            display: block;
+            padding: 0.2rem 0;
+        }
+        .flow-diagram {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 1rem;
+            flex-wrap: wrap;
+            margin: 1.5rem 0;
+        }
+        .flow-box {
+            background: var(--primary-color);
+            color: #fff;
+            padding: 1rem 1.5rem;
+            border-radius: 8px;
+            text-align: center;
+            min-width: 120px;
+        }
+        .flow-box.client { background: #3498db; }
+        .flow-box.server { background: #27ae60; }
+        .flow-box.db { background: #9b59b6; }
+        .flow-arrow {
+            font-size: 1.5rem;
+            color: var(--text-light);
+        }
+        .method-badge {
+            display: inline-block;
+            padding: 0.25rem 0.75rem;
+            border-radius: 4px;
+            font-weight: bold;
+            font-size: 0.85rem;
+            color: #fff;
+        }
+        .method-badge.get { background: #27ae60; }
+        .method-badge.post { background: #3498db; }
+        .method-badge.put { background: #f39c12; }
+        .method-badge.delete { background: #e74c3c; }
+        .method-badge.patch { background: #9b59b6; }
+        .status-1xx { color: #3498db; }
+        .status-2xx { color: #27ae60; }
+        .status-3xx { color: #f39c12; }
+        .status-4xx { color: #e74c3c; }
+        .status-5xx { color: #8e44ad; }
+        .server-card {
+            background: #fff;
+            border: 2px solid #e9ecef;
+            border-radius: 8px;
+            padding: 1rem;
+            text-align: center;
+        }
+        .server-card h3 {
+            color: var(--primary-color);
+            margin: 0 0 0.5rem 0;
+        }
+        .server-card .tagline {
+            font-size: 0.85rem;
+            color: var(--secondary-color);
+            font-style: italic;
+            margin-bottom: 0.5rem;
+        }
+        .numbered-step {
+            display: flex;
+            align-items: flex-start;
+            gap: 1rem;
+            margin: 0.75rem 0;
+        }
+        .step-number {
+            background: var(--secondary-color);
+            color: #fff;
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            flex-shrink: 0;
+        }
+        .step-content h4 {
+            margin: 0 0 0.25rem 0;
+            color: var(--primary-color);
+        }
+        .step-content p {
+            margin: 0;
+            font-size: 0.9rem;
+            color: var(--text-light);
+        }
+        .security-icon {
+            font-size: 1.5rem;
+            margin-right: 0.5rem;
+        }
+        .three-column {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1rem;
+        }
+        @media (max-width: 768px) {
+            .three-column {
+                grid-template-columns: 1fr;
+            }
+            .stack-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+
+        /* HTTP Methods Dark Card Layout */
+        .http-methods-container {
+            background: linear-gradient(135deg, #1a2332 0%, #2d3748 100%);
+            border-radius: 12px;
+            padding: 2rem;
+            border-left: 4px solid;
+            border-image: linear-gradient(180deg, #06b6d4, #f97316, #ef4444) 1;
+        }
+        .http-methods-container h2 {
+            color: #fff;
+            margin: 0 0 0.5rem 0;
+            font-size: 1.8rem;
+        }
+        .http-methods-container .subtitle {
+            color: #94a3b8;
+            margin-bottom: 1.5rem;
+        }
+        .methods-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+        .methods-grid-3 {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+        .method-card {
+            background: #2d3a4d;
+            border-radius: 8px;
+            padding: 1rem;
+            border-left: 3px solid transparent;
+        }
+        .method-card.get { border-left-color: #facc15; }
+        .method-card.post { border-left-color: #facc15; }
+        .method-card.put { border-left-color: #22d3ee; }
+        .method-card.delete { border-left-color: #f87171; }
+        .method-card.patch { border-left-color: #94a3b8; }
+        .method-card.head { border-left-color: #22d3ee; }
+        .method-card.options { border-left-color: #f472b6; }
+        .method-card-header {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            margin-bottom: 0.5rem;
+        }
+        .method-pill {
+            padding: 0.25rem 0.75rem;
+            border-radius: 4px;
+            font-weight: bold;
+            font-size: 0.85rem;
+        }
+        .method-pill.get { background: #facc15; color: #1a1a1a; }
+        .method-pill.post { background: #facc15; color: #1a1a1a; }
+        .method-pill.put { background: #22d3ee; color: #1a1a1a; }
+        .method-pill.delete { background: #f87171; color: #1a1a1a; }
+        .method-crud {
+            font-weight: 600;
+        }
+        .method-crud.read { color: #4ade80; }
+        .method-crud.create { color: #22d3ee; }
+        .method-crud.update { color: #94a3b8; }
+        .method-crud.delete-op { color: #f87171; }
+        .method-card p {
+            color: #94a3b8;
+            font-size: 0.9rem;
+            margin: 0;
+        }
+        .method-card-simple h4 {
+            margin: 0 0 0.5rem 0;
+        }
+        .method-card-simple h4.patch { color: #cbd5e1; }
+        .method-card-simple h4.head { color: #22d3ee; }
+        .method-card-simple h4.options { color: #f472b6; }
+        .properties-box {
+            background: #2d3a4d;
+            border-radius: 8px;
+            padding: 1rem 1.5rem;
+            border-left: 3px solid #f97316;
+        }
+        .properties-box h3 {
+            color: #fff;
+            margin: 0 0 1rem 0;
+            font-size: 1rem;
+        }
+        .properties-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1.5rem;
+        }
+        .property-item h4 {
+            margin: 0 0 0.25rem 0;
+            font-size: 0.9rem;
+        }
+        .property-item h4.safe { color: #22d3ee; }
+        .property-item h4.idempotent { color: #f472b6; }
+        .property-item h4.cacheable { color: #22d3ee; }
+        .property-item p {
+            color: #94a3b8;
+            font-size: 0.85rem;
+            margin: 0;
+        }
+        @media (max-width: 900px) {
+            .methods-grid { grid-template-columns: repeat(2, 1fr); }
+            .methods-grid-3 { grid-template-columns: repeat(2, 1fr); }
+            .properties-grid { grid-template-columns: 1fr; }
+        }
+
+        /* Web Server Role Dark Layout */
+        .webserver-container {
+            background: linear-gradient(135deg, #1a2332 0%, #2d3748 100%);
+            border-radius: 12px;
+            padding: 2rem;
+            border-left: 4px solid;
+            border-image: linear-gradient(180deg, #06b6d4, #f97316, #ef4444) 1;
+        }
+        .webserver-container h2 {
+            color: #fff;
+            margin: 0 0 0.5rem 0;
+            font-size: 1.8rem;
+        }
+        .webserver-container .subtitle {
+            color: #94a3b8;
+            margin-bottom: 1.5rem;
+        }
+        .webserver-layout {
+            display: grid;
+            grid-template-columns: 1.2fr 1fr;
+            gap: 2rem;
+        }
+        .section-label {
+            color: #2dd4bf;
+            font-size: 0.85rem;
+            font-weight: 600;
+            letter-spacing: 0.05em;
+            margin-bottom: 1rem;
+        }
+        .responsibilities-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+        .responsibility-card {
+            background: #2d3a4d;
+            border-radius: 8px;
+            padding: 1rem 1.25rem;
+            border: 1px solid #3d4a5d;
+        }
+        .responsibility-card .number {
+            font-size: 1.75rem;
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+        }
+        .responsibility-card:nth-child(1) .number { color: #facc15; }
+        .responsibility-card:nth-child(2) .number { color: #2dd4bf; }
+        .responsibility-card:nth-child(3) .number { color: #f472b6; }
+        .responsibility-card:nth-child(4) .number { color: #a78bfa; }
+        .responsibility-card h4 {
+            color: #fff;
+            margin: 0 0 0.5rem 0;
+            font-size: 1rem;
+        }
+        .responsibility-card p {
+            color: #94a3b8;
+            font-size: 0.85rem;
+            margin: 0;
+            line-height: 1.4;
+        }
+        .capabilities-bar {
+            background: #2d3a4d;
+            border-radius: 8px;
+            padding: 1rem 1.25rem;
+            border: 1px solid #3d4a5d;
+        }
+        .capabilities-bar .section-label {
+            margin-bottom: 0.5rem;
+        }
+        .capabilities-list {
+            display: flex;
+            gap: 1.5rem;
+            flex-wrap: wrap;
+        }
+        .capabilities-list span {
+            color: #94a3b8;
+            font-size: 0.9rem;
+        }
+        .architecture-section {
+            display: flex;
+            flex-direction: column;
+        }
+        .architecture-diagram {
+            background: #2d3a4d;
+            border-radius: 8px;
+            padding: 1.5rem;
+            border: 1px solid #3d4a5d;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.75rem;
+            flex: 1;
+        }
+        .arch-box {
+            padding: 0.75rem 2rem;
+            border-radius: 25px;
+            font-weight: 500;
+            text-align: center;
+            min-width: 140px;
+        }
+        .arch-box.client {
+            background: #2dd4bf;
+            color: #1a1a1a;
+        }
+        .arch-box.server {
+            background: #3d4a5d;
+            color: #fff;
+        }
+        .arch-arrow {
+            color: #2dd4bf;
+            font-size: 1.25rem;
+        }
+        .arch-icons {
+            display: flex;
+            gap: 0.5rem;
+            color: #94a3b8;
+            font-size: 0.9rem;
+        }
+        .arch-outputs {
+            display: flex;
+            gap: 0.75rem;
+            margin-top: 0.5rem;
+        }
+        .arch-output {
+            padding: 0.5rem 1rem;
+            border-radius: 6px;
+            font-size: 0.85rem;
+            font-weight: 500;
+        }
+        .arch-output.static {
+            background: #facc15;
+            color: #1a1a1a;
+        }
+        .arch-output.app {
+            background: transparent;
+            border: 2px solid #fff;
+            color: #fff;
+        }
+        .arch-output.database {
+            background: transparent;
+            border: 2px solid #f472b6;
+            color: #f472b6;
+        }
+        @media (max-width: 900px) {
+            .webserver-layout {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
 </head>
 <body>
     <div class="presentation">
         <!-- Title Slide -->
-        <section class="slide title-slide">
+        <section class="slide title-slide" data-narration="Welcome to Module 2: Web Foundations. This module is foundational to everything else we'll build in this course. Understanding how the web actually works—from HTTP protocols to server architecture to deployment—will make you a more effective developer. These aren't just theoretical concepts; they're practical knowledge you'll use every day when debugging issues, optimizing performance, and making architectural decisions.">
             <h1>Module 2</h1>
-            <p class="subtitle">Topic TBD</p>
-            <p class="meta">Advanced Web Development</p>
+            <p class="subtitle">Web Foundations</p>
+            <p class="meta">Understanding HTTP, Web Servers, and Technology Stacks</p>
         </section>
 
-        <!-- Placeholder Content -->
-        <section class="slide">
-            <h1>Coming Soon</h1>
-            <p>Content for this module is being developed.</p>
+        <!-- Learning Objectives -->
+        <section class="slide" id="learning-objectives" data-narration="Here are your learning objectives for this module. Notice we're covering the full stack of web technology—from the protocol level with HTTP, through server infrastructure, to modern deployment. By the end, you'll deploy your own static site to GitHub Pages. This gives you practical experience with everything we discuss.">
+            <h1>Learning Objectives</h1>
+            <div class="two-column">
+                <div>
+                    <div class="numbered-step">
+                        <span class="step-number">1</span>
+                        <div class="step-content">
+                            <h4>Understand HTTP Protocol</h4>
+                            <p>Methods, status codes, headers, and request/response lifecycle</p>
+                        </div>
+                    </div>
+                    <div class="numbered-step">
+                        <span class="step-number">2</span>
+                        <div class="step-content">
+                            <h4>Master Web Server Concepts</h4>
+                            <p>Role, architecture, and popular server options</p>
+                        </div>
+                    </div>
+                    <div class="numbered-step">
+                        <span class="step-number">3</span>
+                        <div class="step-content">
+                            <h4>Explore Technology Stacks</h4>
+                            <p>LAMP, MEAN, MERN, JAMstack, and modern alternatives</p>
+                        </div>
+                    </div>
+                </div>
+                <div>
+                    <div class="numbered-step">
+                        <span class="step-number">4</span>
+                        <div class="step-content">
+                            <h4>Deploy to GitHub Pages</h4>
+                            <p>Static site hosting and deployment workflows</p>
+                        </div>
+                    </div>
+                    <div class="numbered-step">
+                        <span class="step-number">5</span>
+                        <div class="step-content">
+                            <h4>Build a Professional Resume</h4>
+                            <p>Create and publish a static HTML resume online</p>
+                        </div>
+                    </div>
+                    <div class="numbered-step">
+                        <span class="step-number">6</span>
+                        <div class="step-content">
+                            <h4>Apply Security Best Practices</h4>
+                            <p>HTTPS, security headers, and common vulnerabilities</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- How the Web Works -->
+        <section class="slide" data-narration="Let's start with the fundamentals. Every time you visit a website, a carefully choreographed sequence of events happens. Your browser—the client—sends a request to a server somewhere on the internet. That server processes the request and sends back a response. This client-server model is the foundation of the web. DNS translates human-readable domain names into IP addresses. TCP establishes the connection. And for secure sites, TLS encrypts everything.">
+            <h1>How the Web Works</h1>
+            <p>The Client-Server Model</p>
+            <div class="flow-diagram">
+                <div class="flow-box client">
+                    <strong>CLIENT</strong><br>
+                    <small>Browser</small>
+                </div>
+                <div class="flow-arrow">
+                    <div>HTTP Request &rarr;</div>
+                    <div>&larr; HTTP Response</div>
+                </div>
+                <div class="flow-box server">
+                    <strong>SERVER</strong><br>
+                    <small>Web Server</small>
+                </div>
+            </div>
+            <div class="three-column">
+                <div class="highlight-box">
+                    <h3>DNS Resolution</h3>
+                    <p>Domain names &rarr; IP addresses</p>
+                </div>
+                <div class="highlight-box">
+                    <h3>TCP Connection</h3>
+                    <p>Three-way handshake established</p>
+                </div>
+                <div class="highlight-box">
+                    <h3>TLS Handshake</h3>
+                    <p>Secure encrypted connection</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- HTTP Protocol Section Header -->
+        <section class="slide title-slide" id="http-section" data-narration="Now let's dive deep into HTTP—the Hypertext Transfer Protocol. This is literally the language that browsers and servers use to communicate. Understanding HTTP will help you debug network issues, design APIs, and optimize web performance.">
+            <h1>HTTP Protocol</h1>
+            <p class="subtitle">The Language of the Web</p>
+        </section>
+
+        <!-- HTTP Deep Dive -->
+        <section class="slide" data-narration="HTTP has some key characteristics every developer should understand. It's stateless—each request is independent, and the server doesn't remember previous requests. This simplifies server design but means we need cookies or tokens to track user sessions. HTTP is text-based, making it easy to debug with browser dev tools. And it's evolved significantly: HTTP/1.0 created a new connection for every request, HTTP/1.1 added keep-alive connections, HTTP/2 brought multiplexing and header compression, and HTTP/3 uses QUIC over UDP for even better performance.">
+            <h1>HTTP Protocol Deep Dive</h1>
+            <div class="two-column">
+                <div>
+                    <h2>Key Characteristics</h2>
+                    <ul>
+                        <li><strong>Stateless Protocol</strong> - Each request is independent</li>
+                        <li><strong>Text-Based Format</strong> - Human-readable for debugging</li>
+                        <li><strong>Request-Response Model</strong> - Client initiates, server responds</li>
+                        <li><strong>Extensible</strong> - Custom headers enable new features</li>
+                    </ul>
+                </div>
+                <div>
+                    <h2>Protocol Evolution</h2>
+                    <table>
+                        <tr><td><strong>HTTP/1.0</strong></td><td>New TCP per request</td></tr>
+                        <tr><td><strong>HTTP/1.1</strong></td><td>Keep-alive, pipelining</td></tr>
+                        <tr><td><strong>HTTP/2</strong></td><td>Binary, multiplexed</td></tr>
+                        <tr><td><strong>HTTP/3</strong></td><td>QUIC, UDP-based</td></tr>
+                    </table>
+                </div>
+            </div>
             <div class="info-box">
-                <p>Check back soon for updates to this module.</p>
+                <p><strong>HTTP/2 Benefits:</strong> Header compression (HPACK), server push, stream prioritization, single connection multiplexing</p>
+            </div>
+        </section>
+
+        <!-- HTTP Methods -->
+        <section class="slide" id="http-methods" data-narration="HTTP methods define the action you want to perform. GET retrieves data—it's safe, meaning it shouldn't change anything on the server. POST submits new data—think creating a new user account. PUT replaces an entire resource, while PATCH makes partial updates. DELETE removes resources. Understanding these methods is essential for RESTful API design. Notice that GET, PUT, and DELETE are idempotent—calling them multiple times produces the same result as calling them once.">
+            <div class="http-methods-container">
+                <h2>HTTP Methods</h2>
+                <p class="subtitle">CRUD Operations and RESTful Design</p>
+
+                <!-- Main methods row -->
+                <div class="methods-grid">
+                    <div class="method-card get">
+                        <div class="method-card-header">
+                            <span class="method-pill get">GET</span>
+                            <span class="method-crud read">READ</span>
+                        </div>
+                        <p>Retrieve resource. Safe, idempotent, cacheable.</p>
+                    </div>
+                    <div class="method-card post">
+                        <div class="method-card-header">
+                            <span class="method-pill post">POST</span>
+                            <span class="method-crud create">CREATE</span>
+                        </div>
+                        <p>Submit data. Not safe, not idempotent.</p>
+                    </div>
+                    <div class="method-card put">
+                        <div class="method-card-header">
+                            <span class="method-pill put">PUT</span>
+                            <span class="method-crud update">UPDATE</span>
+                        </div>
+                        <p>Replace entire resource. Idempotent.</p>
+                    </div>
+                    <div class="method-card delete">
+                        <div class="method-card-header">
+                            <span class="method-pill delete">DELETE</span>
+                            <span class="method-crud delete-op">DELETE</span>
+                        </div>
+                        <p>Remove resource. Idempotent.</p>
+                    </div>
+                </div>
+
+                <!-- Secondary methods row -->
+                <div class="methods-grid-3">
+                    <div class="method-card patch method-card-simple">
+                        <h4 class="patch">PATCH</h4>
+                        <p>Partial update to resource</p>
+                    </div>
+                    <div class="method-card head method-card-simple">
+                        <h4 class="head">HEAD</h4>
+                        <p>GET without body (metadata only)</p>
+                    </div>
+                    <div class="method-card options method-card-simple">
+                        <h4 class="options">OPTIONS</h4>
+                        <p>Discover allowed methods (CORS)</p>
+                    </div>
+                </div>
+
+                <!-- Method Properties -->
+                <div class="properties-box">
+                    <h3>Method Properties</h3>
+                    <div class="properties-grid">
+                        <div class="property-item">
+                            <h4 class="safe">Safe Methods</h4>
+                            <p>GET, HEAD, OPTIONS - No side effects on server</p>
+                        </div>
+                        <div class="property-item">
+                            <h4 class="idempotent">Idempotent Methods</h4>
+                            <p>GET, PUT, DELETE, HEAD - Same result on repeat</p>
+                        </div>
+                        <div class="property-item">
+                            <h4 class="cacheable">Cacheable Methods</h4>
+                            <p>GET, HEAD - Response can be stored</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- HTTP Status Codes - Success -->
+        <section class="slide" id="status-codes-1" data-narration="Status codes tell you what happened with your request. The first digit indicates the category. 1xx codes are informational—rarely seen in practice. 2xx means success: 200 OK is the standard success response, 201 Created indicates a new resource was made, 204 No Content means success but nothing to return. 3xx are redirects: 301 is permanent, 302 is temporary, and 304 Not Modified tells browsers to use their cached version—great for performance.">
+            <h1>HTTP Status Codes</h1>
+            <p>Success and Redirection</p>
+            <div class="two-column">
+                <div>
+                    <h2 class="status-2xx">2xx Success</h2>
+                    <table>
+                        <tr><td><strong>200</strong></td><td>OK - Standard success</td></tr>
+                        <tr><td><strong>201</strong></td><td>Created - Resource created</td></tr>
+                        <tr><td><strong>204</strong></td><td>No Content - Success, empty body</td></tr>
+                        <tr><td><strong>206</strong></td><td>Partial Content - Range request</td></tr>
+                    </table>
+                </div>
+                <div>
+                    <h2 class="status-3xx">3xx Redirection</h2>
+                    <table>
+                        <tr><td><strong>301</strong></td><td>Moved Permanently</td></tr>
+                        <tr><td><strong>302</strong></td><td>Found (Temporary)</td></tr>
+                        <tr><td><strong>304</strong></td><td>Not Modified (use cache)</td></tr>
+                        <tr><td><strong>307</strong></td><td>Temporary Redirect</td></tr>
+                    </table>
+                </div>
+            </div>
+            <div class="info-box">
+                <p><strong>Caching Tip:</strong> 304 Not Modified saves bandwidth by telling clients to use cached versions</p>
+            </div>
+        </section>
+
+        <!-- HTTP Status Codes - Errors -->
+        <section class="slide" id="status-codes-2" data-narration="4xx errors mean the client did something wrong. 400 Bad Request is a malformed request. 401 Unauthorized means authentication is required. 403 Forbidden means you're authenticated but not authorized. 404 Not Found—the resource doesn't exist. 429 Too Many Requests—you're being rate limited. 5xx errors are server problems: 500 Internal Server Error is a generic server failure, 502 Bad Gateway means an upstream server failed, 503 Service Unavailable means the server is overloaded or down for maintenance.">
+            <h1>HTTP Status Codes</h1>
+            <p>Client and Server Errors</p>
+            <div class="two-column">
+                <div>
+                    <h2 class="status-4xx">4xx Client Errors</h2>
+                    <table>
+                        <tr><td><strong>400</strong></td><td>Bad Request</td></tr>
+                        <tr><td><strong>401</strong></td><td>Unauthorized</td></tr>
+                        <tr><td><strong>403</strong></td><td>Forbidden</td></tr>
+                        <tr><td><strong>404</strong></td><td>Not Found</td></tr>
+                        <tr><td><strong>429</strong></td><td>Too Many Requests</td></tr>
+                    </table>
+                </div>
+                <div>
+                    <h2 class="status-5xx">5xx Server Errors</h2>
+                    <table>
+                        <tr><td><strong>500</strong></td><td>Internal Server Error</td></tr>
+                        <tr><td><strong>502</strong></td><td>Bad Gateway</td></tr>
+                        <tr><td><strong>503</strong></td><td>Service Unavailable</td></tr>
+                        <tr><td><strong>504</strong></td><td>Gateway Timeout</td></tr>
+                    </table>
+                </div>
+            </div>
+            <div class="warning-box">
+                <p><strong>Debugging Tip:</strong> 4xx = check your request (URL, headers, body). 5xx = check server logs.</p>
+            </div>
+        </section>
+
+        <!-- HTTP Headers -->
+        <section class="slide" id="http-headers" data-narration="Headers carry metadata about requests and responses. On the request side, Host specifies which domain you're requesting, Accept tells the server what content types you can handle, Authorization carries your credentials, and Content-Type describes what you're sending. Response headers include Content-Type for what's being returned, Cache-Control for caching directives, and Set-Cookie for session management. Security headers like Strict-Transport-Security force HTTPS connections.">
+            <h1>HTTP Headers</h1>
+            <p>Metadata for Requests and Responses</p>
+            <div class="two-column">
+                <div>
+                    <h2>Request Headers</h2>
+                    <pre><code>Host: api.example.com
+Accept: application/json
+Authorization: Bearer eyJhbG...
+Content-Type: application/json
+User-Agent: Mozilla/5.0...</code></pre>
+                    <p><small>Also: Cookie, Cache-Control, Accept-Encoding, Origin</small></p>
+                </div>
+                <div>
+                    <h2>Response Headers</h2>
+                    <pre><code>Content-Type: application/json
+Cache-Control: max-age=3600
+Set-Cookie: session=abc123
+Access-Control-Allow-Origin: *
+Content-Length: 1234</code></pre>
+                    <p><small>Security: X-Frame-Options, Strict-Transport-Security, CSP</small></p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Web Server Section Header -->
+        <section class="slide title-slide" id="server-section" data-narration="Now let's talk about web servers—the software that receives HTTP requests and sends responses. Web servers are the backbone of web infrastructure, and understanding them helps you make better architectural decisions.">
+            <h1>Web Servers</h1>
+            <p class="subtitle">The Backbone of Web Infrastructure</p>
+        </section>
+
+        <!-- Role of Web Server -->
+        <section class="slide" data-narration="Web servers do much more than just serve files. They accept connections on ports 80 and 443, parse incoming requests, route them to appropriate handlers, and return responses. Beyond that, modern web servers handle TLS termination for HTTPS, perform load balancing across multiple application servers, cache frequently requested content, compress responses for faster transmission, and log everything for debugging and analytics. They're often the first line of defense for security.">
+            <div class="webserver-container">
+                <h2>Role of a Web Server</h2>
+                <p class="subtitle">The Backbone of Web Infrastructure</p>
+
+                <div class="webserver-layout">
+                    <!-- Left side: Core Responsibilities -->
+                    <div>
+                        <div class="section-label">CORE RESPONSIBILITIES</div>
+                        <div class="responsibilities-grid">
+                            <div class="responsibility-card">
+                                <div class="number">01</div>
+                                <h4>Accept Connections</h4>
+                                <p>Listen on ports 80/443 for incoming HTTP/HTTPS requests</p>
+                            </div>
+                            <div class="responsibility-card">
+                                <div class="number">02</div>
+                                <h4>Process Requests</h4>
+                                <p>Parse headers, route to handlers, validate input</p>
+                            </div>
+                            <div class="responsibility-card">
+                                <div class="number">03</div>
+                                <h4>Serve Content</h4>
+                                <p>Static files, dynamic content, API responses</p>
+                            </div>
+                            <div class="responsibility-card">
+                                <div class="number">04</div>
+                                <h4>Security</h4>
+                                <p>TLS termination, authentication, rate limiting</p>
+                            </div>
+                        </div>
+
+                        <div class="capabilities-bar">
+                            <div class="section-label">ADDITIONAL CAPABILITIES</div>
+                            <div class="capabilities-list">
+                                <span>Load balancing</span>
+                                <span>Caching</span>
+                                <span>Compression</span>
+                                <span>Logging</span>
+                                <span>Reverse proxy</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Right side: Architecture Diagram -->
+                    <div class="architecture-section">
+                        <div class="section-label">ARCHITECTURE</div>
+                        <div class="architecture-diagram">
+                            <div class="arch-box client">Client Request</div>
+                            <div class="arch-arrow">&darr;</div>
+                            <div class="arch-box server">Web Server</div>
+                            <div class="arch-icons">
+                                <span>&#10003;</span>
+                                <span>&darr;</span>
+                                <span>&#128451;</span>
+                            </div>
+                            <div class="arch-outputs">
+                                <div class="arch-output static">Static</div>
+                                <div class="arch-output app">App Server</div>
+                                <div class="arch-output database">Database</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Popular Web Servers -->
+        <section class="slide" id="popular-servers" data-narration="Let's compare the most popular web servers. Nginx uses an event-driven architecture that excels at handling many concurrent connections—perfect for high-traffic sites and as a reverse proxy. Apache uses a process-based model with incredible flexibility through modules—it's been around since 1995 and powers a huge portion of the web. Node.js isn't just a web server; it's a JavaScript runtime that can run your entire application. Caddy is newer, written in Go, and automatically handles HTTPS certificates—great for developer ergonomics.">
+            <h1>Popular Web Servers</h1>
+            <div class="stack-grid">
+                <div class="server-card">
+                    <h3>Nginx</h3>
+                    <p class="tagline">Event-driven architecture</p>
+                    <ul style="text-align: left; font-size: 0.85rem;">
+                        <li>High-traffic static content</li>
+                        <li>Reverse proxy / load balancer</li>
+                        <li>~34% market share</li>
+                    </ul>
+                </div>
+                <div class="server-card">
+                    <h3>Apache</h3>
+                    <p class="tagline">Process-based, modular</p>
+                    <ul style="text-align: left; font-size: 0.85rem;">
+                        <li>Shared hosting (.htaccess)</li>
+                        <li>PHP applications</li>
+                        <li>~30% market share</li>
+                    </ul>
+                </div>
+                <div class="server-card">
+                    <h3>Node.js</h3>
+                    <p class="tagline">JavaScript runtime</p>
+                    <ul style="text-align: left; font-size: 0.85rem;">
+                        <li>Real-time applications</li>
+                        <li>API servers</li>
+                        <li>Full-stack JavaScript</li>
+                    </ul>
+                </div>
+                <div class="server-card">
+                    <h3>Caddy</h3>
+                    <p class="tagline">Auto HTTPS, Go-based</p>
+                    <ul style="text-align: left; font-size: 0.85rem;">
+                        <li>Automatic TLS certs</li>
+                        <li>Simple configuration</li>
+                        <li>Modern alternative</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- Technology Stacks Section Header -->
+        <section class="slide title-slide" id="stacks-section" data-narration="A technology stack is the combination of technologies used to build a web application. Choosing the right stack affects your team's productivity, your application's performance, and your ability to hire developers. Let's explore the most popular options.">
+            <h1>Technology Stacks</h1>
+            <p class="subtitle">Popular Full-Stack Combinations</p>
+        </section>
+
+        <!-- Classic Stacks -->
+        <section class="slide" data-narration="LAMP is the traditional stack that powered the early web: Linux operating system, Apache web server, MySQL database, and PHP for server-side logic. It's battle-tested and still widely used. MEAN brought JavaScript to the full stack: MongoDB for data, Express.js as the web framework, Angular for the frontend, and Node.js as the runtime. MERN swaps Angular for React, which has become more popular. JAMstack is a modern architecture using JavaScript, APIs, and Markup—sites are pre-rendered for speed and security.">
+            <h1>Classic Technology Stacks</h1>
+            <div class="stack-grid">
+                <div class="stack-card">
+                    <h3>LAMP</h3>
+                    <p style="font-size: 0.8rem; color: var(--secondary-color);">Traditional, battle-tested</p>
+                    <div class="stack-items">
+                        <span><strong>L</strong>inux</span>
+                        <span><strong>A</strong>pache</span>
+                        <span><strong>M</strong>ySQL</span>
+                        <span><strong>P</strong>HP</span>
+                    </div>
+                </div>
+                <div class="stack-card">
+                    <h3>MEAN</h3>
+                    <p style="font-size: 0.8rem; color: var(--secondary-color);">JavaScript everywhere</p>
+                    <div class="stack-items">
+                        <span><strong>M</strong>ongoDB</span>
+                        <span><strong>E</strong>xpress.js</span>
+                        <span><strong>A</strong>ngular</span>
+                        <span><strong>N</strong>ode.js</span>
+                    </div>
+                </div>
+                <div class="stack-card">
+                    <h3>MERN</h3>
+                    <p style="font-size: 0.8rem; color: var(--secondary-color);">React-based variant</p>
+                    <div class="stack-items">
+                        <span><strong>M</strong>ongoDB</span>
+                        <span><strong>E</strong>xpress.js</span>
+                        <span><strong>R</strong>eact</span>
+                        <span><strong>N</strong>ode.js</span>
+                    </div>
+                </div>
+                <div class="stack-card">
+                    <h3>JAMstack</h3>
+                    <p style="font-size: 0.8rem; color: var(--secondary-color);">Modern, decoupled</p>
+                    <div class="stack-items">
+                        <span><strong>J</strong>avaScript</span>
+                        <span><strong>A</strong>PIs</span>
+                        <span><strong>M</strong>arkup</span>
+                        <span>Pre-rendered sites</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Modern Frameworks -->
+        <section class="slide" data-narration="Modern full-stack frameworks have changed the game. Next.js combines React with server-side rendering and API routes in one package. Nuxt does the same for Vue.js. SvelteKit uses Svelte's compile-time approach with hybrid rendering. Remix focuses on web standards and progressive enhancement. Astro is optimized for content sites with its islands architecture—ship zero JavaScript by default. These frameworks handle routing, data fetching, and deployment concerns out of the box.">
+            <h1>Modern Full-Stack Frameworks</h1>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Framework</th>
+                        <th>Based On</th>
+                        <th>Best For</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>Next.js</strong></td>
+                        <td>React</td>
+                        <td>SSR + API routes, production apps</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Nuxt</strong></td>
+                        <td>Vue.js</td>
+                        <td>Vue full-stack applications</td>
+                    </tr>
+                    <tr>
+                        <td><strong>SvelteKit</strong></td>
+                        <td>Svelte</td>
+                        <td>Hybrid rendering, performance</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Remix</strong></td>
+                        <td>React</td>
+                        <td>Web standards, progressive enhancement</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Astro</strong></td>
+                        <td>Multi-framework</td>
+                        <td>Content sites, zero JS by default</td>
+                    </tr>
+                </tbody>
+            </table>
+            <div class="info-box">
+                <p><strong>Trend:</strong> These frameworks blur the line between frontend and backend, offering full-stack capabilities with a single codebase.</p>
+            </div>
+        </section>
+
+        <!-- Choosing a Stack -->
+        <section class="slide" data-narration="How do you choose the right stack? Start with your team's expertise—learning a new language takes time that could be spent building features. Consider your project requirements: real-time needs, SEO importance, data complexity. Think about scalability: will you need to handle millions of users? Community support matters for documentation, packages, and hiring. Performance requirements vary—a blog has different needs than a trading platform. And budget affects hosting costs and development time.">
+            <h1>Choosing a Tech Stack</h1>
+            <div class="two-column">
+                <div>
+                    <h2>Key Decision Factors</h2>
+                    <ul>
+                        <li><strong>Team Expertise</strong> - What does your team know?</li>
+                        <li><strong>Project Requirements</strong> - Real-time? SEO critical?</li>
+                        <li><strong>Scalability Needs</strong> - Horizontal vs vertical</li>
+                        <li><strong>Community Support</strong> - Docs, packages, hiring</li>
+                        <li><strong>Performance Goals</strong> - Response time, throughput</li>
+                        <li><strong>Budget</strong> - Hosting, licensing, dev time</li>
+                    </ul>
+                </div>
+                <div>
+                    <h2>Quick Guide</h2>
+                    <table>
+                        <tr><td><strong>Static Sites</strong></td><td>JAMstack, Astro</td></tr>
+                        <tr><td><strong>E-commerce</strong></td><td>Next.js, Shopify</td></tr>
+                        <tr><td><strong>Real-time Apps</strong></td><td>Node.js + WebSockets</td></tr>
+                        <tr><td><strong>Enterprise</strong></td><td>Java Spring, .NET</td></tr>
+                        <tr><td><strong>Startup MVPs</strong></td><td>MERN, Next.js, Firebase</td></tr>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+        <!-- GitHub Pages Section Header -->
+        <section class="slide title-slide" id="deployment-section" data-narration="Let's get practical. GitHub Pages offers free static site hosting directly from your GitHub repository. It's perfect for portfolios, documentation, and project demos. You'll use it for your assignment: deploying a static HTML resume.">
+            <h1>GitHub Pages</h1>
+            <p class="subtitle">Free Static Site Hosting</p>
+        </section>
+
+        <!-- GitHub Pages Deployment -->
+        <section class="slide" data-narration="Deploying to GitHub Pages is straightforward. Create a repository—either username.github.io for your main site, or any repo name for a project site. Add your HTML, CSS, and JavaScript files with index.html as the entry point. In repository settings, enable GitHub Pages and select your branch. Within minutes, your site is live at a github.io URL. You get free HTTPS, custom domain support, and can even use GitHub Actions for automated builds.">
+            <h1>GitHub Pages Deployment</h1>
+            <div class="two-column">
+                <div>
+                    <h2>Deployment Steps</h2>
+                    <div class="numbered-step">
+                        <span class="step-number">1</span>
+                        <div class="step-content">
+                            <h4>Create Repository</h4>
+                            <p>username.github.io or any repo name</p>
+                        </div>
+                    </div>
+                    <div class="numbered-step">
+                        <span class="step-number">2</span>
+                        <div class="step-content">
+                            <h4>Add HTML/CSS/JS Files</h4>
+                            <p>index.html is your entry point</p>
+                        </div>
+                    </div>
+                    <div class="numbered-step">
+                        <span class="step-number">3</span>
+                        <div class="step-content">
+                            <h4>Enable GitHub Pages</h4>
+                            <p>Settings &rarr; Pages &rarr; Select branch</p>
+                        </div>
+                    </div>
+                    <div class="numbered-step">
+                        <span class="step-number">4</span>
+                        <div class="step-content">
+                            <h4>Access Your Site</h4>
+                            <p>https://username.github.io/repo-name</p>
+                        </div>
+                    </div>
+                </div>
+                <div>
+                    <h2>Key Features</h2>
+                    <div class="highlight-box">
+                        <ul>
+                            <li>Free hosting for public repos</li>
+                            <li>HTTPS enabled by default</li>
+                            <li>Custom domains supported</li>
+                            <li>GitHub Actions for CI/CD</li>
+                            <li>Jekyll static site generator</li>
+                        </ul>
+                    </div>
+                    <div class="warning-box">
+                        <p><strong>Limitations:</strong> Static files only, 1GB storage, 100GB bandwidth/month</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- HTTPS and Security Section Header -->
+        <section class="slide title-slide" id="security-section" data-narration="Security is non-negotiable in modern web development. HTTPS should be the default for every site you build. Let's understand how it works and what other security measures you should implement.">
+            <h1>HTTPS &amp; Security</h1>
+            <p class="subtitle">Securing Web Communications</p>
+        </section>
+
+        <!-- HTTPS Deep Dive -->
+        <section class="slide" data-narration="HTTPS uses TLS—Transport Layer Security—to encrypt all communication between client and server. The TLS handshake is a dance: the client says hello with supported encryption methods, the server responds with its certificate and chosen method, they exchange keys, and then all data is encrypted. HTTPS provides three things: encryption so nobody can read intercepted data, integrity so data can't be tampered with, and authentication proving you're talking to the real server, not an imposter.">
+            <h1>HTTPS and TLS</h1>
+            <div class="two-column">
+                <div>
+                    <h2>TLS Handshake</h2>
+                    <div class="numbered-step">
+                        <span class="step-number">1</span>
+                        <div class="step-content">
+                            <h4>Client Hello</h4>
+                            <p>Supported ciphers, TLS version</p>
+                        </div>
+                    </div>
+                    <div class="numbered-step">
+                        <span class="step-number">2</span>
+                        <div class="step-content">
+                            <h4>Server Hello</h4>
+                            <p>Certificate, chosen cipher</p>
+                        </div>
+                    </div>
+                    <div class="numbered-step">
+                        <span class="step-number">3</span>
+                        <div class="step-content">
+                            <h4>Key Exchange</h4>
+                            <p>Generate session keys</p>
+                        </div>
+                    </div>
+                    <div class="numbered-step">
+                        <span class="step-number">4</span>
+                        <div class="step-content">
+                            <h4>Encrypted</h4>
+                            <p>All data now secure</p>
+                        </div>
+                    </div>
+                </div>
+                <div>
+                    <h2>What HTTPS Provides</h2>
+                    <div class="highlight-box">
+                        <p><span class="security-icon">&#128274;</span><strong>Encryption</strong> - Data privacy</p>
+                    </div>
+                    <div class="highlight-box">
+                        <p><span class="security-icon">&#10003;</span><strong>Integrity</strong> - No tampering</p>
+                    </div>
+                    <div class="highlight-box">
+                        <p><span class="security-icon">&#128196;</span><strong>Authentication</strong> - Server identity</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Security Headers & Vulnerabilities -->
+        <section class="slide" data-narration="Beyond HTTPS, security headers add extra protection. CORS controls which domains can access your APIs—essential for preventing unauthorized access. Content Security Policy prevents XSS by whitelisting where resources can load from. HSTS forces browsers to always use HTTPS. The Same-Origin Policy sandboxes scripts so malicious code can't access data from other sites. Be aware of common vulnerabilities: XSS injects malicious scripts, CSRF tricks users into unwanted actions, SQL injection manipulates database queries, and clickjacking overlays invisible elements to steal clicks.">
+            <h1>Security Essentials</h1>
+            <div class="two-column">
+                <div>
+                    <h2>Security Headers</h2>
+                    <table>
+                        <tr>
+                            <td><strong>CORS</strong></td>
+                            <td>Controls cross-origin API access</td>
+                        </tr>
+                        <tr>
+                            <td><strong>CSP</strong></td>
+                            <td>Prevents XSS attacks</td>
+                        </tr>
+                        <tr>
+                            <td><strong>HSTS</strong></td>
+                            <td>Forces HTTPS connections</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Same-Origin</strong></td>
+                            <td>Browser sandbox for scripts</td>
+                        </tr>
+                    </table>
+                </div>
+                <div>
+                    <h2>Common Vulnerabilities</h2>
+                    <div class="warning-box">
+                        <ul>
+                            <li><strong>XSS</strong> - Cross-Site Scripting</li>
+                            <li><strong>CSRF</strong> - Cross-Site Request Forgery</li>
+                            <li><strong>SQL Injection</strong> - Database attacks</li>
+                            <li><strong>Clickjacking</strong> - UI deception</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="info-box">
+                <p><strong>Best Practice:</strong> Use security headers, validate all input, escape output, keep dependencies updated.</p>
+            </div>
+        </section>
+
+        <!-- Key Takeaways -->
+        <section class="slide" id="takeaways" data-narration="Let's summarize the key points. HTTP is the foundation—understanding requests, responses, and status codes is essential for debugging and building applications. Web servers do far more than serve files; they're critical infrastructure handling security, caching, and routing. Choose your tech stack based on your team and project needs, not trends. Security is mandatory—HTTPS everywhere, proper headers, awareness of vulnerabilities. And deploy early, deploy often—GitHub Pages makes it easy to share your work and build the habit of publishing.">
+            <h1>Key Takeaways</h1>
+            <div class="highlight-box">
+                <h3>1. HTTP is the Foundation</h3>
+                <p>Understanding request/response cycles, methods, and status codes is essential for debugging and building web applications.</p>
+            </div>
+            <div class="highlight-box">
+                <h3>2. Web Servers Do More Than Serve</h3>
+                <p>Beyond serving files, they handle security, caching, load balancing, and act as the gateway to your application.</p>
+            </div>
+            <div class="highlight-box">
+                <h3>3. Choose Stacks Wisely</h3>
+                <p>Technology choices should align with team skills and project needs rather than trends.</p>
+            </div>
+            <div class="highlight-box">
+                <h3>4. Security is Non-Negotiable</h3>
+                <p>HTTPS everywhere, security headers, and understanding vulnerabilities should be part of every developer's toolkit.</p>
+            </div>
+            <div class="highlight-box">
+                <h3>5. Deploy Early, Deploy Often</h3>
+                <p>GitHub Pages makes it easy to share your work. Build the habit of publishing your projects.</p>
+            </div>
+        </section>
+
+        <!-- Assignment -->
+        <section class="slide" id="assignment" data-narration="Your assignment for this module is to deploy a static HTML resume to GitHub Pages. Focus on semantic HTML—use proper heading hierarchy, sections, and landmarks. Make it accessible—proper alt text, sufficient color contrast, keyboard navigation. Write clean CSS—organized, well-commented, responsive. This assignment applies everything we've covered: Git workflow, HTML structure, CSS styling, and deployment.">
+            <h1>Assignment</h1>
+            <div class="highlight-box">
+                <h2>Deploy Static HTML Resume to GitHub Pages</h2>
+                <p><strong>100 points</strong></p>
+                <h3>Requirements:</h3>
+                <ul>
+                    <li><strong>Semantic HTML</strong> - Proper structure and elements</li>
+                    <li><strong>Accessibility</strong> - Alt text, contrast, landmarks</li>
+                    <li><strong>Clean CSS</strong> - Organized, responsive design</li>
+                    <li><strong>GitHub Pages</strong> - Live deployment with working URL</li>
+                    <li><strong>Professional Content</strong> - Your actual resume information</li>
+                </ul>
+            </div>
+            <div class="info-box">
+                <p><strong>Submission:</strong> Submit the live GitHub Pages URL. Your resume should be accessible at https://yourusername.github.io/resume or similar.</p>
+            </div>
+        </section>
+
+        <!-- Resources -->
+        <section class="slide" id="resources" data-narration="Here are resources for further learning. MDN Web Docs has comprehensive HTTP documentation. Web.dev covers performance and security best practices. The GitHub Pages documentation walks through advanced features. Daniel Stenberg's HTTP/2 Explained is the definitive resource on modern HTTP. Use these to deepen your understanding beyond what we covered today.">
+            <h1>Resources</h1>
+            <div class="two-column">
+                <div>
+                    <h2>Documentation</h2>
+                    <ul>
+                        <li><strong>MDN Web Docs</strong> - HTTP reference</li>
+                        <li><strong>web.dev</strong> - Performance &amp; Security</li>
+                        <li><strong>GitHub Pages Docs</strong> - Deployment guide</li>
+                        <li><strong>HTTP/2 Explained</strong> - Daniel Stenberg</li>
+                    </ul>
+                </div>
+                <div>
+                    <h2>Coming Up Next</h2>
+                    <div class="info-box">
+                        <h3>Module 3: Frontend Development</h3>
+                        <ul>
+                            <li>HTML5 Semantics &amp; Accessibility</li>
+                            <li>CSS Layouts &amp; Responsive Design</li>
+                            <li>JavaScript Fundamentals</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Questions -->
+        <section class="slide" data-narration="Any questions about web foundations? Remember to complete your GitHub Pages resume deployment. Make sure your environment from Module 1 is set up, create your resume repository, build your HTML and CSS, deploy to GitHub Pages, and submit your live URL. If you're stuck on any concept—HTTP, servers, or deployment—now's the time to ask.">
+            <h1>Questions?</h1>
+            <p>Let's discuss web foundations</p>
+            <div class="highlight-box">
+                <h2>Before Next Class</h2>
+                <ul>
+                    <li>Complete GitHub Pages resume deployment</li>
+                    <li>Review HTTP methods and status codes</li>
+                    <li>Explore browser DevTools Network tab</li>
+                    <li>Read MDN HTTP documentation</li>
+                </ul>
+            </div>
+            <div class="info-box">
+                <p><strong>Next Module:</strong> Frontend Development - HTML5, CSS, and JavaScript fundamentals</p>
             </div>
         </section>
     </div>
