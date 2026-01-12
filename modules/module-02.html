@@ -1665,22 +1665,46 @@
         </section>
 
         <!-- Assignment -->
-        <section class="slide" id="assignment" data-narration="Your assignment for this module is to deploy a static HTML resume to GitHub Pages. Focus on semantic HTML—use proper heading hierarchy, sections, and landmarks. Make it accessible—proper alt text, sufficient color contrast, keyboard navigation. Write clean CSS—organized, well-commented, responsive. This assignment applies everything we've covered: Git workflow, HTML structure, CSS styling, and deployment.">
+        <section class="slide" id="assignment" data-narration="Your assignment for this module is to create and deploy a personal resume website using GitHub Pages. This is a 100-point assignment due at the end of week two. You'll build a multi-page HTML and CSS website showcasing your resume, then deploy it to GitHub Pages. The assignment has three main graded components: HTML and CSS structure worth 30 points, content completeness worth 30 points, and successful deployment worth 20 points. Additionally, 20 points come from participating in the discussion board. Take your time with this—it's a great portfolio piece.">
             <div class="dark-container">
-                <h2>Assignment</h2>
-                <p class="subtitle">Deploy Static HTML Resume to GitHub Pages</p>
+                <h2>Assignment: Static HTML Resume to GitHub Pages</h2>
+                <p class="subtitle"><strong>Due:</strong> End of Week 2 | <strong>Points:</strong> 100</p>
+
+                <div class="dark-info-box" style="margin-bottom: 1rem;">
+                    <p><strong>Overview:</strong> Create a multi-page resume website using HTML and CSS, then deploy it to GitHub Pages. Use VS Code to create your files and the terminal for Git commands.</p>
+                </div>
+
                 <div class="dark-card" style="margin-bottom: 1rem;">
-                    <h4 style="color: #fff;">Requirements <span style="color: #4ade80; font-size: 0.9rem;">100 points</span></h4>
+                    <h4 style="color: #fff;">Step 1: Build Your Resume Website</h4>
+                    <p style="color: #4ade80; margin-bottom: 0.5rem;"><strong>HTML/CSS Structure (30 pts) + Content Completeness (30 pts)</strong></p>
                     <ul>
-                        <li><strong>Semantic HTML</strong> - Proper structure and elements</li>
-                        <li><strong>Accessibility</strong> - Alt text, contrast, landmarks</li>
-                        <li><strong>Clean CSS</strong> - Organized, responsive design</li>
-                        <li><strong>GitHub Pages</strong> - Live deployment with working URL</li>
-                        <li><strong>Professional Content</strong> - Your actual resume information</li>
+                        <li>Create at least <strong>5 linked HTML pages</strong> with consistent styling</li>
+                        <li>Required sections: Full Name, Career Objective, Contact Info, Education, Skills, Work Experience</li>
+                        <li>Include at least <strong>one image</strong> (profile picture or relevant graphic)</li>
+                        <li>Use CSS for styling—extra credit for creative effects (hover states, styled buttons, tabs)</li>
                     </ul>
                 </div>
+
+                <div class="dark-card" style="margin-bottom: 1rem;">
+                    <h4 style="color: #fff;">Step 2: Set Up GitHub Repository &amp; Deploy (20 pts)</h4>
+                    <p style="color: #94a3b8; margin-bottom: 0.5rem;">Create a public repository (e.g., <code style="background: #1e293b; padding: 0.2rem 0.4rem; border-radius: 4px;">resume-website</code>) and push your files:</p>
+                    <div class="dark-code">
+git init<br>
+git add .<br>
+git commit -m "Initial commit: resume website"<br>
+git remote add origin git@github.com:yourusername/resume-website.git<br>
+git push -u origin main
+                    </div>
+                    <p style="color: #94a3b8; margin-top: 0.75rem;"><strong>Enable GitHub Pages:</strong> Go to repository <strong>Settings → Pages</strong>. Under "Source," select <strong>main</strong> branch and <strong>/ (root)</strong> folder. Click <strong>Save</strong>. Your site will be live at <code style="background: #1e293b; padding: 0.2rem 0.4rem; border-radius: 4px;">https://yourusername.github.io/resume-website</code></p>
+                </div>
+
+                <div class="dark-highlight-box" style="margin-bottom: 1rem;">
+                    <h3>Submission</h3>
+                    <p>Submit a Word document or PDF containing: <strong>screenshots of each page</strong> of your resume website and your <strong>GitHub Pages URL</strong>.</p>
+                </div>
+
                 <div class="dark-info-box">
-                    <p><strong>Submission:</strong> Submit the live GitHub Pages URL. Your resume should be accessible at https://yourusername.github.io/resume or similar.</p>
+                    <p><strong>Notes:</strong> Fictional information is acceptable. Ensure your site is live by the due date. Optional: Explore CSS frameworks (Bootstrap, Tailwind) for enhanced design.<br><strong>Discussion Board (20 pts):</strong> Post your URL to the Resumes Discussion Board and provide feedback on at least 2 peers' resumes.</p>
                 </div>
             </div>
         </section>
