@@ -540,36 +540,60 @@ git add *.css</code></pre>
 
         <!-- Assignment -->
         <section class="slide" id="assignment" data-narration="This assignment is worth 100 points and is due at the end of week one. You'll verify that your development environment is ready for modern web development. We're installing React and Next.js now to ensure compatibility, though we won't use them until later modules. Each of the five sections is worth 20 points, and you'll need to capture screenshots as evidence of successful setup. Take your time with this—a properly configured environment will save you countless hours of frustration throughout the course.">
-            <h1>Assignment: Environment Setup</h1>
-            <p><strong>Due:</strong> End of Week 1 | <strong>Points:</strong> 100</p>
-            <p>Verify your environment is ready for modern web development. React and Next.js are installed now but used in later modules.</p>
+            <h2>Assignment: Environment Setup</h2>
+            <p class="subtitle"><strong>Due:</strong> End of Week 1 | <strong>Points:</strong> 100</p>
 
-            <div class="info-box">
-                <p><strong>Running Commands:</strong> All commands below are typed in a terminal. Use the VS Code integrated terminal (<kbd>Ctrl+`</kbd> on Windows/Linux, <kbd>Cmd+`</kbd> on Mac), or open <strong>Command Prompt</strong> (Windows) or <strong>Terminal</strong> (Mac/Linux). First, create a folder for your projects (e.g., <code>dev-environment</code> on your Desktop), then navigate to it using <code>cd path/to/folder</code> before running commands.</p>
+            <div class="info-box" style="margin-bottom: 1rem;">
+                <p><strong>Overview:</strong> Verify your environment is ready for modern web development. React and Next.js are installed now but used in later modules. All commands are typed in a terminal—use VS Code's integrated terminal (<kbd>Ctrl+`</kbd> or <kbd>Cmd+`</kbd>), or open Command Prompt (Windows) or Terminal (Mac/Linux).</p>
             </div>
 
-            <div class="highlight-box">
-                <h2>Installation Steps (submit screenshots for each)</h2>
-                <ol>
-                    <li><strong>VS Code Setup (20 pts):</strong> Download and install from <a href="https://code.visualstudio.com" target="_blank" rel="noopener">code.visualstudio.com</a>. Launch VS Code, then use <strong>File &gt; Open Folder</strong> to open your project folder. Open the integrated terminal with <kbd>Ctrl+`</kbd> (or <kbd>Cmd+`</kbd> on Mac). Screenshot: VS Code with terminal panel open and your folder visible in the left sidebar.</li>
-                    <li><strong>Node.js &amp; npm (20 pts):</strong> Download and install the LTS version from <a href="https://nodejs.org" target="_blank" rel="noopener">nodejs.org</a>. After installation, <strong>close and reopen your terminal</strong>, then type the commands below and press Enter after each. Screenshot: Terminal showing version numbers (e.g., v20.x.x and 10.x.x).
-<pre><code>node -v
-npm -v</code></pre></li>
-                    <li><strong>Git (20 pts):</strong> Download and install from <a href="https://git-scm.com" target="_blank" rel="noopener">git-scm.com</a> (Windows) or type <code>git</code> in Terminal to trigger Xcode tools installation (Mac). After installation, <strong>close and reopen your terminal</strong>, then type the command below. Screenshot: Terminal showing Git version.
-<pre><code>git --version</code></pre></li>
-                    <li><strong>React App (20 pts):</strong> In your terminal, make sure you are in your project folder, then type each command below and press Enter. The first command creates a new React app (this takes a few minutes). The second command navigates into the new folder. The third command starts the development server. Your browser should automatically open to localhost:3000 showing the React logo. Screenshot: Browser showing the React starter page.
-<pre><code>npx create-react-app@latest test-react
+            <div class="highlight-box" style="margin-bottom: 1rem;">
+                <h4>Step 1: VS Code Setup (20 pts)</h4>
+                <p>Download and install from <a href="https://code.visualstudio.com" target="_blank" rel="noopener">code.visualstudio.com</a>. Create a project folder (e.g., <code>dev-environment</code> on your Desktop), then open it with <strong>File → Open Folder</strong>.</p>
+                <pre><code>Open integrated terminal: Ctrl+` (Windows/Linux) or Cmd+` (Mac)</code></pre>
+                <p><strong>Screenshot:</strong> VS Code with terminal panel open and your folder visible in the sidebar.</p>
+            </div>
+
+            <div class="highlight-box" style="margin-bottom: 1rem;">
+                <h4>Step 2: Node.js &amp; npm (20 pts)</h4>
+                <p>Download and install the LTS version from <a href="https://nodejs.org" target="_blank" rel="noopener">nodejs.org</a>. After installation, <strong>close and reopen your terminal</strong>, then run:</p>
+                <pre><code>node -v
+npm -v</code></pre>
+                <p><strong>Screenshot:</strong> Terminal showing version numbers (e.g., v20.x.x and 10.x.x).</p>
+            </div>
+
+            <div class="highlight-box" style="margin-bottom: 1rem;">
+                <h4>Step 3: Git (20 pts)</h4>
+                <p>Download and install from <a href="https://git-scm.com" target="_blank" rel="noopener">git-scm.com</a> (Windows) or type <code>git</code> in Terminal to trigger Xcode tools (Mac). After installation, <strong>close and reopen your terminal</strong>, then run:</p>
+                <pre><code>git --version</code></pre>
+                <p><strong>Screenshot:</strong> Terminal showing Git version.</p>
+            </div>
+
+            <div class="highlight-box" style="margin-bottom: 1rem;">
+                <h4>Step 4: React App (20 pts)</h4>
+                <p>In your project folder, run these commands. The first creates a React app (takes a few minutes), the second enters the folder, the third starts the server:</p>
+                <pre><code>npx create-react-app@latest test-react
 cd test-react
-npm start</code></pre></li>
-                    <li><strong>Next.js App (20 pts):</strong> First, stop the React server by pressing <kbd>Ctrl+C</kbd> in the terminal. Navigate back to your project folder with <code>cd ..</code> then run the commands below. The first command creates a new Next.js app (follow the prompts, pressing Enter to accept defaults). The second navigates into the folder. The third starts the server. Open localhost:3000 in your browser. Screenshot: Browser showing the Next.js starter page.
-<pre><code>npx create-next-app@latest test-nextjs
+npm start</code></pre>
+                <p><strong>Screenshot:</strong> Browser at localhost:3000 showing the React starter page.</p>
+            </div>
+
+            <div class="highlight-box" style="margin-bottom: 1rem;">
+                <h4>Step 5: Next.js App (20 pts)</h4>
+                <p>Stop the React server (<kbd>Ctrl+C</kbd>), navigate back (<code>cd ..</code>), then run these commands. Accept default prompts when creating the app:</p>
+                <pre><code>npx create-next-app@latest test-nextjs
 cd test-nextjs
-npm run dev</code></pre></li>
-                </ol>
+npm run dev</code></pre>
+                <p><strong>Screenshot:</strong> Browser at localhost:3000 showing the Next.js starter page.</p>
+            </div>
+
+            <div class="warning-box" style="margin-bottom: 1rem;">
+                <h3>Submission</h3>
+                <p>Submit a Word document or PDF containing <strong>all five screenshots</strong> showing successful setup of each component.</p>
             </div>
 
             <div class="info-box">
-                <p><strong>Submit:</strong> A document or PDF with all five screenshots. <strong>Troubleshooting:</strong> Update older versions via <a href="https://nodejs.org/en/download" target="_blank" rel="noopener">nodejs.org</a> or <a href="https://git-scm.com/downloads" target="_blank" rel="noopener">git-scm.com</a>.</p>
+                <p><strong>Notes:</strong> If you encounter issues, update older versions via <a href="https://nodejs.org/en/download" target="_blank" rel="noopener">nodejs.org</a> or <a href="https://git-scm.com/downloads" target="_blank" rel="noopener">git-scm.com</a>. Don't hesitate to ask for help—configuration problems are common!</p>
             </div>
         </section>
 
