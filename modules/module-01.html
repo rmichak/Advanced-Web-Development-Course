@@ -538,19 +538,38 @@ git add *.css</code></pre>
             </div>
         </section>
 
-        <!-- Practice Exercise -->
-        <section class="slide" id="practice-exercise" data-narration="This is your hands-on assignment. Don't just read through these steps—actually do them. Learning Git requires muscle memory, and the only way to build that is through practice. Work through each step, and if you get stuck, that's valuable too—troubleshooting is a skill. Create that first repository, make some changes, commit them, and push. The satisfaction of seeing your code on GitHub is real. This exercise is the foundation for everything we'll do in the rest of the course.">
-            <h1>Practice Exercise</h1>
+        <!-- Assignment -->
+        <section class="slide" id="assignment" data-narration="This assignment is worth 100 points and is due at the end of week one. You'll verify that your development environment is ready for modern web development. We're installing React and Next.js now to ensure compatibility, though we won't use them until later modules. Each of the five sections is worth 20 points, and you'll need to capture screenshots as evidence of successful setup. Take your time with this—a properly configured environment will save you countless hours of frustration throughout the course.">
+            <h1>Assignment: Environment Setup</h1>
+            <p><strong>Due:</strong> End of Week 1 | <strong>Points:</strong> 100</p>
+            <p>Verify your environment is ready for modern web development. React and Next.js are installed now but used in later modules.</p>
+
+            <div class="info-box">
+                <p><strong>Running Commands:</strong> All commands below are typed in a terminal. Use the VS Code integrated terminal (<kbd>Ctrl+`</kbd> on Windows/Linux, <kbd>Cmd+`</kbd> on Mac), or open <strong>Command Prompt</strong> (Windows) or <strong>Terminal</strong> (Mac/Linux). First, create a folder for your projects (e.g., <code>dev-environment</code> on your Desktop), then navigate to it using <code>cd path/to/folder</code> before running commands.</p>
+            </div>
+
             <div class="highlight-box">
-                <h2>Set Up Your Environment</h2>
+                <h2>Installation Steps (submit screenshots for each)</h2>
                 <ol>
-                    <li>Install VS Code and the recommended extensions</li>
-                    <li>Install Node.js LTS and verify with <code>node --version</code></li>
-                    <li>Install Git and configure your name and email</li>
-                    <li>Create a GitHub account</li>
-                    <li>Set up SSH keys and test your connection</li>
-                    <li>Create a new repository on GitHub and clone it</li>
+                    <li><strong>VS Code Setup (20 pts):</strong> Download and install from <a href="https://code.visualstudio.com" target="_blank" rel="noopener">code.visualstudio.com</a>. Launch VS Code, then use <strong>File &gt; Open Folder</strong> to open your project folder. Open the integrated terminal with <kbd>Ctrl+`</kbd> (or <kbd>Cmd+`</kbd> on Mac). Screenshot: VS Code with terminal panel open and your folder visible in the left sidebar.</li>
+                    <li><strong>Node.js &amp; npm (20 pts):</strong> Download and install the LTS version from <a href="https://nodejs.org" target="_blank" rel="noopener">nodejs.org</a>. After installation, <strong>close and reopen your terminal</strong>, then type the commands below and press Enter after each. Screenshot: Terminal showing version numbers (e.g., v20.x.x and 10.x.x).
+<pre><code>node -v
+npm -v</code></pre></li>
+                    <li><strong>Git (20 pts):</strong> Download and install from <a href="https://git-scm.com" target="_blank" rel="noopener">git-scm.com</a> (Windows) or type <code>git</code> in Terminal to trigger Xcode tools installation (Mac). After installation, <strong>close and reopen your terminal</strong>, then type the command below. Screenshot: Terminal showing Git version.
+<pre><code>git --version</code></pre></li>
+                    <li><strong>React App (20 pts):</strong> In your terminal, make sure you are in your project folder, then type each command below and press Enter. The first command creates a new React app (this takes a few minutes). The second command navigates into the new folder. The third command starts the development server. Your browser should automatically open to localhost:3000 showing the React logo. Screenshot: Browser showing the React starter page.
+<pre><code>npx create-react-app@latest test-react
+cd test-react
+npm start</code></pre></li>
+                    <li><strong>Next.js App (20 pts):</strong> First, stop the React server by pressing <kbd>Ctrl+C</kbd> in the terminal. Navigate back to your project folder with <code>cd ..</code> then run the commands below. The first command creates a new Next.js app (follow the prompts, pressing Enter to accept defaults). The second navigates into the folder. The third starts the server. Open localhost:3000 in your browser. Screenshot: Browser showing the Next.js starter page.
+<pre><code>npx create-next-app@latest test-nextjs
+cd test-nextjs
+npm run dev</code></pre></li>
                 </ol>
+            </div>
+
+            <div class="info-box">
+                <p><strong>Submit:</strong> A document or PDF with all five screenshots. <strong>Troubleshooting:</strong> Update older versions via <a href="https://nodejs.org/en/download" target="_blank" rel="noopener">nodejs.org</a> or <a href="https://git-scm.com/downloads" target="_blank" rel="noopener">git-scm.com</a>.</p>
             </div>
         </section>
 
@@ -586,18 +605,11 @@ git add *.css</code></pre>
         </section>
 
         <!-- Questions -->
-        <section class="slide" data-narration="Before we wrap up, let's make sure everyone is set up correctly. Go through this checklist. If any item isn't checked off, now is the time to troubleshoot. Don't move forward with gaps in your setup—these tools are prerequisites for everything we'll do. If you're stuck on any step, ask for help. There's no shame in getting assistance with configuration issues; even experienced developers run into setup problems on new machines. Once your checklist is complete, you're ready for the next module.">
+        <section class="slide" data-narration="Before we wrap up, make sure you understand the assignment requirements. Complete all four sections and submit your screenshots by the end of week one. If you run into any issues during setup, don't hesitate to ask for help—configuration problems are common and nothing to be embarrassed about. Even experienced developers struggle with environment setup on new machines. Once your environment is verified, you're ready for Module 2 where we'll start building web pages.">
             <h1>Questions?</h1>
-            <p>Make sure you have completed the practice exercise before moving on.</p>
-            <div class="highlight-box">
-                <h2>Checklist</h2>
-                <ul>
-                    <li>VS Code installed with extensions</li>
-                    <li>Node.js installed and verified</li>
-                    <li>Git installed and configured</li>
-                    <li>GitHub account created</li>
-                    <li>SSH keys set up and tested</li>
-                </ul>
+            <p>Complete the <strong>Environment Setup Assignment</strong> before moving to the next module.</p>
+            <div class="info-box">
+                <p>If you encounter setup issues, check the troubleshooting links in the assignment or ask for help. Configuration problems are common—don't hesitate to reach out!</p>
             </div>
         </section>
     </div>
