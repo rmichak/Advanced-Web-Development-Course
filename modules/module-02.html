@@ -396,6 +396,473 @@
                 grid-template-columns: 1fr;
             }
         }
+
+        /* How the Web Works - Dark Layout with Animations */
+        .web-works-container {
+            background: linear-gradient(135deg, #1a2332 0%, #2d3748 100%);
+            border-radius: 12px;
+            padding: 2rem;
+            border-top: 4px solid;
+            border-image: linear-gradient(90deg, #06b6d4, #f97316, #ef4444) 1;
+        }
+        .web-works-container h2 {
+            color: #fff;
+            margin: 0 0 0.5rem 0;
+            font-size: 1.8rem;
+        }
+        .web-works-container .subtitle {
+            color: #94a3b8;
+            margin-bottom: 2rem;
+        }
+        .client-server-diagram {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            position: relative;
+        }
+        .endpoint-box {
+            background: #2d3a4d;
+            border-radius: 12px;
+            padding: 1.5rem 2rem;
+            text-align: center;
+            min-width: 180px;
+            border: 2px solid transparent;
+        }
+        .endpoint-box.client-box {
+            border-color: #2dd4bf;
+        }
+        .endpoint-box.server-box {
+            border-color: #f87171;
+        }
+        .endpoint-box .label {
+            font-size: 0.85rem;
+            font-weight: 600;
+            letter-spacing: 0.05em;
+            margin-bottom: 0.5rem;
+        }
+        .endpoint-box.client-box .label { color: #2dd4bf; }
+        .endpoint-box.server-box .label { color: #f87171; }
+        .endpoint-box .title {
+            color: #fff;
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+        .endpoint-box .examples {
+            color: #94a3b8;
+            font-size: 0.85rem;
+        }
+        .request-response-flow {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+            padding: 0 1rem;
+        }
+        .flow-line {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+        .flow-line.request {
+            flex-direction: row;
+        }
+        .flow-line.response {
+            flex-direction: row-reverse;
+        }
+        .flow-indicator {
+            width: 18px;
+            height: 18px;
+            border-radius: 4px;
+        }
+        .flow-indicator.request-indicator {
+            background: linear-gradient(135deg, #2dd4bf, #38bdf8);
+            box-shadow: 0 0 15px #38bdf8, 0 0 30px rgba(56, 189, 248, 0.4);
+            animation: pulse-blue 1.5s ease-in-out infinite;
+        }
+        .flow-indicator.response-indicator {
+            background: linear-gradient(135deg, #fbbf24, #f87171);
+            box-shadow: 0 0 15px #f87171, 0 0 30px rgba(248, 113, 113, 0.4);
+            animation: pulse-red 1.5s ease-in-out infinite 0.75s;
+        }
+        .flow-label {
+            font-size: 0.9rem;
+            font-weight: 500;
+            white-space: nowrap;
+        }
+        .flow-line.request .flow-label { color: #38bdf8; }
+        .flow-line.response .flow-label { color: #f87171; }
+        .flow-arrow-icon {
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+        .flow-line.request .flow-arrow-icon { color: #38bdf8; }
+        .flow-line.response .flow-arrow-icon { color: #f87171; }
+        .animated-line {
+            flex: 1;
+            height: 6px;
+            position: relative;
+            overflow: visible;
+            border-radius: 3px;
+        }
+        .animated-line.request-line {
+            background: rgba(56, 189, 248, 0.3);
+        }
+        .animated-line.response-line {
+            background: rgba(248, 113, 113, 0.3);
+        }
+        /* Single round-trip packet */
+        .animated-line.request-line::before {
+            content: '';
+            position: absolute;
+            top: -10px;
+            width: 50px;
+            height: 26px;
+            border-radius: 13px;
+            background: linear-gradient(90deg, #2dd4bf, #38bdf8);
+            box-shadow: 0 0 25px #38bdf8, 0 0 50px rgba(56, 189, 248, 0.6);
+            animation: roundtrip-request 4s ease-in-out infinite;
+        }
+        .animated-line.response-line::before {
+            content: '';
+            position: absolute;
+            top: -10px;
+            width: 50px;
+            height: 26px;
+            border-radius: 13px;
+            background: linear-gradient(90deg, #fbbf24, #f87171);
+            box-shadow: 0 0 25px #f87171, 0 0 50px rgba(248, 113, 113, 0.6);
+            animation: roundtrip-response 4s ease-in-out infinite;
+        }
+        @keyframes roundtrip-request {
+            0% { left: -50px; opacity: 0; }
+            5% { opacity: 1; }
+            45% { left: calc(100% + 10px); opacity: 1; }
+            50%, 100% { left: calc(100% + 10px); opacity: 0; }
+        }
+        @keyframes roundtrip-response {
+            0%, 50% { left: calc(100% + 10px); opacity: 0; }
+            55% { left: calc(100% + 10px); opacity: 1; }
+            95% { left: -50px; opacity: 1; }
+            100% { left: -50px; opacity: 0; }
+        }
+        @keyframes pulse-blue {
+            0%, 100% { opacity: 1; transform: scale(1); box-shadow: 0 0 15px #38bdf8; }
+            50% { opacity: 0.7; transform: scale(0.85); box-shadow: 0 0 8px #38bdf8; }
+        }
+        @keyframes pulse-red {
+            0%, 100% { opacity: 1; transform: scale(1); box-shadow: 0 0 15px #f87171; }
+            50% { opacity: 0.7; transform: scale(0.85); box-shadow: 0 0 8px #f87171; }
+        }
+        /* Backend data sources */
+        .backend-section {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+        .backend-arrow {
+            color: #a78bfa;
+            font-size: 1.25rem;
+        }
+        .backend-sources {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+        .backend-box {
+            background: #2d3a4d;
+            border-radius: 8px;
+            padding: 0.5rem 1rem;
+            text-align: center;
+            border: 2px solid;
+            font-size: 0.85rem;
+        }
+        .backend-box.database {
+            border-color: #a78bfa;
+            color: #a78bfa;
+        }
+        .backend-box.files {
+            border-color: #4ade80;
+            color: #4ade80;
+        }
+        .backend-box .icon {
+            font-size: 1.1rem;
+            margin-right: 0.25rem;
+        }
+        .protocol-cards {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+        .protocol-card {
+            background: #2d3a4d;
+            border-radius: 8px;
+            padding: 1rem 1.25rem;
+            border: 1px solid #3d4a5d;
+        }
+        .protocol-card h4 {
+            color: #2dd4bf;
+            margin: 0 0 0.5rem 0;
+            font-size: 0.95rem;
+        }
+        .protocol-card p {
+            color: #94a3b8;
+            margin: 0;
+            font-size: 0.85rem;
+        }
+        /* HTTP Details Animation Box */
+        .http-details-box {
+            background: #1e293b;
+            border-radius: 8px;
+            padding: 1rem;
+            margin-top: 1rem;
+            border: 1px solid #3d4a5d;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+        }
+        .http-detail {
+            font-family: 'Monaco', 'Menlo', monospace;
+            font-size: 0.75rem;
+            line-height: 1.5;
+        }
+        .http-detail-header {
+            color: #2dd4bf;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            font-size: 0.8rem;
+        }
+        .http-detail code {
+            display: block;
+            color: #94a3b8;
+        }
+        .http-detail .method { color: #facc15; }
+        .http-detail .status { color: #4ade80; }
+        .http-detail .header-name { color: #f472b6; }
+        .http-detail .header-value { color: #94a3b8; }
+        @media (max-width: 900px) {
+            .client-server-diagram {
+                flex-direction: column;
+            }
+            .request-response-flow {
+                width: 100%;
+            }
+            .protocol-cards {
+                grid-template-columns: 1fr;
+            }
+            .http-details-box {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Generic Dark Container - Reusable across slides */
+        .dark-container {
+            background: linear-gradient(135deg, #1a2332 0%, #2d3748 100%);
+            border-radius: 12px;
+            padding: 2rem;
+            border-top: 4px solid;
+            border-image: linear-gradient(90deg, #06b6d4, #f97316, #ef4444) 1;
+        }
+        .dark-container h2 {
+            color: #fff;
+            margin: 0 0 0.5rem 0;
+            font-size: 1.8rem;
+        }
+        .dark-container .subtitle {
+            color: #94a3b8;
+            margin-bottom: 1.5rem;
+        }
+        .dark-container h3 {
+            color: #fff;
+            margin: 0 0 1rem 0;
+            font-size: 1.2rem;
+        }
+        .dark-container p {
+            color: #94a3b8;
+        }
+        .dark-container ul {
+            color: #94a3b8;
+        }
+        .dark-container li {
+            margin-bottom: 0.5rem;
+        }
+        .dark-container strong {
+            color: #fff;
+        }
+        .dark-card {
+            background: #2d3a4d;
+            border-radius: 8px;
+            padding: 1rem 1.25rem;
+            border: 1px solid #3d4a5d;
+        }
+        .dark-card h4 {
+            color: #2dd4bf;
+            margin: 0 0 0.5rem 0;
+        }
+        .dark-card p {
+            color: #94a3b8;
+            font-size: 0.9rem;
+            margin: 0;
+        }
+        .dark-two-column {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+        }
+        .dark-three-column {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1rem;
+        }
+        .dark-four-column {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 1rem;
+        }
+        .dark-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        .dark-table th {
+            background: #3d4a5d;
+            color: #fff;
+            padding: 0.75rem 1rem;
+            text-align: left;
+            font-weight: 600;
+        }
+        .dark-table td {
+            background: #2d3a4d;
+            color: #94a3b8;
+            padding: 0.75rem 1rem;
+            border-bottom: 1px solid #3d4a5d;
+        }
+        .dark-table tr:hover td {
+            background: #374151;
+        }
+        .dark-code {
+            background: #1e293b;
+            border-radius: 8px;
+            padding: 1rem;
+            font-family: 'Monaco', 'Menlo', monospace;
+            font-size: 0.85rem;
+            color: #94a3b8;
+            border: 1px solid #3d4a5d;
+            overflow-x: auto;
+        }
+        .dark-code .keyword { color: #f472b6; }
+        .dark-code .string { color: #4ade80; }
+        .dark-code .number { color: #facc15; }
+        .dark-info-box {
+            background: #1e3a5f;
+            border-left: 4px solid #38bdf8;
+            border-radius: 8px;
+            padding: 1rem 1.25rem;
+            margin-top: 1rem;
+        }
+        .dark-info-box p {
+            color: #94a3b8;
+            margin: 0;
+        }
+        .dark-warning-box {
+            background: #4a1e1e;
+            border-left: 4px solid #f87171;
+            border-radius: 8px;
+            padding: 1rem 1.25rem;
+            margin-top: 1rem;
+        }
+        .dark-warning-box p {
+            color: #fca5a5;
+            margin: 0;
+        }
+        .dark-highlight-box {
+            background: #2d3a4d;
+            border-left: 4px solid #2dd4bf;
+            border-radius: 8px;
+            padding: 1rem 1.25rem;
+            margin-bottom: 1rem;
+        }
+        .dark-highlight-box h3 {
+            color: #2dd4bf;
+            margin: 0 0 0.5rem 0;
+            font-size: 1rem;
+        }
+        .dark-highlight-box p {
+            margin: 0;
+        }
+        .status-badge {
+            display: inline-block;
+            padding: 0.25rem 0.5rem;
+            border-radius: 4px;
+            font-weight: bold;
+            font-size: 0.8rem;
+        }
+        .status-badge.success { background: #166534; color: #4ade80; }
+        .status-badge.redirect { background: #854d0e; color: #facc15; }
+        .status-badge.client-error { background: #7f1d1d; color: #fca5a5; }
+        .status-badge.server-error { background: #581c87; color: #c4b5fd; }
+        .dark-stack-card {
+            background: #2d3a4d;
+            border-radius: 8px;
+            padding: 1.25rem;
+            text-align: center;
+            border: 1px solid #3d4a5d;
+            transition: transform 0.2s, border-color 0.2s;
+        }
+        .dark-stack-card:hover {
+            transform: translateY(-2px);
+            border-color: #2dd4bf;
+        }
+        .dark-stack-card h4 {
+            color: #fff;
+            margin: 0 0 0.25rem 0;
+        }
+        .dark-stack-card .tagline {
+            color: #2dd4bf;
+            font-size: 0.8rem;
+            margin-bottom: 0.75rem;
+        }
+        .dark-stack-card .items {
+            font-size: 0.85rem;
+            color: #94a3b8;
+        }
+        .dark-stack-card .items span {
+            display: block;
+            padding: 0.15rem 0;
+        }
+        .dark-numbered-step {
+            display: flex;
+            align-items: flex-start;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+        .dark-step-number {
+            background: #2dd4bf;
+            color: #1a1a1a;
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            flex-shrink: 0;
+        }
+        .dark-step-content h4 {
+            color: #fff;
+            margin: 0 0 0.25rem 0;
+        }
+        .dark-step-content p {
+            margin: 0;
+            font-size: 0.9rem;
+        }
+        @media (max-width: 900px) {
+            .dark-two-column { grid-template-columns: 1fr; }
+            .dark-three-column { grid-template-columns: 1fr; }
+            .dark-four-column { grid-template-columns: repeat(2, 1fr); }
+        }
     </style>
 </head>
 <body>
@@ -461,35 +928,83 @@
         </section>
 
         <!-- How the Web Works -->
-        <section class="slide" data-narration="Let's start with the fundamentals. Every time you visit a website, a carefully choreographed sequence of events happens. Your browser—the client—sends a request to a server somewhere on the internet. That server processes the request and sends back a response. This client-server model is the foundation of the web. DNS translates human-readable domain names into IP addresses. TCP establishes the connection. And for secure sites, TLS encrypts everything.">
-            <h1>How the Web Works</h1>
-            <p>The Client-Server Model</p>
-            <div class="flow-diagram">
-                <div class="flow-box client">
-                    <strong>CLIENT</strong><br>
-                    <small>Browser</small>
+        <section class="slide" data-narration="Let's start with the fundamentals. Every time you visit a website, a single round-trip happens. Watch the animation: first, a blue request packet travels from your browser to the web server—that's you asking for a page. The server receives your request, fetches the data it needs—maybe from a database for user information, or from the file system for HTML files and images. Then an orange response packet travels back to your browser carrying the web page. This request-response cycle is the foundation of everything on the web. Behind the scenes, DNS translates the domain name to an IP address, TCP establishes a reliable connection, and TLS encrypts everything for secure HTTPS sites.">
+            <div class="web-works-container">
+                <h2>How the Web Works</h2>
+                <p class="subtitle">The Client-Server Model</p>
+
+                <!-- Client-Server Diagram with Animated Request/Response -->
+                <div class="client-server-diagram">
+                    <div class="endpoint-box client-box">
+                        <div class="label">CLIENT</div>
+                        <div class="title">Browser</div>
+                        <div class="examples">Chrome, Firefox, Safari</div>
+                    </div>
+
+                    <div class="request-response-flow">
+                        <div class="flow-line request">
+                            <div class="animated-line request-line"></div>
+                            <span class="flow-label">HTTP Request</span>
+                            <span class="flow-arrow-icon">&rarr;</span>
+                        </div>
+                        <div class="flow-line response">
+                            <div class="animated-line response-line"></div>
+                            <span class="flow-label">HTTP Response</span>
+                            <span class="flow-arrow-icon">&larr;</span>
+                        </div>
+                    </div>
+
+                    <div class="endpoint-box server-box">
+                        <div class="label">SERVER</div>
+                        <div class="title">Web Server</div>
+                        <div class="examples">Apache, Nginx, Node</div>
+                    </div>
+
+                    <div class="backend-section">
+                        <span class="backend-arrow">&harr;</span>
+                        <div class="backend-sources">
+                            <div class="backend-box database">
+                                <span class="icon">&#128451;</span> Database
+                            </div>
+                            <div class="backend-box files">
+                                <span class="icon">&#128193;</span> File System
+                            </div>
+                        </div>
+                    </div>
                 </div>
-                <div class="flow-arrow">
-                    <div>HTTP Request &rarr;</div>
-                    <div>&larr; HTTP Response</div>
+
+                <!-- Protocol Cards -->
+                <div class="protocol-cards">
+                    <div class="protocol-card">
+                        <h4>DNS Resolution</h4>
+                        <p>Domain names &rarr; IP addresses</p>
+                    </div>
+                    <div class="protocol-card">
+                        <h4>TCP Connection</h4>
+                        <p>Three-way handshake established</p>
+                    </div>
+                    <div class="protocol-card">
+                        <h4>TLS Handshake</h4>
+                        <p>Secure encrypted connection</p>
+                    </div>
                 </div>
-                <div class="flow-box server">
-                    <strong>SERVER</strong><br>
-                    <small>Web Server</small>
-                </div>
-            </div>
-            <div class="three-column">
-                <div class="highlight-box">
-                    <h3>DNS Resolution</h3>
-                    <p>Domain names &rarr; IP addresses</p>
-                </div>
-                <div class="highlight-box">
-                    <h3>TCP Connection</h3>
-                    <p>Three-way handshake established</p>
-                </div>
-                <div class="highlight-box">
-                    <h3>TLS Handshake</h3>
-                    <p>Secure encrypted connection</p>
+
+                <!-- HTTP Details Box -->
+                <div class="http-details-box">
+                    <div class="http-detail">
+                        <div class="http-detail-header">Browser Request (You type a URL)</div>
+                        <code><span class="method">GET</span> /index.html HTTP/1.1</code>
+                        <code><span class="header-name">Host:</span> <span class="header-value">www.example.com</span></code>
+                        <code><span class="header-name">Accept:</span> <span class="header-value">text/html</span></code>
+                        <code><span class="header-name">User-Agent:</span> <span class="header-value">Chrome/120.0</span></code>
+                    </div>
+                    <div class="http-detail">
+                        <div class="http-detail-header">Server Response (Web page sent back)</div>
+                        <code>HTTP/1.1 <span class="status">200 OK</span></code>
+                        <code><span class="header-name">Content-Type:</span> <span class="header-value">text/html</span></code>
+                        <code><span class="header-name">Content-Length:</span> <span class="header-value">4523</span></code>
+                        <code><span class="header-value">&lt;!DOCTYPE html&gt;&lt;html&gt;...</span></code>
+                    </div>
                 </div>
             </div>
         </section>
@@ -502,29 +1017,32 @@
 
         <!-- HTTP Deep Dive -->
         <section class="slide" data-narration="HTTP has some key characteristics every developer should understand. It's stateless—each request is independent, and the server doesn't remember previous requests. This simplifies server design but means we need cookies or tokens to track user sessions. HTTP is text-based, making it easy to debug with browser dev tools. And it's evolved significantly: HTTP/1.0 created a new connection for every request, HTTP/1.1 added keep-alive connections, HTTP/2 brought multiplexing and header compression, and HTTP/3 uses QUIC over UDP for even better performance.">
-            <h1>HTTP Protocol Deep Dive</h1>
-            <div class="two-column">
-                <div>
-                    <h2>Key Characteristics</h2>
-                    <ul>
-                        <li><strong>Stateless Protocol</strong> - Each request is independent</li>
-                        <li><strong>Text-Based Format</strong> - Human-readable for debugging</li>
-                        <li><strong>Request-Response Model</strong> - Client initiates, server responds</li>
-                        <li><strong>Extensible</strong> - Custom headers enable new features</li>
-                    </ul>
+            <div class="dark-container">
+                <h2>HTTP Protocol Deep Dive</h2>
+                <p class="subtitle">Understanding the Foundation</p>
+                <div class="dark-two-column">
+                    <div>
+                        <h3>Key Characteristics</h3>
+                        <ul>
+                            <li><strong>Stateless Protocol</strong> - Each request is independent</li>
+                            <li><strong>Text-Based Format</strong> - Human-readable for debugging</li>
+                            <li><strong>Request-Response Model</strong> - Client initiates, server responds</li>
+                            <li><strong>Extensible</strong> - Custom headers enable new features</li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h3>Protocol Evolution</h3>
+                        <table class="dark-table">
+                            <tr><td><strong>HTTP/1.0</strong></td><td>New TCP per request</td></tr>
+                            <tr><td><strong>HTTP/1.1</strong></td><td>Keep-alive, pipelining</td></tr>
+                            <tr><td><strong>HTTP/2</strong></td><td>Binary, multiplexed</td></tr>
+                            <tr><td><strong>HTTP/3</strong></td><td>QUIC, UDP-based</td></tr>
+                        </table>
+                    </div>
                 </div>
-                <div>
-                    <h2>Protocol Evolution</h2>
-                    <table>
-                        <tr><td><strong>HTTP/1.0</strong></td><td>New TCP per request</td></tr>
-                        <tr><td><strong>HTTP/1.1</strong></td><td>Keep-alive, pipelining</td></tr>
-                        <tr><td><strong>HTTP/2</strong></td><td>Binary, multiplexed</td></tr>
-                        <tr><td><strong>HTTP/3</strong></td><td>QUIC, UDP-based</td></tr>
-                    </table>
+                <div class="dark-info-box">
+                    <p><strong>HTTP/2 Benefits:</strong> Header compression (HPACK), server push, stream prioritization, single connection multiplexing</p>
                 </div>
-            </div>
-            <div class="info-box">
-                <p><strong>HTTP/2 Benefits:</strong> Header compression (HPACK), server push, stream prioritization, single connection multiplexing</p>
             </div>
         </section>
 
@@ -605,85 +1123,93 @@
 
         <!-- HTTP Status Codes - Success -->
         <section class="slide" id="status-codes-1" data-narration="Status codes tell you what happened with your request. The first digit indicates the category. 1xx codes are informational—rarely seen in practice. 2xx means success: 200 OK is the standard success response, 201 Created indicates a new resource was made, 204 No Content means success but nothing to return. 3xx are redirects: 301 is permanent, 302 is temporary, and 304 Not Modified tells browsers to use their cached version—great for performance.">
-            <h1>HTTP Status Codes</h1>
-            <p>Success and Redirection</p>
-            <div class="two-column">
-                <div>
-                    <h2 class="status-2xx">2xx Success</h2>
-                    <table>
-                        <tr><td><strong>200</strong></td><td>OK - Standard success</td></tr>
-                        <tr><td><strong>201</strong></td><td>Created - Resource created</td></tr>
-                        <tr><td><strong>204</strong></td><td>No Content - Success, empty body</td></tr>
-                        <tr><td><strong>206</strong></td><td>Partial Content - Range request</td></tr>
-                    </table>
+            <div class="dark-container">
+                <h2>HTTP Status Codes</h2>
+                <p class="subtitle">Success and Redirection</p>
+                <div class="dark-two-column">
+                    <div>
+                        <h3 style="color: #4ade80;">2xx Success <span class="status-badge success">SUCCESS</span></h3>
+                        <table class="dark-table">
+                            <tr><td><strong>200</strong></td><td>OK - Standard success</td></tr>
+                            <tr><td><strong>201</strong></td><td>Created - Resource created</td></tr>
+                            <tr><td><strong>204</strong></td><td>No Content - Success, empty body</td></tr>
+                            <tr><td><strong>206</strong></td><td>Partial Content - Range request</td></tr>
+                        </table>
+                    </div>
+                    <div>
+                        <h3 style="color: #facc15;">3xx Redirection <span class="status-badge redirect">REDIRECT</span></h3>
+                        <table class="dark-table">
+                            <tr><td><strong>301</strong></td><td>Moved Permanently</td></tr>
+                            <tr><td><strong>302</strong></td><td>Found (Temporary)</td></tr>
+                            <tr><td><strong>304</strong></td><td>Not Modified (use cache)</td></tr>
+                            <tr><td><strong>307</strong></td><td>Temporary Redirect</td></tr>
+                        </table>
+                    </div>
                 </div>
-                <div>
-                    <h2 class="status-3xx">3xx Redirection</h2>
-                    <table>
-                        <tr><td><strong>301</strong></td><td>Moved Permanently</td></tr>
-                        <tr><td><strong>302</strong></td><td>Found (Temporary)</td></tr>
-                        <tr><td><strong>304</strong></td><td>Not Modified (use cache)</td></tr>
-                        <tr><td><strong>307</strong></td><td>Temporary Redirect</td></tr>
-                    </table>
+                <div class="dark-info-box">
+                    <p><strong>Caching Tip:</strong> 304 Not Modified saves bandwidth by telling clients to use cached versions</p>
                 </div>
-            </div>
-            <div class="info-box">
-                <p><strong>Caching Tip:</strong> 304 Not Modified saves bandwidth by telling clients to use cached versions</p>
             </div>
         </section>
 
         <!-- HTTP Status Codes - Errors -->
         <section class="slide" id="status-codes-2" data-narration="4xx errors mean the client did something wrong. 400 Bad Request is a malformed request. 401 Unauthorized means authentication is required. 403 Forbidden means you're authenticated but not authorized. 404 Not Found—the resource doesn't exist. 429 Too Many Requests—you're being rate limited. 5xx errors are server problems: 500 Internal Server Error is a generic server failure, 502 Bad Gateway means an upstream server failed, 503 Service Unavailable means the server is overloaded or down for maintenance.">
-            <h1>HTTP Status Codes</h1>
-            <p>Client and Server Errors</p>
-            <div class="two-column">
-                <div>
-                    <h2 class="status-4xx">4xx Client Errors</h2>
-                    <table>
-                        <tr><td><strong>400</strong></td><td>Bad Request</td></tr>
-                        <tr><td><strong>401</strong></td><td>Unauthorized</td></tr>
-                        <tr><td><strong>403</strong></td><td>Forbidden</td></tr>
-                        <tr><td><strong>404</strong></td><td>Not Found</td></tr>
-                        <tr><td><strong>429</strong></td><td>Too Many Requests</td></tr>
-                    </table>
+            <div class="dark-container">
+                <h2>HTTP Status Codes</h2>
+                <p class="subtitle">Client and Server Errors</p>
+                <div class="dark-two-column">
+                    <div>
+                        <h3 style="color: #f87171;">4xx Client Errors <span class="status-badge client-error">CLIENT</span></h3>
+                        <table class="dark-table">
+                            <tr><td><strong>400</strong></td><td>Bad Request</td></tr>
+                            <tr><td><strong>401</strong></td><td>Unauthorized</td></tr>
+                            <tr><td><strong>403</strong></td><td>Forbidden</td></tr>
+                            <tr><td><strong>404</strong></td><td>Not Found</td></tr>
+                            <tr><td><strong>429</strong></td><td>Too Many Requests</td></tr>
+                        </table>
+                    </div>
+                    <div>
+                        <h3 style="color: #c4b5fd;">5xx Server Errors <span class="status-badge server-error">SERVER</span></h3>
+                        <table class="dark-table">
+                            <tr><td><strong>500</strong></td><td>Internal Server Error</td></tr>
+                            <tr><td><strong>502</strong></td><td>Bad Gateway</td></tr>
+                            <tr><td><strong>503</strong></td><td>Service Unavailable</td></tr>
+                            <tr><td><strong>504</strong></td><td>Gateway Timeout</td></tr>
+                        </table>
+                    </div>
                 </div>
-                <div>
-                    <h2 class="status-5xx">5xx Server Errors</h2>
-                    <table>
-                        <tr><td><strong>500</strong></td><td>Internal Server Error</td></tr>
-                        <tr><td><strong>502</strong></td><td>Bad Gateway</td></tr>
-                        <tr><td><strong>503</strong></td><td>Service Unavailable</td></tr>
-                        <tr><td><strong>504</strong></td><td>Gateway Timeout</td></tr>
-                    </table>
+                <div class="dark-warning-box">
+                    <p><strong>Debugging Tip:</strong> 4xx = check your request (URL, headers, body). 5xx = check server logs.</p>
                 </div>
-            </div>
-            <div class="warning-box">
-                <p><strong>Debugging Tip:</strong> 4xx = check your request (URL, headers, body). 5xx = check server logs.</p>
             </div>
         </section>
 
         <!-- HTTP Headers -->
         <section class="slide" id="http-headers" data-narration="Headers carry metadata about requests and responses. On the request side, Host specifies which domain you're requesting, Accept tells the server what content types you can handle, Authorization carries your credentials, and Content-Type describes what you're sending. Response headers include Content-Type for what's being returned, Cache-Control for caching directives, and Set-Cookie for session management. Security headers like Strict-Transport-Security force HTTPS connections.">
-            <h1>HTTP Headers</h1>
-            <p>Metadata for Requests and Responses</p>
-            <div class="two-column">
-                <div>
-                    <h2>Request Headers</h2>
-                    <pre><code>Host: api.example.com
-Accept: application/json
-Authorization: Bearer eyJhbG...
-Content-Type: application/json
-User-Agent: Mozilla/5.0...</code></pre>
-                    <p><small>Also: Cookie, Cache-Control, Accept-Encoding, Origin</small></p>
-                </div>
-                <div>
-                    <h2>Response Headers</h2>
-                    <pre><code>Content-Type: application/json
-Cache-Control: max-age=3600
-Set-Cookie: session=abc123
-Access-Control-Allow-Origin: *
-Content-Length: 1234</code></pre>
-                    <p><small>Security: X-Frame-Options, Strict-Transport-Security, CSP</small></p>
+            <div class="dark-container">
+                <h2>HTTP Headers</h2>
+                <p class="subtitle">Metadata for Requests and Responses</p>
+                <div class="dark-two-column">
+                    <div>
+                        <h3 style="color: #38bdf8;">Request Headers</h3>
+                        <div class="dark-code">
+<span class="keyword">Host:</span> api.example.com
+<span class="keyword">Accept:</span> application/json
+<span class="keyword">Authorization:</span> Bearer eyJhbG...
+<span class="keyword">Content-Type:</span> application/json
+<span class="keyword">User-Agent:</span> Mozilla/5.0...</div>
+                        <p style="margin-top: 0.75rem; font-size: 0.85rem;"><strong>Also:</strong> Cookie, Cache-Control, Accept-Encoding, Origin</p>
+                    </div>
+                    <div>
+                        <h3 style="color: #f472b6;">Response Headers</h3>
+                        <div class="dark-code">
+<span class="keyword">Content-Type:</span> application/json
+<span class="keyword">Cache-Control:</span> max-age=3600
+<span class="keyword">Set-Cookie:</span> session=abc123
+<span class="keyword">Access-Control-Allow-Origin:</span> *
+<span class="keyword">Content-Length:</span> <span class="number">1234</span></div>
+                        <p style="margin-top: 0.75rem; font-size: 0.85rem;"><strong>Security:</strong> X-Frame-Options, Strict-Transport-Security, CSP</p>
+                    </div>
                 </div>
             </div>
         </section>
@@ -764,43 +1290,46 @@ Content-Length: 1234</code></pre>
 
         <!-- Popular Web Servers -->
         <section class="slide" id="popular-servers" data-narration="Let's compare the most popular web servers. Nginx uses an event-driven architecture that excels at handling many concurrent connections—perfect for high-traffic sites and as a reverse proxy. Apache uses a process-based model with incredible flexibility through modules—it's been around since 1995 and powers a huge portion of the web. Node.js isn't just a web server; it's a JavaScript runtime that can run your entire application. Caddy is newer, written in Go, and automatically handles HTTPS certificates—great for developer ergonomics.">
-            <h1>Popular Web Servers</h1>
-            <div class="stack-grid">
-                <div class="server-card">
-                    <h3>Nginx</h3>
-                    <p class="tagline">Event-driven architecture</p>
-                    <ul style="text-align: left; font-size: 0.85rem;">
-                        <li>High-traffic static content</li>
-                        <li>Reverse proxy / load balancer</li>
-                        <li>~34% market share</li>
-                    </ul>
-                </div>
-                <div class="server-card">
-                    <h3>Apache</h3>
-                    <p class="tagline">Process-based, modular</p>
-                    <ul style="text-align: left; font-size: 0.85rem;">
-                        <li>Shared hosting (.htaccess)</li>
-                        <li>PHP applications</li>
-                        <li>~30% market share</li>
-                    </ul>
-                </div>
-                <div class="server-card">
-                    <h3>Node.js</h3>
-                    <p class="tagline">JavaScript runtime</p>
-                    <ul style="text-align: left; font-size: 0.85rem;">
-                        <li>Real-time applications</li>
-                        <li>API servers</li>
-                        <li>Full-stack JavaScript</li>
-                    </ul>
-                </div>
-                <div class="server-card">
-                    <h3>Caddy</h3>
-                    <p class="tagline">Auto HTTPS, Go-based</p>
-                    <ul style="text-align: left; font-size: 0.85rem;">
-                        <li>Automatic TLS certs</li>
-                        <li>Simple configuration</li>
-                        <li>Modern alternative</li>
-                    </ul>
+            <div class="dark-container">
+                <h2>Popular Web Servers</h2>
+                <p class="subtitle">Comparing Server Technologies</p>
+                <div class="dark-four-column">
+                    <div class="dark-stack-card">
+                        <h4>Nginx</h4>
+                        <div class="tagline">Event-driven architecture</div>
+                        <div class="items">
+                            <span>High-traffic static content</span>
+                            <span>Reverse proxy / load balancer</span>
+                            <span>~34% market share</span>
+                        </div>
+                    </div>
+                    <div class="dark-stack-card">
+                        <h4>Apache</h4>
+                        <div class="tagline">Process-based, modular</div>
+                        <div class="items">
+                            <span>Shared hosting (.htaccess)</span>
+                            <span>PHP applications</span>
+                            <span>~30% market share</span>
+                        </div>
+                    </div>
+                    <div class="dark-stack-card">
+                        <h4>Node.js</h4>
+                        <div class="tagline">JavaScript runtime</div>
+                        <div class="items">
+                            <span>Real-time applications</span>
+                            <span>API servers</span>
+                            <span>Full-stack JavaScript</span>
+                        </div>
+                    </div>
+                    <div class="dark-stack-card">
+                        <h4>Caddy</h4>
+                        <div class="tagline">Auto HTTPS, Go-based</div>
+                        <div class="items">
+                            <span>Automatic TLS certs</span>
+                            <span>Simple configuration</span>
+                            <span>Modern alternative</span>
+                        </div>
+                    </div>
                 </div>
             </div>
         </section>
@@ -813,46 +1342,49 @@ Content-Length: 1234</code></pre>
 
         <!-- Classic Stacks -->
         <section class="slide" data-narration="LAMP is the traditional stack that powered the early web: Linux operating system, Apache web server, MySQL database, and PHP for server-side logic. It's battle-tested and still widely used. MEAN brought JavaScript to the full stack: MongoDB for data, Express.js as the web framework, Angular for the frontend, and Node.js as the runtime. MERN swaps Angular for React, which has become more popular. JAMstack is a modern architecture using JavaScript, APIs, and Markup—sites are pre-rendered for speed and security.">
-            <h1>Classic Technology Stacks</h1>
-            <div class="stack-grid">
-                <div class="stack-card">
-                    <h3>LAMP</h3>
-                    <p style="font-size: 0.8rem; color: var(--secondary-color);">Traditional, battle-tested</p>
-                    <div class="stack-items">
-                        <span><strong>L</strong>inux</span>
-                        <span><strong>A</strong>pache</span>
-                        <span><strong>M</strong>ySQL</span>
-                        <span><strong>P</strong>HP</span>
+            <div class="dark-container">
+                <h2>Classic Technology Stacks</h2>
+                <p class="subtitle">Time-Tested Combinations</p>
+                <div class="dark-four-column">
+                    <div class="dark-stack-card">
+                        <h4>LAMP</h4>
+                        <div class="tagline">Traditional, battle-tested</div>
+                        <div class="items">
+                            <span><strong>L</strong>inux</span>
+                            <span><strong>A</strong>pache</span>
+                            <span><strong>M</strong>ySQL</span>
+                            <span><strong>P</strong>HP</span>
+                        </div>
                     </div>
-                </div>
-                <div class="stack-card">
-                    <h3>MEAN</h3>
-                    <p style="font-size: 0.8rem; color: var(--secondary-color);">JavaScript everywhere</p>
-                    <div class="stack-items">
-                        <span><strong>M</strong>ongoDB</span>
-                        <span><strong>E</strong>xpress.js</span>
-                        <span><strong>A</strong>ngular</span>
-                        <span><strong>N</strong>ode.js</span>
+                    <div class="dark-stack-card">
+                        <h4>MEAN</h4>
+                        <div class="tagline">JavaScript everywhere</div>
+                        <div class="items">
+                            <span><strong>M</strong>ongoDB</span>
+                            <span><strong>E</strong>xpress.js</span>
+                            <span><strong>A</strong>ngular</span>
+                            <span><strong>N</strong>ode.js</span>
+                        </div>
                     </div>
-                </div>
-                <div class="stack-card">
-                    <h3>MERN</h3>
-                    <p style="font-size: 0.8rem; color: var(--secondary-color);">React-based variant</p>
-                    <div class="stack-items">
-                        <span><strong>M</strong>ongoDB</span>
-                        <span><strong>E</strong>xpress.js</span>
-                        <span><strong>R</strong>eact</span>
-                        <span><strong>N</strong>ode.js</span>
+                    <div class="dark-stack-card">
+                        <h4>MERN</h4>
+                        <div class="tagline">React-based variant</div>
+                        <div class="items">
+                            <span><strong>M</strong>ongoDB</span>
+                            <span><strong>E</strong>xpress.js</span>
+                            <span><strong>R</strong>eact</span>
+                            <span><strong>N</strong>ode.js</span>
+                        </div>
                     </div>
-                </div>
-                <div class="stack-card">
-                    <h3>JAMstack</h3>
-                    <p style="font-size: 0.8rem; color: var(--secondary-color);">Modern, decoupled</p>
-                    <div class="stack-items">
-                        <span><strong>J</strong>avaScript</span>
-                        <span><strong>A</strong>PIs</span>
-                        <span><strong>M</strong>arkup</span>
-                        <span>Pre-rendered sites</span>
+                    <div class="dark-stack-card">
+                        <h4>JAMstack</h4>
+                        <div class="tagline">Modern, decoupled</div>
+                        <div class="items">
+                            <span><strong>J</strong>avaScript</span>
+                            <span><strong>A</strong>PIs</span>
+                            <span><strong>M</strong>arkup</span>
+                            <span>Pre-rendered sites</span>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -860,73 +1392,78 @@ Content-Length: 1234</code></pre>
 
         <!-- Modern Frameworks -->
         <section class="slide" data-narration="Modern full-stack frameworks have changed the game. Next.js combines React with server-side rendering and API routes in one package. Nuxt does the same for Vue.js. SvelteKit uses Svelte's compile-time approach with hybrid rendering. Remix focuses on web standards and progressive enhancement. Astro is optimized for content sites with its islands architecture—ship zero JavaScript by default. These frameworks handle routing, data fetching, and deployment concerns out of the box.">
-            <h1>Modern Full-Stack Frameworks</h1>
-            <table>
-                <thead>
-                    <tr>
-                        <th>Framework</th>
-                        <th>Based On</th>
-                        <th>Best For</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td><strong>Next.js</strong></td>
-                        <td>React</td>
-                        <td>SSR + API routes, production apps</td>
-                    </tr>
-                    <tr>
-                        <td><strong>Nuxt</strong></td>
-                        <td>Vue.js</td>
-                        <td>Vue full-stack applications</td>
-                    </tr>
-                    <tr>
-                        <td><strong>SvelteKit</strong></td>
-                        <td>Svelte</td>
-                        <td>Hybrid rendering, performance</td>
-                    </tr>
-                    <tr>
-                        <td><strong>Remix</strong></td>
-                        <td>React</td>
-                        <td>Web standards, progressive enhancement</td>
-                    </tr>
-                    <tr>
-                        <td><strong>Astro</strong></td>
-                        <td>Multi-framework</td>
-                        <td>Content sites, zero JS by default</td>
-                    </tr>
-                </tbody>
-            </table>
-            <div class="info-box">
-                <p><strong>Trend:</strong> These frameworks blur the line between frontend and backend, offering full-stack capabilities with a single codebase.</p>
+            <div class="dark-container">
+                <h2>Modern Full-Stack Frameworks</h2>
+                <p class="subtitle">The New Generation</p>
+                <table class="dark-table">
+                    <thead>
+                        <tr>
+                            <th>Framework</th>
+                            <th>Based On</th>
+                            <th>Best For</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Next.js</strong></td>
+                            <td>React</td>
+                            <td>SSR + API routes, production apps</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Nuxt</strong></td>
+                            <td>Vue.js</td>
+                            <td>Vue full-stack applications</td>
+                        </tr>
+                        <tr>
+                            <td><strong>SvelteKit</strong></td>
+                            <td>Svelte</td>
+                            <td>Hybrid rendering, performance</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Remix</strong></td>
+                            <td>React</td>
+                            <td>Web standards, progressive enhancement</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Astro</strong></td>
+                            <td>Multi-framework</td>
+                            <td>Content sites, zero JS by default</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <div class="dark-info-box">
+                    <p><strong>Trend:</strong> These frameworks blur the line between frontend and backend, offering full-stack capabilities with a single codebase.</p>
+                </div>
             </div>
         </section>
 
         <!-- Choosing a Stack -->
         <section class="slide" data-narration="How do you choose the right stack? Start with your team's expertise—learning a new language takes time that could be spent building features. Consider your project requirements: real-time needs, SEO importance, data complexity. Think about scalability: will you need to handle millions of users? Community support matters for documentation, packages, and hiring. Performance requirements vary—a blog has different needs than a trading platform. And budget affects hosting costs and development time.">
-            <h1>Choosing a Tech Stack</h1>
-            <div class="two-column">
-                <div>
-                    <h2>Key Decision Factors</h2>
-                    <ul>
-                        <li><strong>Team Expertise</strong> - What does your team know?</li>
-                        <li><strong>Project Requirements</strong> - Real-time? SEO critical?</li>
-                        <li><strong>Scalability Needs</strong> - Horizontal vs vertical</li>
-                        <li><strong>Community Support</strong> - Docs, packages, hiring</li>
-                        <li><strong>Performance Goals</strong> - Response time, throughput</li>
-                        <li><strong>Budget</strong> - Hosting, licensing, dev time</li>
-                    </ul>
-                </div>
-                <div>
-                    <h2>Quick Guide</h2>
-                    <table>
-                        <tr><td><strong>Static Sites</strong></td><td>JAMstack, Astro</td></tr>
-                        <tr><td><strong>E-commerce</strong></td><td>Next.js, Shopify</td></tr>
-                        <tr><td><strong>Real-time Apps</strong></td><td>Node.js + WebSockets</td></tr>
-                        <tr><td><strong>Enterprise</strong></td><td>Java Spring, .NET</td></tr>
-                        <tr><td><strong>Startup MVPs</strong></td><td>MERN, Next.js, Firebase</td></tr>
-                    </table>
-                </div>
+            <div class="dark-container">
+                <h2>Choosing a Tech Stack</h2>
+                <p class="subtitle">Making the Right Decision</p>
+                <div class="dark-two-column">
+                    <div>
+                        <h3>Key Decision Factors</h3>
+                        <ul>
+                            <li><strong>Team Expertise</strong> - What does your team know?</li>
+                            <li><strong>Project Requirements</strong> - Real-time? SEO critical?</li>
+                            <li><strong>Scalability Needs</strong> - Horizontal vs vertical</li>
+                            <li><strong>Community Support</strong> - Docs, packages, hiring</li>
+                            <li><strong>Performance Goals</strong> - Response time, throughput</li>
+                            <li><strong>Budget</strong> - Hosting, licensing, dev time</li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h3>Quick Guide</h3>
+                        <table class="dark-table">
+                            <tr><td><strong>Static Sites</strong></td><td>JAMstack, Astro</td></tr>
+                            <tr><td><strong>E-commerce</strong></td><td>Next.js, Shopify</td></tr>
+                            <tr><td><strong>Real-time Apps</strong></td><td>Node.js + WebSockets</td></tr>
+                            <tr><td><strong>Enterprise</strong></td><td>Java Spring, .NET</td></tr>
+                            <tr><td><strong>Startup MVPs</strong></td><td>MERN, Next.js, Firebase</td></tr>
+                        </table>
+                    </div>
             </div>
         </section>
 
@@ -938,52 +1475,55 @@ Content-Length: 1234</code></pre>
 
         <!-- GitHub Pages Deployment -->
         <section class="slide" data-narration="Deploying to GitHub Pages is straightforward. Create a repository—either username.github.io for your main site, or any repo name for a project site. Add your HTML, CSS, and JavaScript files with index.html as the entry point. In repository settings, enable GitHub Pages and select your branch. Within minutes, your site is live at a github.io URL. You get free HTTPS, custom domain support, and can even use GitHub Actions for automated builds.">
-            <h1>GitHub Pages Deployment</h1>
-            <div class="two-column">
-                <div>
-                    <h2>Deployment Steps</h2>
-                    <div class="numbered-step">
-                        <span class="step-number">1</span>
-                        <div class="step-content">
-                            <h4>Create Repository</h4>
-                            <p>username.github.io or any repo name</p>
+            <div class="dark-container">
+                <h2>GitHub Pages Deployment</h2>
+                <p class="subtitle">Your First Deployment</p>
+                <div class="dark-two-column">
+                    <div>
+                        <h3>Deployment Steps</h3>
+                        <div class="dark-numbered-step">
+                            <span class="dark-step-number">1</span>
+                            <div class="dark-step-content">
+                                <h4>Create Repository</h4>
+                                <p>username.github.io or any repo name</p>
+                            </div>
+                        </div>
+                        <div class="dark-numbered-step">
+                            <span class="dark-step-number">2</span>
+                            <div class="dark-step-content">
+                                <h4>Add HTML/CSS/JS Files</h4>
+                                <p>index.html is your entry point</p>
+                            </div>
+                        </div>
+                        <div class="dark-numbered-step">
+                            <span class="dark-step-number">3</span>
+                            <div class="dark-step-content">
+                                <h4>Enable GitHub Pages</h4>
+                                <p>Settings &rarr; Pages &rarr; Select branch</p>
+                            </div>
+                        </div>
+                        <div class="dark-numbered-step">
+                            <span class="dark-step-number">4</span>
+                            <div class="dark-step-content">
+                                <h4>Access Your Site</h4>
+                                <p>https://username.github.io/repo-name</p>
+                            </div>
                         </div>
                     </div>
-                    <div class="numbered-step">
-                        <span class="step-number">2</span>
-                        <div class="step-content">
-                            <h4>Add HTML/CSS/JS Files</h4>
-                            <p>index.html is your entry point</p>
+                    <div>
+                        <h3>Key Features</h3>
+                        <div class="dark-highlight-box">
+                            <ul>
+                                <li>Free hosting for public repos</li>
+                                <li>HTTPS enabled by default</li>
+                                <li>Custom domains supported</li>
+                                <li>GitHub Actions for CI/CD</li>
+                                <li>Jekyll static site generator</li>
+                            </ul>
                         </div>
-                    </div>
-                    <div class="numbered-step">
-                        <span class="step-number">3</span>
-                        <div class="step-content">
-                            <h4>Enable GitHub Pages</h4>
-                            <p>Settings &rarr; Pages &rarr; Select branch</p>
+                        <div class="dark-warning-box">
+                            <p><strong>Limitations:</strong> Static files only, 1GB storage, 100GB bandwidth/month</p>
                         </div>
-                    </div>
-                    <div class="numbered-step">
-                        <span class="step-number">4</span>
-                        <div class="step-content">
-                            <h4>Access Your Site</h4>
-                            <p>https://username.github.io/repo-name</p>
-                        </div>
-                    </div>
-                </div>
-                <div>
-                    <h2>Key Features</h2>
-                    <div class="highlight-box">
-                        <ul>
-                            <li>Free hosting for public repos</li>
-                            <li>HTTPS enabled by default</li>
-                            <li>Custom domains supported</li>
-                            <li>GitHub Actions for CI/CD</li>
-                            <li>Jekyll static site generator</li>
-                        </ul>
-                    </div>
-                    <div class="warning-box">
-                        <p><strong>Limitations:</strong> Static files only, 1GB storage, 100GB bandwidth/month</p>
                     </div>
                 </div>
             </div>
@@ -997,49 +1537,55 @@ Content-Length: 1234</code></pre>
 
         <!-- HTTPS Deep Dive -->
         <section class="slide" data-narration="HTTPS uses TLS—Transport Layer Security—to encrypt all communication between client and server. The TLS handshake is a dance: the client says hello with supported encryption methods, the server responds with its certificate and chosen method, they exchange keys, and then all data is encrypted. HTTPS provides three things: encryption so nobody can read intercepted data, integrity so data can't be tampered with, and authentication proving you're talking to the real server, not an imposter.">
-            <h1>HTTPS and TLS</h1>
-            <div class="two-column">
-                <div>
-                    <h2>TLS Handshake</h2>
-                    <div class="numbered-step">
-                        <span class="step-number">1</span>
-                        <div class="step-content">
-                            <h4>Client Hello</h4>
-                            <p>Supported ciphers, TLS version</p>
+            <div class="dark-container">
+                <h2>HTTPS and TLS</h2>
+                <p class="subtitle">Secure Communications</p>
+                <div class="dark-two-column">
+                    <div>
+                        <h3>TLS Handshake</h3>
+                        <div class="dark-numbered-step">
+                            <span class="dark-step-number">1</span>
+                            <div class="dark-step-content">
+                                <h4>Client Hello</h4>
+                                <p>Supported ciphers, TLS version</p>
+                            </div>
+                        </div>
+                        <div class="dark-numbered-step">
+                            <span class="dark-step-number">2</span>
+                            <div class="dark-step-content">
+                                <h4>Server Hello</h4>
+                                <p>Certificate, chosen cipher</p>
+                            </div>
+                        </div>
+                        <div class="dark-numbered-step">
+                            <span class="dark-step-number">3</span>
+                            <div class="dark-step-content">
+                                <h4>Key Exchange</h4>
+                                <p>Generate session keys</p>
+                            </div>
+                        </div>
+                        <div class="dark-numbered-step">
+                            <span class="dark-step-number">4</span>
+                            <div class="dark-step-content">
+                                <h4>Encrypted</h4>
+                                <p>All data now secure</p>
+                            </div>
                         </div>
                     </div>
-                    <div class="numbered-step">
-                        <span class="step-number">2</span>
-                        <div class="step-content">
-                            <h4>Server Hello</h4>
-                            <p>Certificate, chosen cipher</p>
+                    <div>
+                        <h3>What HTTPS Provides</h3>
+                        <div class="dark-highlight-box">
+                            <h3 style="color: #4ade80;">&#128274; Encryption</h3>
+                            <p>Data privacy - intercepted data is unreadable</p>
                         </div>
-                    </div>
-                    <div class="numbered-step">
-                        <span class="step-number">3</span>
-                        <div class="step-content">
-                            <h4>Key Exchange</h4>
-                            <p>Generate session keys</p>
+                        <div class="dark-highlight-box">
+                            <h3 style="color: #38bdf8;">&#10003; Integrity</h3>
+                            <p>No tampering - data cannot be modified</p>
                         </div>
-                    </div>
-                    <div class="numbered-step">
-                        <span class="step-number">4</span>
-                        <div class="step-content">
-                            <h4>Encrypted</h4>
-                            <p>All data now secure</p>
+                        <div class="dark-highlight-box">
+                            <h3 style="color: #f472b6;">&#128196; Authentication</h3>
+                            <p>Server identity - you're talking to the real server</p>
                         </div>
-                    </div>
-                </div>
-                <div>
-                    <h2>What HTTPS Provides</h2>
-                    <div class="highlight-box">
-                        <p><span class="security-icon">&#128274;</span><strong>Encryption</strong> - Data privacy</p>
-                    </div>
-                    <div class="highlight-box">
-                        <p><span class="security-icon">&#10003;</span><strong>Integrity</strong> - No tampering</p>
-                    </div>
-                    <div class="highlight-box">
-                        <p><span class="security-icon">&#128196;</span><strong>Authentication</strong> - Server identity</p>
                     </div>
                 </div>
             </div>
@@ -1047,113 +1593,123 @@ Content-Length: 1234</code></pre>
 
         <!-- Security Headers & Vulnerabilities -->
         <section class="slide" data-narration="Beyond HTTPS, security headers add extra protection. CORS controls which domains can access your APIs—essential for preventing unauthorized access. Content Security Policy prevents XSS by whitelisting where resources can load from. HSTS forces browsers to always use HTTPS. The Same-Origin Policy sandboxes scripts so malicious code can't access data from other sites. Be aware of common vulnerabilities: XSS injects malicious scripts, CSRF tricks users into unwanted actions, SQL injection manipulates database queries, and clickjacking overlays invisible elements to steal clicks.">
-            <h1>Security Essentials</h1>
-            <div class="two-column">
-                <div>
-                    <h2>Security Headers</h2>
-                    <table>
-                        <tr>
-                            <td><strong>CORS</strong></td>
-                            <td>Controls cross-origin API access</td>
-                        </tr>
-                        <tr>
-                            <td><strong>CSP</strong></td>
-                            <td>Prevents XSS attacks</td>
-                        </tr>
-                        <tr>
-                            <td><strong>HSTS</strong></td>
-                            <td>Forces HTTPS connections</td>
-                        </tr>
-                        <tr>
-                            <td><strong>Same-Origin</strong></td>
-                            <td>Browser sandbox for scripts</td>
-                        </tr>
-                    </table>
-                </div>
-                <div>
-                    <h2>Common Vulnerabilities</h2>
-                    <div class="warning-box">
-                        <ul>
-                            <li><strong>XSS</strong> - Cross-Site Scripting</li>
-                            <li><strong>CSRF</strong> - Cross-Site Request Forgery</li>
-                            <li><strong>SQL Injection</strong> - Database attacks</li>
-                            <li><strong>Clickjacking</strong> - UI deception</li>
-                        </ul>
+            <div class="dark-container">
+                <h2>Security Essentials</h2>
+                <p class="subtitle">Headers and Vulnerabilities</p>
+                <div class="dark-two-column">
+                    <div>
+                        <h3>Security Headers</h3>
+                        <table class="dark-table">
+                            <tr>
+                                <td><strong>CORS</strong></td>
+                                <td>Controls cross-origin API access</td>
+                            </tr>
+                            <tr>
+                                <td><strong>CSP</strong></td>
+                                <td>Prevents XSS attacks</td>
+                            </tr>
+                            <tr>
+                                <td><strong>HSTS</strong></td>
+                                <td>Forces HTTPS connections</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Same-Origin</strong></td>
+                                <td>Browser sandbox for scripts</td>
+                            </tr>
+                        </table>
+                    </div>
+                    <div>
+                        <h3>Common Vulnerabilities</h3>
+                        <div class="dark-warning-box">
+                            <ul>
+                                <li><strong>XSS</strong> - Cross-Site Scripting</li>
+                                <li><strong>CSRF</strong> - Cross-Site Request Forgery</li>
+                                <li><strong>SQL Injection</strong> - Database attacks</li>
+                                <li><strong>Clickjacking</strong> - UI deception</li>
+                            </ul>
+                        </div>
                     </div>
                 </div>
-            </div>
-            <div class="info-box">
-                <p><strong>Best Practice:</strong> Use security headers, validate all input, escape output, keep dependencies updated.</p>
+                <div class="dark-info-box">
+                    <p><strong>Best Practice:</strong> Use security headers, validate all input, escape output, keep dependencies updated.</p>
+                </div>
             </div>
         </section>
 
         <!-- Key Takeaways -->
         <section class="slide" id="takeaways" data-narration="Let's summarize the key points. HTTP is the foundation—understanding requests, responses, and status codes is essential for debugging and building applications. Web servers do far more than serve files; they're critical infrastructure handling security, caching, and routing. Choose your tech stack based on your team and project needs, not trends. Security is mandatory—HTTPS everywhere, proper headers, awareness of vulnerabilities. And deploy early, deploy often—GitHub Pages makes it easy to share your work and build the habit of publishing.">
-            <h1>Key Takeaways</h1>
-            <div class="highlight-box">
-                <h3>1. HTTP is the Foundation</h3>
-                <p>Understanding request/response cycles, methods, and status codes is essential for debugging and building web applications.</p>
-            </div>
-            <div class="highlight-box">
-                <h3>2. Web Servers Do More Than Serve</h3>
-                <p>Beyond serving files, they handle security, caching, load balancing, and act as the gateway to your application.</p>
-            </div>
-            <div class="highlight-box">
-                <h3>3. Choose Stacks Wisely</h3>
-                <p>Technology choices should align with team skills and project needs rather than trends.</p>
-            </div>
-            <div class="highlight-box">
-                <h3>4. Security is Non-Negotiable</h3>
-                <p>HTTPS everywhere, security headers, and understanding vulnerabilities should be part of every developer's toolkit.</p>
-            </div>
-            <div class="highlight-box">
-                <h3>5. Deploy Early, Deploy Often</h3>
-                <p>GitHub Pages makes it easy to share your work. Build the habit of publishing your projects.</p>
+            <div class="dark-container">
+                <h2>Key Takeaways</h2>
+                <p class="subtitle">What to Remember</p>
+                <div class="dark-highlight-box">
+                    <h3 style="color: #facc15;">1. HTTP is the Foundation</h3>
+                    <p>Understanding request/response cycles, methods, and status codes is essential for debugging and building web applications.</p>
+                </div>
+                <div class="dark-highlight-box">
+                    <h3 style="color: #facc15;">2. Web Servers Do More Than Serve</h3>
+                    <p>Beyond serving files, they handle security, caching, load balancing, and act as the gateway to your application.</p>
+                </div>
+                <div class="dark-highlight-box">
+                    <h3 style="color: #facc15;">3. Choose Stacks Wisely</h3>
+                    <p>Technology choices should align with team skills and project needs rather than trends.</p>
+                </div>
+                <div class="dark-highlight-box">
+                    <h3 style="color: #facc15;">4. Security is Non-Negotiable</h3>
+                    <p>HTTPS everywhere, security headers, and understanding vulnerabilities should be part of every developer's toolkit.</p>
+                </div>
+                <div class="dark-highlight-box">
+                    <h3 style="color: #facc15;">5. Deploy Early, Deploy Often</h3>
+                    <p>GitHub Pages makes it easy to share your work. Build the habit of publishing your projects.</p>
+                </div>
             </div>
         </section>
 
         <!-- Assignment -->
         <section class="slide" id="assignment" data-narration="Your assignment for this module is to deploy a static HTML resume to GitHub Pages. Focus on semantic HTML—use proper heading hierarchy, sections, and landmarks. Make it accessible—proper alt text, sufficient color contrast, keyboard navigation. Write clean CSS—organized, well-commented, responsive. This assignment applies everything we've covered: Git workflow, HTML structure, CSS styling, and deployment.">
-            <h1>Assignment</h1>
-            <div class="highlight-box">
-                <h2>Deploy Static HTML Resume to GitHub Pages</h2>
-                <p><strong>100 points</strong></p>
-                <h3>Requirements:</h3>
-                <ul>
-                    <li><strong>Semantic HTML</strong> - Proper structure and elements</li>
-                    <li><strong>Accessibility</strong> - Alt text, contrast, landmarks</li>
-                    <li><strong>Clean CSS</strong> - Organized, responsive design</li>
-                    <li><strong>GitHub Pages</strong> - Live deployment with working URL</li>
-                    <li><strong>Professional Content</strong> - Your actual resume information</li>
-                </ul>
-            </div>
-            <div class="info-box">
-                <p><strong>Submission:</strong> Submit the live GitHub Pages URL. Your resume should be accessible at https://yourusername.github.io/resume or similar.</p>
+            <div class="dark-container">
+                <h2>Assignment</h2>
+                <p class="subtitle">Deploy Static HTML Resume to GitHub Pages</p>
+                <div class="dark-card" style="margin-bottom: 1rem;">
+                    <h4 style="color: #fff;">Requirements <span style="color: #4ade80; font-size: 0.9rem;">100 points</span></h4>
+                    <ul>
+                        <li><strong>Semantic HTML</strong> - Proper structure and elements</li>
+                        <li><strong>Accessibility</strong> - Alt text, contrast, landmarks</li>
+                        <li><strong>Clean CSS</strong> - Organized, responsive design</li>
+                        <li><strong>GitHub Pages</strong> - Live deployment with working URL</li>
+                        <li><strong>Professional Content</strong> - Your actual resume information</li>
+                    </ul>
+                </div>
+                <div class="dark-info-box">
+                    <p><strong>Submission:</strong> Submit the live GitHub Pages URL. Your resume should be accessible at https://yourusername.github.io/resume or similar.</p>
+                </div>
             </div>
         </section>
 
         <!-- Resources -->
         <section class="slide" id="resources" data-narration="Here are resources for further learning. MDN Web Docs has comprehensive HTTP documentation. Web.dev covers performance and security best practices. The GitHub Pages documentation walks through advanced features. Daniel Stenberg's HTTP/2 Explained is the definitive resource on modern HTTP. Use these to deepen your understanding beyond what we covered today.">
-            <h1>Resources</h1>
-            <div class="two-column">
-                <div>
-                    <h2>Documentation</h2>
-                    <ul>
-                        <li><strong>MDN Web Docs</strong> - HTTP reference</li>
-                        <li><strong>web.dev</strong> - Performance &amp; Security</li>
-                        <li><strong>GitHub Pages Docs</strong> - Deployment guide</li>
-                        <li><strong>HTTP/2 Explained</strong> - Daniel Stenberg</li>
-                    </ul>
-                </div>
-                <div>
-                    <h2>Coming Up Next</h2>
-                    <div class="info-box">
-                        <h3>Module 3: Frontend Development</h3>
+            <div class="dark-container">
+                <h2>Resources</h2>
+                <p class="subtitle">Further Learning</p>
+                <div class="dark-two-column">
+                    <div>
+                        <h3>Documentation</h3>
                         <ul>
-                            <li>HTML5 Semantics &amp; Accessibility</li>
-                            <li>CSS Layouts &amp; Responsive Design</li>
-                            <li>JavaScript Fundamentals</li>
+                            <li><strong>MDN Web Docs</strong> - HTTP reference</li>
+                            <li><strong>web.dev</strong> - Performance &amp; Security</li>
+                            <li><strong>GitHub Pages Docs</strong> - Deployment guide</li>
+                            <li><strong>HTTP/2 Explained</strong> - Daniel Stenberg</li>
                         </ul>
+                    </div>
+                    <div>
+                        <h3>Coming Up Next</h3>
+                        <div class="dark-info-box">
+                            <p style="color: #2dd4bf; font-weight: 600; margin-bottom: 0.5rem;">Module 3: Frontend Development</p>
+                            <ul style="margin: 0;">
+                                <li>HTML5 Semantics &amp; Accessibility</li>
+                                <li>CSS Layouts &amp; Responsive Design</li>
+                                <li>JavaScript Fundamentals</li>
+                            </ul>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -1161,19 +1717,21 @@ Content-Length: 1234</code></pre>
 
         <!-- Questions -->
         <section class="slide" data-narration="Any questions about web foundations? Remember to complete your GitHub Pages resume deployment. Make sure your environment from Module 1 is set up, create your resume repository, build your HTML and CSS, deploy to GitHub Pages, and submit your live URL. If you're stuck on any concept—HTTP, servers, or deployment—now's the time to ask.">
-            <h1>Questions?</h1>
-            <p>Let's discuss web foundations</p>
-            <div class="highlight-box">
-                <h2>Before Next Class</h2>
-                <ul>
-                    <li>Complete GitHub Pages resume deployment</li>
-                    <li>Review HTTP methods and status codes</li>
-                    <li>Explore browser DevTools Network tab</li>
-                    <li>Read MDN HTTP documentation</li>
-                </ul>
-            </div>
-            <div class="info-box">
-                <p><strong>Next Module:</strong> Frontend Development - HTML5, CSS, and JavaScript fundamentals</p>
+            <div class="dark-container">
+                <h2>Questions?</h2>
+                <p class="subtitle">Let's discuss web foundations</p>
+                <div class="dark-card" style="margin-bottom: 1rem;">
+                    <h4 style="color: #fff;">Before Next Class</h4>
+                    <ul>
+                        <li>Complete GitHub Pages resume deployment</li>
+                        <li>Review HTTP methods and status codes</li>
+                        <li>Explore browser DevTools Network tab</li>
+                        <li>Read MDN HTTP documentation</li>
+                    </ul>
+                </div>
+                <div class="dark-info-box">
+                    <p><strong>Next Module:</strong> Frontend Development - HTML5, CSS, and JavaScript fundamentals</p>
+                </div>
             </div>
         </section>
     </div>
