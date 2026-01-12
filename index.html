@@ -1,0 +1,429 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Advanced Web Development Course - Master modern web technologies and best practices">
+    <title>Advanced Web Development Course</title>
+    <style>
+        :root {
+            --primary-color: #2c3e50;
+            --secondary-color: #3498db;
+            --accent-color: #e74c3c;
+            --text-color: #333;
+            --text-light: #666;
+            --bg-color: #f5f7fa;
+            --card-bg: #fff;
+            --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            --font-main: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: var(--font-main);
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+
+        /* Skip Link for Accessibility */
+        .skip-link {
+            position: absolute;
+            top: -100px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--primary-color);
+            color: #fff;
+            padding: 12px 24px;
+            text-decoration: none;
+            border-radius: 0 0 8px 8px;
+            z-index: 10000;
+        }
+
+        .skip-link:focus {
+            top: 0;
+            outline: 3px solid #005fcc;
+            outline-offset: 2px;
+        }
+
+        /* Header */
+        header {
+            background: linear-gradient(135deg, var(--primary-color) 0%, #1a1a2e 100%);
+            color: #fff;
+            padding: 60px 20px;
+            text-align: center;
+        }
+
+        header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        header .subtitle {
+            font-size: 1.2rem;
+            opacity: 0.9;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        /* Main Content */
+        main {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        .section-title {
+            font-size: 1.5rem;
+            color: var(--primary-color);
+            margin-bottom: 30px;
+            padding-bottom: 10px;
+            border-bottom: 3px solid var(--secondary-color);
+        }
+
+        /* Module Grid */
+        .modules-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 25px;
+        }
+
+        .module-card {
+            background: var(--card-bg);
+            border-radius: 12px;
+            box-shadow: var(--shadow);
+            overflow: hidden;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            text-decoration: none;
+            color: inherit;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .module-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+        }
+
+        .module-card:focus {
+            outline: 3px solid #005fcc;
+            outline-offset: 2px;
+        }
+
+        .module-header {
+            background: linear-gradient(135deg, var(--secondary-color) 0%, var(--primary-color) 100%);
+            color: #fff;
+            padding: 20px;
+            position: relative;
+        }
+
+        .module-number {
+            font-size: 2.5rem;
+            font-weight: bold;
+            opacity: 0.3;
+            position: absolute;
+            top: 10px;
+            right: 15px;
+        }
+
+        .module-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            position: relative;
+            z-index: 1;
+        }
+
+        .module-body {
+            padding: 20px;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .module-description {
+            color: var(--text-light);
+            font-size: 0.95rem;
+            flex: 1;
+            margin-bottom: 15px;
+        }
+
+        .module-status {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.85rem;
+            color: var(--text-light);
+        }
+
+        .status-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background-color: #ccc;
+        }
+
+        .status-dot.available {
+            background-color: #27ae60;
+        }
+
+        .status-dot.coming-soon {
+            background-color: #f39c12;
+        }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 30px 20px;
+            color: var(--text-light);
+            font-size: 0.9rem;
+            border-top: 1px solid #ddd;
+            margin-top: 40px;
+        }
+
+        footer a {
+            color: var(--secondary-color);
+            text-decoration: underline;
+        }
+
+        footer a:hover {
+            color: var(--primary-color);
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            header {
+                padding: 40px 20px;
+            }
+
+            header h1 {
+                font-size: 1.8rem;
+            }
+
+            .modules-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <a href="#main-content" class="skip-link">Skip to main content</a>
+
+    <header>
+        <h1>Advanced Web Development</h1>
+        <p class="subtitle">Master modern web technologies, frameworks, and best practices for building professional web applications</p>
+    </header>
+
+    <main id="main-content">
+        <h2 class="section-title">Course Modules</h2>
+
+        <div class="modules-grid">
+            <a href="modules/module-01.html" class="module-card">
+                <div class="module-header">
+                    <span class="module-number" aria-hidden="true">01</span>
+                    <h3 class="module-title">Module 1: Development Environment Setup</h3>
+                </div>
+                <div class="module-body">
+                    <p class="module-description">Set up your development environment with VS Code, Node.js, Git, and GitHub. Learn essential tools and workflows.</p>
+                    <div class="module-status">
+                        <span class="status-dot available" aria-hidden="true"></span>
+                        <span>Available</span>
+                    </div>
+                </div>
+            </a>
+
+            <a href="modules/module-02.html" class="module-card">
+                <div class="module-header">
+                    <span class="module-number" aria-hidden="true">02</span>
+                    <h3 class="module-title">Module 2: Topic TBD</h3>
+                </div>
+                <div class="module-body">
+                    <p class="module-description">Content coming soon. Check back for updates.</p>
+                    <div class="module-status">
+                        <span class="status-dot coming-soon" aria-hidden="true"></span>
+                        <span>Coming Soon</span>
+                    </div>
+                </div>
+            </a>
+
+            <a href="modules/module-03.html" class="module-card">
+                <div class="module-header">
+                    <span class="module-number" aria-hidden="true">03</span>
+                    <h3 class="module-title">Module 3: Topic TBD</h3>
+                </div>
+                <div class="module-body">
+                    <p class="module-description">Content coming soon. Check back for updates.</p>
+                    <div class="module-status">
+                        <span class="status-dot coming-soon" aria-hidden="true"></span>
+                        <span>Coming Soon</span>
+                    </div>
+                </div>
+            </a>
+
+            <a href="modules/module-04.html" class="module-card">
+                <div class="module-header">
+                    <span class="module-number" aria-hidden="true">04</span>
+                    <h3 class="module-title">Module 4: Topic TBD</h3>
+                </div>
+                <div class="module-body">
+                    <p class="module-description">Content coming soon. Check back for updates.</p>
+                    <div class="module-status">
+                        <span class="status-dot coming-soon" aria-hidden="true"></span>
+                        <span>Coming Soon</span>
+                    </div>
+                </div>
+            </a>
+
+            <a href="modules/module-05.html" class="module-card">
+                <div class="module-header">
+                    <span class="module-number" aria-hidden="true">05</span>
+                    <h3 class="module-title">Module 5: Topic TBD</h3>
+                </div>
+                <div class="module-body">
+                    <p class="module-description">Content coming soon. Check back for updates.</p>
+                    <div class="module-status">
+                        <span class="status-dot coming-soon" aria-hidden="true"></span>
+                        <span>Coming Soon</span>
+                    </div>
+                </div>
+            </a>
+
+            <a href="modules/module-06.html" class="module-card">
+                <div class="module-header">
+                    <span class="module-number" aria-hidden="true">06</span>
+                    <h3 class="module-title">Module 6: Topic TBD</h3>
+                </div>
+                <div class="module-body">
+                    <p class="module-description">Content coming soon. Check back for updates.</p>
+                    <div class="module-status">
+                        <span class="status-dot coming-soon" aria-hidden="true"></span>
+                        <span>Coming Soon</span>
+                    </div>
+                </div>
+            </a>
+
+            <a href="modules/module-07.html" class="module-card">
+                <div class="module-header">
+                    <span class="module-number" aria-hidden="true">07</span>
+                    <h3 class="module-title">Module 7: Topic TBD</h3>
+                </div>
+                <div class="module-body">
+                    <p class="module-description">Content coming soon. Check back for updates.</p>
+                    <div class="module-status">
+                        <span class="status-dot coming-soon" aria-hidden="true"></span>
+                        <span>Coming Soon</span>
+                    </div>
+                </div>
+            </a>
+
+            <a href="modules/module-08.html" class="module-card">
+                <div class="module-header">
+                    <span class="module-number" aria-hidden="true">08</span>
+                    <h3 class="module-title">Module 8: Topic TBD</h3>
+                </div>
+                <div class="module-body">
+                    <p class="module-description">Content coming soon. Check back for updates.</p>
+                    <div class="module-status">
+                        <span class="status-dot coming-soon" aria-hidden="true"></span>
+                        <span>Coming Soon</span>
+                    </div>
+                </div>
+            </a>
+
+            <a href="modules/module-09.html" class="module-card">
+                <div class="module-header">
+                    <span class="module-number" aria-hidden="true">09</span>
+                    <h3 class="module-title">Module 9: Topic TBD</h3>
+                </div>
+                <div class="module-body">
+                    <p class="module-description">Content coming soon. Check back for updates.</p>
+                    <div class="module-status">
+                        <span class="status-dot coming-soon" aria-hidden="true"></span>
+                        <span>Coming Soon</span>
+                    </div>
+                </div>
+            </a>
+
+            <a href="modules/module-10.html" class="module-card">
+                <div class="module-header">
+                    <span class="module-number" aria-hidden="true">10</span>
+                    <h3 class="module-title">Module 10: Topic TBD</h3>
+                </div>
+                <div class="module-body">
+                    <p class="module-description">Content coming soon. Check back for updates.</p>
+                    <div class="module-status">
+                        <span class="status-dot coming-soon" aria-hidden="true"></span>
+                        <span>Coming Soon</span>
+                    </div>
+                </div>
+            </a>
+
+            <a href="modules/module-11.html" class="module-card">
+                <div class="module-header">
+                    <span class="module-number" aria-hidden="true">11</span>
+                    <h3 class="module-title">Module 11: Topic TBD</h3>
+                </div>
+                <div class="module-body">
+                    <p class="module-description">Content coming soon. Check back for updates.</p>
+                    <div class="module-status">
+                        <span class="status-dot coming-soon" aria-hidden="true"></span>
+                        <span>Coming Soon</span>
+                    </div>
+                </div>
+            </a>
+
+            <a href="modules/module-12.html" class="module-card">
+                <div class="module-header">
+                    <span class="module-number" aria-hidden="true">12</span>
+                    <h3 class="module-title">Module 12: Topic TBD</h3>
+                </div>
+                <div class="module-body">
+                    <p class="module-description">Content coming soon. Check back for updates.</p>
+                    <div class="module-status">
+                        <span class="status-dot coming-soon" aria-hidden="true"></span>
+                        <span>Coming Soon</span>
+                    </div>
+                </div>
+            </a>
+
+            <a href="modules/module-13.html" class="module-card">
+                <div class="module-header">
+                    <span class="module-number" aria-hidden="true">13</span>
+                    <h3 class="module-title">Module 13: Topic TBD</h3>
+                </div>
+                <div class="module-body">
+                    <p class="module-description">Content coming soon. Check back for updates.</p>
+                    <div class="module-status">
+                        <span class="status-dot coming-soon" aria-hidden="true"></span>
+                        <span>Coming Soon</span>
+                    </div>
+                </div>
+            </a>
+
+            <a href="modules/module-14.html" class="module-card">
+                <div class="module-header">
+                    <span class="module-number" aria-hidden="true">14</span>
+                    <h3 class="module-title">Module 14: Topic TBD</h3>
+                </div>
+                <div class="module-body">
+                    <p class="module-description">Content coming soon. Check back for updates.</p>
+                    <div class="module-status">
+                        <span class="status-dot coming-soon" aria-hidden="true"></span>
+                        <span>Coming Soon</span>
+                    </div>
+                </div>
+            </a>
+        </div>
+    </main>
+
+    <footer>
+        <p>Advanced Web Development Course</p>
+        <p>Use arrow keys to navigate within modules. Press <kbd>?</kbd> for keyboard shortcuts.</p>
+    </footer>
+</body>
+</html>

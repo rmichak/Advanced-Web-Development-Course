@@ -1,0 +1,607 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Module 1: Development Environment Setup - Advanced Web Development Course">
+    <title>Module 1: Development Environment Setup | Advanced Web Development</title>
+    <link rel="stylesheet" href="../css/slides.css">
+</head>
+<body>
+    <div class="presentation">
+        <!-- Title Slide -->
+        <section class="slide title-slide">
+            <h1>Module 1</h1>
+            <p class="subtitle">Development Environment Setup</p>
+            <p class="meta">Advanced Web Development</p>
+        </section>
+
+        <!-- Learning Objectives -->
+        <section class="slide" id="learning-objectives">
+            <h1>Learning Objectives</h1>
+            <p>By the end of this module, you will be able to:</p>
+            <ul>
+                <li>Install and configure Visual Studio Code for web development</li>
+                <li>Install Node.js and understand its role in modern web development</li>
+                <li>Set up Git for version control on your local machine</li>
+                <li>Create a GitHub account and connect it to your local Git</li>
+                <li>Perform basic Git operations: clone, commit, push, and pull</li>
+            </ul>
+        </section>
+
+        <!-- Why These Tools Matter -->
+        <section class="slide">
+            <h1>Why These Tools Matter</h1>
+            <div class="two-column">
+                <div>
+                    <h2>Professional Standards</h2>
+                    <ul>
+                        <li>Industry-standard tooling</li>
+                        <li>Used by companies worldwide</li>
+                        <li>Essential for collaboration</li>
+                        <li>Required for job readiness</li>
+                    </ul>
+                </div>
+                <div>
+                    <h2>Your Success</h2>
+                    <ul>
+                        <li>Efficient coding workflow</li>
+                        <li>Track changes to your code</li>
+                        <li>Collaborate with classmates</li>
+                        <li>Build a portfolio on GitHub</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- VS Code Section Header -->
+        <section class="slide title-slide" id="vscode-section">
+            <h1>Visual Studio Code</h1>
+            <p class="subtitle">Your Code Editor</p>
+        </section>
+
+        <!-- What is VS Code -->
+        <section class="slide">
+            <h1>What is Visual Studio Code?</h1>
+            <p>VS Code is a free, open-source code editor developed by Microsoft.</p>
+            <div class="highlight-box">
+                <h2>Key Features</h2>
+                <ul>
+                    <li><strong>IntelliSense:</strong> Smart code completion</li>
+                    <li><strong>Integrated Terminal:</strong> Run commands without leaving the editor</li>
+                    <li><strong>Git Integration:</strong> Built-in version control</li>
+                    <li><strong>Extensions:</strong> Customize with thousands of add-ons</li>
+                    <li><strong>Cross-Platform:</strong> Works on Windows, macOS, and Linux</li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- Installing VS Code -->
+        <section class="slide" id="vscode-install">
+            <h1>Installing VS Code</h1>
+            <ol>
+                <li>Visit <strong>code.visualstudio.com</strong></li>
+                <li>Click the download button for your operating system</li>
+                <li>Run the installer and follow the prompts</li>
+                <li>Launch VS Code after installation</li>
+            </ol>
+            <div class="info-box">
+                <p><strong>Tip:</strong> During installation on Windows, check "Add to PATH" to enable opening VS Code from the command line with <code>code .</code></p>
+            </div>
+        </section>
+
+        <!-- Essential VS Code Extensions -->
+        <section class="slide" id="vscode-extensions">
+            <h1>Essential VS Code Extensions</h1>
+            <p>Install these extensions for web development:</p>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Extension</th>
+                        <th>Purpose</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>Live Server</strong></td>
+                        <td>Launch a local development server with live reload</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Prettier</strong></td>
+                        <td>Automatic code formatting</td>
+                    </tr>
+                    <tr>
+                        <td><strong>ESLint</strong></td>
+                        <td>JavaScript linting and error detection</td>
+                    </tr>
+                    <tr>
+                        <td><strong>GitLens</strong></td>
+                        <td>Enhanced Git capabilities</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Auto Rename Tag</strong></td>
+                        <td>Automatically rename paired HTML tags</td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+
+        <!-- Installing Extensions -->
+        <section class="slide">
+            <h1>How to Install Extensions</h1>
+            <ol>
+                <li>Open VS Code</li>
+                <li>Click the Extensions icon in the sidebar (or press <kbd>Ctrl+Shift+X</kbd>)</li>
+                <li>Search for the extension name</li>
+                <li>Click <strong>Install</strong></li>
+            </ol>
+            <div class="highlight-box">
+                <p><strong>Try it now:</strong> Install the "Live Server" extension. You'll use this to preview your web pages throughout the course.</p>
+            </div>
+        </section>
+
+        <!-- VS Code Settings -->
+        <section class="slide">
+            <h1>Recommended VS Code Settings</h1>
+            <p>Open Settings with <kbd>Ctrl+,</kbd> (Windows/Linux) or <kbd>Cmd+,</kbd> (Mac)</p>
+            <div class="highlight-box">
+                <h2>Recommended Settings</h2>
+                <ul>
+                    <li><strong>Auto Save:</strong> Set to "afterDelay" to save automatically</li>
+                    <li><strong>Format On Save:</strong> Enable to auto-format code</li>
+                    <li><strong>Tab Size:</strong> Set to 2 for web development</li>
+                    <li><strong>Word Wrap:</strong> Enable for easier reading</li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- Node.js Section Header -->
+        <section class="slide title-slide" id="nodejs-section">
+            <h1>Node.js</h1>
+            <p class="subtitle">JavaScript Runtime Environment</p>
+        </section>
+
+        <!-- What is Node.js -->
+        <section class="slide">
+            <h1>What is Node.js?</h1>
+            <p>Node.js lets you run JavaScript outside the browser.</p>
+            <div class="two-column">
+                <div>
+                    <h2>Why We Need It</h2>
+                    <ul>
+                        <li>Run JavaScript on your computer</li>
+                        <li>Use npm (Node Package Manager)</li>
+                        <li>Build servers and APIs</li>
+                        <li>Run development tools</li>
+                    </ul>
+                </div>
+                <div>
+                    <h2>What npm Does</h2>
+                    <ul>
+                        <li>Install libraries and tools</li>
+                        <li>Manage project dependencies</li>
+                        <li>Run scripts and commands</li>
+                        <li>Share code with others</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- Installing Node.js -->
+        <section class="slide" id="nodejs-install">
+            <h1>Installing Node.js</h1>
+            <ol>
+                <li>Visit <strong>nodejs.org</strong></li>
+                <li>Download the <strong>LTS (Long Term Support)</strong> version</li>
+                <li>Run the installer and accept the defaults</li>
+                <li>Restart your terminal/command prompt</li>
+            </ol>
+            <div class="warning-box">
+                <p><strong>Important:</strong> Always download the LTS version for stability. The "Current" version may have untested features.</p>
+            </div>
+        </section>
+
+        <!-- Verify Node Installation -->
+        <section class="slide">
+            <h1>Verify Your Installation</h1>
+            <p>Open a terminal and run these commands:</p>
+            <pre><code>node --version
+npm --version</code></pre>
+            <p>You should see version numbers like:</p>
+            <pre><code>v22.12.0
+10.9.0</code></pre>
+            <div class="info-box">
+                <p><strong>Tip:</strong> In VS Code, open the integrated terminal with <kbd>Ctrl+`</kbd> (backtick key).</p>
+            </div>
+        </section>
+
+        <!-- Git Section Header -->
+        <section class="slide title-slide" id="git-section">
+            <h1>Git</h1>
+            <p class="subtitle">Version Control System</p>
+        </section>
+
+        <!-- What is Git -->
+        <section class="slide" id="git-intro">
+            <h1>What is Git?</h1>
+            <p>Git is a version control system that tracks changes to your code.</p>
+            <div class="highlight-box">
+                <h2>Why Use Git?</h2>
+                <ul>
+                    <li><strong>History:</strong> See every change ever made to your code</li>
+                    <li><strong>Backup:</strong> Never lose your work</li>
+                    <li><strong>Branching:</strong> Work on features without affecting main code</li>
+                    <li><strong>Collaboration:</strong> Work with others on the same project</li>
+                    <li><strong>Undo:</strong> Revert to previous versions if something breaks</li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- Installing Git -->
+        <section class="slide" id="git-install">
+            <h1>Installing Git</h1>
+            <div class="two-column">
+                <div>
+                    <h2>Windows</h2>
+                    <ol>
+                        <li>Visit <strong>git-scm.com</strong></li>
+                        <li>Download the Windows installer</li>
+                        <li>Run installer, accept defaults</li>
+                        <li>Select "Use Git from Windows Command Prompt"</li>
+                    </ol>
+                </div>
+                <div>
+                    <h2>macOS</h2>
+                    <ol>
+                        <li>Open Terminal</li>
+                        <li>Type <code>git --version</code></li>
+                        <li>If not installed, follow the prompt to install Xcode Command Line Tools</li>
+                    </ol>
+                </div>
+            </div>
+        </section>
+
+        <!-- Configure Git -->
+        <section class="slide" id="git-config">
+            <h1>Configure Git</h1>
+            <p>Set your identity for Git commits:</p>
+            <pre><code>git config --global user.name "Your Name"
+git config --global user.email "your.email@example.com"</code></pre>
+            <p>Verify your configuration:</p>
+            <pre><code>git config --list</code></pre>
+            <div class="warning-box">
+                <p><strong>Important:</strong> Use the same email you'll use for GitHub. This links your commits to your GitHub account.</p>
+            </div>
+        </section>
+
+        <!-- GitHub Section Header -->
+        <section class="slide title-slide" id="github-section">
+            <h1>GitHub</h1>
+            <p class="subtitle">Cloud-Based Code Hosting</p>
+        </section>
+
+        <!-- Git vs GitHub -->
+        <section class="slide">
+            <h1>Git vs GitHub</h1>
+            <div class="two-column">
+                <div>
+                    <h2>Git</h2>
+                    <ul>
+                        <li>Software on your computer</li>
+                        <li>Tracks changes locally</li>
+                        <li>Works offline</li>
+                        <li>Free and open source</li>
+                    </ul>
+                </div>
+                <div>
+                    <h2>GitHub</h2>
+                    <ul>
+                        <li>Website/cloud service</li>
+                        <li>Stores your code online</li>
+                        <li>Enables collaboration</li>
+                        <li>Free for public repositories</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="info-box">
+                <p><strong>Think of it this way:</strong> Git is the tool, GitHub is where you store and share your work.</p>
+            </div>
+        </section>
+
+        <!-- Create GitHub Account -->
+        <section class="slide" id="github-account">
+            <h1>Create a GitHub Account</h1>
+            <ol>
+                <li>Visit <strong>github.com</strong></li>
+                <li>Click <strong>Sign Up</strong></li>
+                <li>Enter your email, create a password, choose a username</li>
+                <li>Verify your email address</li>
+                <li>Complete the welcome survey (optional)</li>
+            </ol>
+            <div class="highlight-box">
+                <p><strong>Username Tip:</strong> Choose a professional username. Employers may see your GitHub profile!</p>
+            </div>
+        </section>
+
+        <!-- SSH Keys -->
+        <section class="slide" id="ssh-setup">
+            <h1>Set Up SSH Keys</h1>
+            <p>SSH keys let you connect to GitHub without entering your password each time.</p>
+            <p><strong>Generate a new SSH key:</strong></p>
+            <pre><code>ssh-keygen -t ed25519 -C "your.email@example.com"</code></pre>
+            <p>Press Enter to accept the default file location, then set a passphrase (optional).</p>
+        </section>
+
+        <!-- Add SSH Key to GitHub -->
+        <section class="slide">
+            <h1>Add SSH Key to GitHub</h1>
+            <ol>
+                <li>Copy your public key:
+                    <pre><code>cat ~/.ssh/id_ed25519.pub</code></pre>
+                </li>
+                <li>Go to <strong>GitHub.com → Settings → SSH and GPG Keys</strong></li>
+                <li>Click <strong>New SSH Key</strong></li>
+                <li>Paste your key and give it a title (e.g., "My Laptop")</li>
+                <li>Click <strong>Add SSH Key</strong></li>
+            </ol>
+        </section>
+
+        <!-- Test SSH Connection -->
+        <section class="slide">
+            <h1>Test Your Connection</h1>
+            <p>Verify SSH is working:</p>
+            <pre><code>ssh -T git@github.com</code></pre>
+            <p>You should see:</p>
+            <pre><code>Hi username! You've successfully authenticated, but GitHub does not provide shell access.</code></pre>
+            <div class="info-box">
+                <p><strong>Success!</strong> You can now push and pull code to GitHub without entering your password.</p>
+            </div>
+        </section>
+
+        <!-- Basic Git Workflow Header -->
+        <section class="slide title-slide" id="git-workflow">
+            <h1>Basic Git Workflow</h1>
+            <p class="subtitle">Essential Commands</p>
+        </section>
+
+        <!-- Git Workflow Overview -->
+        <section class="slide">
+            <h1>The Git Workflow</h1>
+            <div class="highlight-box">
+                <h2>Four Steps to Save Your Work</h2>
+                <ol>
+                    <li><strong>Make changes</strong> to your files</li>
+                    <li><strong>Stage</strong> the changes (<code>git add</code>)</li>
+                    <li><strong>Commit</strong> with a message (<code>git commit</code>)</li>
+                    <li><strong>Push</strong> to GitHub (<code>git push</code>)</li>
+                </ol>
+            </div>
+        </section>
+
+        <!-- Clone a Repository -->
+        <section class="slide">
+            <h1>Clone a Repository</h1>
+            <p>Download a repository from GitHub to your computer:</p>
+            <pre><code>git clone git@github.com:username/repository-name.git</code></pre>
+            <p>This creates a folder with all the project files and Git history.</p>
+            <div class="info-box">
+                <p><strong>Tip:</strong> Use the SSH URL (starts with <code>git@github.com</code>) when you've set up SSH keys.</p>
+            </div>
+        </section>
+
+        <!-- Check Status -->
+        <section class="slide">
+            <h1>Check Repository Status</h1>
+            <p>See what files have changed:</p>
+            <pre><code>git status</code></pre>
+            <p>This shows:</p>
+            <ul>
+                <li><strong>Untracked files:</strong> New files Git doesn't know about</li>
+                <li><strong>Modified files:</strong> Changed files not yet staged</li>
+                <li><strong>Staged files:</strong> Files ready to be committed</li>
+            </ul>
+        </section>
+
+        <!-- Stage Changes -->
+        <section class="slide">
+            <h1>Stage Your Changes</h1>
+            <p>Add files to the staging area:</p>
+            <pre><code># Add a specific file
+git add filename.html
+
+# Add all changed files
+git add .
+
+# Add all files of a type
+git add *.css</code></pre>
+            <div class="highlight-box">
+                <p><strong>Staging</strong> means selecting which changes to include in your next commit.</p>
+            </div>
+        </section>
+
+        <!-- Commit Changes -->
+        <section class="slide">
+            <h1>Commit Your Changes</h1>
+            <p>Save your staged changes with a message:</p>
+            <pre><code>git commit -m "Add navigation menu to homepage"</code></pre>
+            <div class="warning-box">
+                <h2>Good Commit Messages</h2>
+                <ul>
+                    <li>Start with a verb: "Add", "Fix", "Update", "Remove"</li>
+                    <li>Be specific about what changed</li>
+                    <li>Keep it under 50 characters</li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- Push to GitHub -->
+        <section class="slide">
+            <h1>Push to GitHub</h1>
+            <p>Upload your commits to GitHub:</p>
+            <pre><code>git push origin main</code></pre>
+            <p>This sends your local commits to the remote repository on GitHub.</p>
+            <div class="info-box">
+                <p><strong>origin</strong> = the remote repository (GitHub)</p>
+                <p><strong>main</strong> = the branch name</p>
+            </div>
+        </section>
+
+        <!-- Pull from GitHub -->
+        <section class="slide">
+            <h1>Pull from GitHub</h1>
+            <p>Download changes from GitHub to your computer:</p>
+            <pre><code>git pull origin main</code></pre>
+            <p>Always pull before starting work to get the latest changes!</p>
+            <div class="warning-box">
+                <p><strong>Best Practice:</strong> Pull at the start of each coding session to avoid conflicts.</p>
+            </div>
+        </section>
+
+        <!-- Common Git Commands Summary -->
+        <section class="slide" id="git-commands">
+            <h1>Git Commands Summary</h1>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Command</th>
+                        <th>Purpose</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><code>git clone [url]</code></td>
+                        <td>Download a repository</td>
+                    </tr>
+                    <tr>
+                        <td><code>git status</code></td>
+                        <td>Check what's changed</td>
+                    </tr>
+                    <tr>
+                        <td><code>git add .</code></td>
+                        <td>Stage all changes</td>
+                    </tr>
+                    <tr>
+                        <td><code>git commit -m "msg"</code></td>
+                        <td>Save changes locally</td>
+                    </tr>
+                    <tr>
+                        <td><code>git push</code></td>
+                        <td>Upload to GitHub</td>
+                    </tr>
+                    <tr>
+                        <td><code>git pull</code></td>
+                        <td>Download from GitHub</td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+
+        <!-- Recommended Video -->
+        <section class="slide" id="video-resource">
+            <h1>Recommended Video</h1>
+            <p>For a comprehensive walkthrough of Git and GitHub, watch this excellent crash course:</p>
+            <div class="video-feature">
+                <a href="https://www.youtube.com/watch?v=RGOj5yH7evk" target="_blank" rel="noopener" class="video-link">
+                    <img src="https://img.youtube.com/vi/RGOj5yH7evk/maxresdefault.jpg" alt="Git and GitHub for Beginners - Crash Course video thumbnail" class="video-thumbnail">
+                    <span class="video-play-icon" aria-hidden="true"></span>
+                </a>
+                <h2>Git and GitHub for Beginners - Crash Course</h2>
+                <p class="video-duration">Duration: ~1 hour</p>
+            </div>
+            <div class="highlight-box">
+                <p><strong>Highly Recommended:</strong> This video covers everything from basic concepts to hands-on practice. Watch it to reinforce what you've learned and see Git in action!</p>
+            </div>
+        </section>
+
+        <!-- Tips for Success -->
+        <section class="slide">
+            <h1>Tips for Success</h1>
+            <div class="two-column">
+                <div>
+                    <h2>Do</h2>
+                    <ul>
+                        <li>Commit often with clear messages</li>
+                        <li>Pull before you start working</li>
+                        <li>Push your work daily</li>
+                        <li>Read error messages carefully</li>
+                    </ul>
+                </div>
+                <div>
+                    <h2>Don't</h2>
+                    <ul>
+                        <li>Commit sensitive data (passwords, API keys)</li>
+                        <li>Make huge commits with many changes</li>
+                        <li>Ignore merge conflicts</li>
+                        <li>Be afraid to ask for help</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- Practice Exercise -->
+        <section class="slide" id="practice-exercise">
+            <h1>Practice Exercise</h1>
+            <div class="highlight-box">
+                <h2>Set Up Your Environment</h2>
+                <ol>
+                    <li>Install VS Code and the recommended extensions</li>
+                    <li>Install Node.js LTS and verify with <code>node --version</code></li>
+                    <li>Install Git and configure your name and email</li>
+                    <li>Create a GitHub account</li>
+                    <li>Set up SSH keys and test your connection</li>
+                    <li>Create a new repository on GitHub and clone it</li>
+                </ol>
+            </div>
+        </section>
+
+        <!-- Resources -->
+        <section class="slide" id="resources">
+            <h1>Additional Resources</h1>
+            <ul>
+                <li><strong>VS Code Documentation:</strong> code.visualstudio.com/docs</li>
+                <li><strong>Node.js Guides:</strong> nodejs.org/en/docs/guides</li>
+                <li><strong>Git Handbook:</strong> guides.github.com/introduction/git-handbook</li>
+                <li><strong>GitHub Skills:</strong> skills.github.com</li>
+                <li><strong>Pro Git Book (free):</strong> git-scm.com/book</li>
+                <li><strong>Video Tutorial:</strong> <a href="https://www.youtube.com/watch?v=RGOj5yH7evk" target="_blank" rel="noopener">Git and GitHub for Beginners - Crash Course</a></li>
+            </ul>
+            <div class="info-box">
+                <p>These resources are free and provide in-depth tutorials if you want to learn more.</p>
+            </div>
+        </section>
+
+        <!-- Summary -->
+        <section class="slide">
+            <h1>Module Summary</h1>
+            <p>You now have a professional development environment:</p>
+            <ul>
+                <li><strong>VS Code:</strong> Modern code editor with powerful extensions</li>
+                <li><strong>Node.js:</strong> JavaScript runtime and package manager</li>
+                <li><strong>Git:</strong> Version control to track your code changes</li>
+                <li><strong>GitHub:</strong> Cloud storage and collaboration platform</li>
+            </ul>
+            <div class="info-box">
+                <p><strong>Next Module:</strong> We'll start building web pages using HTML and CSS fundamentals.</p>
+            </div>
+        </section>
+
+        <!-- Questions -->
+        <section class="slide">
+            <h1>Questions?</h1>
+            <p>Make sure you have completed the practice exercise before moving on.</p>
+            <div class="highlight-box">
+                <h2>Checklist</h2>
+                <ul>
+                    <li>VS Code installed with extensions</li>
+                    <li>Node.js installed and verified</li>
+                    <li>Git installed and configured</li>
+                    <li>GitHub account created</li>
+                    <li>SSH keys set up and tested</li>
+                </ul>
+            </div>
+        </section>
+    </div>
+
+    <script src="../js/slides.js"></script>
+</body>
+</html>
