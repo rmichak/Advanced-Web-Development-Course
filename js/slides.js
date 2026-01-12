@@ -12,6 +12,7 @@ class AccessibleSlidePresentation {
         this.liveRegion = null;
         this.helpDialogOpen = false;
         this.mobileNavOpen = false;
+        this.narrationPanel = null;
 
         this.init();
     }
@@ -29,6 +30,7 @@ class AccessibleSlidePresentation {
         // Set up accessible structure
         this.createAccessibleStructure();
         this.generateNavigation();
+        this.createNarrationPanel();
         this.createControls();
         this.createHelpDialog();
         this.createLiveRegion();
@@ -295,6 +297,41 @@ class AccessibleSlidePresentation {
         this.nextBtn = nextBtn;
     }
 
+    createNarrationPanel() {
+        // Create narration panel container
+        const narrationPanel = document.createElement('div');
+        narrationPanel.className = 'narration-panel';
+        narrationPanel.setAttribute('role', 'region');
+        narrationPanel.setAttribute('aria-label', 'Slide narration');
+
+        // Create label
+        const label = document.createElement('div');
+        label.className = 'narration-label';
+        label.textContent = 'Instructor Notes';
+        narrationPanel.appendChild(label);
+
+        // Create content area
+        const content = document.createElement('div');
+        content.className = 'narration-content';
+        narrationPanel.appendChild(content);
+
+        // Insert narration panel into main content (before controls, after presentation)
+        this.mainContent.appendChild(narrationPanel);
+
+        // Store reference
+        this.narrationPanel = narrationPanel;
+        this.narrationContent = content;
+    }
+
+    updateNarration() {
+        if (!this.narrationContent) return;
+
+        const activeSlide = this.slides[this.currentSlide];
+        const narration = activeSlide.getAttribute('data-narration') || '';
+
+        this.narrationContent.textContent = narration;
+    }
+
     createHelpDialog() {
         // Create overlay
         const overlay = document.createElement('div');
@@ -508,6 +545,7 @@ class AccessibleSlidePresentation {
         this.updateCounter();
         this.updateButtons();
         this.updateNavigation();
+        this.updateNarration();
 
         // Announce slide change to screen readers
         const titleEl = activeSlide.querySelector('h1, h2');

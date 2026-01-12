@@ -561,6 +561,48 @@ img {
 }
 
 /* ========================================
+   Narration Panel
+   ======================================== */
+.narration-panel {
+    background: linear-gradient(180deg, #f8f9fa 0%, #eef1f5 100%);
+    border-top: 3px solid var(--secondary-color);
+    padding: 15px 25px;
+    min-height: 80px;
+    max-height: 150px;
+    overflow-y: auto;
+    font-size: 0.95rem;
+    line-height: 1.7;
+    color: var(--text-color);
+}
+
+.narration-panel .narration-label {
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    color: var(--secondary-color);
+    margin-bottom: 8px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.narration-panel .narration-label::before {
+    content: '\1F4AC';
+    font-size: 0.9rem;
+}
+
+.narration-panel .narration-content {
+    color: var(--text-color);
+}
+
+.narration-panel .narration-content:empty::after {
+    content: 'No narration available for this slide.';
+    color: var(--text-light);
+    font-style: italic;
+}
+
+/* ========================================
    Bottom Controls Bar
    ======================================== */
 .controls {
@@ -898,6 +940,18 @@ img {
     .nav-buttons {
         flex: 1;
         justify-content: center;
+    }
+
+    .narration-panel {
+        padding: 12px 15px;
+        min-height: 60px;
+        max-height: 120px;
+        font-size: 0.9rem;
+    }
+
+    .narration-panel .narration-label {
+        font-size: 0.7rem;
+        margin-bottom: 6px;
     }
 }
 

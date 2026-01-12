@@ -10,14 +10,14 @@
 <body>
     <div class="presentation">
         <!-- Title Slide -->
-        <section class="slide title-slide">
+        <section class="slide title-slide" data-narration="Welcome to Module 1 of Advanced Web Development. Before we can build modern web applications, we need to set up a professional development environment. Think of this as preparing your workshop before starting a project. The tools we'll install today—VS Code, Node.js, Git, and GitHub—are the same tools used by developers at companies like Google, Microsoft, and Netflix. By the end of this module, you'll have a complete, industry-standard setup ready for the rest of the course.">
             <h1>Module 1</h1>
             <p class="subtitle">Development Environment Setup</p>
             <p class="meta">Advanced Web Development</p>
         </section>
 
         <!-- Learning Objectives -->
-        <section class="slide" id="learning-objectives">
+        <section class="slide" id="learning-objectives" data-narration="These are your concrete goals for today. Notice we're not just installing software—we're building understanding. You'll learn why each tool matters, not just how to click through an installer. The Git workflow at the end is especially important: clone, commit, push, and pull will become second nature to you by the end of this course, but it all starts here with understanding the fundamentals.">
             <h1>Learning Objectives</h1>
             <p>By the end of this module, you will be able to:</p>
             <ul>
@@ -30,7 +30,7 @@
         </section>
 
         <!-- Why These Tools Matter -->
-        <section class="slide">
+        <section class="slide" data-narration="Let me be direct: if you want to work as a web developer, these tools are non-negotiable. Every job posting you'll see expects proficiency with VS Code or similar editors, version control with Git, and collaboration through GitHub. But beyond job requirements, these tools will make you more productive. Version control means you'll never lose work again. GitHub gives you a portfolio that speaks louder than any resume. Start building that portfolio now—employers will look at your GitHub activity.">
             <h1>Why These Tools Matter</h1>
             <div class="two-column">
                 <div>
@@ -55,13 +55,13 @@
         </section>
 
         <!-- VS Code Section Header -->
-        <section class="slide title-slide" id="vscode-section">
+        <section class="slide title-slide" id="vscode-section" data-narration="Let's start with VS Code—your primary tool for writing code. You'll spend more time in this editor than any other application during this course, so it's worth getting comfortable with it. VS Code has become the dominant code editor in the industry, and for good reason.">
             <h1>Visual Studio Code</h1>
             <p class="subtitle">Your Code Editor</p>
         </section>
 
         <!-- What is VS Code -->
-        <section class="slide">
+        <section class="slide" data-narration="VS Code launched in 2015 and quickly overtook established editors like Sublime Text and Atom. What makes it special? It strikes the perfect balance between a lightweight text editor and a full IDE. IntelliSense is particularly impressive—it analyzes your code as you type and offers intelligent suggestions. The integrated terminal is a game-changer: you can write code, run commands, and see output all without leaving the editor. And because it's open source, the community has built thousands of extensions for every programming language and framework imaginable.">
             <h1>What is Visual Studio Code?</h1>
             <p>VS Code is a free, open-source code editor developed by Microsoft.</p>
             <div class="highlight-box">
@@ -77,7 +77,7 @@
         </section>
 
         <!-- Installing VS Code -->
-        <section class="slide" id="vscode-install">
+        <section class="slide" id="vscode-install" data-narration="Installation is straightforward. The website automatically detects your operating system and offers the right download. On Windows, pay special attention to that PATH option during installation—it lets you type 'code .' in any terminal to open that folder in VS Code. This is incredibly useful when you're navigating to a project folder and want to quickly open it in your editor. Mac users can enable the same functionality through the Command Palette after installation.">
             <h1>Installing VS Code</h1>
             <ol>
                 <li>Visit <strong>code.visualstudio.com</strong></li>
@@ -91,7 +91,7 @@
         </section>
 
         <!-- Essential VS Code Extensions -->
-        <section class="slide" id="vscode-extensions">
+        <section class="slide" id="vscode-extensions" data-narration="These five extensions will transform your development experience. Live Server is essential—it runs a local web server and automatically refreshes your browser when you save changes. No more manually hitting F5! Prettier enforces consistent code formatting across your projects. ESLint catches JavaScript errors before they become bugs. GitLens supercharges the built-in Git support with features like blame annotations showing who wrote each line of code. Auto Rename Tag saves countless keystrokes when editing HTML. Install all five—you'll thank me later.">
             <h1>Essential VS Code Extensions</h1>
             <p>Install these extensions for web development:</p>
             <table>
@@ -127,7 +127,7 @@
         </section>
 
         <!-- Installing Extensions -->
-        <section class="slide">
+        <section class="slide" data-narration="The Extensions marketplace is one of VS Code's greatest strengths. Take a moment right now to install Live Server—search for it by name, click Install, and you're done. Once installed, you can right-click any HTML file and select 'Open with Live Server.' Your default browser will open, and any changes you save will instantly appear. This feedback loop of edit-save-see is fundamental to efficient web development.">
             <h1>How to Install Extensions</h1>
             <ol>
                 <li>Open VS Code</li>
@@ -141,7 +141,7 @@
         </section>
 
         <!-- VS Code Settings -->
-        <section class="slide">
+        <section class="slide" data-narration="These settings optimize VS Code for web development. Auto Save eliminates the 'forgot to save' problem—your work is automatically saved after a brief delay. Format On Save works with Prettier to keep your code consistently formatted without thinking about it. A tab size of 2 spaces is the web development convention—it keeps code readable without excessive horizontal scrolling. Word Wrap prevents long lines from disappearing off screen. Take a minute to configure these now; they'll serve you throughout your career.">
             <h1>Recommended VS Code Settings</h1>
             <p>Open Settings with <kbd>Ctrl+,</kbd> (Windows/Linux) or <kbd>Cmd+,</kbd> (Mac)</p>
             <div class="highlight-box">
@@ -156,13 +156,13 @@
         </section>
 
         <!-- Node.js Section Header -->
-        <section class="slide title-slide" id="nodejs-section">
+        <section class="slide title-slide" id="nodejs-section" data-narration="Now let's install Node.js. Even though JavaScript was born in the browser, Node.js changed everything by allowing JavaScript to run anywhere—on servers, on your local machine, even on embedded devices. For web development, Node.js is essential because it powers most of our development tools.">
             <h1>Node.js</h1>
             <p class="subtitle">JavaScript Runtime Environment</p>
         </section>
 
         <!-- What is Node.js -->
-        <section class="slide">
+        <section class="slide" data-narration="Here's the key insight: Node.js is Chrome's V8 JavaScript engine extracted and packaged to run standalone. Before Node.js, JavaScript was confined to browsers. Now, the same language you use for frontend interactivity can build backend servers, command-line tools, and more. But for this course, we primarily need Node.js for npm—the Node Package Manager. npm gives us access to over a million open-source packages. Need a date formatting library? npm install it. Need a build tool? npm has dozens. This ecosystem is what makes modern web development so powerful.">
             <h1>What is Node.js?</h1>
             <p>Node.js lets you run JavaScript outside the browser.</p>
             <div class="two-column">
@@ -188,7 +188,7 @@
         </section>
 
         <!-- Installing Node.js -->
-        <section class="slide" id="nodejs-install">
+        <section class="slide" id="nodejs-install" data-narration="When you visit nodejs.org, you'll see two download options: LTS and Current. Always choose LTS for your development machine. LTS stands for Long Term Support—it's the stable, battle-tested version that companies run in production. The Current version has the newest features but may have bugs that haven't been discovered yet. LTS versions are supported for 30 months, giving the community time to find and fix issues. Professional developers stick with LTS unless they have a specific reason to need cutting-edge features.">
             <h1>Installing Node.js</h1>
             <ol>
                 <li>Visit <strong>nodejs.org</strong></li>
@@ -202,7 +202,7 @@
         </section>
 
         <!-- Verify Node Installation -->
-        <section class="slide">
+        <section class="slide" data-narration="After installation, verification is crucial. Open a new terminal window—this is important because existing terminals won't recognize the new PATH settings. Run 'node --version' to confirm Node.js is installed, then 'npm --version' for the package manager. If you see version numbers, you're good. If you get 'command not found,' try restarting your computer. Still having issues? The installer may not have added Node to your PATH correctly—a common problem we can troubleshoot together.">
             <h1>Verify Your Installation</h1>
             <p>Open a terminal and run these commands:</p>
             <pre><code>node --version
@@ -216,13 +216,13 @@ npm --version</code></pre>
         </section>
 
         <!-- Git Section Header -->
-        <section class="slide title-slide" id="git-section">
+        <section class="slide title-slide" id="git-section" data-narration="Now we come to Git—arguably the most important tool you'll learn in this course. Git is version control, and version control is how professional developers work. It's not optional; it's foundational. Every company you'll work for uses Git or something like it. Let's understand what it is and why it matters.">
             <h1>Git</h1>
             <p class="subtitle">Version Control System</p>
         </section>
 
         <!-- What is Git -->
-        <section class="slide" id="git-intro">
+        <section class="slide" id="git-intro" data-narration="Git was created by Linus Torvalds in 2005—the same person who created Linux. He built Git because existing version control systems couldn't handle the scale of Linux kernel development. Git is a distributed version control system, meaning every developer has a complete copy of the project history. This is powerful: you can work offline, you have automatic backups, and there's no single point of failure. Think of Git as an unlimited undo button that also lets you explore different timelines of your project. Made a mistake? Go back. Want to try something experimental? Create a branch. Changed your mind? Merge or delete it.">
             <h1>What is Git?</h1>
             <p>Git is a version control system that tracks changes to your code.</p>
             <div class="highlight-box">
@@ -238,7 +238,7 @@ npm --version</code></pre>
         </section>
 
         <!-- Installing Git -->
-        <section class="slide" id="git-install">
+        <section class="slide" id="git-install" data-narration="Git installation varies by operating system. On Windows, you'll download the installer from git-scm.com. During installation, the most important choice is enabling Git from the Windows Command Prompt—this lets you use Git from any terminal, not just Git Bash. On macOS, the easiest approach is to simply type 'git' in Terminal. If Git isn't installed, macOS will prompt you to install the Xcode Command Line Tools, which includes Git along with other development utilities. This takes a few minutes but gives you everything you need.">
             <h1>Installing Git</h1>
             <div class="two-column">
                 <div>
@@ -262,7 +262,7 @@ npm --version</code></pre>
         </section>
 
         <!-- Configure Git -->
-        <section class="slide" id="git-config">
+        <section class="slide" id="git-config" data-narration="Before you can use Git, you must tell it who you are. Every commit you make is stamped with your name and email—this is how teams know who made which changes. The --global flag means this identity applies to all repositories on your computer. Here's the critical part: use the same email address you'll use for GitHub. When you push commits to GitHub, it matches the email in your commits to GitHub accounts. Using a different email means your contributions won't be linked to your profile—bad for building your portfolio.">
             <h1>Configure Git</h1>
             <p>Set your identity for Git commits:</p>
             <pre><code>git config --global user.name "Your Name"
@@ -275,13 +275,13 @@ git config --global user.email "your.email@example.com"</code></pre>
         </section>
 
         <!-- GitHub Section Header -->
-        <section class="slide title-slide" id="github-section">
+        <section class="slide title-slide" id="github-section" data-narration="With Git installed and configured, let's connect it to GitHub. GitHub is where your code lives in the cloud. It's your backup, your portfolio, and your collaboration platform all in one. Over 100 million developers use GitHub—it's where open source happens and where employers look for candidates.">
             <h1>GitHub</h1>
             <p class="subtitle">Cloud-Based Code Hosting</p>
         </section>
 
         <!-- Git vs GitHub -->
-        <section class="slide">
+        <section class="slide" data-narration="This distinction confuses many beginners: Git and GitHub are not the same thing. Git is software that runs on your computer—it's the version control system that tracks changes. GitHub is a website that hosts Git repositories in the cloud. You could use Git without ever touching GitHub. You could also use alternatives like GitLab or Bitbucket. But GitHub has become the de facto standard for open source and many companies. Think of Git as your local tool and GitHub as the cloud service that lets you share and back up your work.">
             <h1>Git vs GitHub</h1>
             <div class="two-column">
                 <div>
@@ -309,7 +309,7 @@ git config --global user.email "your.email@example.com"</code></pre>
         </section>
 
         <!-- Create GitHub Account -->
-        <section class="slide" id="github-account">
+        <section class="slide" id="github-account" data-narration="Creating a GitHub account takes just a few minutes. When choosing your username, think long-term: this username will appear in every repository URL you create and on your public profile. Avoid numbers, underscores, or anything that looks unprofessional. Your GitHub profile is increasingly important for job hunting—recruiters and hiring managers will look at your contribution history, your projects, and how you write code. Start building that professional presence now.">
             <h1>Create a GitHub Account</h1>
             <ol>
                 <li>Visit <strong>github.com</strong></li>
@@ -324,7 +324,7 @@ git config --global user.email "your.email@example.com"</code></pre>
         </section>
 
         <!-- SSH Keys -->
-        <section class="slide" id="ssh-setup">
+        <section class="slide" id="ssh-setup" data-narration="SSH keys are the secure way to connect to GitHub. Instead of typing your password every time you push or pull, SSH uses cryptographic keys to authenticate you. It works like a lock and key: you generate a pair of keys—one private that stays on your computer, and one public that you give to GitHub. When you connect, GitHub challenges your computer to prove it has the private key that matches the public key you registered. This happens automatically and securely. The ed25519 algorithm we're using is modern and fast—it's the recommended choice for new keys.">
             <h1>Set Up SSH Keys</h1>
             <p>SSH keys let you connect to GitHub without entering your password each time.</p>
             <p><strong>Generate a new SSH key:</strong></p>
@@ -333,7 +333,7 @@ git config --global user.email "your.email@example.com"</code></pre>
         </section>
 
         <!-- Add SSH Key to GitHub -->
-        <section class="slide">
+        <section class="slide" data-narration="Now you need to give GitHub your public key. The 'cat' command displays your public key—notice the .pub extension means public. Copy everything from 'ssh-ed25519' through your email address. On GitHub, navigate to Settings, then SSH and GPG Keys. Paste your key there and give it a descriptive title like 'Work Laptop' or 'Home Desktop.' This helps you identify which key is which if you have multiple computers. Never share your private key—the file without the .pub extension. That must stay secret.">
             <h1>Add SSH Key to GitHub</h1>
             <ol>
                 <li>Copy your public key:
@@ -347,7 +347,7 @@ git config --global user.email "your.email@example.com"</code></pre>
         </section>
 
         <!-- Test SSH Connection -->
-        <section class="slide">
+        <section class="slide" data-narration="Let's verify everything works. This ssh command attempts to authenticate with GitHub without actually logging in. If you see 'Hi' followed by your username, you're all set. The message about shell access just means you can't use GitHub as a remote server—you can only use it for Git operations, which is exactly what we want. If you see permission denied or other errors, double-check that you copied the entire public key and that it's added to the correct GitHub account.">
             <h1>Test Your Connection</h1>
             <p>Verify SSH is working:</p>
             <pre><code>ssh -T git@github.com</code></pre>
@@ -359,13 +359,13 @@ git config --global user.email "your.email@example.com"</code></pre>
         </section>
 
         <!-- Basic Git Workflow Header -->
-        <section class="slide title-slide" id="git-workflow">
+        <section class="slide title-slide" id="git-workflow" data-narration="Now that we have Git installed and GitHub connected, let's learn the daily workflow. These commands will become second nature—you'll use them dozens of times per day as a professional developer. Master this workflow and you'll never lose code again.">
             <h1>Basic Git Workflow</h1>
             <p class="subtitle">Essential Commands</p>
         </section>
 
         <!-- Git Workflow Overview -->
-        <section class="slide">
+        <section class="slide" data-narration="Here's the mental model: Git works in stages. First, you make changes to files—just normal editing. Then you stage the changes you want to save—think of this as putting items in a box. Next, you commit those staged changes—sealing the box with a label describing what's inside. Finally, you push to GitHub—shipping the box to the cloud. This staged approach gives you precise control over what gets saved and when. You might change ten files but only want to commit three of them in one logical group.">
             <h1>The Git Workflow</h1>
             <div class="highlight-box">
                 <h2>Four Steps to Save Your Work</h2>
@@ -379,7 +379,7 @@ git config --global user.email "your.email@example.com"</code></pre>
         </section>
 
         <!-- Clone a Repository -->
-        <section class="slide">
+        <section class="slide" data-narration="Cloning is how you get a repository from GitHub onto your computer. When you clone, you get everything—all the files, all the history, all the branches. The SSH URL we're using starts with 'git@github.com' rather than 'https://'. Since you set up SSH keys, this URL will authenticate automatically. Cloning creates a new folder with the repository name, so make sure you're in the right parent directory before running the command.">
             <h1>Clone a Repository</h1>
             <p>Download a repository from GitHub to your computer:</p>
             <pre><code>git clone git@github.com:username/repository-name.git</code></pre>
@@ -390,7 +390,7 @@ git config --global user.email "your.email@example.com"</code></pre>
         </section>
 
         <!-- Check Status -->
-        <section class="slide">
+        <section class="slide" data-narration="Git status is your best friend—run it constantly. It tells you exactly what Git sees: which files are new, which are modified, and which are ready to commit. The output is color-coded: red means untracked or modified but not staged; green means staged and ready to commit. Make it a habit to run 'git status' before and after every Git operation. It helps you understand what's happening and catch mistakes before they become problems.">
             <h1>Check Repository Status</h1>
             <p>See what files have changed:</p>
             <pre><code>git status</code></pre>
@@ -403,7 +403,7 @@ git config --global user.email "your.email@example.com"</code></pre>
         </section>
 
         <!-- Stage Changes -->
-        <section class="slide">
+        <section class="slide" data-narration="The staging area is a Git concept that trips up beginners. Why not just commit directly? Because staging lets you craft meaningful commits. Say you fixed a bug and also reformatted some code. Those are two different logical changes. You can stage and commit the bug fix first, then stage and commit the formatting separately. This keeps your project history clean and makes it easier to review changes or roll back if needed. The 'git add .' shortcut stages everything, which is convenient but use it thoughtfully.">
             <h1>Stage Your Changes</h1>
             <p>Add files to the staging area:</p>
             <pre><code># Add a specific file
@@ -420,7 +420,7 @@ git add *.css</code></pre>
         </section>
 
         <!-- Commit Changes -->
-        <section class="slide">
+        <section class="slide" data-narration="A commit is a snapshot of your project at a point in time. The message describes what changed and why. Good commit messages are invaluable—when you're debugging six months from now, you'll thank yourself for writing clear messages. Start with an imperative verb: 'Add feature,' 'Fix bug,' 'Update styles.' Not 'Added' or 'Adding'—think of completing the sentence 'This commit will...' Keep the first line under 50 characters. If you need more detail, add a blank line and then a longer description.">
             <h1>Commit Your Changes</h1>
             <p>Save your staged changes with a message:</p>
             <pre><code>git commit -m "Add navigation menu to homepage"</code></pre>
@@ -435,7 +435,7 @@ git add *.css</code></pre>
         </section>
 
         <!-- Push to GitHub -->
-        <section class="slide">
+        <section class="slide" data-narration="Commits only exist locally until you push them. Think of push as syncing your local history with GitHub. The word 'origin' is an alias for your GitHub repository URL—Git sets this up automatically when you clone. 'main' is the branch name; historically this was called 'master,' but 'main' is now the standard. After pushing, your commits are backed up in the cloud, visible on GitHub, and available for collaborators to pull.">
             <h1>Push to GitHub</h1>
             <p>Upload your commits to GitHub:</p>
             <pre><code>git push origin main</code></pre>
@@ -447,7 +447,7 @@ git add *.css</code></pre>
         </section>
 
         <!-- Pull from GitHub -->
-        <section class="slide">
+        <section class="slide" data-narration="Pull is the opposite of push—it downloads commits from GitHub to your computer. This is essential when working with others. If a teammate pushes changes while you're working, you need to pull their changes before you can push yours. Make pulling the first thing you do when starting work. It only takes a second and prevents painful merge conflicts. Conflicts happen when you and someone else change the same lines of code—easier to prevent than to resolve.">
             <h1>Pull from GitHub</h1>
             <p>Download changes from GitHub to your computer:</p>
             <pre><code>git pull origin main</code></pre>
@@ -458,7 +458,7 @@ git add *.css</code></pre>
         </section>
 
         <!-- Common Git Commands Summary -->
-        <section class="slide" id="git-commands">
+        <section class="slide" id="git-commands" data-narration="Here's your quick reference card. These six commands cover 90% of your daily Git usage. Clone once to get the repository. Status constantly to see what's happening. Add to stage changes. Commit to save them locally. Push to upload to GitHub. Pull to download updates. Print this slide, tape it to your monitor, and use it until these commands become muscle memory. We'll learn more advanced Git operations later in the course, but master these first.">
             <h1>Git Commands Summary</h1>
             <table>
                 <thead>
@@ -497,7 +497,7 @@ git add *.css</code></pre>
         </section>
 
         <!-- Recommended Video -->
-        <section class="slide" id="video-resource">
+        <section class="slide" id="video-resource" data-narration="I highly recommend this video from freeCodeCamp. It's about an hour long and covers everything we discussed today, but with screen recordings showing exactly what to do. Watching someone else use Git helps cement the concepts. The instructor explains not just the commands but the thinking behind them. Bookmark this video—you'll probably return to it several times as you get comfortable with Git.">
             <h1>Recommended Video</h1>
             <p>For a comprehensive walkthrough of Git and GitHub, watch this excellent crash course:</p>
             <div class="video-feature">
@@ -514,7 +514,7 @@ git add *.css</code></pre>
         </section>
 
         <!-- Tips for Success -->
-        <section class="slide">
+        <section class="slide" data-narration="Let me share some wisdom from years of professional development. Commit often—small, focused commits are easier to understand and easier to undo if something goes wrong. Always pull before starting work to avoid conflicts with teammates. Push daily so your work is backed up. And please, read error messages. Git's error messages are actually helpful—they usually tell you exactly what went wrong and often suggest how to fix it. On the don't side: never commit passwords, API keys, or any credentials. Once they're in Git history, they're there forever, even if you delete the file. Keep commits focused—a commit that says 'Fixed stuff' with 50 changed files is useless for debugging. And don't panic about merge conflicts—they're normal and fixable.">
             <h1>Tips for Success</h1>
             <div class="two-column">
                 <div>
@@ -539,7 +539,7 @@ git add *.css</code></pre>
         </section>
 
         <!-- Practice Exercise -->
-        <section class="slide" id="practice-exercise">
+        <section class="slide" id="practice-exercise" data-narration="This is your hands-on assignment. Don't just read through these steps—actually do them. Learning Git requires muscle memory, and the only way to build that is through practice. Work through each step, and if you get stuck, that's valuable too—troubleshooting is a skill. Create that first repository, make some changes, commit them, and push. The satisfaction of seeing your code on GitHub is real. This exercise is the foundation for everything we'll do in the rest of the course.">
             <h1>Practice Exercise</h1>
             <div class="highlight-box">
                 <h2>Set Up Your Environment</h2>
@@ -555,7 +555,7 @@ git add *.css</code></pre>
         </section>
 
         <!-- Resources -->
-        <section class="slide" id="resources">
+        <section class="slide" id="resources" data-narration="These resources go deeper than what we covered today. The VS Code documentation is excellent—browse it to discover features you didn't know existed. The Pro Git book is the definitive reference, and it's free online. GitHub Skills offers interactive tutorials that walk you through real scenarios. If you want to truly master these tools, spend time with these resources. They're investments that will pay dividends throughout your career.">
             <h1>Additional Resources</h1>
             <ul>
                 <li><strong>VS Code Documentation:</strong> code.visualstudio.com/docs</li>
@@ -571,7 +571,7 @@ git add *.css</code></pre>
         </section>
 
         <!-- Summary -->
-        <section class="slide">
+        <section class="slide" data-narration="Let's recap what you've accomplished. You now have VS Code—the same editor used by millions of professional developers—configured with extensions that will boost your productivity. You have Node.js, giving you access to the npm ecosystem and the ability to run JavaScript anywhere. You have Git tracking your code changes, protecting you from lost work and enabling collaboration. And you have GitHub, your portfolio and backup in the cloud. This is a professional-grade setup. In the next module, we'll put these tools to work building actual web pages with HTML and CSS.">
             <h1>Module Summary</h1>
             <p>You now have a professional development environment:</p>
             <ul>
@@ -586,7 +586,7 @@ git add *.css</code></pre>
         </section>
 
         <!-- Questions -->
-        <section class="slide">
+        <section class="slide" data-narration="Before we wrap up, let's make sure everyone is set up correctly. Go through this checklist. If any item isn't checked off, now is the time to troubleshoot. Don't move forward with gaps in your setup—these tools are prerequisites for everything we'll do. If you're stuck on any step, ask for help. There's no shame in getting assistance with configuration issues; even experienced developers run into setup problems on new machines. Once your checklist is complete, you're ready for the next module.">
             <h1>Questions?</h1>
             <p>Make sure you have completed the practice exercise before moving on.</p>
             <div class="highlight-box">
