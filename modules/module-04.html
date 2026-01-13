@@ -67,6 +67,55 @@
             .dark-four-column { grid-template-columns: repeat(2, 1fr); }
             .feature-grid { grid-template-columns: 1fr; }
         }
+
+        /* Video thumbnail styles */
+        .video-thumbnail {
+            display: block;
+            max-width: 560px;
+            margin: 1.5rem auto;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            text-decoration: none;
+        }
+        .video-thumbnail:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.4);
+        }
+        .video-thumbnail img {
+            width: 100%;
+            display: block;
+        }
+        .video-thumbnail .video-info {
+            background: #0a66c2;
+            padding: 1rem 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+        .video-thumbnail .video-info .linkedin-logo {
+            width: 24px;
+            height: 24px;
+            background: #fff;
+            border-radius: 4px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            color: #0a66c2;
+            font-size: 14px;
+        }
+        .video-thumbnail .video-info .video-title {
+            color: #fff;
+            font-weight: 600;
+            font-size: 1.1rem;
+        }
+        .video-thumbnail .video-info .video-meta {
+            color: rgba(255,255,255,0.8);
+            font-size: 0.9rem;
+            margin-left: auto;
+        }
     </style>
 </head>
 <body>
@@ -80,9 +129,30 @@
             <p class="meta">Advanced Web Development</p>
         </section>
 
+        <!-- Recommended Resource: LinkedIn Learning -->
+        <section class="slide" id="linkedin-learning" data-narration="Before we dive in, I recommend this LinkedIn Learning course on TypeScript Essential Training. It's a comprehensive video course that complements what we'll cover in this module.">
+            <div class="dark-container">
+                <h2>Recommended Resource</h2>
+                <p class="subtitle">Supplement your learning with this video course</p>
+                <a href="https://www.linkedin.com/learning/typescript-essential-training-14687057" target="_blank" rel="noopener" class="video-thumbnail">
+                    <div style="background: linear-gradient(135deg, #3178c6 0%, #235a97 100%); padding: 3rem 2rem; text-align: center; color: #fff;">
+                        <div style="font-size: 4rem; margin-bottom: 1rem;">TS</div>
+                        <div style="font-size: 1.5rem; font-weight: 600;">TypeScript</div>
+                        <div style="font-size: 1rem; opacity: 0.9;">Essential Training</div>
+                    </div>
+                    <div class="video-info">
+                        <span class="linkedin-logo">in</span>
+                        <span class="video-title">TypeScript Essential Training</span>
+                        <span class="video-meta">LinkedIn Learning</span>
+                    </div>
+                </a>
+                <p style="text-align: center; margin-top: 1rem; font-size: 0.9rem;">Click to open in a new tab</p>
+            </div>
+        </section>
+
         <!-- ========== PART 1: TypeScript Essentials ========== -->
 
-        <!-- Slide 2: Part 1 Title -->
+        <!-- Part 1 Title -->
         <section class="slide title-slide" id="part1" data-narration="Part 1 introduces TypeScript - JavaScript with types. TypeScript catches errors before runtime and improves code quality through static type checking.">
             <h1>Part 1</h1>
             <p class="subtitle">TypeScript Essentials</p>
@@ -466,101 +536,52 @@
             </div>
         </section>
 
-        <!-- ========== PART 2: Hands-On Exercises ========== -->
+        <!-- ========== PART 2: Assignment ========== -->
 
-        <!-- Slide 17: Part 2 Title -->
-        <section class="slide title-slide" id="part2" data-narration="Part 2 contains hands-on exercises to practice what you've learned. Work through these TypeScript challenges to solidify your understanding.">
+        <!-- Part 2 Title -->
+        <section class="slide title-slide" id="part2" data-narration="Part 2 contains your assignment for this module. You'll complete a TypeScript tutorial and quiz to demonstrate your understanding.">
             <h1>Part 2</h1>
-            <p class="subtitle">Hands-On Exercises</p>
+            <p class="subtitle">Assignment</p>
         </section>
 
-        <!-- Slide 18: Exercise 1 - TypeScript Types -->
-        <section class="slide" id="exercise-1" data-narration="Exercise 1: Add TypeScript types to a shopping cart module. Define interfaces for products and cart items.">
+        <!-- Assignment -->
+        <section class="slide" id="assignment" data-narration="For this module's assignment, you need to complete the W3Schools TypeScript tutorial and then take the TypeScript quiz. Take a screenshot of your completed quiz results and submit it to Canvas.">
             <div class="dark-container">
-                <h2>Exercise 1: TypeScript Types</h2>
-                <p class="subtitle">Type a shopping cart module</p>
-                <div class="code-block" style="margin-top: 1rem;">
-<pre><span class="comment">// TODO: Define types for:
-// - Product (id, name, price, category)
-// - CartItem (product, quantity)
-// - Cart (items array, addItem, removeItem, getTotal)</span>
-
-<span class="keyword">interface</span> <span class="function">Product</span> {
-  <span class="comment">// Your types here</span>
-}
-
-<span class="keyword">interface</span> <span class="function">CartItem</span> {
-  <span class="comment">// Your types here</span>
-}
-
-<span class="keyword">interface</span> <span class="function">Cart</span> {
-  <span class="comment">// Your types here</span>
-}</pre>
-                </div>
-            </div>
-        </section>
-
-        <!-- Slide 19: Exercise 1 Solution -->
-        <section class="slide" id="exercise-1-solution" data-narration="Here's a well-typed shopping cart. Note the use of union types for category, readonly for immutable arrays, and optional return types.">
-            <div class="dark-container">
-                <h2>Exercise 1: Solution</h2>
-                <div class="code-block" style="margin-top: 1rem;">
-<pre><span class="keyword">interface</span> <span class="function">Product</span> {
-  id: <span class="function">string</span>;
-  name: <span class="function">string</span>;
-  price: <span class="function">number</span>;
-  category: <span class="string">'electronics'</span> | <span class="string">'clothing'</span> | <span class="string">'food'</span>;
-}
-
-<span class="keyword">interface</span> <span class="function">CartItem</span> {
-  product: <span class="function">Product</span>;
-  quantity: <span class="function">number</span>;
-}
-
-<span class="keyword">interface</span> <span class="function">Cart</span> {
-  <span class="keyword">readonly</span> items: <span class="function">CartItem</span>[];
-  <span class="function">addItem</span>(product: <span class="function">Product</span>, qty?: <span class="function">number</span>): <span class="function">void</span>;
-  <span class="function">removeItem</span>(productId: <span class="function">string</span>): <span class="function">boolean</span>;
-  <span class="function">getTotal</span>(): <span class="function">number</span>;
-}</pre>
-                </div>
-            </div>
-        </section>
-
-        <!-- Slide 20: Challenge Exercise -->
-        <section class="slide" id="challenge" data-narration="Challenge: Combine everything you've learned. Build a weather app that fetches data from an API, uses TypeScript, and updates the DOM dynamically.">
-            <div class="dark-container">
-                <h2>Challenge: Weather App</h2>
-                <p class="subtitle">Combine all your TypeScript skills</p>
+                <h2>Module 4 Assignment</h2>
+                <p class="subtitle">Complete the following steps</p>
                 <div class="feature-grid" style="margin-top: 1.5rem;">
                     <div class="feature-item">
-                        <span class="feature-icon">1</span>
+                        <span class="feature-icon" style="font-size: 2rem;">1</span>
                         <div class="feature-text">
-                            <strong>Fetch API</strong>
-                            Get weather data from OpenWeatherMap
+                            <strong>Complete the W3Schools TypeScript Exercises</strong>
+                            Work through the exercises to practice TypeScript
                         </div>
                     </div>
                     <div class="feature-item">
-                        <span class="feature-icon">2</span>
+                        <span class="feature-icon" style="font-size: 2rem;">2</span>
                         <div class="feature-text">
-                            <strong>TypeScript</strong>
-                            Type the API response and app state
+                            <strong>Take the TypeScript Quiz</strong>
+                            Test your knowledge with the W3Schools quiz
                         </div>
                     </div>
                     <div class="feature-item">
-                        <span class="feature-icon">3</span>
+                        <span class="feature-icon" style="font-size: 2rem;">3</span>
                         <div class="feature-text">
-                            <strong>DOM Updates</strong>
-                            Display weather with dynamic UI
+                            <strong>Screenshot Your Results</strong>
+                            Capture a screenshot showing your quiz score
                         </div>
                     </div>
                     <div class="feature-item">
-                        <span class="feature-icon">4</span>
+                        <span class="feature-icon" style="font-size: 2rem;">4</span>
                         <div class="feature-text">
-                            <strong>Error Handling</strong>
-                            Handle network and API errors
+                            <strong>Submit to Canvas</strong>
+                            Upload your screenshot to the Module 4 assignment
                         </div>
                     </div>
+                </div>
+                <div style="margin-top: 2rem; text-align: center; display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;">
+                    <a href="https://www.w3schools.com/typescript/typescript_exercises.php" target="_blank" rel="noopener" style="display: inline-block; background: #3d4a5d; color: #fff; padding: 1rem 2rem; border-radius: 8px; text-decoration: none; font-weight: 600; font-size: 1.1rem; transition: background 0.2s ease;">Start the Exercises</a>
+                    <a href="https://www.w3schools.com/typescript/typescript_quiz.php" target="_blank" rel="noopener" style="display: inline-block; background: #2dd4bf; color: #1a2332; padding: 1rem 2rem; border-radius: 8px; text-decoration: none; font-weight: 600; font-size: 1.1rem; transition: background 0.2s ease;">Take the TypeScript Quiz</a>
                 </div>
             </div>
         </section>
@@ -577,7 +598,7 @@
                     </div>
                     <div class="dark-card">
                         <h4>Part 2</h4>
-                        <p>Hands-On Practice - typing real applications</p>
+                        <p>Assignment - W3Schools exercises and quiz</p>
                     </div>
                 </div>
                 <p style="text-align: center; margin-top: 1.5rem; color: #2dd4bf; font-size: 1.2rem;">Types make your code safer and more maintainable!</p>

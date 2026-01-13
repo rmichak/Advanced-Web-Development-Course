@@ -80,6 +80,95 @@
             .dark-four-column { grid-template-columns: repeat(2, 1fr); }
             .feature-grid { grid-template-columns: 1fr; }
         }
+
+        /* Video thumbnail styles */
+        .video-thumbnail {
+            display: block;
+            max-width: 560px;
+            margin: 1.5rem auto;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            text-decoration: none;
+        }
+        .video-thumbnail:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.4);
+        }
+        .video-thumbnail img {
+            width: 100%;
+            display: block;
+        }
+        .video-thumbnail .video-info {
+            background: #0a66c2;
+            padding: 1rem 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+        .video-thumbnail .video-info .linkedin-logo {
+            width: 24px;
+            height: 24px;
+            background: #fff;
+            border-radius: 4px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            color: #0a66c2;
+            font-size: 14px;
+        }
+        .video-thumbnail .video-info .video-title {
+            color: #fff;
+            font-weight: 600;
+            font-size: 1.1rem;
+        }
+        .video-thumbnail .video-info .video-meta {
+            color: rgba(255,255,255,0.8);
+            font-size: 0.9rem;
+            margin-left: auto;
+        }
+
+        /* Resource links styles */
+        .resource-list {
+            list-style: none;
+            padding: 0;
+            margin: 1.5rem 0;
+        }
+        .resource-list li {
+            margin-bottom: 1rem;
+        }
+        .resource-link {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 1rem 1.5rem;
+            background: #2d3a4d;
+            border-radius: 8px;
+            text-decoration: none;
+            transition: background 0.2s ease, transform 0.2s ease;
+            border-left: 3px solid #2dd4bf;
+        }
+        .resource-link:hover {
+            background: #3d4a5d;
+            transform: translateX(4px);
+        }
+        .resource-link .resource-icon {
+            font-size: 1.5rem;
+            width: 40px;
+            text-align: center;
+        }
+        .resource-link .resource-info h4 {
+            color: #fff;
+            margin: 0 0 0.25rem 0;
+            font-size: 1.1rem;
+        }
+        .resource-link .resource-info p {
+            color: #94a3b8;
+            margin: 0;
+            font-size: 0.9rem;
+        }
     </style>
 </head>
 <body>
@@ -93,7 +182,28 @@
             <p class="meta">Advanced Web Development</p>
         </section>
 
-        <!-- Slide 2: Part 1 Title -->
+        <!-- Recommended Resource: LinkedIn Learning -->
+        <section class="slide" id="linkedin-learning" data-narration="Before we dive in, I recommend this LinkedIn Learning course on JavaScript Essential Training. It's a comprehensive video course that complements what we'll cover in this module.">
+            <div class="dark-container">
+                <h2>Recommended Resource</h2>
+                <p class="subtitle">Supplement your learning with this video course</p>
+                <a href="https://www.linkedin.com/learning/javascript-essential-training" target="_blank" rel="noopener" class="video-thumbnail">
+                    <div style="background: linear-gradient(135deg, #f7df1e 0%, #d4b800 100%); padding: 3rem 2rem; text-align: center;">
+                        <div style="font-size: 4rem; margin-bottom: 1rem;">JS</div>
+                        <div style="font-size: 1.5rem; font-weight: 600; color: #1a1a1a;">JavaScript</div>
+                        <div style="font-size: 1rem; color: #333;">Essential Training</div>
+                    </div>
+                    <div class="video-info">
+                        <span class="linkedin-logo">in</span>
+                        <span class="video-title">JavaScript Essential Training</span>
+                        <span class="video-meta">LinkedIn Learning</span>
+                    </div>
+                </a>
+                <p style="text-align: center; margin-top: 1rem; font-size: 0.9rem;">Click to open in a new tab</p>
+            </div>
+        </section>
+
+        <!-- Part 1 Title -->
         <section class="slide title-slide" id="part1" data-narration="Let's start with Part 1, exploring the history and origins of JavaScript. Understanding where JavaScript came from helps us appreciate its quirks and design decisions.">
             <h1>Part 1</h1>
             <p class="subtitle">JavaScript History & Origins</p>
@@ -1785,119 +1895,99 @@ npm test</pre>
             </div>
         </section>
 
-        <!-- ========== PART 5: Hands-On Exercises ========== -->
+        <!-- ========== PART 5: Assignment ========== -->
 
         <!-- Part 5 Title -->
-        <section class="slide title-slide" id="part5" data-narration="Part 5 contains hands-on exercises to practice what you've learned. Work through these challenges to solidify your JavaScript skills.">
+        <section class="slide title-slide" id="part5" data-narration="Part 5 contains your assignment for this module. You'll complete a JavaScript tutorial and quiz to demonstrate your understanding.">
             <h1>Part 5</h1>
-            <p class="subtitle">Hands-On Exercises</p>
+            <p class="subtitle">Assignment</p>
         </section>
 
-        <!-- Slide 87: Exercise 1 - Array Methods -->
-        <section class="slide" id="exercise-1" data-narration="Exercise 1: Use array methods to transform data. Practice map, filter, and reduce to manipulate arrays functionally.">
+        <!-- Assignment -->
+        <section class="slide" id="assignment" data-narration="For this module's assignment, you need to complete the W3Schools JavaScript tutorial and then take the JavaScript quiz. Take a screenshot of your completed quiz results and submit it to Canvas.">
             <div class="dark-container">
-                <h2>Exercise 1: Array Methods</h2>
-                <p class="subtitle">Transform user data using map, filter, reduce</p>
-                <div class="code-block" style="margin-top: 1rem;">
-<pre><span class="keyword">const</span> users = [
-  { name: <span class="string">'Alice'</span>, age: <span class="number">25</span>, active: <span class="keyword">true</span> },
-  { name: <span class="string">'Bob'</span>, age: <span class="number">30</span>, active: <span class="keyword">false</span> },
-  { name: <span class="string">'Carol'</span>, age: <span class="number">35</span>, active: <span class="keyword">true</span> },
-  { name: <span class="string">'Dave'</span>, age: <span class="number">28</span>, active: <span class="keyword">true</span> }
-];
-
-<span class="comment">// TODO:
-// 1. Get names of active users only
-// 2. Calculate average age
-// 3. Find oldest active user</span></pre>
+                <h2>Module 3 Assignment</h2>
+                <p class="subtitle">Complete the following steps</p>
+                <div class="feature-grid" style="margin-top: 1.5rem;">
+                    <div class="feature-item">
+                        <span class="feature-icon" style="font-size: 2rem;">1</span>
+                        <div class="feature-text">
+                            <strong>Complete the W3Schools JavaScript Tutorial</strong>
+                            Work through the tutorial to learn JavaScript fundamentals
+                        </div>
+                    </div>
+                    <div class="feature-item">
+                        <span class="feature-icon" style="font-size: 2rem;">2</span>
+                        <div class="feature-text">
+                            <strong>Take the JavaScript Quiz</strong>
+                            Test your knowledge with the W3Schools quiz
+                        </div>
+                    </div>
+                    <div class="feature-item">
+                        <span class="feature-icon" style="font-size: 2rem;">3</span>
+                        <div class="feature-text">
+                            <strong>Screenshot Your Results</strong>
+                            Capture a screenshot showing your quiz score
+                        </div>
+                    </div>
+                    <div class="feature-item">
+                        <span class="feature-icon" style="font-size: 2rem;">4</span>
+                        <div class="feature-text">
+                            <strong>Submit to Canvas</strong>
+                            Upload your screenshot to the Module 3 assignment
+                        </div>
+                    </div>
+                </div>
+                <div style="margin-top: 2rem; text-align: center; display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;">
+                    <a href="https://www.w3schools.com/js/default.asp" target="_blank" rel="noopener" style="display: inline-block; background: #3d4a5d; color: #fff; padding: 1rem 2rem; border-radius: 8px; text-decoration: none; font-weight: 600; font-size: 1.1rem; transition: background 0.2s ease;">Start the Tutorial</a>
+                    <a href="https://www.w3schools.com/js/js_quiz.asp" target="_blank" rel="noopener" style="display: inline-block; background: #2dd4bf; color: #1a2332; padding: 1rem 2rem; border-radius: 8px; text-decoration: none; font-weight: 600; font-size: 1.1rem; transition: background 0.2s ease;">Take the JavaScript Quiz</a>
                 </div>
             </div>
         </section>
 
-        <!-- Slide 88: Exercise 1 Solution -->
-        <section class="slide" id="exercise-1-solution" data-narration="Here's the solution. Chain filter and map to get active user names. Use reduce to calculate average and find to get the oldest active user.">
+        <!-- Additional Resources -->
+        <section class="slide" id="resources" data-narration="Here are some additional resources to help you continue learning JavaScript. These include documentation, tutorials, and practice exercises.">
             <div class="dark-container">
-                <h2>Exercise 1: Solution</h2>
-                <div class="code-block" style="margin-top: 1rem;">
-<pre><span class="comment">// 1. Names of active users</span>
-<span class="keyword">const</span> activeNames = users
-  .<span class="function">filter</span>(u => u.active)
-  .<span class="function">map</span>(u => u.name);  <span class="comment">// ['Alice', 'Carol', 'Dave']</span>
-
-<span class="comment">// 2. Average age</span>
-<span class="keyword">const</span> avgAge = users.<span class="function">reduce</span>((sum, u) => sum + u.age, <span class="number">0</span>)
-  / users.length;  <span class="comment">// 29.5</span>
-
-<span class="comment">// 3. Oldest active user</span>
-<span class="keyword">const</span> oldest = users
-  .<span class="function">filter</span>(u => u.active)
-  .<span class="function">reduce</span>((max, u) => u.age > max.age ? u : max);
-<span class="comment">// { name: 'Carol', age: 35, active: true }</span></pre>
-                </div>
-            </div>
-        </section>
-
-        <!-- Slide 89: Exercise 2 - Async/Await -->
-        <section class="slide" id="exercise-2" data-narration="Exercise 2: Build a function that fetches data from an API with proper error handling. Practice async/await and try-catch patterns.">
-            <div class="dark-container">
-                <h2>Exercise 2: Async/Await</h2>
-                <p class="subtitle">Build a data fetcher with error handling</p>
-                <div class="code-block" style="margin-top: 1rem;">
-<pre><span class="comment">// TODO: Create a function that:
-// 1. Fetches user from /api/users/:id
-// 2. Fetches posts for that user from /api/users/:id/posts
-// 3. Returns combined { user, posts } object
-// 4. Handles errors gracefully</span>
-
-<span class="keyword">async function</span> <span class="function">getUserWithPosts</span>(userId) {
-  <span class="comment">// Your code here</span>
-}</pre>
-                </div>
-            </div>
-        </section>
-
-        <!-- Slide 90: Exercise 2 Solution -->
-        <section class="slide" id="exercise-2-solution" data-narration="Here's the solution with proper async/await and error handling. Note how we validate response status before parsing JSON.">
-            <div class="dark-container">
-                <h2>Exercise 2: Solution</h2>
-                <div class="code-block" style="margin-top: 1rem;">
-<pre><span class="keyword">async function</span> <span class="function">getUserWithPosts</span>(userId) {
-  <span class="keyword">try</span> {
-    <span class="keyword">const</span> userRes = <span class="keyword">await</span> <span class="function">fetch</span>(<span class="string">`/api/users/${userId}`</span>);
-    <span class="keyword">if</span> (!userRes.ok) <span class="keyword">throw new</span> <span class="function">Error</span>(<span class="string">'User not found'</span>);
-    <span class="keyword">const</span> user = <span class="keyword">await</span> userRes.<span class="function">json</span>();
-
-    <span class="keyword">const</span> postsRes = <span class="keyword">await</span> <span class="function">fetch</span>(<span class="string">`/api/users/${userId}/posts`</span>);
-    <span class="keyword">if</span> (!postsRes.ok) <span class="keyword">throw new</span> <span class="function">Error</span>(<span class="string">'Posts not found'</span>);
-    <span class="keyword">const</span> posts = <span class="keyword">await</span> postsRes.<span class="function">json</span>();
-
-    <span class="keyword">return</span> { user, posts };
-  } <span class="keyword">catch</span> (error) {
-    <span class="function">console</span>.<span class="function">error</span>(<span class="string">'Failed:'</span>, error.message);
-    <span class="keyword">throw</span> error;
-  }
-}</pre>
-                </div>
-            </div>
-        </section>
-
-        <!-- Exercise 3 - DOM Manipulation -->
-        <section class="slide" id="exercise-3" data-narration="Exercise 3: Build a dynamic todo list using DOM manipulation. Practice creating elements, handling events, and updating the UI.">
-            <div class="dark-container">
-                <h2>Exercise 3: Todo List</h2>
-                <p class="subtitle">Build a dynamic todo list</p>
-                <div class="code-block" style="margin-top: 1rem;">
-<pre><span class="comment">// TODO: Create a todo list that:
-// 1. Has an input field and "Add" button
-// 2. Adds new todos to a list when button clicked
-// 3. Each todo has a "Delete" button
-// 4. Clicking a todo toggles "completed" class</span>
-
-<span class="comment">// HTML structure:</span>
-<span class="comment">// &lt;input id="todoInput"&gt;</span>
-<span class="comment">// &lt;button id="addBtn"&gt;Add&lt;/button&gt;</span>
-<span class="comment">// &lt;ul id="todoList"&gt;&lt;/ul&gt;</span></pre>
-                </div>
+                <h2>Additional Resources</h2>
+                <p class="subtitle">Continue your JavaScript learning journey</p>
+                <ul class="resource-list">
+                    <li>
+                        <a href="https://www.linkedin.com/learning/javascript-essential-training" target="_blank" rel="noopener" class="resource-link">
+                            <span class="resource-icon">in</span>
+                            <div class="resource-info">
+                                <h4>JavaScript Essential Training</h4>
+                                <p>Comprehensive video course on LinkedIn Learning</p>
+                            </div>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://developer.mozilla.org/en-US/docs/Learn_web_development/Getting_started/Your_first_website/Adding_interactivity" target="_blank" rel="noopener" class="resource-link">
+                            <span class="resource-icon">MDN</span>
+                            <div class="resource-info">
+                                <h4>MDN: Adding Interactivity</h4>
+                                <p>Mozilla's guide to making websites interactive with JavaScript</p>
+                            </div>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://www.w3schools.com/js/default.asp" target="_blank" rel="noopener" class="resource-link">
+                            <span class="resource-icon">W3</span>
+                            <div class="resource-info">
+                                <h4>W3Schools JavaScript Tutorial</h4>
+                                <p>Step-by-step JavaScript tutorial with examples</p>
+                            </div>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://www.w3schools.com/js/js_exercises.asp" target="_blank" rel="noopener" class="resource-link">
+                            <span class="resource-icon">W3</span>
+                            <div class="resource-info">
+                                <h4>W3Schools JavaScript Exercises</h4>
+                                <p>Practice exercises to test your JavaScript skills</p>
+                            </div>
+                        </a>
+                    </li>
+                </ul>
             </div>
         </section>
 
@@ -1925,7 +2015,7 @@ npm test</pre>
                     </div>
                     <div class="dark-card">
                         <h4>Part 5</h4>
-                        <p>Hands-On Practice</p>
+                        <p>Assignment</p>
                     </div>
                 </div>
                 <p style="text-align: center; margin-top: 1.5rem; color: #2dd4bf; font-size: 1.2rem;">Keep building, keep learning!</p>
