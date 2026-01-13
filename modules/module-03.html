@@ -176,17 +176,17 @@
         <!-- ========== PART 1: JavaScript History & Origins ========== -->
 
         <!-- Slide 1: Title -->
-        <section class="slide title-slide" data-narration="Welcome to Module 3 where we'll explore JavaScript fundamentals. This comprehensive module covers everything from JavaScript's origins to modern development practices.">
+        <section class="slide title-slide" data-narration="Welcome to Module 3 where we'll explore JavaScript fundamentals. This comprehensive module covers everything from JavaScript's origins to modern development practices. JavaScript is the programming language of the web, running in every browser and now on servers via Node.js. We'll trace its 10-day creation story, understand ECMAScript standardization, and learn the core language features you'll use every day. By the end, you'll understand both the 'why' behind JavaScript's quirks and the 'how' of writing modern, clean code. This knowledge forms the foundation for everything else in web development.">
             <h1>Module 3</h1>
             <p class="subtitle">JavaScript Fundamentals</p>
             <p class="meta">Advanced Web Development</p>
         </section>
 
         <!-- Recommended Resource: LinkedIn Learning -->
-        <section class="slide" id="linkedin-learning" data-narration="Before we dive in, I recommend this LinkedIn Learning course on JavaScript Essential Training. It's a comprehensive video course that complements what we'll cover in this module.">
+        <section class="slide" id="linkedin-learning" data-narration="Before we dive in, I recommend this LinkedIn Learning course on JavaScript Essential Training. It's a comprehensive video course that complements what we'll cover in this module. The course is taught by experienced instructors and covers topics from basic syntax to advanced patterns. You'll see real-world coding examples and can follow along at your own pace. LinkedIn Learning is free through many universities and libraries. I suggest watching the videos alongside our slides - they reinforce each other well. The hands-on exercises in the course are particularly valuable for building muscle memory with JavaScript syntax.">
             <div class="dark-container">
                 <h2>Recommended Resource</h2>
-                <p class="subtitle">Supplement your learning with this video course</p>
+                <p class="subtitle">Free video training to supplement your JavaScript learning journey</p>
                 <a href="https://www.linkedin.com/learning/javascript-essential-training" target="_blank" rel="noopener" class="video-thumbnail">
                     <div style="background: linear-gradient(135deg, #f7df1e 0%, #d4b800 100%); padding: 3rem 2rem; text-align: center;">
                         <div style="font-size: 4rem; margin-bottom: 1rem;">JS</div>
@@ -204,16 +204,16 @@
         </section>
 
         <!-- Part 1 Title -->
-        <section class="slide title-slide" id="part1" data-narration="Let's start with Part 1, exploring the history and origins of JavaScript. Understanding where JavaScript came from helps us appreciate its quirks and design decisions.">
+        <section class="slide title-slide" id="part1" data-narration="Let's start with Part 1, exploring the history and origins of JavaScript. Understanding where JavaScript came from helps us appreciate its quirks and design decisions. Many of JavaScript's unusual behaviors - like type coercion, loose equality, and hoisting - make more sense when you know it was created in just 10 days. We'll also cover the browser wars, ECMAScript standardization, and Node.js revolution. This historical context isn't just trivia - it explains why JavaScript code written 20 years ago still runs today, and why certain patterns became best practices. Knowing this history makes you a more informed developer.">
             <h1>Part 1</h1>
             <p class="subtitle">JavaScript History & Origins</p>
         </section>
 
         <!-- Slide 3: 10 Days -->
-        <section class="slide" id="js-creation" data-narration="JavaScript was created in just 10 days by Brendan Eich at Netscape in 1995. This incredibly short development timeline explains many of JavaScript's quirks and unusual behaviors.">
+        <section class="slide" id="js-creation" data-narration="JavaScript was created in just 10 days by Brendan Eich at Netscape in 1995. This incredibly short development timeline explains many of JavaScript's quirks and unusual behaviors. Netscape needed a scripting language for their browser immediately to compete with Microsoft. Eich drew inspiration from Scheme (functional programming), Self (prototypes), and Java (syntax). The time pressure meant some decisions were made hastily - like automatic semicolon insertion and loose type coercion. Despite these quirks, the core design was solid enough that we're still using JavaScript 30 years later. It's a testament to Eich's skill that a 10-day prototype became the world's most-used programming language.">
             <div class="dark-container">
                 <h2>The Birth of JavaScript</h2>
-                <p class="subtitle">A language created under pressure</p>
+                <p class="subtitle">JavaScript was created in just 10 days under intense deadline pressure, which explains many of its quirks.</p>
                 <div style="text-align: center; margin: 2rem 0;">
                     <div class="big-number">10</div>
                     <div class="stat-label">Days to Create JavaScript</div>
@@ -223,9 +223,10 @@
         </section>
 
         <!-- Slide 4: Original Names -->
-        <section class="slide" id="js-names" data-narration="JavaScript went through several name changes. It started as Mocha, became LiveScript, and was finally renamed JavaScript as a marketing strategy to capitalize on Java's popularity.">
+        <section class="slide" id="js-names" data-narration="JavaScript went through several name changes. It started as Mocha, became LiveScript, and was finally renamed JavaScript as a marketing strategy to capitalize on Java's popularity. The name 'JavaScript' has caused endless confusion - it has almost nothing to do with Java! The naming was a pure marketing decision during a time when Java was the hot new technology. Sun Microsystems (Java's creator) actually licensed the name to Netscape. This marketing legacy still confuses beginners today. Remember: JavaScript is to Java as hamburger is to ham - the name is misleading. The languages have different syntax, different paradigms, and different use cases.">
             <div class="dark-container">
                 <h2>What's in a Name?</h2>
+                <p class="subtitle">JavaScript's name was a marketing decision, not a technical one - it's unrelated to Java.</p>
                 <div class="flow-diagram">
                     <div class="flow-box">
                         <div class="label">1995</div>
@@ -247,10 +248,10 @@
         </section>
 
         <!-- Slide 5: Browser Wars -->
-        <section class="slide" id="browser-wars" data-narration="The browser wars between Netscape and Microsoft created competing JavaScript implementations. Microsoft's JScript was similar but not identical, leading to compatibility nightmares for developers.">
+        <section class="slide" id="browser-wars" data-narration="The browser wars between Netscape and Microsoft created competing JavaScript implementations. Microsoft's JScript was similar but not identical, leading to compatibility nightmares for developers. Microsoft reverse-engineered JavaScript to create JScript for Internet Explorer, but added their own proprietary features. Developers had to write separate code paths for each browser, often using 'browser sniffing' to detect which browser was running. This era gave us infamous patterns like 'document.all' for IE and 'document.layers' for Netscape. The pain of this period directly led to the push for web standards. Libraries like jQuery later emerged specifically to smooth over these browser differences. Understanding this history explains why web standards matter so much today.">
             <div class="dark-container">
                 <h2>The Browser Wars</h2>
-                <p class="subtitle">1995-2001: Competition breeds fragmentation</p>
+                <p class="subtitle">Competing browser implementations created compatibility nightmares that shaped modern web standards.</p>
                 <div class="dark-two-column">
                     <div class="dark-card">
                         <h4>Netscape Navigator</h4>
@@ -268,10 +269,10 @@
         </section>
 
         <!-- Slide 6: ECMAScript -->
-        <section class="slide" id="ecmascript" data-narration="To bring order to the chaos, JavaScript was standardized as ECMAScript by ECMA International in 1997. ECMAScript is the official specification that JavaScript implements.">
+        <section class="slide" id="ecmascript" data-narration="To bring order to the chaos, JavaScript was standardized as ECMAScript by ECMA International in 1997. ECMAScript is the official specification that JavaScript implements. ECMA-262 is the formal document that defines the language's syntax and behavior. The TC39 committee, made up of browser vendors and JavaScript experts, meets regularly to evolve the language. New features go through a multi-stage proposal process before being added to the spec. This careful process ensures backwards compatibility - code written decades ago still works. When you hear 'ES6' or 'ES2015', that refers to specific versions of this specification. Understanding ECMAScript helps you know which features are universally supported vs. which need transpilation.">
             <div class="dark-container">
                 <h2>ECMAScript: The Standard</h2>
-                <p class="subtitle">Bringing order to chaos (1997)</p>
+                <p class="subtitle">ECMAScript is the official specification that defines JavaScript's syntax and behavior.</p>
                 <div class="feature-grid" style="margin-top: 1.5rem;">
                     <div class="feature-item">
                         <span class="feature-icon">&#10003;</span>
@@ -306,9 +307,10 @@
         </section>
 
         <!-- Slide 7: ES Version Timeline -->
-        <section class="slide" id="es-versions" data-narration="Here's a timeline of major ECMAScript versions. ES3 in 1999 was widely adopted, ES5 in 2009 added strict mode, and ES6 in 2015 was a massive update that modernized the language.">
+        <section class="slide" id="es-versions" data-narration="Here's a timeline of major ECMAScript versions. ES3 in 1999 was widely adopted, ES5 in 2009 added strict mode, and ES6 in 2015 was a massive update that modernized the language. ES4 was actually abandoned due to scope creep and disagreements - a cautionary tale about over-ambitious rewrites. The 10-year gap between ES3 and ES5 led to stagnation, but ES6 brought the language into the modern era with classes, modules, arrow functions, let/const, and much more. Since ES2016, we get smaller yearly updates instead of massive releases. Each version is fully backwards compatible, so you can mix old and new syntax. Tools like Babel can transpile newer syntax to older versions for browser compatibility.">
             <div class="dark-container">
                 <h2>ECMAScript Evolution</h2>
+                <p class="subtitle">From ES3 to modern yearly releases - how JavaScript's specification has evolved over time.</p>
                 <div class="timeline" style="margin-top: 1.5rem;">
                     <div class="timeline-item">
                         <div class="timeline-year">ES3 (1999)</div>
@@ -331,10 +333,10 @@
         </section>
 
         <!-- Slide 8: Node.js Revolution -->
-        <section class="slide" id="nodejs" data-narration="In 2009, Node.js changed everything by bringing JavaScript to the server. Built on Chrome's V8 engine, it enabled full-stack JavaScript development and spawned a massive ecosystem.">
+        <section class="slide" id="nodejs" data-narration="In 2009, Node.js changed everything by bringing JavaScript to the server. Built on Chrome's V8 engine, it enabled full-stack JavaScript development and spawned a massive ecosystem. Ryan Dahl created Node.js to solve the 'C10K problem' - handling 10,000+ concurrent connections. Its event-driven, non-blocking architecture made it ideal for I/O-heavy applications like APIs and real-time apps. Node brought us npm, now the world's largest software registry with over 2 million packages. This enabled modern build tools like webpack, esbuild, and Vite. Node.js means you can use JavaScript for frontend, backend, CLI tools, desktop apps, and more. It's why 'full-stack JavaScript developer' is now a viable career path.">
             <div class="dark-container">
                 <h2>Node.js: JavaScript Everywhere</h2>
-                <p class="subtitle">2009 - Server-side JavaScript becomes reality</p>
+                <p class="subtitle">Node.js brought JavaScript to the server, enabling full-stack development with one language.</p>
                 <div class="dark-two-column" style="margin-top: 1.5rem;">
                     <div>
                         <h3>What Node.js Enabled</h3>
@@ -359,10 +361,10 @@
         </section>
 
         <!-- Slide 9: JS vs Java -->
-        <section class="slide" id="js-vs-java" data-narration="A common confusion: JavaScript and Java are completely different languages. They share a name for marketing reasons only. Java is statically typed and compiled, JavaScript is dynamic and interpreted.">
+        <section class="slide" id="js-vs-java" data-narration="A common confusion: JavaScript and Java are completely different languages. They share a name for marketing reasons only. Java is statically typed and compiled, JavaScript is dynamic and interpreted. Java requires you to declare types for every variable; JavaScript figures out types at runtime. Java uses classical inheritance with classes; JavaScript uses prototype-based inheritance (though ES6 added class syntax as syntactic sugar). Java runs on the JVM and is popular for enterprise backends and Android apps. JavaScript runs in browsers and Node.js, dominating web development. The only real similarity is some C-like syntax with curly braces and semicolons. Don't let the name confuse you - they're as different as car and carpet!">
             <div class="dark-container">
                 <h2>JavaScript vs Java</h2>
-                <p class="subtitle">Completely different languages!</p>
+                <p class="subtitle">Despite the similar name, JavaScript and Java are completely different programming languages.</p>
                 <table class="dark-table">
                     <tr>
                         <th>JavaScript</th>
@@ -389,9 +391,10 @@
         </section>
 
         <!-- Slide 10: Modern JS Stats -->
-        <section class="slide" id="js-stats" data-narration="Today, JavaScript is the most popular programming language in the world. It powers 98% of websites and has millions of npm packages. Understanding JavaScript is essential for web development.">
+        <section class="slide" id="js-stats" data-narration="Today, JavaScript is the most popular programming language in the world. It powers 98% of websites and has millions of npm packages. Understanding JavaScript is essential for web development. JavaScript has topped the Stack Overflow Developer Survey as the most-used language for over a decade. The npm registry hosts over 2 million packages, dwarfing every other package ecosystem. Every major tech company uses JavaScript extensively - from Google and Facebook to Netflix and Amazon. Even if you specialize in backend or mobile, you'll encounter JavaScript. The language's ubiquity means JavaScript skills are highly marketable and transferable. Learning JavaScript well opens doors across the entire software industry.">
             <div class="dark-container">
                 <h2>JavaScript Today</h2>
+                <p class="subtitle">JavaScript is the world's most popular programming language with an unmatched ecosystem.</p>
                 <div class="dark-three-column" style="margin-top: 1.5rem; text-align: center;">
                     <div>
                         <div class="big-number" style="font-size: 3rem;">98%</div>
@@ -410,10 +413,10 @@
         </section>
 
         <!-- Slide 11: Why JS Quirks -->
-        <section class="slide" id="js-quirks" data-narration="JavaScript has many quirks because of its rushed creation and backward compatibility requirements. Understanding these helps you avoid common pitfalls.">
+        <section class="slide" id="js-quirks" data-narration="JavaScript has many quirks because of its rushed creation and backward compatibility requirements. Understanding these helps you avoid common pitfalls. Type coercion can produce surprising results like '5' - 3 equaling 2 while '5' + 3 equals '53'. Variables declared with var are hoisted and function-scoped, leading to unexpected behavior. The this keyword behaves differently depending on how a function is called. Forgetting var/let/const creates global variables accidentally. These aren't bugs - they're features from 1995 that can't be removed without breaking existing websites. Modern JavaScript practices (strict mode, const/let, arrow functions) help you avoid these traps.">
             <div class="dark-container">
                 <h2>Why the Quirks?</h2>
-                <p class="subtitle">Historical context explains a lot</p>
+                <p class="subtitle">JavaScript's unusual behaviors come from its rushed creation and strict backwards compatibility.</p>
                 <div class="dark-two-column" style="margin-top: 1.5rem;">
                     <div class="dark-card warning">
                         <h4>10-Day Development</h4>
@@ -436,9 +439,10 @@
         </section>
 
         <!-- Slide 12: Running JS -->
-        <section class="slide" id="running-js" data-narration="You can run JavaScript in multiple environments: browser console for quick tests, script tags in HTML, Node.js for server-side, or online playgrounds for experimentation.">
+        <section class="slide" id="running-js" data-narration="You can run JavaScript in multiple environments: browser console for quick tests, script tags in HTML, Node.js for server-side, or online playgrounds for experimentation. The browser console (F12 or right-click Inspect) is perfect for testing snippets and debugging. For web pages, include scripts via script tags - we'll cover best practices for placement shortly. Node.js lets you run JavaScript files from the terminal with 'node filename.js'. Online tools like CodePen and JSFiddle are great for sharing code examples and experimenting without local setup. As you learn, I recommend keeping a browser console open to test code as you go. Immediate feedback accelerates learning dramatically.">
             <div class="dark-container">
                 <h2>Where JavaScript Runs</h2>
+                <p class="subtitle">JavaScript can execute in browsers, on servers, or in online playgrounds.</p>
                 <div class="dark-four-column" style="margin-top: 1.5rem;">
                     <div class="dark-card">
                         <h4>Browser Console</h4>
@@ -461,10 +465,10 @@
         </section>
 
         <!-- Slide 13: Console Methods -->
-        <section class="slide" id="console-methods" data-narration="The console object provides various methods for debugging. console.log is most common, but console.table, console.time, and console.group are extremely useful for development.">
+        <section class="slide" id="console-methods" data-narration="The console object provides various methods for debugging. console.log is most common, but console.table, console.time, and console.group are extremely useful for development. Use console.error for errors (shows red in console), console.warn for warnings (yellow), and console.log for general output. console.table is fantastic for displaying arrays of objects in a readable table format. console.time/timeEnd lets you measure how long operations take. console.group creates collapsible groups for organizing related logs. Pro tip: you can use CSS in console.log with %c for styled output. These tools are invaluable during development but remember to remove console statements before production.">
             <div class="dark-container">
                 <h2>Console Methods</h2>
-                <p class="subtitle">Essential debugging tools</p>
+                <p class="subtitle">The console provides essential debugging tools beyond just console.log.</p>
                 <div class="code-block" style="margin-top: 1rem;">
 <pre><span class="function">console</span>.<span class="function">log</span>(<span class="string">'Basic output'</span>);
 <span class="function">console</span>.<span class="function">error</span>(<span class="string">'Error message'</span>);
@@ -478,9 +482,10 @@
         </section>
 
         <!-- Slide 14: Script Loading -->
-        <section class="slide" id="script-loading" data-narration="When including JavaScript in HTML, script placement matters. Scripts in the head block rendering, while scripts before closing body or with defer attribute load efficiently.">
+        <section class="slide" id="script-loading" data-narration="When including JavaScript in HTML, script placement matters. Scripts in the head block rendering, while scripts before closing body or with defer attribute load efficiently. By default, the browser stops parsing HTML when it encounters a script tag, downloads the script, executes it, then continues parsing. This blocking behavior can make pages feel slow. Placing scripts at the end of body ensures the DOM is ready before scripts run. The defer attribute tells the browser to download in parallel and execute after HTML parsing completes. The async attribute downloads in parallel but executes immediately when ready - useful for analytics scripts. For modern development, defer is usually the best choice.">
             <div class="dark-container">
                 <h2>Script Loading Strategies</h2>
+                <p class="subtitle">Where and how you load scripts affects page performance significantly.</p>
                 <div class="code-block" style="margin-top: 1rem;">
 <pre><span class="comment">&lt;!-- Blocks rendering (avoid) --&gt;</span>
 &lt;<span class="keyword">head</span>&gt;
@@ -500,9 +505,10 @@
         </section>
 
         <!-- Slide 15: Part 1 Summary -->
-        <section class="slide" id="part1-summary" data-narration="To summarize Part 1: JavaScript was created quickly in 1995, standardized as ECMAScript, and revolutionized by Node.js. Its quirks come from history, not poor design.">
+        <section class="slide" id="part1-summary" data-narration="To summarize Part 1: JavaScript was created quickly in 1995, standardized as ECMAScript, and revolutionized by Node.js. Its quirks come from history, not poor design. We covered how Brendan Eich created JavaScript in 10 days at Netscape, leading to some unusual language features. The browser wars created compatibility chaos until ECMAScript standardization brought order. ES6 in 2015 modernized the language dramatically, and yearly releases keep it evolving. Node.js enabled full-stack JavaScript development and gave us npm. Understanding this history helps you appreciate why JavaScript is the way it is and why certain patterns became best practices.">
             <div class="dark-container">
                 <h2>Part 1 Summary</h2>
+                <p class="subtitle">Key takeaways from JavaScript's history and origins.</p>
                 <div class="feature-grid" style="margin-top: 1.5rem;">
                     <div class="feature-item">
                         <span class="feature-icon">&#10003;</span>
@@ -539,16 +545,16 @@
         <!-- ========== PART 2: JavaScript Fundamentals (Slides 16-54) ========== -->
 
         <!-- Slide 16: Part 2 Title -->
-        <section class="slide title-slide" id="part2" data-narration="Part 2 covers JavaScript fundamentals - the core building blocks you'll use every day. We'll cover variables, types, operators, functions, and working with the DOM.">
+        <section class="slide title-slide" id="part2" data-narration="Part 2 covers JavaScript fundamentals - the core building blocks you'll use every day. We'll cover variables, types, operators, functions, and working with the DOM. This is the heart of the module where you'll learn to write actual JavaScript code. We'll start with variables and how to store data, then explore JavaScript's type system and its quirks. You'll learn about operators, control flow, functions, and array methods. Each concept builds on the previous ones. Pay special attention to the code examples - try running them in your browser console as we go. By the end of Part 2, you'll have the vocabulary and syntax to read and write basic JavaScript programs.">
             <h1>Part 2</h1>
             <p class="subtitle">JavaScript Fundamentals</p>
         </section>
 
         <!-- Slide 17: Variable Declaration -->
-        <section class="slide" id="variables" data-narration="Modern JavaScript has three ways to declare variables: var, let, and const. Always prefer const for values that don't change, and let when reassignment is needed. Avoid var.">
+        <section class="slide" id="variables" data-narration="Modern JavaScript has three ways to declare variables: var, let, and const. Always prefer const for values that don't change, and let when reassignment is needed. Avoid var. var was the original way to declare variables but has problematic scoping rules - it's function-scoped rather than block-scoped. let and const (introduced in ES6) are block-scoped, meaning they only exist within their containing curly braces. const prevents reassignment but doesn't make objects immutable - you can still modify properties. The convention is: use const by default, switch to let only when you need to reassign. This makes your code's intent clearer and helps catch accidental reassignments.">
             <div class="dark-container">
                 <h2>Variable Declaration</h2>
-                <p class="subtitle">var vs let vs const</p>
+                <p class="subtitle">Use const by default, let when reassignment is needed, and avoid var.</p>
                 <div class="code-block" style="margin-top: 1rem;">
 <pre><span class="keyword">var</span> oldWay = <span class="string">'avoid this'</span>;    <span class="comment">// function scoped, hoisted</span>
 <span class="keyword">let</span> canChange = <span class="string">'reassignable'</span>; <span class="comment">// block scoped</span>
@@ -560,9 +566,10 @@
         </section>
 
         <!-- Slide 18: var vs let vs const Table -->
-        <section class="slide" id="var-let-const" data-narration="Here's a comparison of the three declaration keywords. The key differences are scope, hoisting behavior, and whether you can reassign or redeclare the variable.">
+        <section class="slide" id="var-let-const" data-narration="Here's a comparison of the three declaration keywords. The key differences are scope, hoisting behavior, and whether you can reassign or redeclare the variable. Scope determines where a variable is accessible - var is function-scoped while let/const are block-scoped. Hoisting means declarations are moved to the top of their scope, but let/const create a 'temporal dead zone' where accessing them before declaration throws an error. var allows redeclaration which can hide bugs. The TDZ (Temporal Dead Zone) is actually helpful - it catches the common mistake of using a variable before declaring it. Study this table carefully as it's a common interview question.">
             <div class="dark-container">
                 <h2>Declaration Comparison</h2>
+                <p class="subtitle">Understanding the key differences between var, let, and const.</p>
                 <table class="dark-table">
                     <tr>
                         <th>Feature</th>
@@ -600,10 +607,10 @@
         </section>
 
         <!-- Slide 19: Primitive Types -->
-        <section class="slide" id="primitive-types" data-narration="JavaScript has 7 primitive types. These are immutable values stored directly in memory. String, number, boolean, null, undefined, symbol, and bigint.">
+        <section class="slide" id="primitive-types" data-narration="JavaScript has 7 primitive types. These are immutable values stored directly in memory. String, number, boolean, null, undefined, symbol, and bigint. Primitives are passed by value - when you assign a primitive to another variable, it copies the value. This is different from objects which are passed by reference. null represents intentional absence of a value while undefined means a variable was declared but never assigned. symbol creates unique identifiers (useful for object keys), and bigint handles integers larger than Number.MAX_SAFE_INTEGER. Note that 'object' isn't a primitive - it's a reference type that includes arrays, functions, and regular objects.">
             <div class="dark-container">
                 <h2>Primitive Types</h2>
-                <p class="subtitle">7 fundamental data types</p>
+                <p class="subtitle">JavaScript has 7 primitive types that are immutable and passed by value.</p>
                 <div class="dark-four-column" style="margin-top: 1.5rem;">
                     <div class="dark-card">
                         <h4>string</h4>
@@ -642,9 +649,10 @@
         </section>
 
         <!-- Slide 20: typeof Operator -->
-        <section class="slide" id="typeof" data-narration="The typeof operator returns the type of a value as a string. Watch out for the quirk where typeof null returns 'object' - this is a historical bug that can't be fixed.">
+        <section class="slide" id="typeof" data-narration="The typeof operator returns the type of a value as a string. Watch out for the quirk where typeof null returns 'object' - this is a historical bug that can't be fixed. This bug dates back to JavaScript's first implementation where values were stored with type tags, and null used the object tag. typeof also returns 'object' for arrays since arrays are technically objects in JavaScript - use Array.isArray() to check for arrays specifically. Notice that typeof function returns 'function' even though functions are objects. typeof is useful for checking if a variable is defined: typeof x !== 'undefined'. Understanding these quirks helps you avoid common debugging pitfalls.">
             <div class="dark-container">
                 <h2>The typeof Operator</h2>
+                <p class="subtitle">typeof returns a string indicating the type, but has some quirks to be aware of.</p>
                 <div class="code-block" style="margin-top: 1rem;">
 <pre><span class="keyword">typeof</span> <span class="string">"hello"</span>    <span class="comment">// "string"</span>
 <span class="keyword">typeof</span> <span class="number">42</span>         <span class="comment">// "number"</span>
@@ -659,10 +667,10 @@
         </section>
 
         <!-- Slide 21: Type Coercion -->
-        <section class="slide" id="type-coercion" data-narration="JavaScript automatically converts types when comparing or combining values. This can lead to surprising results. Use strict equality to avoid these issues.">
+        <section class="slide" id="type-coercion" data-narration="JavaScript automatically converts types when comparing or combining values. This can lead to surprising results. Use strict equality to avoid these issues. The + operator is especially tricky: with a string, it concatenates; with numbers, it adds. Other operators like minus always convert to numbers. The rules for coercion are complex - for example, [] becomes empty string, which becomes 0 when converted to number. Rather than memorizing all the rules, the best practice is to avoid implicit coercion. Use explicit conversions like Number(), String(), or Boolean() when you need to convert types. This makes your code's intent clear and prevents surprises.">
             <div class="dark-container">
                 <h2>Type Coercion</h2>
-                <p class="subtitle">JavaScript's automatic type conversion</p>
+                <p class="subtitle">JavaScript automatically converts types, leading to surprising results if you're not careful.</p>
                 <div class="dark-two-column" style="margin-top: 1rem;">
                     <div class="code-block">
 <pre><span class="comment">// Surprising coercions</span>
@@ -682,9 +690,10 @@
         </section>
 
         <!-- Slide 22: Equality Operators -->
-        <section class="slide" id="equality" data-narration="Always use strict equality with triple equals. Double equals performs type coercion which leads to confusing behavior like empty string equaling zero.">
+        <section class="slide" id="equality" data-narration="Always use strict equality with triple equals. Double equals performs type coercion which leads to confusing behavior like empty string equaling zero. The double equals operator converts operands to the same type before comparing, following complex rules. This is why '5' == 5 is true (string becomes number), and 0 == false is true (false becomes 0). Triple equals compares both value AND type without any conversion. The only exception where == is acceptable: checking for null or undefined with 'x == null' catches both. ESLint and other linters will warn you about using loose equality. Make strict equality your default and your code will be more predictable.">
             <div class="dark-container">
                 <h2>Equality: == vs ===</h2>
+                <p class="subtitle">Always use strict equality (===) to avoid type coercion surprises.</p>
                 <div class="dark-two-column" style="margin-top: 1rem;">
                     <div>
                         <h3 style="color: #f87171;">== (Loose)</h3>
@@ -710,9 +719,10 @@
         </section>
 
         <!-- Slide 23: Truthy and Falsy -->
-        <section class="slide" id="truthy-falsy" data-narration="In boolean contexts, JavaScript treats certain values as false: false, 0, empty string, null, undefined, and NaN. Everything else is truthy, including empty arrays and objects.">
+        <section class="slide" id="truthy-falsy" data-narration="In boolean contexts, JavaScript treats certain values as false: false, 0, empty string, null, undefined, and NaN. Everything else is truthy, including empty arrays and objects. This matters because conditionals like if(value) convert values to boolean implicitly. A common gotcha: empty array [] and empty object {} are truthy! To check if an array is empty, use array.length === 0. The six falsy values are worth memorizing. You can use double negation (!!) to explicitly convert any value to boolean. Understanding truthy/falsy is essential for writing concise conditionals and using the logical AND/OR operators for default values and short-circuit evaluation.">
             <div class="dark-container">
                 <h2>Truthy &amp; Falsy Values</h2>
+                <p class="subtitle">JavaScript converts values to boolean in conditionals - know which values are falsy.</p>
                 <div class="dark-two-column" style="margin-top: 1rem;">
                     <div>
                         <h3 style="color: #f87171;">Falsy (6 values)</h3>
@@ -741,10 +751,10 @@
         </section>
 
         <!-- Slide 24: Strings -->
-        <section class="slide" id="strings" data-narration="Strings can be created with single quotes, double quotes, or backticks. Backticks enable template literals which support multi-line strings and embedded expressions.">
+        <section class="slide" id="strings" data-narration="Strings can be created with single quotes, double quotes, or backticks. Backticks enable template literals which support multi-line strings and embedded expressions. Single and double quotes are functionally identical - pick a convention and stick with it. Template literals (backticks) are the most powerful: they allow string interpolation with ${expression}, can span multiple lines without escape characters, and can even be used with tagged template functions for custom processing. When embedding variables or expressions in strings, always prefer template literals over concatenation with +. They're more readable and less error-prone.">
             <div class="dark-container">
                 <h2>Strings</h2>
-                <p class="subtitle">Three ways to create strings</p>
+                <p class="subtitle">Use template literals (backticks) for strings with variables or multiple lines.</p>
                 <div class="code-block" style="margin-top: 1rem;">
 <pre><span class="keyword">const</span> single = <span class="string">'Hello'</span>;
 <span class="keyword">const</span> double = <span class="string">"World"</span>;
@@ -762,9 +772,10 @@
         </section>
 
         <!-- Slide 25: String Methods -->
-        <section class="slide" id="string-methods" data-narration="Strings have many built-in methods. Remember that strings are immutable - these methods return new strings rather than modifying the original.">
+        <section class="slide" id="string-methods" data-narration="Strings have many built-in methods. Remember that strings are immutable - these methods return new strings rather than modifying the original. toUpperCase() and toLowerCase() are great for case-insensitive comparisons. includes(), startsWith(), and endsWith() return booleans for checking content. slice() extracts portions using start and end indices. split() converts a string to an array based on a delimiter. trim() removes whitespace from both ends. These methods can be chained together since each returns a new string. Always remember: str.toUpperCase() doesn't change str - you need to assign the result back if you want to keep it.">
             <div class="dark-container">
                 <h2>String Methods</h2>
+                <p class="subtitle">Strings are immutable - methods return new strings without modifying the original.</p>
                 <div class="code-block" style="margin-top: 1rem;">
 <pre><span class="keyword">const</span> str = <span class="string">"Hello, World!"</span>;
 
@@ -781,10 +792,10 @@ str.<span class="function">trim</span>()              <span class="comment">// r
         </section>
 
         <!-- Slide 26: Arrays -->
-        <section class="slide" id="arrays" data-narration="Arrays are ordered collections that can hold any type of value. They're zero-indexed and have a length property.">
+        <section class="slide" id="arrays" data-narration="Arrays are ordered collections that can hold any type of value. They're zero-indexed and have a length property. Unlike typed languages, JavaScript arrays can hold mixed types - strings, numbers, objects, even other arrays. Access elements using bracket notation with the index (starting at 0). The length property tells you how many elements are in the array. Arrays are objects under the hood, which is why typeof [] returns 'object'. Use Array.isArray() to check if something is an array. Arrays are reference types, so assigning an array to a new variable creates a reference, not a copy. We'll cover array methods in detail shortly.">
             <div class="dark-container">
                 <h2>Arrays</h2>
-                <p class="subtitle">Ordered collections of values</p>
+                <p class="subtitle">Arrays are ordered, zero-indexed collections that can hold any type of value.</p>
                 <div class="code-block" style="margin-top: 1rem;">
 <pre><span class="comment">// Creating arrays</span>
 <span class="keyword">const</span> fruits = [<span class="string">'apple'</span>, <span class="string">'banana'</span>, <span class="string">'cherry'</span>];
@@ -800,9 +811,10 @@ fruits.<span class="function">at</span>(<span class="number">-1</span>)    <span
         </section>
 
         <!-- Slide 27: Array Methods -->
-        <section class="slide" id="array-methods" data-narration="Arrays have powerful built-in methods. Push and pop work on the end, shift and unshift on the beginning.">
+        <section class="slide" id="array-methods" data-narration="Arrays have powerful built-in methods. Push and pop work on the end, shift and unshift on the beginning. push() adds to the end and returns the new length. pop() removes from the end and returns the removed element. unshift() adds to the beginning, shift() removes from the beginning. These are mutating methods - they modify the original array. indexOf() returns the position of an element (-1 if not found). includes() returns true/false for membership. find() returns the first element matching a callback. These methods are the bread and butter of array manipulation.">
             <div class="dark-container">
                 <h2>Array Methods</h2>
+                <p class="subtitle">Core methods for adding, removing, and finding array elements.</p>
                 <div class="code-block" style="margin-top: 1rem;">
 <pre><span class="keyword">const</span> arr = [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>];
 
@@ -821,9 +833,10 @@ arr.<span class="function">find</span>(x => x > <span class="number">1</span>) <
         </section>
 
         <!-- Slide 28: Array Iteration -->
-        <section class="slide" id="array-iteration" data-narration="Modern JavaScript provides powerful iteration methods. forEach for side effects, map for transformation, filter for selection, and reduce for aggregation.">
+        <section class="slide" id="array-iteration" data-narration="Modern JavaScript provides powerful iteration methods. forEach for side effects, map for transformation, filter for selection, and reduce for aggregation. map() creates a new array by applying a function to each element - perfect for transformations. filter() creates a new array with elements that pass a test. reduce() accumulates array elements into a single value (sum, object, etc.). forEach() just iterates without returning anything. These methods don't mutate the original array (except forEach side effects). They're chainable: arr.filter(...).map(...).reduce(...). Master these and you'll write cleaner, more declarative code than with traditional loops.">
             <div class="dark-container">
                 <h2>Array Iteration Methods</h2>
+                <p class="subtitle">Functional methods for transforming, filtering, and reducing arrays.</p>
                 <div class="code-block" style="margin-top: 1rem;">
 <pre><span class="keyword">const</span> nums = [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>];
 
@@ -843,10 +856,10 @@ nums.<span class="function">forEach</span>(n => <span class="function">console</
         </section>
 
         <!-- Slide 29: Objects -->
-        <section class="slide" id="objects" data-narration="Objects are collections of key-value pairs. They're the fundamental building block for complex data structures.">
+        <section class="slide" id="objects" data-narration="Objects are collections of key-value pairs. They're the fundamental building block for complex data structures. Objects can contain any type of value including other objects, arrays, and functions (called methods). Use dot notation for simple property names and bracket notation for dynamic keys or special characters. Objects are reference types - assigning an object to another variable creates a reference, not a copy. Methods can access the object using the 'this' keyword. Object shorthand syntax lets you write {name} instead of {name: name}. Almost everything in JavaScript is an object or behaves like one.">
             <div class="dark-container">
                 <h2>Objects</h2>
-                <p class="subtitle">Key-value pairs</p>
+                <p class="subtitle">Objects are collections of key-value pairs, the foundation of complex data structures.</p>
                 <div class="code-block" style="margin-top: 1rem;">
 <pre><span class="keyword">const</span> person = {
   name: <span class="string">'Alice'</span>,
@@ -867,10 +880,10 @@ person.email = <span class="string">'alice@example.com'</span>;</pre>
         </section>
 
         <!-- Slide 30: Destructuring -->
-        <section class="slide" id="destructuring" data-narration="Destructuring lets you extract values from arrays and objects into distinct variables. It makes code cleaner and more readable.">
+        <section class="slide" id="destructuring" data-narration="Destructuring lets you extract values from arrays and objects into distinct variables. It makes code cleaner and more readable. For arrays, the order matters - variables are assigned by position. For objects, the variable names must match property names (unless you rename them). The rest operator (...rest) collects remaining elements into a new array or object. You can set default values for missing properties. Destructuring is especially powerful in function parameters - you can extract exactly what you need from objects passed as arguments. This ES6 feature is now used everywhere in modern JavaScript.">
             <div class="dark-container">
                 <h2>Destructuring</h2>
-                <p class="subtitle">Extract values into variables</p>
+                <p class="subtitle">Extract values from arrays and objects into distinct variables for cleaner code.</p>
                 <div class="code-block" style="margin-top: 1rem;">
 <pre><span class="comment">// Array destructuring</span>
 <span class="keyword">const</span> [first, second, ...rest] = [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>];
@@ -891,10 +904,10 @@ person.email = <span class="string">'alice@example.com'</span>;</pre>
         </section>
 
         <!-- Slide 31: Functions -->
-        <section class="slide" id="functions" data-narration="Functions are first-class citizens in JavaScript. You can declare them, assign them to variables, or write them as arrow functions.">
+        <section class="slide" id="functions" data-narration="Functions are first-class citizens in JavaScript. You can declare them, assign them to variables, or write them as arrow functions. Function declarations are hoisted - you can call them before they appear in code. Function expressions are not hoisted. Arrow functions (ES6) provide concise syntax and don't have their own 'this' binding. Functions can return values, take parameters with defaults, and use rest parameters for variable arguments. In JavaScript, functions are objects - they can be passed as arguments, returned from other functions, and stored in variables. This enables powerful patterns like callbacks and closures.">
             <div class="dark-container">
                 <h2>Functions</h2>
-                <p class="subtitle">Three ways to create functions</p>
+                <p class="subtitle">Functions are first-class citizens - they can be passed around and assigned like any value.</p>
                 <div class="code-block" style="margin-top: 1rem;">
 <pre><span class="comment">// Function declaration (hoisted)</span>
 <span class="keyword">function</span> <span class="function">greet</span>(name) {
@@ -913,9 +926,10 @@ person.email = <span class="string">'alice@example.com'</span>;</pre>
         </section>
 
         <!-- Slide 32: Arrow Functions -->
-        <section class="slide" id="arrow-functions" data-narration="Arrow functions provide concise syntax. They also don't have their own this binding.">
+        <section class="slide" id="arrow-functions" data-narration="Arrow functions provide concise syntax. They also don't have their own this binding. With a single expression, you can omit the return keyword and curly braces for an implicit return. Single parameters don't need parentheses. When returning an object literal, wrap it in parentheses to avoid confusion with a function body. The lack of 'this' binding is crucial - arrow functions inherit 'this' from their enclosing scope, making them perfect for callbacks in event handlers and array methods. This behavior eliminates the common pattern of 'const self = this'. Use arrow functions for most callbacks and short functions.">
             <div class="dark-container">
                 <h2>Arrow Functions</h2>
+                <p class="subtitle">Concise function syntax that inherits 'this' from surrounding scope.</p>
                 <div class="code-block" style="margin-top: 1rem;">
 <pre><span class="comment">// Full syntax</span>
 <span class="keyword">const</span> add = (a, b) => {
@@ -982,10 +996,10 @@ person.email = <span class="string">'alice@example.com'</span>;</pre>
         </section>
 
         <!-- Slide 35: DOM Introduction -->
-        <section class="slide" id="dom-intro" data-narration="The Document Object Model represents HTML as a tree of objects. JavaScript can access and manipulate this tree.">
+        <section class="slide" id="dom-intro" data-narration="The Document Object Model represents HTML as a tree of objects. JavaScript can access and manipulate this tree. When the browser loads HTML, it creates a DOM tree with document as the root. Each HTML element becomes a node in this tree with properties and methods. JavaScript can read content, modify elements, add new elements, remove elements, and respond to user interactions. The DOM is what makes web pages interactive. Modern frameworks like React and Vue abstract away direct DOM manipulation, but understanding the DOM is essential for debugging and performance optimization.">
             <div class="dark-container">
                 <h2>The DOM</h2>
-                <p class="subtitle">Document Object Model</p>
+                <p class="subtitle">The browser's representation of HTML as a tree of objects that JavaScript can manipulate.</p>
                 <div class="flow-diagram" style="margin-top: 1.5rem;">
                     <div class="flow-box highlight">
                         <div class="label">HTML</div>
@@ -1007,9 +1021,10 @@ person.email = <span class="string">'alice@example.com'</span>;</pre>
         </section>
 
         <!-- Slide 36: Selecting Elements -->
-        <section class="slide" id="selecting-elements" data-narration="To work with DOM elements, first select them. querySelector uses CSS selectors and returns the first match.">
+        <section class="slide" id="selecting-elements" data-narration="To work with DOM elements, first select them. querySelector uses CSS selectors and returns the first match. querySelector and querySelectorAll are the modern methods - they accept any valid CSS selector. getElementById is faster for ID lookups but less flexible. querySelector returns the first match or null if nothing matches. querySelectorAll returns a NodeList of all matches (use forEach or convert to array). You can call querySelector on any element, not just document, to search within that element's descendants. Always check if querySelector returned null before trying to use the element.">
             <div class="dark-container">
                 <h2>Selecting DOM Elements</h2>
+                <p class="subtitle">Use querySelector with CSS selectors to find elements in the DOM.</p>
                 <div class="code-block" style="margin-top: 1rem;">
 <pre><span class="comment">// Modern methods (use CSS selectors)</span>
 <span class="keyword">const</span> el = <span class="function">document</span>.<span class="function">querySelector</span>(<span class="string">'.my-class'</span>);
@@ -1053,10 +1068,10 @@ el.style.color = <span class="string">'blue'</span>;</pre>
         </section>
 
         <!-- Slide 38: Events -->
-        <section class="slide" id="events" data-narration="Events let your code respond to user actions like clicks, keypresses, and form submissions.">
+        <section class="slide" id="events" data-narration="Events let your code respond to user actions like clicks, keypresses, and form submissions. The browser fires events when things happen - mouse clicks, key presses, page loads, form submissions, and more. You attach event listeners to elements to run code when specific events occur. Common mouse events include click, dblclick, mouseenter, and mouseleave. Keyboard events are keydown and keyup. Form events include submit, change, and input. Understanding events is essential for creating interactive web applications. We'll see how to attach listeners in the next slide.">
             <div class="dark-container">
                 <h2>Events</h2>
-                <p class="subtitle">Responding to user interactions</p>
+                <p class="subtitle">Events fire when users interact with the page - clicks, keystrokes, form submissions, etc.</p>
                 <div class="dark-three-column" style="margin-top: 1.5rem;">
                     <div class="dark-card">
                         <h4>Mouse</h4>

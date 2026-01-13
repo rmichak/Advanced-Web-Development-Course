@@ -123,17 +123,17 @@
         <!-- ========== Module Title ========== -->
 
         <!-- Slide 1: Title -->
-        <section class="slide title-slide" data-narration="Welcome to Module 4 where we'll explore TypeScript fundamentals. TypeScript adds static typing to JavaScript, catching errors before runtime and improving code quality.">
+        <section class="slide title-slide" data-narration="Welcome to Module 4 where we'll explore TypeScript fundamentals. TypeScript adds static typing to JavaScript, catching errors before runtime and improving code quality. TypeScript is JavaScript with types - every valid JavaScript file is also valid TypeScript. Microsoft created TypeScript in 2012 to help scale large JavaScript applications. The type system catches errors at compile time that would otherwise crash at runtime. IDEs can provide better autocomplete, refactoring, and navigation with TypeScript. By the end of this module, you'll understand type annotations, interfaces, generics, and utility types. These skills are essential for modern frontend development with React, Angular, and Vue.">
             <h1>Module 4</h1>
             <p class="subtitle">TypeScript Fundamentals</p>
             <p class="meta">Advanced Web Development</p>
         </section>
 
         <!-- Recommended Resource: LinkedIn Learning -->
-        <section class="slide" id="linkedin-learning" data-narration="Before we dive in, I recommend this LinkedIn Learning course on TypeScript Essential Training. It's a comprehensive video course that complements what we'll cover in this module.">
+        <section class="slide" id="linkedin-learning" data-narration="Before we dive in, I recommend this LinkedIn Learning course on TypeScript Essential Training. It's a comprehensive video course that complements what we'll cover in this module. The course covers TypeScript from basics to advanced patterns with hands-on examples. LinkedIn Learning is free through many universities and public libraries. Video content can help reinforce concepts that are tricky to grasp from slides alone. I especially recommend the sections on generics and utility types, as those concepts benefit from seeing multiple examples worked through step by step.">
             <div class="dark-container">
                 <h2>Recommended Resource</h2>
-                <p class="subtitle">Supplement your learning with this video course</p>
+                <p class="subtitle">Free video training to complement your TypeScript learning.</p>
                 <a href="https://www.linkedin.com/learning/typescript-essential-training-14687057" target="_blank" rel="noopener" class="video-thumbnail">
                     <div style="background: linear-gradient(135deg, #3178c6 0%, #235a97 100%); padding: 3rem 2rem; text-align: center; color: #fff;">
                         <div style="font-size: 4rem; margin-bottom: 1rem;">TS</div>
@@ -153,15 +153,16 @@
         <!-- ========== PART 1: TypeScript Essentials ========== -->
 
         <!-- Part 1 Title -->
-        <section class="slide title-slide" id="part1" data-narration="Part 1 introduces TypeScript - JavaScript with types. TypeScript catches errors before runtime and improves code quality through static type checking.">
+        <section class="slide title-slide" id="part1" data-narration="Part 1 introduces TypeScript - JavaScript with types. TypeScript catches errors before runtime and improves code quality through static type checking. We'll start with basic type annotations and work our way up to interfaces, type aliases, and generics. TypeScript's learning curve is gentle - you can adopt it incrementally. Start by adding types to function parameters and return values, then gradually type more of your code. The compiler will guide you with helpful error messages. By the end of Part 1, you'll be able to write type-safe JavaScript that prevents common bugs.">
             <h1>Part 1</h1>
             <p class="subtitle">TypeScript Essentials</p>
         </section>
 
         <!-- Slide 3: Why TypeScript -->
-        <section class="slide" id="why-typescript" data-narration="TypeScript adds static typing to JavaScript. It catches errors at compile time, improves IDE support with better autocomplete, and makes refactoring safer.">
+        <section class="slide" id="why-typescript" data-narration="TypeScript adds static typing to JavaScript. It catches errors at compile time, improves IDE support with better autocomplete, and makes refactoring safer. Consider misspelling a property name - in JavaScript, you get undefined at runtime; in TypeScript, you get an error immediately in your editor. IDEs can provide accurate autocomplete because they know the shape of your data. Renaming a function? TypeScript finds all call sites automatically. Types also serve as documentation - you can see what a function expects without reading its implementation. Major companies like Google, Microsoft, and Airbnb use TypeScript for their large codebases.">
             <div class="dark-container">
                 <h2>Why TypeScript?</h2>
+                <p class="subtitle">TypeScript catches errors early and improves developer experience significantly.</p>
                 <div class="dark-three-column" style="margin-top: 1.5rem;">
                     <div class="dark-card">
                         <h4>Catch Errors Early</h4>
@@ -188,9 +189,10 @@
         </section>
 
         <!-- Slide 4: Basic Types -->
-        <section class="slide" id="basic-types" data-narration="TypeScript supports all JavaScript primitives plus additional types. Use type annotations with a colon after variable names.">
+        <section class="slide" id="basic-types" data-narration="TypeScript supports all JavaScript primitives plus additional types. Use type annotations with a colon after variable names. The basic types are string, number, boolean, null, undefined, and symbol - same as JavaScript. Arrays use number[] or Array<number> syntax. The 'any' type opts out of type checking - avoid it when possible. 'unknown' is a safer alternative to any that requires type checking before use. 'void' is for functions that don't return a value. 'never' is for functions that never return (throw errors or infinite loops). Start with these basics and you'll cover most common cases.">
             <div class="dark-container">
                 <h2>Basic Types</h2>
+                <p class="subtitle">TypeScript includes all JavaScript types plus additional typing constructs.</p>
                 <div class="code-block" style="margin-top: 1rem;">
 <pre><span class="comment">// Primitives</span>
 <span class="keyword">let</span> name: <span class="function">string</span> = <span class="string">'Alice'</span>;
@@ -211,10 +213,10 @@
         </section>
 
         <!-- Slide 5: Type Inference -->
-        <section class="slide" id="type-inference" data-narration="TypeScript is smart about inferring types. You don't need to annotate everything - let TypeScript figure it out when the type is obvious.">
+        <section class="slide" id="type-inference" data-narration="TypeScript is smart about inferring types. You don't need to annotate everything - let TypeScript figure it out when the type is obvious. When you initialize a variable, TypeScript infers its type from the value. const name = 'Alice' is automatically typed as string. This reduces verbosity while maintaining type safety. Best practice: annotate function parameters and return types explicitly, but let TypeScript infer local variables. This gives you the documentation benefits at function boundaries while keeping implementation code clean. Over-annotating makes code harder to read.">
             <div class="dark-container">
                 <h2>Type Inference</h2>
-                <p class="subtitle">TypeScript is smart</p>
+                <p class="subtitle">TypeScript automatically infers types from values - you don't need to annotate everything.</p>
                 <div class="code-block" style="margin-top: 1rem;">
 <pre><span class="comment">// Explicit annotation</span>
 <span class="keyword">let</span> name: <span class="function">string</span> = <span class="string">'Alice'</span>;
@@ -234,9 +236,10 @@
         </section>
 
         <!-- Slide 6: Functions -->
-        <section class="slide" id="ts-functions" data-narration="TypeScript functions need parameter types and optionally return types. Use optional parameters with question marks and default values.">
+        <section class="slide" id="ts-functions" data-narration="TypeScript functions need parameter types and optionally return types. Use optional parameters with question marks and default values. Always type your parameters - this is where TypeScript provides the most value. Return types can usually be inferred, but explicit return types serve as documentation. Optional parameters (name?: string) can be undefined. Default parameters (name = 'Guest') provide a fallback value. Arrow functions follow the same typing patterns. When functions are passed as arguments (callbacks), you may need to type them explicitly so TypeScript knows what parameters they receive.">
             <div class="dark-container">
                 <h2>Functions in TypeScript</h2>
+                <p class="subtitle">Type parameters and return values to catch errors at function boundaries.</p>
                 <div class="code-block" style="margin-top: 1rem;">
 <pre><span class="comment">// Function with typed parameters and return</span>
 <span class="keyword">function</span> <span class="function">add</span>(a: <span class="function">number</span>, b: <span class="function">number</span>): <span class="function">number</span> {
@@ -260,10 +263,10 @@
         </section>
 
         <!-- Slide 7: Objects and Interfaces -->
-        <section class="slide" id="interfaces" data-narration="Interfaces define the shape of objects. They specify what properties and methods an object must have. Use interfaces to type complex objects.">
+        <section class="slide" id="interfaces" data-narration="Interfaces define the shape of objects. They specify what properties and methods an object must have. Use interfaces to type complex objects. Interfaces are one of TypeScript's most powerful features. They describe what properties an object must have and their types. Optional properties use the ? suffix. Readonly properties can't be modified after creation. Interfaces can extend other interfaces to build up complex types. Unlike classes, interfaces are purely for type checking - they compile away to nothing. Use interfaces to define API response shapes, component props, and domain models.">
             <div class="dark-container">
                 <h2>Interfaces</h2>
-                <p class="subtitle">Define object shapes</p>
+                <p class="subtitle">Interfaces define the shape of objects - what properties they must have.</p>
                 <div class="code-block" style="margin-top: 1rem;">
 <pre><span class="keyword">interface</span> <span class="function">User</span> {
   id: <span class="function">number</span>;
@@ -286,9 +289,10 @@
         </section>
 
         <!-- Slide 8: Type Aliases -->
-        <section class="slide" id="type-aliases" data-narration="Type aliases create custom type names. They can define object types like interfaces, but also unions, intersections, and primitives.">
+        <section class="slide" id="type-aliases" data-narration="Type aliases create custom type names. They can define object types like interfaces, but also unions, intersections, and primitives. Type aliases use the 'type' keyword and can describe any type, not just objects. Union types (string | number) allow a value to be one of several types. Intersection types combine multiple types into one. Literal types restrict values to specific strings or numbers. Function types describe callback signatures. Interfaces and type aliases overlap for objects, but type aliases are more versatile. Use type aliases for unions and complex combinations.">
             <div class="dark-container">
                 <h2>Type Aliases</h2>
+                <p class="subtitle">Create custom type names for unions, intersections, and complex types.</p>
                 <div class="code-block" style="margin-top: 1rem;">
 <pre><span class="comment">// Object type alias (similar to interface)</span>
 <span class="keyword">type</span> <span class="function">Point</span> = {
@@ -313,10 +317,10 @@
         </section>
 
         <!-- Slide 9: Union Types -->
-        <section class="slide" id="union-types" data-narration="Union types allow a value to be one of several types. Use the pipe symbol to separate options. TypeScript narrows the type based on checks.">
+        <section class="slide" id="union-types" data-narration="Union types allow a value to be one of several types. Use the pipe symbol to separate options. TypeScript narrows the type based on checks. When you have a union type, TypeScript only allows operations that work on ALL types in the union. To access type-specific properties, use type guards - typeof for primitives, instanceof for classes, or custom type guards. TypeScript is smart: after an if check, it narrows the type automatically. Literal unions like 'pending' | 'active' | 'completed' are great for status fields. This pattern is safer than using general strings because typos are caught at compile time.">
             <div class="dark-container">
                 <h2>Union Types</h2>
-                <p class="subtitle">Value can be one of several types</p>
+                <p class="subtitle">A value can be one of several types - TypeScript narrows based on your checks.</p>
                 <div class="code-block" style="margin-top: 1rem;">
 <pre><span class="keyword">type</span> <span class="function">StringOrNumber</span> = <span class="function">string</span> | <span class="function">number</span>;
 
@@ -339,10 +343,10 @@
         </section>
 
         <!-- Slide 10: Generics -->
-        <section class="slide" id="generics" data-narration="Generics let you write reusable code that works with multiple types. Use angle brackets to define type parameters that get filled in when you use the function or class.">
+        <section class="slide" id="generics" data-narration="Generics let you write reusable code that works with multiple types. Use angle brackets to define type parameters that get filled in when you use the function or class. Think of generics as 'type variables' - placeholders that get filled in with actual types when used. A function like first<T>(arr: T[]): T can work with arrays of any type while maintaining type safety. TypeScript often infers generic types automatically: first([1, 2, 3]) knows T is number. Generics are essential for utility functions, data structures, and API wrappers. They're also used extensively in React component props and hooks.">
             <div class="dark-container">
                 <h2>Generics</h2>
-                <p class="subtitle">Reusable type-safe code</p>
+                <p class="subtitle">Write reusable code that works with any type while maintaining type safety.</p>
                 <div class="code-block" style="margin-top: 1rem;">
 <pre><span class="comment">// Generic function</span>
 <span class="keyword">function</span> <span class="function">first</span>&lt;T&gt;(arr: T[]): T | <span class="keyword">undefined</span> {
@@ -366,9 +370,10 @@
         </section>
 
         <!-- Slide 11: Generic Constraints -->
-        <section class="slide" id="generic-constraints" data-narration="Generic constraints limit what types can be used. Use extends to require that the type has certain properties or extends a base type.">
+        <section class="slide" id="generic-constraints" data-narration="Generic constraints limit what types can be used. Use extends to require that the type has certain properties or extends a base type. Without constraints, TypeScript assumes T could be anything, so you can't access any properties. By writing T extends HasLength, you tell TypeScript that T must have a length property, so accessing item.length is safe. The keyof operator creates a union of an object's keys, useful for type-safe property access. Constraints are powerful for building utility functions that work with objects of varying shapes while ensuring type safety at compile time.">
             <div class="dark-container">
                 <h2>Generic Constraints</h2>
+                <p class="subtitle">Limit generic types to those with specific properties or extending a base type.</p>
                 <div class="code-block" style="margin-top: 1rem;">
 <pre><span class="comment">// Constrain T to have a length property</span>
 <span class="keyword">interface</span> <span class="function">HasLength</span> {
@@ -393,9 +398,10 @@
         </section>
 
         <!-- Slide 12: Utility Types -->
-        <section class="slide" id="utility-types" data-narration="TypeScript includes built-in utility types that transform other types. Partial makes all properties optional, Required makes them required, Pick selects properties.">
+        <section class="slide" id="utility-types" data-narration="TypeScript includes built-in utility types that transform other types. Partial makes all properties optional, Required makes them required, Pick selects properties. These are generic types that take a type parameter and return a transformed type. Partial<User> makes all User properties optional - perfect for update functions. Pick<User, 'id' | 'name'> creates a type with only those properties. Omit does the opposite - excludes specified properties. Readonly makes all properties immutable. Record<K, V> creates an object type with keys of type K and values of type V. Learn these utilities and you'll write less boilerplate type code.">
             <div class="dark-container">
                 <h2>Utility Types</h2>
+                <p class="subtitle">Built-in types that transform other types - Partial, Pick, Omit, Readonly, and more.</p>
                 <div class="code-block" style="margin-top: 1rem;">
 <pre><span class="keyword">interface</span> <span class="function">User</span> {
   id: <span class="function">number</span>;
@@ -422,9 +428,10 @@
         </section>
 
         <!-- Slide 13: Type Narrowing -->
-        <section class="slide" id="type-narrowing" data-narration="Type narrowing is how TypeScript understands types within conditional blocks. Use typeof, instanceof, in, and type guards to narrow union types.">
+        <section class="slide" id="type-narrowing" data-narration="Type narrowing is how TypeScript understands types within conditional blocks. Use typeof, instanceof, in, and type guards to narrow union types. When you check typeof value === 'string', TypeScript knows value is a string within that block. instanceof checks class instances. The 'in' operator checks if a property exists on an object. After a narrowing check, TypeScript provides appropriate autocomplete and prevents errors. This is called 'control flow analysis' - TypeScript follows your code's logic to understand types at each point. Well-placed type guards make working with union types natural and safe.">
             <div class="dark-container">
                 <h2>Type Narrowing</h2>
+                <p class="subtitle">TypeScript tracks types through conditionals using typeof, instanceof, and 'in' checks.</p>
                 <div class="code-block" style="margin-top: 1rem;">
 <pre><span class="keyword">function</span> <span class="function">process</span>(value: <span class="function">string</span> | <span class="function">number</span> | <span class="function">Date</span>) {
   <span class="comment">// typeof narrowing</span>
@@ -449,9 +456,10 @@
         </section>
 
         <!-- Slide 14: Type Guards -->
-        <section class="slide" id="type-guards" data-narration="Custom type guards are functions that narrow types. Use the 'is' keyword in the return type to tell TypeScript what type the value is after the check.">
+        <section class="slide" id="type-guards" data-narration="Custom type guards are functions that narrow types. Use the 'is' keyword in the return type to tell TypeScript what type the value is after the check. Type guard functions return a boolean, but their return type is written as 'value is Type'. When you call such a function in a conditional, TypeScript narrows the type in the true branch. This is useful when typeof and instanceof aren't enough - for example, distinguishing between two interfaces with different properties. Custom type guards let you encapsulate complex type-checking logic in reusable functions while maintaining full type safety.">
             <div class="dark-container">
                 <h2>Custom Type Guards</h2>
+                <p class="subtitle">Create functions that narrow types using the 'is' keyword in return types.</p>
                 <div class="code-block" style="margin-top: 1rem;">
 <pre><span class="keyword">interface</span> <span class="function">Dog</span> { bark(): <span class="function">void</span>; breed: <span class="function">string</span>; }
 <span class="keyword">interface</span> <span class="function">Cat</span> { meow(): <span class="function">void</span>; color: <span class="function">string</span>; }
@@ -475,9 +483,10 @@
         </section>
 
         <!-- Slide 15: Enums -->
-        <section class="slide" id="enums" data-narration="Enums define a set of named constants. They can be numeric or string-based. Prefer const enums for better performance or use union types instead.">
+        <section class="slide" id="enums" data-narration="Enums define a set of named constants. They can be numeric or string-based. Prefer const enums for better performance or use union types instead. Numeric enums auto-increment from 0, but you can set explicit values. String enums require explicit values for each member. Enums are one of the few TypeScript features that exist at runtime - they compile to actual JavaScript objects. For this reason, many developers prefer union literal types like 'pending' | 'active' which compile away completely. If you do use enums, const enums are inlined at compile time for better performance. Choose based on whether you need runtime access to enum values.">
             <div class="dark-container">
                 <h2>Enums</h2>
+                <p class="subtitle">Named constants - consider union literal types as a lighter alternative.</p>
                 <div class="code-block" style="margin-top: 1rem;">
 <pre><span class="comment">// Numeric enum</span>
 <span class="keyword">enum</span> <span class="function">Direction</span> {
@@ -504,9 +513,10 @@
         </section>
 
         <!-- Slide 16: Part 1 Summary -->
-        <section class="slide" id="part1-summary" data-narration="Part 1 covered TypeScript essentials: basic types, interfaces, type aliases, unions, generics, utility types, and type narrowing. Types make your code safer.">
+        <section class="slide" id="part1-summary" data-narration="Part 1 covered TypeScript essentials: basic types, interfaces, type aliases, unions, generics, utility types, and type narrowing. Types make your code safer. You learned to annotate variables and functions, define object shapes with interfaces, create flexible types with type aliases and unions, and write reusable generic code. Utility types like Partial and Pick transform existing types. Type narrowing lets TypeScript understand types through control flow. These fundamentals apply everywhere - React components, Node.js APIs, and library code. Practice by adding types to your existing JavaScript projects gradually.">
             <div class="dark-container">
                 <h2>Part 1 Summary</h2>
+                <p class="subtitle">Key TypeScript concepts you now understand.</p>
                 <div class="dark-three-column" style="margin-top: 1.5rem;">
                     <div class="dark-card">
                         <h4>Basic Types</h4>
@@ -539,16 +549,16 @@
         <!-- ========== PART 2: Assignment ========== -->
 
         <!-- Part 2 Title -->
-        <section class="slide title-slide" id="part2" data-narration="Part 2 contains your assignment for this module. You'll complete a TypeScript tutorial and quiz to demonstrate your understanding.">
+        <section class="slide title-slide" id="part2" data-narration="Part 2 contains your assignment for this module. You'll complete a TypeScript tutorial and quiz to demonstrate your understanding. The W3Schools TypeScript exercises will give you hands-on practice with the concepts we covered. Working through exercises helps solidify your understanding better than just reading slides. The quiz tests your comprehension and identifies any areas that need review. Take your time with the exercises - understanding trumps speed. This practical work prepares you for using TypeScript in real projects.">
             <h1>Part 2</h1>
             <p class="subtitle">Assignment</p>
         </section>
 
         <!-- Assignment -->
-        <section class="slide" id="assignment" data-narration="For this module's assignment, you need to complete the W3Schools TypeScript tutorial and then take the TypeScript quiz. Take a screenshot of your completed quiz results and submit it to Canvas.">
+        <section class="slide" id="assignment" data-narration="For this module's assignment, you need to complete the W3Schools TypeScript tutorial and then take the TypeScript quiz. Take a screenshot of your completed quiz results and submit it to Canvas. Start with the exercises to practice what you've learned - they cover basic types, functions, interfaces, and more. After completing the exercises, take the quiz to test your understanding. The quiz is multiple choice and covers the key TypeScript concepts. Once you complete the quiz, take a screenshot showing your score. Upload that screenshot to the Canvas assignment for Module 4. Don't hesitate to review the slides or exercises if you get stuck on quiz questions.">
             <div class="dark-container">
                 <h2>Module 4 Assignment</h2>
-                <p class="subtitle">Complete the following steps</p>
+                <p class="subtitle">Practice with exercises, then test your knowledge with the quiz.</p>
                 <div class="feature-grid" style="margin-top: 1.5rem;">
                     <div class="feature-item">
                         <span class="feature-icon" style="font-size: 2rem;">1</span>
@@ -587,10 +597,10 @@
         </section>
 
         <!-- Slide 21: Module Summary -->
-        <section class="slide" id="module-summary" data-narration="Congratulations on completing Module 4! You've learned TypeScript fundamentals including types, interfaces, generics, and type safety patterns. Keep practicing!">
+        <section class="slide" id="module-summary" data-narration="Congratulations on completing Module 4! You've learned TypeScript fundamentals including types, interfaces, generics, and type safety patterns. Keep practicing! TypeScript skills are in high demand - most modern frontend frameworks use TypeScript by default. Start using TypeScript in your personal projects to build muscle memory. The compiler errors might feel frustrating at first, but they're catching bugs that would otherwise occur at runtime. Over time, you'll appreciate how TypeScript makes refactoring safer and documentation automatic. In upcoming modules, we'll use TypeScript with React and Node.js.">
             <div class="dark-container">
                 <h2>Module 4 Complete!</h2>
-                <p class="subtitle">What you've learned</p>
+                <p class="subtitle">You now have the TypeScript foundation for modern web development.</p>
                 <div class="dark-two-column" style="margin-top: 1.5rem;">
                     <div class="dark-card">
                         <h4>Part 1</h4>
