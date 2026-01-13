@@ -3,27 +3,587 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Module 4 - Advanced Web Development">
-    <title>Module 4: Topic TBD | Advanced Web Development</title>
+    <meta name="description" content="Module 4 - TypeScript Fundamentals">
+    <title>Module 4: TypeScript Fundamentals | Advanced Web Development</title>
     <link rel="stylesheet" href="../css/slides.css">
+    <style>
+        /* Dark theme components */
+        .dark-container {
+            background: linear-gradient(135deg, #1a2332 0%, #2d3748 100%);
+            border-radius: 12px;
+            padding: 2rem;
+            border-left: 4px solid;
+            border-image: linear-gradient(180deg, #06b6d4, #f97316, #ef4444) 1;
+        }
+        .dark-container h2 { color: #fff; margin: 0 0 0.5rem 0; font-size: 1.8rem; }
+        .dark-container .subtitle { color: #94a3b8; margin-bottom: 1.5rem; }
+        .dark-container h3 { color: #2dd4bf; margin-top: 1rem; }
+        .dark-container ul { color: #94a3b8; }
+        .dark-container li { margin-bottom: 0.5rem; }
+        .dark-container strong { color: #fff; }
+        .dark-container p { color: #94a3b8; }
+        .dark-container code { background: #2d3a4d; color: #2dd4bf; padding: 0.2rem 0.4rem; border-radius: 4px; }
+
+        .dark-two-column { display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; }
+        .dark-three-column { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 1.5rem; }
+        .dark-four-column { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1rem; }
+
+        .dark-card {
+            background: #2d3a4d;
+            border-radius: 8px;
+            padding: 1rem;
+            border-left: 3px solid #2dd4bf;
+        }
+        .dark-card h4 { color: #fff; margin: 0 0 0.5rem 0; }
+        .dark-card p { color: #94a3b8; font-size: 0.9rem; margin: 0; }
+        .dark-card.warning { border-left-color: #facc15; }
+        .dark-card.danger { border-left-color: #f87171; }
+        .dark-card.info { border-left-color: #22d3ee; }
+
+        .dark-table { width: 100%; border-collapse: collapse; margin: 1rem 0; }
+        .dark-table th { background: #3d4a5d; color: #fff; padding: 0.75rem 1rem; text-align: left; }
+        .dark-table td { background: #2d3a4d; color: #94a3b8; padding: 0.75rem 1rem; border-bottom: 1px solid #3d4a5d; }
+        .dark-table code { background: #1a2332; color: #2dd4bf; padding: 0.2rem 0.4rem; border-radius: 4px; }
+
+        .big-number { font-size: 4rem; font-weight: bold; color: #2dd4bf; line-height: 1; }
+        .stat-label { color: #94a3b8; font-size: 1.1rem; margin-top: 0.5rem; }
+
+        .code-block { background: #1a2332; border-radius: 8px; padding: 1rem; overflow-x: auto; }
+        .code-block pre { margin: 0; color: #e2e8f0; font-family: 'Monaco', 'Menlo', monospace; font-size: 0.9rem; }
+        .code-block .comment { color: #6b7280; }
+        .code-block .keyword { color: #c084fc; }
+        .code-block .string { color: #4ade80; }
+        .code-block .function { color: #60a5fa; }
+        .code-block .number { color: #f472b6; }
+
+        .feature-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1rem; }
+        .feature-item { display: flex; align-items: flex-start; gap: 0.75rem; }
+        .feature-icon { color: #2dd4bf; font-size: 1.25rem; }
+        .feature-text { color: #94a3b8; }
+        .feature-text strong { color: #fff; display: block; margin-bottom: 0.25rem; }
+
+        @media (max-width: 900px) {
+            .dark-two-column, .dark-three-column { grid-template-columns: 1fr; }
+            .dark-four-column { grid-template-columns: repeat(2, 1fr); }
+            .feature-grid { grid-template-columns: 1fr; }
+        }
+    </style>
 </head>
 <body>
     <div class="presentation">
-        <!-- Title Slide -->
-        <section class="slide title-slide">
+        <!-- ========== Module Title ========== -->
+
+        <!-- Slide 1: Title -->
+        <section class="slide title-slide" data-narration="Welcome to Module 4 where we'll explore TypeScript fundamentals. TypeScript adds static typing to JavaScript, catching errors before runtime and improving code quality.">
             <h1>Module 4</h1>
-            <p class="subtitle">Topic TBD</p>
+            <p class="subtitle">TypeScript Fundamentals</p>
             <p class="meta">Advanced Web Development</p>
         </section>
 
-        <!-- Placeholder Content -->
-        <section class="slide">
-            <h1>Coming Soon</h1>
-            <p>Content for this module is being developed.</p>
-            <div class="info-box">
-                <p>Check back soon for updates to this module.</p>
+        <!-- ========== PART 1: TypeScript Essentials ========== -->
+
+        <!-- Slide 2: Part 1 Title -->
+        <section class="slide title-slide" id="part1" data-narration="Part 1 introduces TypeScript - JavaScript with types. TypeScript catches errors before runtime and improves code quality through static type checking.">
+            <h1>Part 1</h1>
+            <p class="subtitle">TypeScript Essentials</p>
+        </section>
+
+        <!-- Slide 3: Why TypeScript -->
+        <section class="slide" id="why-typescript" data-narration="TypeScript adds static typing to JavaScript. It catches errors at compile time, improves IDE support with better autocomplete, and makes refactoring safer.">
+            <div class="dark-container">
+                <h2>Why TypeScript?</h2>
+                <div class="dark-three-column" style="margin-top: 1.5rem;">
+                    <div class="dark-card">
+                        <h4>Catch Errors Early</h4>
+                        <p>Find bugs at compile time, not runtime</p>
+                    </div>
+                    <div class="dark-card">
+                        <h4>Better IDE Support</h4>
+                        <p>Autocomplete, refactoring, navigation</p>
+                    </div>
+                    <div class="dark-card">
+                        <h4>Self-Documenting</h4>
+                        <p>Types serve as inline documentation</p>
+                    </div>
+                </div>
+                <div class="code-block" style="margin-top: 1.5rem;">
+<pre><span class="comment">// JavaScript: error at runtime</span>
+<span class="keyword">const</span> user = <span class="function">getUser</span>();
+<span class="function">console</span>.<span class="function">log</span>(user.naem);  <span class="comment">// typo - undefined</span>
+
+<span class="comment">// TypeScript: error at compile time!</span>
+<span class="comment">// Property 'naem' does not exist on type 'User'</span></pre>
+                </div>
             </div>
         </section>
+
+        <!-- Slide 4: Basic Types -->
+        <section class="slide" id="basic-types" data-narration="TypeScript supports all JavaScript primitives plus additional types. Use type annotations with a colon after variable names.">
+            <div class="dark-container">
+                <h2>Basic Types</h2>
+                <div class="code-block" style="margin-top: 1rem;">
+<pre><span class="comment">// Primitives</span>
+<span class="keyword">let</span> name: <span class="function">string</span> = <span class="string">'Alice'</span>;
+<span class="keyword">let</span> age: <span class="function">number</span> = <span class="number">30</span>;
+<span class="keyword">let</span> isActive: <span class="function">boolean</span> = <span class="keyword">true</span>;
+
+<span class="comment">// Arrays</span>
+<span class="keyword">let</span> numbers: <span class="function">number</span>[] = [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>];
+<span class="keyword">let</span> names: <span class="function">Array</span>&lt;<span class="function">string</span>&gt; = [<span class="string">'Alice'</span>, <span class="string">'Bob'</span>];
+
+<span class="comment">// Special types</span>
+<span class="keyword">let</span> anything: <span class="function">any</span> = <span class="string">'could be anything'</span>;  <span class="comment">// avoid!</span>
+<span class="keyword">let</span> unknown: <span class="function">unknown</span> = <span class="string">'safer than any'</span>;
+<span class="keyword">let</span> nothing: <span class="function">void</span> = <span class="keyword">undefined</span>;
+<span class="keyword">let</span> never: <span class="function">never</span>;  <span class="comment">// function never returns</span></pre>
+                </div>
+            </div>
+        </section>
+
+        <!-- Slide 5: Type Inference -->
+        <section class="slide" id="type-inference" data-narration="TypeScript is smart about inferring types. You don't need to annotate everything - let TypeScript figure it out when the type is obvious.">
+            <div class="dark-container">
+                <h2>Type Inference</h2>
+                <p class="subtitle">TypeScript is smart</p>
+                <div class="code-block" style="margin-top: 1rem;">
+<pre><span class="comment">// Explicit annotation</span>
+<span class="keyword">let</span> name: <span class="function">string</span> = <span class="string">'Alice'</span>;
+
+<span class="comment">// Type inference - TypeScript knows it's a string</span>
+<span class="keyword">let</span> name = <span class="string">'Alice'</span>;  <span class="comment">// inferred as string</span>
+<span class="keyword">let</span> count = <span class="number">42</span>;       <span class="comment">// inferred as number</span>
+<span class="keyword">let</span> items = [<span class="number">1</span>, <span class="number">2</span>];  <span class="comment">// inferred as number[]</span>
+
+<span class="comment">// Best practice: let TS infer when obvious</span>
+<span class="comment">// Annotate parameters, return types, and complex cases</span>
+<span class="keyword">function</span> <span class="function">greet</span>(name: <span class="function">string</span>): <span class="function">string</span> {
+  <span class="keyword">return</span> <span class="string">`Hello, ${name}`</span>;  <span class="comment">// return type inferred</span>
+}</pre>
+                </div>
+            </div>
+        </section>
+
+        <!-- Slide 6: Functions -->
+        <section class="slide" id="ts-functions" data-narration="TypeScript functions need parameter types and optionally return types. Use optional parameters with question marks and default values.">
+            <div class="dark-container">
+                <h2>Functions in TypeScript</h2>
+                <div class="code-block" style="margin-top: 1rem;">
+<pre><span class="comment">// Function with typed parameters and return</span>
+<span class="keyword">function</span> <span class="function">add</span>(a: <span class="function">number</span>, b: <span class="function">number</span>): <span class="function">number</span> {
+  <span class="keyword">return</span> a + b;
+}
+
+<span class="comment">// Arrow function</span>
+<span class="keyword">const</span> multiply = (a: <span class="function">number</span>, b: <span class="function">number</span>): <span class="function">number</span> => a * b;
+
+<span class="comment">// Optional parameters</span>
+<span class="keyword">function</span> <span class="function">greet</span>(name: <span class="function">string</span>, greeting?: <span class="function">string</span>): <span class="function">string</span> {
+  <span class="keyword">return</span> <span class="string">`${greeting ?? 'Hello'}, ${name}`</span>;
+}
+
+<span class="comment">// Default parameters</span>
+<span class="keyword">function</span> <span class="function">greet</span>(name: <span class="function">string</span>, greeting = <span class="string">'Hello'</span>): <span class="function">string</span> {
+  <span class="keyword">return</span> <span class="string">`${greeting}, ${name}`</span>;
+}</pre>
+                </div>
+            </div>
+        </section>
+
+        <!-- Slide 7: Objects and Interfaces -->
+        <section class="slide" id="interfaces" data-narration="Interfaces define the shape of objects. They specify what properties and methods an object must have. Use interfaces to type complex objects.">
+            <div class="dark-container">
+                <h2>Interfaces</h2>
+                <p class="subtitle">Define object shapes</p>
+                <div class="code-block" style="margin-top: 1rem;">
+<pre><span class="keyword">interface</span> <span class="function">User</span> {
+  id: <span class="function">number</span>;
+  name: <span class="function">string</span>;
+  email: <span class="function">string</span>;
+  age?: <span class="function">number</span>;           <span class="comment">// optional property</span>
+  <span class="keyword">readonly</span> createdAt: <span class="function">Date</span>;  <span class="comment">// can't modify</span>
+}
+
+<span class="keyword">const</span> user: <span class="function">User</span> = {
+  id: <span class="number">1</span>,
+  name: <span class="string">'Alice'</span>,
+  email: <span class="string">'alice@example.com'</span>,
+  createdAt: <span class="keyword">new</span> <span class="function">Date</span>()
+};
+
+<span class="comment">// user.createdAt = new Date(); // Error! readonly</span></pre>
+                </div>
+            </div>
+        </section>
+
+        <!-- Slide 8: Type Aliases -->
+        <section class="slide" id="type-aliases" data-narration="Type aliases create custom type names. They can define object types like interfaces, but also unions, intersections, and primitives.">
+            <div class="dark-container">
+                <h2>Type Aliases</h2>
+                <div class="code-block" style="margin-top: 1rem;">
+<pre><span class="comment">// Object type alias (similar to interface)</span>
+<span class="keyword">type</span> <span class="function">Point</span> = {
+  x: <span class="function">number</span>;
+  y: <span class="function">number</span>;
+};
+
+<span class="comment">// Union types</span>
+<span class="keyword">type</span> <span class="function">ID</span> = <span class="function">string</span> | <span class="function">number</span>;
+<span class="keyword">type</span> <span class="function">Status</span> = <span class="string">'pending'</span> | <span class="string">'active'</span> | <span class="string">'completed'</span>;
+
+<span class="comment">// Intersection types</span>
+<span class="keyword">type</span> <span class="function">Employee</span> = <span class="function">Person</span> & { employeeId: <span class="function">number</span> };
+
+<span class="comment">// Function type</span>
+<span class="keyword">type</span> <span class="function">Callback</span> = (data: <span class="function">string</span>) => <span class="function">void</span>;
+
+<span class="keyword">let</span> status: <span class="function">Status</span> = <span class="string">'pending'</span>;
+<span class="comment">// status = 'invalid'; // Error!</span></pre>
+                </div>
+            </div>
+        </section>
+
+        <!-- Slide 9: Union Types -->
+        <section class="slide" id="union-types" data-narration="Union types allow a value to be one of several types. Use the pipe symbol to separate options. TypeScript narrows the type based on checks.">
+            <div class="dark-container">
+                <h2>Union Types</h2>
+                <p class="subtitle">Value can be one of several types</p>
+                <div class="code-block" style="margin-top: 1rem;">
+<pre><span class="keyword">type</span> <span class="function">StringOrNumber</span> = <span class="function">string</span> | <span class="function">number</span>;
+
+<span class="keyword">function</span> <span class="function">format</span>(value: <span class="function">StringOrNumber</span>): <span class="function">string</span> {
+  <span class="comment">// Type narrowing</span>
+  <span class="keyword">if</span> (<span class="keyword">typeof</span> value === <span class="string">'string'</span>) {
+    <span class="keyword">return</span> value.<span class="function">toUpperCase</span>();  <span class="comment">// string methods</span>
+  }
+  <span class="keyword">return</span> value.<span class="function">toFixed</span>(<span class="number">2</span>);        <span class="comment">// number methods</span>
+}
+
+<span class="comment">// Literal unions for enums</span>
+<span class="keyword">type</span> <span class="function">Direction</span> = <span class="string">'north'</span> | <span class="string">'south'</span> | <span class="string">'east'</span> | <span class="string">'west'</span>;
+
+<span class="keyword">function</span> <span class="function">move</span>(dir: <span class="function">Direction</span>) {
+  <span class="comment">// TypeScript knows dir is one of four values</span>
+}</pre>
+                </div>
+            </div>
+        </section>
+
+        <!-- Slide 10: Generics -->
+        <section class="slide" id="generics" data-narration="Generics let you write reusable code that works with multiple types. Use angle brackets to define type parameters that get filled in when you use the function or class.">
+            <div class="dark-container">
+                <h2>Generics</h2>
+                <p class="subtitle">Reusable type-safe code</p>
+                <div class="code-block" style="margin-top: 1rem;">
+<pre><span class="comment">// Generic function</span>
+<span class="keyword">function</span> <span class="function">first</span>&lt;T&gt;(arr: T[]): T | <span class="keyword">undefined</span> {
+  <span class="keyword">return</span> arr[<span class="number">0</span>];
+}
+
+<span class="function">first</span>([<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>]);         <span class="comment">// returns number</span>
+<span class="function">first</span>([<span class="string">'a'</span>, <span class="string">'b'</span>]);       <span class="comment">// returns string</span>
+<span class="function">first</span>&lt;<span class="function">User</span>&gt;(users);      <span class="comment">// returns User</span>
+
+<span class="comment">// Generic interface</span>
+<span class="keyword">interface</span> <span class="function">Response</span>&lt;T&gt; {
+  data: T;
+  status: <span class="function">number</span>;
+  message: <span class="function">string</span>;
+}
+
+<span class="keyword">const</span> userResponse: <span class="function">Response</span>&lt;<span class="function">User</span>&gt; = { <span class="comment">...</span> };</pre>
+                </div>
+            </div>
+        </section>
+
+        <!-- Slide 11: Generic Constraints -->
+        <section class="slide" id="generic-constraints" data-narration="Generic constraints limit what types can be used. Use extends to require that the type has certain properties or extends a base type.">
+            <div class="dark-container">
+                <h2>Generic Constraints</h2>
+                <div class="code-block" style="margin-top: 1rem;">
+<pre><span class="comment">// Constrain T to have a length property</span>
+<span class="keyword">interface</span> <span class="function">HasLength</span> {
+  length: <span class="function">number</span>;
+}
+
+<span class="keyword">function</span> <span class="function">logLength</span>&lt;T <span class="keyword">extends</span> <span class="function">HasLength</span>&gt;(item: T): T {
+  <span class="function">console</span>.<span class="function">log</span>(item.length);
+  <span class="keyword">return</span> item;
+}
+
+<span class="function">logLength</span>(<span class="string">'hello'</span>);       <span class="comment">// OK - string has length</span>
+<span class="function">logLength</span>([<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>]);     <span class="comment">// OK - array has length</span>
+<span class="comment">// logLength(123);        // Error - number has no length</span>
+
+<span class="comment">// Constrain to object keys</span>
+<span class="keyword">function</span> <span class="function">getProperty</span>&lt;T, K <span class="keyword">extends keyof</span> T&gt;(obj: T, key: K) {
+  <span class="keyword">return</span> obj[key];
+}</pre>
+                </div>
+            </div>
+        </section>
+
+        <!-- Slide 12: Utility Types -->
+        <section class="slide" id="utility-types" data-narration="TypeScript includes built-in utility types that transform other types. Partial makes all properties optional, Required makes them required, Pick selects properties.">
+            <div class="dark-container">
+                <h2>Utility Types</h2>
+                <div class="code-block" style="margin-top: 1rem;">
+<pre><span class="keyword">interface</span> <span class="function">User</span> {
+  id: <span class="function">number</span>;
+  name: <span class="function">string</span>;
+  email: <span class="function">string</span>;
+}
+
+<span class="comment">// Partial - all properties optional</span>
+<span class="keyword">type</span> <span class="function">PartialUser</span> = <span class="function">Partial</span>&lt;<span class="function">User</span>&gt;;  <span class="comment">// { id?: ..., name?: ... }</span>
+
+<span class="comment">// Required - all properties required</span>
+<span class="keyword">type</span> <span class="function">RequiredUser</span> = <span class="function">Required</span>&lt;<span class="function">User</span>&gt;;
+
+<span class="comment">// Pick - select specific properties</span>
+<span class="keyword">type</span> <span class="function">UserPreview</span> = <span class="function">Pick</span>&lt;<span class="function">User</span>, <span class="string">'id'</span> | <span class="string">'name'</span>&gt;;
+
+<span class="comment">// Omit - exclude properties</span>
+<span class="keyword">type</span> <span class="function">UserWithoutEmail</span> = <span class="function">Omit</span>&lt;<span class="function">User</span>, <span class="string">'email'</span>&gt;;
+
+<span class="comment">// Readonly - make immutable</span>
+<span class="keyword">type</span> <span class="function">ReadonlyUser</span> = <span class="function">Readonly</span>&lt;<span class="function">User</span>&gt;;</pre>
+                </div>
+            </div>
+        </section>
+
+        <!-- Slide 13: Type Narrowing -->
+        <section class="slide" id="type-narrowing" data-narration="Type narrowing is how TypeScript understands types within conditional blocks. Use typeof, instanceof, in, and type guards to narrow union types.">
+            <div class="dark-container">
+                <h2>Type Narrowing</h2>
+                <div class="code-block" style="margin-top: 1rem;">
+<pre><span class="keyword">function</span> <span class="function">process</span>(value: <span class="function">string</span> | <span class="function">number</span> | <span class="function">Date</span>) {
+  <span class="comment">// typeof narrowing</span>
+  <span class="keyword">if</span> (<span class="keyword">typeof</span> value === <span class="string">'string'</span>) {
+    <span class="keyword">return</span> value.<span class="function">toUpperCase</span>();  <span class="comment">// string</span>
+  }
+
+  <span class="comment">// instanceof narrowing</span>
+  <span class="keyword">if</span> (value <span class="keyword">instanceof</span> <span class="function">Date</span>) {
+    <span class="keyword">return</span> value.<span class="function">toISOString</span>();  <span class="comment">// Date</span>
+  }
+
+  <span class="keyword">return</span> value.<span class="function">toFixed</span>(<span class="number">2</span>);  <span class="comment">// must be number</span>
+}
+
+<span class="comment">// in narrowing for objects</span>
+<span class="keyword">if</span> (<span class="string">'swim'</span> <span class="keyword">in</span> animal) {
+  animal.<span class="function">swim</span>();  <span class="comment">// animal has swim method</span>
+}</pre>
+                </div>
+            </div>
+        </section>
+
+        <!-- Slide 14: Type Guards -->
+        <section class="slide" id="type-guards" data-narration="Custom type guards are functions that narrow types. Use the 'is' keyword in the return type to tell TypeScript what type the value is after the check.">
+            <div class="dark-container">
+                <h2>Custom Type Guards</h2>
+                <div class="code-block" style="margin-top: 1rem;">
+<pre><span class="keyword">interface</span> <span class="function">Dog</span> { bark(): <span class="function">void</span>; breed: <span class="function">string</span>; }
+<span class="keyword">interface</span> <span class="function">Cat</span> { meow(): <span class="function">void</span>; color: <span class="function">string</span>; }
+
+<span class="comment">// Type guard function</span>
+<span class="keyword">function</span> <span class="function">isDog</span>(pet: <span class="function">Dog</span> | <span class="function">Cat</span>): pet <span class="keyword">is</span> <span class="function">Dog</span> {
+  <span class="keyword">return</span> <span class="string">'bark'</span> <span class="keyword">in</span> pet;
+}
+
+<span class="keyword">function</span> <span class="function">handlePet</span>(pet: <span class="function">Dog</span> | <span class="function">Cat</span>) {
+  <span class="keyword">if</span> (<span class="function">isDog</span>(pet)) {
+    pet.<span class="function">bark</span>();   <span class="comment">// TypeScript knows it's a Dog</span>
+    <span class="function">console</span>.<span class="function">log</span>(pet.breed);
+  } <span class="keyword">else</span> {
+    pet.<span class="function">meow</span>();   <span class="comment">// TypeScript knows it's a Cat</span>
+    <span class="function">console</span>.<span class="function">log</span>(pet.color);
+  }
+}</pre>
+                </div>
+            </div>
+        </section>
+
+        <!-- Slide 15: Enums -->
+        <section class="slide" id="enums" data-narration="Enums define a set of named constants. They can be numeric or string-based. Prefer const enums for better performance or use union types instead.">
+            <div class="dark-container">
+                <h2>Enums</h2>
+                <div class="code-block" style="margin-top: 1rem;">
+<pre><span class="comment">// Numeric enum</span>
+<span class="keyword">enum</span> <span class="function">Direction</span> {
+  Up,      <span class="comment">// 0</span>
+  Down,    <span class="comment">// 1</span>
+  Left,    <span class="comment">// 2</span>
+  Right    <span class="comment">// 3</span>
+}
+
+<span class="comment">// String enum</span>
+<span class="keyword">enum</span> <span class="function">Status</span> {
+  Pending = <span class="string">'PENDING'</span>,
+  Active = <span class="string">'ACTIVE'</span>,
+  Completed = <span class="string">'COMPLETED'</span>
+}
+
+<span class="keyword">let</span> dir: <span class="function">Direction</span> = <span class="function">Direction</span>.Up;
+<span class="keyword">let</span> status: <span class="function">Status</span> = <span class="function">Status</span>.Active;
+
+<span class="comment">// Often prefer union types instead:</span>
+<span class="keyword">type</span> <span class="function">Status</span> = <span class="string">'pending'</span> | <span class="string">'active'</span> | <span class="string">'completed'</span>;</pre>
+                </div>
+            </div>
+        </section>
+
+        <!-- Slide 16: Part 1 Summary -->
+        <section class="slide" id="part1-summary" data-narration="Part 1 covered TypeScript essentials: basic types, interfaces, type aliases, unions, generics, utility types, and type narrowing. Types make your code safer.">
+            <div class="dark-container">
+                <h2>Part 1 Summary</h2>
+                <div class="dark-three-column" style="margin-top: 1.5rem;">
+                    <div class="dark-card">
+                        <h4>Basic Types</h4>
+                        <p>string, number, boolean, arrays</p>
+                    </div>
+                    <div class="dark-card">
+                        <h4>Interfaces</h4>
+                        <p>Object shapes, optional props</p>
+                    </div>
+                    <div class="dark-card">
+                        <h4>Type Aliases</h4>
+                        <p>Unions, intersections</p>
+                    </div>
+                    <div class="dark-card">
+                        <h4>Generics</h4>
+                        <p>Reusable typed code</p>
+                    </div>
+                    <div class="dark-card">
+                        <h4>Utility Types</h4>
+                        <p>Partial, Pick, Omit</p>
+                    </div>
+                    <div class="dark-card">
+                        <h4>Type Narrowing</h4>
+                        <p>typeof, instanceof, guards</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ========== PART 2: Hands-On Exercises ========== -->
+
+        <!-- Slide 17: Part 2 Title -->
+        <section class="slide title-slide" id="part2" data-narration="Part 2 contains hands-on exercises to practice what you've learned. Work through these TypeScript challenges to solidify your understanding.">
+            <h1>Part 2</h1>
+            <p class="subtitle">Hands-On Exercises</p>
+        </section>
+
+        <!-- Slide 18: Exercise 1 - TypeScript Types -->
+        <section class="slide" id="exercise-1" data-narration="Exercise 1: Add TypeScript types to a shopping cart module. Define interfaces for products and cart items.">
+            <div class="dark-container">
+                <h2>Exercise 1: TypeScript Types</h2>
+                <p class="subtitle">Type a shopping cart module</p>
+                <div class="code-block" style="margin-top: 1rem;">
+<pre><span class="comment">// TODO: Define types for:
+// - Product (id, name, price, category)
+// - CartItem (product, quantity)
+// - Cart (items array, addItem, removeItem, getTotal)</span>
+
+<span class="keyword">interface</span> <span class="function">Product</span> {
+  <span class="comment">// Your types here</span>
+}
+
+<span class="keyword">interface</span> <span class="function">CartItem</span> {
+  <span class="comment">// Your types here</span>
+}
+
+<span class="keyword">interface</span> <span class="function">Cart</span> {
+  <span class="comment">// Your types here</span>
+}</pre>
+                </div>
+            </div>
+        </section>
+
+        <!-- Slide 19: Exercise 1 Solution -->
+        <section class="slide" id="exercise-1-solution" data-narration="Here's a well-typed shopping cart. Note the use of union types for category, readonly for immutable arrays, and optional return types.">
+            <div class="dark-container">
+                <h2>Exercise 1: Solution</h2>
+                <div class="code-block" style="margin-top: 1rem;">
+<pre><span class="keyword">interface</span> <span class="function">Product</span> {
+  id: <span class="function">string</span>;
+  name: <span class="function">string</span>;
+  price: <span class="function">number</span>;
+  category: <span class="string">'electronics'</span> | <span class="string">'clothing'</span> | <span class="string">'food'</span>;
+}
+
+<span class="keyword">interface</span> <span class="function">CartItem</span> {
+  product: <span class="function">Product</span>;
+  quantity: <span class="function">number</span>;
+}
+
+<span class="keyword">interface</span> <span class="function">Cart</span> {
+  <span class="keyword">readonly</span> items: <span class="function">CartItem</span>[];
+  <span class="function">addItem</span>(product: <span class="function">Product</span>, qty?: <span class="function">number</span>): <span class="function">void</span>;
+  <span class="function">removeItem</span>(productId: <span class="function">string</span>): <span class="function">boolean</span>;
+  <span class="function">getTotal</span>(): <span class="function">number</span>;
+}</pre>
+                </div>
+            </div>
+        </section>
+
+        <!-- Slide 20: Challenge Exercise -->
+        <section class="slide" id="challenge" data-narration="Challenge: Combine everything you've learned. Build a weather app that fetches data from an API, uses TypeScript, and updates the DOM dynamically.">
+            <div class="dark-container">
+                <h2>Challenge: Weather App</h2>
+                <p class="subtitle">Combine all your TypeScript skills</p>
+                <div class="feature-grid" style="margin-top: 1.5rem;">
+                    <div class="feature-item">
+                        <span class="feature-icon">1</span>
+                        <div class="feature-text">
+                            <strong>Fetch API</strong>
+                            Get weather data from OpenWeatherMap
+                        </div>
+                    </div>
+                    <div class="feature-item">
+                        <span class="feature-icon">2</span>
+                        <div class="feature-text">
+                            <strong>TypeScript</strong>
+                            Type the API response and app state
+                        </div>
+                    </div>
+                    <div class="feature-item">
+                        <span class="feature-icon">3</span>
+                        <div class="feature-text">
+                            <strong>DOM Updates</strong>
+                            Display weather with dynamic UI
+                        </div>
+                    </div>
+                    <div class="feature-item">
+                        <span class="feature-icon">4</span>
+                        <div class="feature-text">
+                            <strong>Error Handling</strong>
+                            Handle network and API errors
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Slide 21: Module Summary -->
+        <section class="slide" id="module-summary" data-narration="Congratulations on completing Module 4! You've learned TypeScript fundamentals including types, interfaces, generics, and type safety patterns. Keep practicing!">
+            <div class="dark-container">
+                <h2>Module 4 Complete!</h2>
+                <p class="subtitle">What you've learned</p>
+                <div class="dark-two-column" style="margin-top: 1.5rem;">
+                    <div class="dark-card">
+                        <h4>Part 1</h4>
+                        <p>TypeScript Essentials - types, interfaces, generics, utility types</p>
+                    </div>
+                    <div class="dark-card">
+                        <h4>Part 2</h4>
+                        <p>Hands-On Practice - typing real applications</p>
+                    </div>
+                </div>
+                <p style="text-align: center; margin-top: 1.5rem; color: #2dd4bf; font-size: 1.2rem;">Types make your code safer and more maintainable!</p>
+            </div>
+        </section>
+
     </div>
 
     <script src="../js/slides.js"></script>

@@ -3,27 +3,1935 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Module 3 - Advanced Web Development">
-    <title>Module 3: Topic TBD | Advanced Web Development</title>
+    <meta name="description" content="Module 3 - JavaScript Fundamentals">
+    <title>Module 3: JavaScript Fundamentals | Advanced Web Development</title>
     <link rel="stylesheet" href="../css/slides.css">
+    <style>
+        /* Dark theme components */
+        .dark-container {
+            background: linear-gradient(135deg, #1a2332 0%, #2d3748 100%);
+            border-radius: 12px;
+            padding: 2rem;
+            border-left: 4px solid;
+            border-image: linear-gradient(180deg, #06b6d4, #f97316, #ef4444) 1;
+        }
+        .dark-container h2 { color: #fff; margin: 0 0 0.5rem 0; font-size: 1.8rem; }
+        .dark-container .subtitle { color: #94a3b8; margin-bottom: 1.5rem; }
+        .dark-container h3 { color: #2dd4bf; margin-top: 1rem; }
+        .dark-container ul { color: #94a3b8; }
+        .dark-container li { margin-bottom: 0.5rem; }
+        .dark-container strong { color: #fff; }
+        .dark-container p { color: #94a3b8; }
+        .dark-container code { background: #2d3a4d; color: #2dd4bf; padding: 0.2rem 0.4rem; border-radius: 4px; }
+
+        .dark-two-column { display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; }
+        .dark-three-column { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 1.5rem; }
+        .dark-four-column { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1rem; }
+
+        .dark-card {
+            background: #2d3a4d;
+            border-radius: 8px;
+            padding: 1rem;
+            border-left: 3px solid #2dd4bf;
+        }
+        .dark-card h4 { color: #fff; margin: 0 0 0.5rem 0; }
+        .dark-card p { color: #94a3b8; font-size: 0.9rem; margin: 0; }
+        .dark-card.warning { border-left-color: #facc15; }
+        .dark-card.danger { border-left-color: #f87171; }
+        .dark-card.info { border-left-color: #22d3ee; }
+
+        .dark-table { width: 100%; border-collapse: collapse; margin: 1rem 0; }
+        .dark-table th { background: #3d4a5d; color: #fff; padding: 0.75rem 1rem; text-align: left; }
+        .dark-table td { background: #2d3a4d; color: #94a3b8; padding: 0.75rem 1rem; border-bottom: 1px solid #3d4a5d; }
+        .dark-table code { background: #1a2332; color: #2dd4bf; padding: 0.2rem 0.4rem; border-radius: 4px; }
+
+        .timeline { position: relative; padding-left: 2rem; }
+        .timeline-item { position: relative; margin-bottom: 1.5rem; padding-left: 1.5rem; border-left: 2px solid #3d4a5d; }
+        .timeline-item::before { content: ''; position: absolute; left: -0.5rem; top: 0.25rem; width: 1rem; height: 1rem; background: #2dd4bf; border-radius: 50%; }
+        .timeline-year { color: #2dd4bf; font-weight: bold; font-size: 1.1rem; }
+        .timeline-content { color: #94a3b8; margin-top: 0.25rem; }
+
+        .big-number { font-size: 4rem; font-weight: bold; color: #2dd4bf; line-height: 1; }
+        .stat-label { color: #94a3b8; font-size: 1.1rem; margin-top: 0.5rem; }
+
+        .code-block { background: #1a2332; border-radius: 8px; padding: 1rem; overflow-x: auto; }
+        .code-block pre { margin: 0; color: #e2e8f0; font-family: 'Monaco', 'Menlo', monospace; font-size: 0.9rem; }
+        .code-block .comment { color: #6b7280; }
+        .code-block .keyword { color: #c084fc; }
+        .code-block .string { color: #4ade80; }
+        .code-block .function { color: #60a5fa; }
+        .code-block .number { color: #f472b6; }
+
+        .flow-diagram { display: flex; align-items: center; justify-content: center; gap: 1rem; margin: 2rem 0; flex-wrap: wrap; }
+        .flow-box { background: #2d3a4d; border-radius: 8px; padding: 1rem 1.5rem; text-align: center; border: 2px solid #3d4a5d; }
+        .flow-box.highlight { border-color: #2dd4bf; }
+        .flow-box .label { color: #94a3b8; font-size: 0.8rem; text-transform: uppercase; }
+        .flow-box .value { color: #fff; font-size: 1.1rem; font-weight: 600; margin-top: 0.25rem; }
+        .flow-arrow { color: #94a3b8; font-size: 1.5rem; }
+
+        .feature-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1rem; }
+        .feature-item { display: flex; align-items: flex-start; gap: 0.75rem; }
+        .feature-icon { color: #2dd4bf; font-size: 1.25rem; }
+        .feature-text { color: #94a3b8; }
+        .feature-text strong { color: #fff; display: block; margin-bottom: 0.25rem; }
+
+        @media (max-width: 900px) {
+            .dark-two-column, .dark-three-column { grid-template-columns: 1fr; }
+            .dark-four-column { grid-template-columns: repeat(2, 1fr); }
+            .feature-grid { grid-template-columns: 1fr; }
+        }
+    </style>
 </head>
 <body>
     <div class="presentation">
-        <!-- Title Slide -->
-        <section class="slide title-slide">
+        <!-- ========== PART 1: JavaScript History & Origins ========== -->
+
+        <!-- Slide 1: Title -->
+        <section class="slide title-slide" data-narration="Welcome to Module 3 where we'll explore JavaScript fundamentals. This comprehensive module covers everything from JavaScript's origins to modern development practices.">
             <h1>Module 3</h1>
-            <p class="subtitle">Topic TBD</p>
+            <p class="subtitle">JavaScript Fundamentals</p>
             <p class="meta">Advanced Web Development</p>
         </section>
 
-        <!-- Placeholder Content -->
-        <section class="slide">
-            <h1>Coming Soon</h1>
-            <p>Content for this module is being developed.</p>
-            <div class="info-box">
-                <p>Check back soon for updates to this module.</p>
+        <!-- Slide 2: Part 1 Title -->
+        <section class="slide title-slide" id="part1" data-narration="Let's start with Part 1, exploring the history and origins of JavaScript. Understanding where JavaScript came from helps us appreciate its quirks and design decisions.">
+            <h1>Part 1</h1>
+            <p class="subtitle">JavaScript History & Origins</p>
+        </section>
+
+        <!-- Slide 3: 10 Days -->
+        <section class="slide" id="js-creation" data-narration="JavaScript was created in just 10 days by Brendan Eich at Netscape in 1995. This incredibly short development timeline explains many of JavaScript's quirks and unusual behaviors.">
+            <div class="dark-container">
+                <h2>The Birth of JavaScript</h2>
+                <p class="subtitle">A language created under pressure</p>
+                <div style="text-align: center; margin: 2rem 0;">
+                    <div class="big-number">10</div>
+                    <div class="stat-label">Days to Create JavaScript</div>
+                </div>
+                <p style="text-align: center;">Brendan Eich at Netscape, May 1995</p>
             </div>
         </section>
+
+        <!-- Slide 4: Original Names -->
+        <section class="slide" id="js-names" data-narration="JavaScript went through several name changes. It started as Mocha, became LiveScript, and was finally renamed JavaScript as a marketing strategy to capitalize on Java's popularity.">
+            <div class="dark-container">
+                <h2>What's in a Name?</h2>
+                <div class="flow-diagram">
+                    <div class="flow-box">
+                        <div class="label">1995</div>
+                        <div class="value">Mocha</div>
+                    </div>
+                    <div class="flow-arrow">&rarr;</div>
+                    <div class="flow-box">
+                        <div class="label">1995</div>
+                        <div class="value">LiveScript</div>
+                    </div>
+                    <div class="flow-arrow">&rarr;</div>
+                    <div class="flow-box highlight">
+                        <div class="label">Dec 1995</div>
+                        <div class="value">JavaScript</div>
+                    </div>
+                </div>
+                <p style="text-align: center; margin-top: 1rem;">Named for marketing synergy with Java (despite being unrelated)</p>
+            </div>
+        </section>
+
+        <!-- Slide 5: Browser Wars -->
+        <section class="slide" id="browser-wars" data-narration="The browser wars between Netscape and Microsoft created competing JavaScript implementations. Microsoft's JScript was similar but not identical, leading to compatibility nightmares for developers.">
+            <div class="dark-container">
+                <h2>The Browser Wars</h2>
+                <p class="subtitle">1995-2001: Competition breeds fragmentation</p>
+                <div class="dark-two-column">
+                    <div class="dark-card">
+                        <h4>Netscape Navigator</h4>
+                        <p>JavaScript (original)</p>
+                        <p style="margin-top: 0.5rem; color: #2dd4bf;">First mover advantage</p>
+                    </div>
+                    <div class="dark-card">
+                        <h4>Internet Explorer</h4>
+                        <p>JScript (Microsoft's version)</p>
+                        <p style="margin-top: 0.5rem; color: #facc15;">Similar but incompatible</p>
+                    </div>
+                </div>
+                <p style="text-align: center; margin-top: 1.5rem; color: #f87171;">Result: "Best viewed in..." badges everywhere</p>
+            </div>
+        </section>
+
+        <!-- Slide 6: ECMAScript -->
+        <section class="slide" id="ecmascript" data-narration="To bring order to the chaos, JavaScript was standardized as ECMAScript by ECMA International in 1997. ECMAScript is the official specification that JavaScript implements.">
+            <div class="dark-container">
+                <h2>ECMAScript: The Standard</h2>
+                <p class="subtitle">Bringing order to chaos (1997)</p>
+                <div class="feature-grid" style="margin-top: 1.5rem;">
+                    <div class="feature-item">
+                        <span class="feature-icon">&#10003;</span>
+                        <div class="feature-text">
+                            <strong>ECMA-262</strong>
+                            Official language specification
+                        </div>
+                    </div>
+                    <div class="feature-item">
+                        <span class="feature-icon">&#10003;</span>
+                        <div class="feature-text">
+                            <strong>TC39 Committee</strong>
+                            Manages language evolution
+                        </div>
+                    </div>
+                    <div class="feature-item">
+                        <span class="feature-icon">&#10003;</span>
+                        <div class="feature-text">
+                            <strong>Yearly Releases</strong>
+                            ES2015, ES2016, ES2017...
+                        </div>
+                    </div>
+                    <div class="feature-item">
+                        <span class="feature-icon">&#10003;</span>
+                        <div class="feature-text">
+                            <strong>Browser Vendors</strong>
+                            Implement the standard
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Slide 7: ES Version Timeline -->
+        <section class="slide" id="es-versions" data-narration="Here's a timeline of major ECMAScript versions. ES3 in 1999 was widely adopted, ES5 in 2009 added strict mode, and ES6 in 2015 was a massive update that modernized the language.">
+            <div class="dark-container">
+                <h2>ECMAScript Evolution</h2>
+                <div class="timeline" style="margin-top: 1.5rem;">
+                    <div class="timeline-item">
+                        <div class="timeline-year">ES3 (1999)</div>
+                        <div class="timeline-content">Regular expressions, try/catch - widely adopted baseline</div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-year">ES5 (2009)</div>
+                        <div class="timeline-content">Strict mode, JSON, Array methods - 10 years of refinement</div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-year">ES6/ES2015</div>
+                        <div class="timeline-content">Classes, modules, arrow functions, let/const - modern JS begins</div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-year">ES2016+</div>
+                        <div class="timeline-content">Yearly releases: async/await, spread, optional chaining...</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Slide 8: Node.js Revolution -->
+        <section class="slide" id="nodejs" data-narration="In 2009, Node.js changed everything by bringing JavaScript to the server. Built on Chrome's V8 engine, it enabled full-stack JavaScript development and spawned a massive ecosystem.">
+            <div class="dark-container">
+                <h2>Node.js: JavaScript Everywhere</h2>
+                <p class="subtitle">2009 - Server-side JavaScript becomes reality</p>
+                <div class="dark-two-column" style="margin-top: 1.5rem;">
+                    <div>
+                        <h3>What Node.js Enabled</h3>
+                        <ul>
+                            <li><strong>Server-side JavaScript</strong></li>
+                            <li><strong>npm</strong> - package ecosystem</li>
+                            <li><strong>Build tools</strong> - webpack, etc.</li>
+                            <li><strong>Full-stack JS</strong> development</li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h3>Built On</h3>
+                        <ul>
+                            <li>Chrome's <strong>V8 engine</strong></li>
+                            <li><strong>Event-driven</strong> architecture</li>
+                            <li><strong>Non-blocking</strong> I/O</li>
+                            <li><strong>Single-threaded</strong> event loop</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Slide 9: JS vs Java -->
+        <section class="slide" id="js-vs-java" data-narration="A common confusion: JavaScript and Java are completely different languages. They share a name for marketing reasons only. Java is statically typed and compiled, JavaScript is dynamic and interpreted.">
+            <div class="dark-container">
+                <h2>JavaScript vs Java</h2>
+                <p class="subtitle">Completely different languages!</p>
+                <table class="dark-table">
+                    <tr>
+                        <th>JavaScript</th>
+                        <th>Java</th>
+                    </tr>
+                    <tr>
+                        <td>Dynamic typing</td>
+                        <td>Static typing</td>
+                    </tr>
+                    <tr>
+                        <td>Interpreted/JIT</td>
+                        <td>Compiled to bytecode</td>
+                    </tr>
+                    <tr>
+                        <td>Prototype-based</td>
+                        <td>Class-based</td>
+                    </tr>
+                    <tr>
+                        <td>Browser + Node.js</td>
+                        <td>JVM everywhere</td>
+                    </tr>
+                </table>
+            </div>
+        </section>
+
+        <!-- Slide 10: Modern JS Stats -->
+        <section class="slide" id="js-stats" data-narration="Today, JavaScript is the most popular programming language in the world. It powers 98% of websites and has millions of npm packages. Understanding JavaScript is essential for web development.">
+            <div class="dark-container">
+                <h2>JavaScript Today</h2>
+                <div class="dark-three-column" style="margin-top: 1.5rem; text-align: center;">
+                    <div>
+                        <div class="big-number" style="font-size: 3rem;">98%</div>
+                        <div class="stat-label">of websites use JS</div>
+                    </div>
+                    <div>
+                        <div class="big-number" style="font-size: 3rem;">#1</div>
+                        <div class="stat-label">most popular language</div>
+                    </div>
+                    <div>
+                        <div class="big-number" style="font-size: 3rem;">2M+</div>
+                        <div class="stat-label">npm packages</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Slide 11: Why JS Quirks -->
+        <section class="slide" id="js-quirks" data-narration="JavaScript has many quirks because of its rushed creation and backward compatibility requirements. Understanding these helps you avoid common pitfalls.">
+            <div class="dark-container">
+                <h2>Why the Quirks?</h2>
+                <p class="subtitle">Historical context explains a lot</p>
+                <div class="dark-two-column" style="margin-top: 1.5rem;">
+                    <div class="dark-card warning">
+                        <h4>10-Day Development</h4>
+                        <p>Rapid prototyping led to inconsistencies</p>
+                    </div>
+                    <div class="dark-card warning">
+                        <h4>Backward Compatibility</h4>
+                        <p>Can't break existing websites</p>
+                    </div>
+                    <div class="dark-card warning">
+                        <h4>Type Coercion</h4>
+                        <p>Automatic conversions cause surprises</p>
+                    </div>
+                    <div class="dark-card warning">
+                        <h4>Global by Default</h4>
+                        <p>Variables leak without var/let/const</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Slide 12: Running JS -->
+        <section class="slide" id="running-js" data-narration="You can run JavaScript in multiple environments: browser console for quick tests, script tags in HTML, Node.js for server-side, or online playgrounds for experimentation.">
+            <div class="dark-container">
+                <h2>Where JavaScript Runs</h2>
+                <div class="dark-four-column" style="margin-top: 1.5rem;">
+                    <div class="dark-card">
+                        <h4>Browser Console</h4>
+                        <p>F12 &rarr; Console tab</p>
+                    </div>
+                    <div class="dark-card">
+                        <h4>HTML Script Tag</h4>
+                        <p>&lt;script&gt; in pages</p>
+                    </div>
+                    <div class="dark-card">
+                        <h4>Node.js</h4>
+                        <p>node file.js</p>
+                    </div>
+                    <div class="dark-card">
+                        <h4>Online</h4>
+                        <p>CodePen, JSFiddle</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Slide 13: Console Methods -->
+        <section class="slide" id="console-methods" data-narration="The console object provides various methods for debugging. console.log is most common, but console.table, console.time, and console.group are extremely useful for development.">
+            <div class="dark-container">
+                <h2>Console Methods</h2>
+                <p class="subtitle">Essential debugging tools</p>
+                <div class="code-block" style="margin-top: 1rem;">
+<pre><span class="function">console</span>.<span class="function">log</span>(<span class="string">'Basic output'</span>);
+<span class="function">console</span>.<span class="function">error</span>(<span class="string">'Error message'</span>);
+<span class="function">console</span>.<span class="function">warn</span>(<span class="string">'Warning message'</span>);
+<span class="function">console</span>.<span class="function">table</span>([{<span class="string">name</span>: <span class="string">'Alice'</span>}, {<span class="string">name</span>: <span class="string">'Bob'</span>}]);
+<span class="function">console</span>.<span class="function">time</span>(<span class="string">'timer'</span>);
+<span class="comment">// ... code to measure ...</span>
+<span class="function">console</span>.<span class="function">timeEnd</span>(<span class="string">'timer'</span>);</pre>
+                </div>
+            </div>
+        </section>
+
+        <!-- Slide 14: Script Loading -->
+        <section class="slide" id="script-loading" data-narration="When including JavaScript in HTML, script placement matters. Scripts in the head block rendering, while scripts before closing body or with defer attribute load efficiently.">
+            <div class="dark-container">
+                <h2>Script Loading Strategies</h2>
+                <div class="code-block" style="margin-top: 1rem;">
+<pre><span class="comment">&lt;!-- Blocks rendering (avoid) --&gt;</span>
+&lt;<span class="keyword">head</span>&gt;
+  &lt;<span class="keyword">script</span> <span class="function">src</span>=<span class="string">"app.js"</span>&gt;&lt;/<span class="keyword">script</span>&gt;
+&lt;/<span class="keyword">head</span>&gt;
+
+<span class="comment">&lt;!-- Better: defer or end of body --&gt;</span>
+&lt;<span class="keyword">script</span> <span class="function">src</span>=<span class="string">"app.js"</span> <span class="function">defer</span>&gt;&lt;/<span class="keyword">script</span>&gt;
+
+<span class="comment">&lt;!-- Or place before &lt;/body&gt; --&gt;</span>
+&lt;<span class="keyword">body</span>&gt;
+  <span class="comment">&lt;!-- content --&gt;</span>
+  &lt;<span class="keyword">script</span> <span class="function">src</span>=<span class="string">"app.js"</span>&gt;&lt;/<span class="keyword">script</span>&gt;
+&lt;/<span class="keyword">body</span>&gt;</pre>
+                </div>
+            </div>
+        </section>
+
+        <!-- Slide 15: Part 1 Summary -->
+        <section class="slide" id="part1-summary" data-narration="To summarize Part 1: JavaScript was created quickly in 1995, standardized as ECMAScript, and revolutionized by Node.js. Its quirks come from history, not poor design.">
+            <div class="dark-container">
+                <h2>Part 1 Summary</h2>
+                <div class="feature-grid" style="margin-top: 1.5rem;">
+                    <div class="feature-item">
+                        <span class="feature-icon">&#10003;</span>
+                        <div class="feature-text">
+                            <strong>Created in 10 days</strong>
+                            Brendan Eich, Netscape, 1995
+                        </div>
+                    </div>
+                    <div class="feature-item">
+                        <span class="feature-icon">&#10003;</span>
+                        <div class="feature-text">
+                            <strong>Standardized as ECMAScript</strong>
+                            TC39 committee manages evolution
+                        </div>
+                    </div>
+                    <div class="feature-item">
+                        <span class="feature-icon">&#10003;</span>
+                        <div class="feature-text">
+                            <strong>Node.js (2009)</strong>
+                            Enabled server-side JavaScript
+                        </div>
+                    </div>
+                    <div class="feature-item">
+                        <span class="feature-icon">&#10003;</span>
+                        <div class="feature-text">
+                            <strong>Most popular language</strong>
+                            Powers 98% of websites
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ========== PART 2: JavaScript Fundamentals (Slides 16-54) ========== -->
+
+        <!-- Slide 16: Part 2 Title -->
+        <section class="slide title-slide" id="part2" data-narration="Part 2 covers JavaScript fundamentals - the core building blocks you'll use every day. We'll cover variables, types, operators, functions, and working with the DOM.">
+            <h1>Part 2</h1>
+            <p class="subtitle">JavaScript Fundamentals</p>
+        </section>
+
+        <!-- Slide 17: Variable Declaration -->
+        <section class="slide" id="variables" data-narration="Modern JavaScript has three ways to declare variables: var, let, and const. Always prefer const for values that don't change, and let when reassignment is needed. Avoid var.">
+            <div class="dark-container">
+                <h2>Variable Declaration</h2>
+                <p class="subtitle">var vs let vs const</p>
+                <div class="code-block" style="margin-top: 1rem;">
+<pre><span class="keyword">var</span> oldWay = <span class="string">'avoid this'</span>;    <span class="comment">// function scoped, hoisted</span>
+<span class="keyword">let</span> canChange = <span class="string">'reassignable'</span>; <span class="comment">// block scoped</span>
+<span class="keyword">const</span> fixed = <span class="string">'immutable ref'</span>;  <span class="comment">// block scoped, can't reassign</span>
+
+<span class="comment">// Best practice: const by default, let when needed</span></pre>
+                </div>
+            </div>
+        </section>
+
+        <!-- Slide 18: var vs let vs const Table -->
+        <section class="slide" id="var-let-const" data-narration="Here's a comparison of the three declaration keywords. The key differences are scope, hoisting behavior, and whether you can reassign or redeclare the variable.">
+            <div class="dark-container">
+                <h2>Declaration Comparison</h2>
+                <table class="dark-table">
+                    <tr>
+                        <th>Feature</th>
+                        <th><code>var</code></th>
+                        <th><code>let</code></th>
+                        <th><code>const</code></th>
+                    </tr>
+                    <tr>
+                        <td>Scope</td>
+                        <td>Function</td>
+                        <td>Block</td>
+                        <td>Block</td>
+                    </tr>
+                    <tr>
+                        <td>Hoisting</td>
+                        <td>Yes (undefined)</td>
+                        <td>TDZ</td>
+                        <td>TDZ</td>
+                    </tr>
+                    <tr>
+                        <td>Reassign</td>
+                        <td>Yes</td>
+                        <td>Yes</td>
+                        <td>No</td>
+                    </tr>
+                    <tr>
+                        <td>Redeclare</td>
+                        <td>Yes</td>
+                        <td>No</td>
+                        <td>No</td>
+                    </tr>
+                </table>
+                <p style="margin-top: 1rem; font-size: 0.9rem;">TDZ = Temporal Dead Zone (error if accessed before declaration)</p>
+            </div>
+        </section>
+
+        <!-- Slide 19: Primitive Types -->
+        <section class="slide" id="primitive-types" data-narration="JavaScript has 7 primitive types. These are immutable values stored directly in memory. String, number, boolean, null, undefined, symbol, and bigint.">
+            <div class="dark-container">
+                <h2>Primitive Types</h2>
+                <p class="subtitle">7 fundamental data types</p>
+                <div class="dark-four-column" style="margin-top: 1.5rem;">
+                    <div class="dark-card">
+                        <h4>string</h4>
+                        <p><code>"hello"</code></p>
+                    </div>
+                    <div class="dark-card">
+                        <h4>number</h4>
+                        <p><code>42</code>, <code>3.14</code></p>
+                    </div>
+                    <div class="dark-card">
+                        <h4>boolean</h4>
+                        <p><code>true</code>, <code>false</code></p>
+                    </div>
+                    <div class="dark-card">
+                        <h4>null</h4>
+                        <p>intentional empty</p>
+                    </div>
+                    <div class="dark-card">
+                        <h4>undefined</h4>
+                        <p>unassigned</p>
+                    </div>
+                    <div class="dark-card">
+                        <h4>symbol</h4>
+                        <p>unique identifier</p>
+                    </div>
+                    <div class="dark-card">
+                        <h4>bigint</h4>
+                        <p>large integers</p>
+                    </div>
+                    <div class="dark-card info">
+                        <h4>object</h4>
+                        <p>reference type</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Slide 20: typeof Operator -->
+        <section class="slide" id="typeof" data-narration="The typeof operator returns the type of a value as a string. Watch out for the quirk where typeof null returns 'object' - this is a historical bug that can't be fixed.">
+            <div class="dark-container">
+                <h2>The typeof Operator</h2>
+                <div class="code-block" style="margin-top: 1rem;">
+<pre><span class="keyword">typeof</span> <span class="string">"hello"</span>    <span class="comment">// "string"</span>
+<span class="keyword">typeof</span> <span class="number">42</span>         <span class="comment">// "number"</span>
+<span class="keyword">typeof</span> <span class="keyword">true</span>       <span class="comment">// "boolean"</span>
+<span class="keyword">typeof</span> <span class="keyword">undefined</span>  <span class="comment">// "undefined"</span>
+<span class="keyword">typeof</span> <span class="keyword">null</span>       <span class="comment">// "object" - historical bug!</span>
+<span class="keyword">typeof</span> {}         <span class="comment">// "object"</span>
+<span class="keyword">typeof</span> []         <span class="comment">// "object" (arrays are objects)</span>
+<span class="keyword">typeof</span> <span class="keyword">function</span>(){} <span class="comment">// "function"</span></pre>
+                </div>
+            </div>
+        </section>
+
+        <!-- Slide 21: Type Coercion -->
+        <section class="slide" id="type-coercion" data-narration="JavaScript automatically converts types when comparing or combining values. This can lead to surprising results. Use strict equality to avoid these issues.">
+            <div class="dark-container">
+                <h2>Type Coercion</h2>
+                <p class="subtitle">JavaScript's automatic type conversion</p>
+                <div class="dark-two-column" style="margin-top: 1rem;">
+                    <div class="code-block">
+<pre><span class="comment">// Surprising coercions</span>
+<span class="string">"5"</span> + <span class="number">3</span>      <span class="comment">// "53" (string)</span>
+<span class="string">"5"</span> - <span class="number">3</span>      <span class="comment">// 2 (number)</span>
+<span class="string">"5"</span> * <span class="string">"2"</span>    <span class="comment">// 10 (number)</span>
+<span class="keyword">true</span> + <span class="keyword">true</span>  <span class="comment">// 2</span>
+[] + {}      <span class="comment">// "[object Object]"</span></pre>
+                    </div>
+                    <div class="dark-card warning">
+                        <h4>Avoid with</h4>
+                        <p>Use <code>===</code> strict equality</p>
+                        <p style="margin-top: 0.5rem;">Explicit: <code>Number()</code>, <code>String()</code></p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Slide 22: Equality Operators -->
+        <section class="slide" id="equality" data-narration="Always use strict equality with triple equals. Double equals performs type coercion which leads to confusing behavior like empty string equaling zero.">
+            <div class="dark-container">
+                <h2>Equality: == vs ===</h2>
+                <div class="dark-two-column" style="margin-top: 1rem;">
+                    <div>
+                        <h3 style="color: #f87171;">== (Loose)</h3>
+                        <div class="code-block">
+<pre><span class="string">"5"</span> == <span class="number">5</span>     <span class="comment">// true</span>
+<span class="number">0</span> == <span class="keyword">false</span>   <span class="comment">// true</span>
+<span class="keyword">null</span> == <span class="keyword">undefined</span> <span class="comment">// true</span>
+<span class="string">""</span> == <span class="number">0</span>      <span class="comment">// true</span></pre>
+                        </div>
+                    </div>
+                    <div>
+                        <h3 style="color: #4ade80;">=== (Strict)</h3>
+                        <div class="code-block">
+<pre><span class="string">"5"</span> === <span class="number">5</span>    <span class="comment">// false</span>
+<span class="number">0</span> === <span class="keyword">false</span>  <span class="comment">// false</span>
+<span class="keyword">null</span> === <span class="keyword">undefined</span> <span class="comment">// false</span>
+<span class="string">""</span> === <span class="number">0</span>     <span class="comment">// false</span></pre>
+                        </div>
+                    </div>
+                </div>
+                <p style="text-align: center; margin-top: 1rem; color: #4ade80;">Always use === unless you have a specific reason</p>
+            </div>
+        </section>
+
+        <!-- Slide 23: Truthy and Falsy -->
+        <section class="slide" id="truthy-falsy" data-narration="In boolean contexts, JavaScript treats certain values as false: false, 0, empty string, null, undefined, and NaN. Everything else is truthy, including empty arrays and objects.">
+            <div class="dark-container">
+                <h2>Truthy &amp; Falsy Values</h2>
+                <div class="dark-two-column" style="margin-top: 1rem;">
+                    <div>
+                        <h3 style="color: #f87171;">Falsy (6 values)</h3>
+                        <div class="code-block">
+<pre><span class="keyword">false</span>
+<span class="number">0</span> <span class="comment">(and -0, 0n)</span>
+<span class="string">""</span> <span class="comment">(empty string)</span>
+<span class="keyword">null</span>
+<span class="keyword">undefined</span>
+<span class="number">NaN</span></pre>
+                        </div>
+                    </div>
+                    <div>
+                        <h3 style="color: #4ade80;">Truthy (everything else)</h3>
+                        <div class="code-block">
+<pre><span class="keyword">true</span>
+<span class="number">42</span> <span class="comment">(any non-zero number)</span>
+<span class="string">"hello"</span> <span class="comment">(non-empty string)</span>
+[] <span class="comment">(empty array!)</span>
+{} <span class="comment">(empty object!)</span>
+<span class="keyword">function</span>() {}</pre>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Slide 24: Strings -->
+        <section class="slide" id="strings" data-narration="Strings can be created with single quotes, double quotes, or backticks. Backticks enable template literals which support multi-line strings and embedded expressions.">
+            <div class="dark-container">
+                <h2>Strings</h2>
+                <p class="subtitle">Three ways to create strings</p>
+                <div class="code-block" style="margin-top: 1rem;">
+<pre><span class="keyword">const</span> single = <span class="string">'Hello'</span>;
+<span class="keyword">const</span> double = <span class="string">"World"</span>;
+<span class="keyword">const</span> template = <span class="string">`Hello, ${name}!`</span>;
+
+<span class="comment">// Template literals support:</span>
+<span class="keyword">const</span> multiline = <span class="string">`
+  Line 1
+  Line 2
+`</span>;
+
+<span class="keyword">const</span> expression = <span class="string">`Result: ${2 + 2}`</span>; <span class="comment">// "Result: 4"</span></pre>
+                </div>
+            </div>
+        </section>
+
+        <!-- Slide 25: String Methods -->
+        <section class="slide" id="string-methods" data-narration="Strings have many built-in methods. Remember that strings are immutable - these methods return new strings rather than modifying the original.">
+            <div class="dark-container">
+                <h2>String Methods</h2>
+                <div class="code-block" style="margin-top: 1rem;">
+<pre><span class="keyword">const</span> str = <span class="string">"Hello, World!"</span>;
+
+str.<span class="function">length</span>              <span class="comment">// 13</span>
+str.<span class="function">toUpperCase</span>()       <span class="comment">// "HELLO, WORLD!"</span>
+str.<span class="function">toLowerCase</span>()       <span class="comment">// "hello, world!"</span>
+str.<span class="function">includes</span>(<span class="string">"World"</span>)  <span class="comment">// true</span>
+str.<span class="function">startsWith</span>(<span class="string">"Hello"</span>) <span class="comment">// true</span>
+str.<span class="function">slice</span>(<span class="number">0</span>, <span class="number">5</span>)         <span class="comment">// "Hello"</span>
+str.<span class="function">split</span>(<span class="string">", "</span>)         <span class="comment">// ["Hello", "World!"]</span>
+str.<span class="function">trim</span>()              <span class="comment">// removes whitespace</span></pre>
+                </div>
+            </div>
+        </section>
+
+        <!-- Slide 26: Arrays -->
+        <section class="slide" id="arrays" data-narration="Arrays are ordered collections that can hold any type of value. They're zero-indexed and have a length property.">
+            <div class="dark-container">
+                <h2>Arrays</h2>
+                <p class="subtitle">Ordered collections of values</p>
+                <div class="code-block" style="margin-top: 1rem;">
+<pre><span class="comment">// Creating arrays</span>
+<span class="keyword">const</span> fruits = [<span class="string">'apple'</span>, <span class="string">'banana'</span>, <span class="string">'cherry'</span>];
+<span class="keyword">const</span> mixed = [<span class="number">1</span>, <span class="string">'two'</span>, <span class="keyword">true</span>, { <span class="string">key</span>: <span class="string">'value'</span> }];
+
+<span class="comment">// Accessing elements (zero-indexed)</span>
+fruits[<span class="number">0</span>]        <span class="comment">// 'apple'</span>
+fruits[<span class="number">2</span>]        <span class="comment">// 'cherry'</span>
+fruits.<span class="function">length</span>    <span class="comment">// 3</span>
+fruits.<span class="function">at</span>(<span class="number">-1</span>)    <span class="comment">// 'cherry' (last element)</span></pre>
+                </div>
+            </div>
+        </section>
+
+        <!-- Slide 27: Array Methods -->
+        <section class="slide" id="array-methods" data-narration="Arrays have powerful built-in methods. Push and pop work on the end, shift and unshift on the beginning.">
+            <div class="dark-container">
+                <h2>Array Methods</h2>
+                <div class="code-block" style="margin-top: 1rem;">
+<pre><span class="keyword">const</span> arr = [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>];
+
+<span class="comment">// Add/Remove</span>
+arr.<span class="function">push</span>(<span class="number">4</span>)       <span class="comment">// [1, 2, 3, 4] - add to end</span>
+arr.<span class="function">pop</span>()         <span class="comment">// returns 4, arr = [1, 2, 3]</span>
+arr.<span class="function">unshift</span>(<span class="number">0</span>)    <span class="comment">// [0, 1, 2, 3] - add to start</span>
+arr.<span class="function">shift</span>()       <span class="comment">// returns 0, arr = [1, 2, 3]</span>
+
+<span class="comment">// Find</span>
+arr.<span class="function">indexOf</span>(<span class="number">2</span>)    <span class="comment">// 1 (index of value)</span>
+arr.<span class="function">includes</span>(<span class="number">2</span>)   <span class="comment">// true</span>
+arr.<span class="function">find</span>(x => x > <span class="number">1</span>) <span class="comment">// 2 (first match)</span></pre>
+                </div>
+            </div>
+        </section>
+
+        <!-- Slide 28: Array Iteration -->
+        <section class="slide" id="array-iteration" data-narration="Modern JavaScript provides powerful iteration methods. forEach for side effects, map for transformation, filter for selection, and reduce for aggregation.">
+            <div class="dark-container">
+                <h2>Array Iteration Methods</h2>
+                <div class="code-block" style="margin-top: 1rem;">
+<pre><span class="keyword">const</span> nums = [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>];
+
+<span class="comment">// map - transform each element</span>
+nums.<span class="function">map</span>(n => n * <span class="number">2</span>)  <span class="comment">// [2, 4, 6, 8, 10]</span>
+
+<span class="comment">// filter - keep matching elements</span>
+nums.<span class="function">filter</span>(n => n > <span class="number">2</span>)  <span class="comment">// [3, 4, 5]</span>
+
+<span class="comment">// reduce - accumulate to single value</span>
+nums.<span class="function">reduce</span>((sum, n) => sum + n, <span class="number">0</span>)  <span class="comment">// 15</span>
+
+<span class="comment">// forEach - execute for each element</span>
+nums.<span class="function">forEach</span>(n => <span class="function">console</span>.<span class="function">log</span>(n));</pre>
+                </div>
+            </div>
+        </section>
+
+        <!-- Slide 29: Objects -->
+        <section class="slide" id="objects" data-narration="Objects are collections of key-value pairs. They're the fundamental building block for complex data structures.">
+            <div class="dark-container">
+                <h2>Objects</h2>
+                <p class="subtitle">Key-value pairs</p>
+                <div class="code-block" style="margin-top: 1rem;">
+<pre><span class="keyword">const</span> person = {
+  name: <span class="string">'Alice'</span>,
+  age: <span class="number">30</span>,
+  isStudent: <span class="keyword">false</span>,
+  greet() { <span class="keyword">return</span> <span class="string">`Hi, I'm ${this.name}`</span>; }
+};
+
+<span class="comment">// Access properties</span>
+person.name          <span class="comment">// 'Alice' (dot notation)</span>
+person[<span class="string">'age'</span>]        <span class="comment">// 30 (bracket notation)</span>
+person.<span class="function">greet</span>()       <span class="comment">// "Hi, I'm Alice"</span>
+
+<span class="comment">// Add/modify</span>
+person.email = <span class="string">'alice@example.com'</span>;</pre>
+                </div>
+            </div>
+        </section>
+
+        <!-- Slide 30: Destructuring -->
+        <section class="slide" id="destructuring" data-narration="Destructuring lets you extract values from arrays and objects into distinct variables. It makes code cleaner and more readable.">
+            <div class="dark-container">
+                <h2>Destructuring</h2>
+                <p class="subtitle">Extract values into variables</p>
+                <div class="code-block" style="margin-top: 1rem;">
+<pre><span class="comment">// Array destructuring</span>
+<span class="keyword">const</span> [first, second, ...rest] = [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>];
+<span class="comment">// first = 1, second = 2, rest = [3, 4]</span>
+
+<span class="comment">// Object destructuring</span>
+<span class="keyword">const</span> { name, age, city = <span class="string">'Unknown'</span> } = person;
+
+<span class="comment">// Rename while destructuring</span>
+<span class="keyword">const</span> { name: userName } = person;
+
+<span class="comment">// Function parameters</span>
+<span class="keyword">function</span> <span class="function">greet</span>({ name, age }) {
+  <span class="keyword">return</span> <span class="string">`${name} is ${age}`</span>;
+}</pre>
+                </div>
+            </div>
+        </section>
+
+        <!-- Slide 31: Functions -->
+        <section class="slide" id="functions" data-narration="Functions are first-class citizens in JavaScript. You can declare them, assign them to variables, or write them as arrow functions.">
+            <div class="dark-container">
+                <h2>Functions</h2>
+                <p class="subtitle">Three ways to create functions</p>
+                <div class="code-block" style="margin-top: 1rem;">
+<pre><span class="comment">// Function declaration (hoisted)</span>
+<span class="keyword">function</span> <span class="function">greet</span>(name) {
+  <span class="keyword">return</span> <span class="string">`Hello, ${name}!`</span>;
+}
+
+<span class="comment">// Function expression</span>
+<span class="keyword">const</span> greet = <span class="keyword">function</span>(name) {
+  <span class="keyword">return</span> <span class="string">`Hello, ${name}!`</span>;
+};
+
+<span class="comment">// Arrow function (ES6)</span>
+<span class="keyword">const</span> greet = (name) => <span class="string">`Hello, ${name}!`</span>;</pre>
+                </div>
+            </div>
+        </section>
+
+        <!-- Slide 32: Arrow Functions -->
+        <section class="slide" id="arrow-functions" data-narration="Arrow functions provide concise syntax. They also don't have their own this binding.">
+            <div class="dark-container">
+                <h2>Arrow Functions</h2>
+                <div class="code-block" style="margin-top: 1rem;">
+<pre><span class="comment">// Full syntax</span>
+<span class="keyword">const</span> add = (a, b) => {
+  <span class="keyword">return</span> a + b;
+};
+
+<span class="comment">// Implicit return (single expression)</span>
+<span class="keyword">const</span> add = (a, b) => a + b;
+
+<span class="comment">// Single parameter (no parens needed)</span>
+<span class="keyword">const</span> double = x => x * <span class="number">2</span>;
+
+<span class="comment">// Return object (wrap in parens)</span>
+<span class="keyword">const</span> makePerson = name => ({ name, age: <span class="number">0</span> });</pre>
+                </div>
+                <p style="margin-top: 1rem; color: #facc15;">Arrow functions don't have their own <code>this</code></p>
+            </div>
+        </section>
+
+        <!-- Slide 33: Control Flow -->
+        <section class="slide" id="control-flow" data-narration="Control flow determines which code runs. If statements execute code conditionally.">
+            <div class="dark-container">
+                <h2>Control Flow: if/else</h2>
+                <div class="code-block" style="margin-top: 1rem;">
+<pre><span class="keyword">const</span> score = <span class="number">85</span>;
+
+<span class="keyword">if</span> (score >= <span class="number">90</span>) {
+  <span class="function">console</span>.<span class="function">log</span>(<span class="string">'A'</span>);
+} <span class="keyword">else if</span> (score >= <span class="number">80</span>) {
+  <span class="function">console</span>.<span class="function">log</span>(<span class="string">'B'</span>);
+} <span class="keyword">else if</span> (score >= <span class="number">70</span>) {
+  <span class="function">console</span>.<span class="function">log</span>(<span class="string">'C'</span>);
+} <span class="keyword">else</span> {
+  <span class="function">console</span>.<span class="function">log</span>(<span class="string">'F'</span>);
+}
+
+<span class="comment">// Ternary operator</span>
+<span class="keyword">const</span> result = score >= <span class="number">60</span> ? <span class="string">'Pass'</span> : <span class="string">'Fail'</span>;</pre>
+                </div>
+            </div>
+        </section>
+
+        <!-- Slide 34: Loops -->
+        <section class="slide" id="loops" data-narration="JavaScript has several loop constructs. Traditional for loops give full control, while for-of iterates values and for-in iterates keys.">
+            <div class="dark-container">
+                <h2>Loops</h2>
+                <div class="code-block" style="margin-top: 1rem;">
+<pre><span class="comment">// Traditional for loop</span>
+<span class="keyword">for</span> (<span class="keyword">let</span> i = <span class="number">0</span>; i < <span class="number">5</span>; i++) {
+  <span class="function">console</span>.<span class="function">log</span>(i);
+}
+
+<span class="comment">// for...of (iterate values)</span>
+<span class="keyword">for</span> (<span class="keyword">const</span> item <span class="keyword">of</span> [<span class="string">'a'</span>, <span class="string">'b'</span>, <span class="string">'c'</span>]) {
+  <span class="function">console</span>.<span class="function">log</span>(item);  <span class="comment">// 'a', 'b', 'c'</span>
+}
+
+<span class="comment">// for...in (iterate keys)</span>
+<span class="keyword">for</span> (<span class="keyword">const</span> key <span class="keyword">in</span> { a: <span class="number">1</span>, b: <span class="number">2</span> }) {
+  <span class="function">console</span>.<span class="function">log</span>(key);  <span class="comment">// 'a', 'b'</span>
+}</pre>
+                </div>
+            </div>
+        </section>
+
+        <!-- Slide 35: DOM Introduction -->
+        <section class="slide" id="dom-intro" data-narration="The Document Object Model represents HTML as a tree of objects. JavaScript can access and manipulate this tree.">
+            <div class="dark-container">
+                <h2>The DOM</h2>
+                <p class="subtitle">Document Object Model</p>
+                <div class="flow-diagram" style="margin-top: 1.5rem;">
+                    <div class="flow-box highlight">
+                        <div class="label">HTML</div>
+                        <div class="value">document</div>
+                    </div>
+                    <div class="flow-arrow">&rarr;</div>
+                    <div class="flow-box">
+                        <div class="label">Parser</div>
+                        <div class="value">Browser</div>
+                    </div>
+                    <div class="flow-arrow">&rarr;</div>
+                    <div class="flow-box highlight">
+                        <div class="label">Tree</div>
+                        <div class="value">DOM</div>
+                    </div>
+                </div>
+                <p style="text-align: center; margin-top: 1rem;">JavaScript can read and modify the DOM tree</p>
+            </div>
+        </section>
+
+        <!-- Slide 36: Selecting Elements -->
+        <section class="slide" id="selecting-elements" data-narration="To work with DOM elements, first select them. querySelector uses CSS selectors and returns the first match.">
+            <div class="dark-container">
+                <h2>Selecting DOM Elements</h2>
+                <div class="code-block" style="margin-top: 1rem;">
+<pre><span class="comment">// Modern methods (use CSS selectors)</span>
+<span class="keyword">const</span> el = <span class="function">document</span>.<span class="function">querySelector</span>(<span class="string">'.my-class'</span>);
+<span class="keyword">const</span> els = <span class="function">document</span>.<span class="function">querySelectorAll</span>(<span class="string">'p'</span>);
+
+<span class="comment">// Classic methods</span>
+<span class="function">document</span>.<span class="function">getElementById</span>(<span class="string">'myId'</span>)
+<span class="function">document</span>.<span class="function">getElementsByClassName</span>(<span class="string">'myClass'</span>)
+
+<span class="comment">// querySelector examples</span>
+<span class="function">document</span>.<span class="function">querySelector</span>(<span class="string">'#header'</span>)      <span class="comment">// by ID</span>
+<span class="function">document</span>.<span class="function">querySelector</span>(<span class="string">'.btn.primary'</span>) <span class="comment">// by classes</span>
+<span class="function">document</span>.<span class="function">querySelector</span>(<span class="string">'[data-id="5"]'</span>) <span class="comment">// by attr</span></pre>
+                </div>
+            </div>
+        </section>
+
+        <!-- Slide 37: Modifying Elements -->
+        <section class="slide" id="modifying-elements" data-narration="Once selected, you can modify elements. Change textContent for text, or use classList to manage CSS classes.">
+            <div class="dark-container">
+                <h2>Modifying Elements</h2>
+                <div class="code-block" style="margin-top: 1rem;">
+<pre><span class="keyword">const</span> el = <span class="function">document</span>.<span class="function">querySelector</span>(<span class="string">'#myDiv'</span>);
+
+<span class="comment">// Content</span>
+el.textContent = <span class="string">'New text'</span>;  <span class="comment">// safe, text only</span>
+
+<span class="comment">// Attributes</span>
+el.<span class="function">setAttribute</span>(<span class="string">'data-id'</span>, <span class="string">'123'</span>);
+el.<span class="function">getAttribute</span>(<span class="string">'data-id'</span>);
+
+<span class="comment">// Classes</span>
+el.classList.<span class="function">add</span>(<span class="string">'active'</span>);
+el.classList.<span class="function">remove</span>(<span class="string">'hidden'</span>);
+el.classList.<span class="function">toggle</span>(<span class="string">'selected'</span>);
+
+<span class="comment">// Styles</span>
+el.style.color = <span class="string">'blue'</span>;</pre>
+                </div>
+            </div>
+        </section>
+
+        <!-- Slide 38: Events -->
+        <section class="slide" id="events" data-narration="Events let your code respond to user actions like clicks, keypresses, and form submissions.">
+            <div class="dark-container">
+                <h2>Events</h2>
+                <p class="subtitle">Responding to user interactions</p>
+                <div class="dark-three-column" style="margin-top: 1.5rem;">
+                    <div class="dark-card">
+                        <h4>Mouse</h4>
+                        <p>click, dblclick, mouseenter</p>
+                    </div>
+                    <div class="dark-card">
+                        <h4>Keyboard</h4>
+                        <p>keydown, keyup</p>
+                    </div>
+                    <div class="dark-card">
+                        <h4>Form</h4>
+                        <p>submit, change, input</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Slide 39: Event Listeners -->
+        <section class="slide" id="event-listeners" data-narration="Use addEventListener to attach event handlers. This method allows multiple handlers per event.">
+            <div class="dark-container">
+                <h2>Event Listeners</h2>
+                <div class="code-block" style="margin-top: 1rem;">
+<pre><span class="keyword">const</span> button = <span class="function">document</span>.<span class="function">querySelector</span>(<span class="string">'#myBtn'</span>);
+
+<span class="comment">// Add event listener</span>
+button.<span class="function">addEventListener</span>(<span class="string">'click'</span>, (event) => {
+  <span class="function">console</span>.<span class="function">log</span>(<span class="string">'Button clicked!'</span>);
+  <span class="function">console</span>.<span class="function">log</span>(event.target);  <span class="comment">// the button</span>
+});
+
+<span class="comment">// Prevent default behavior</span>
+form.<span class="function">addEventListener</span>(<span class="string">'submit'</span>, (e) => {
+  e.<span class="function">preventDefault</span>();  <span class="comment">// prevent page reload</span>
+});</pre>
+                </div>
+            </div>
+        </section>
+
+        <!-- Slide 40: Error Handling -->
+        <section class="slide" id="error-handling" data-narration="Use try-catch to handle errors gracefully. The try block contains code that might fail, catch handles the error.">
+            <div class="dark-container">
+                <h2>Error Handling</h2>
+                <div class="code-block" style="margin-top: 1rem;">
+<pre><span class="keyword">try</span> {
+  <span class="comment">// Code that might throw an error</span>
+  <span class="keyword">const</span> data = <span class="function">JSON</span>.<span class="function">parse</span>(invalidJson);
+} <span class="keyword">catch</span> (error) {
+  <span class="function">console</span>.<span class="function">error</span>(<span class="string">'Failed:'</span>, error.message);
+} <span class="keyword">finally</span> {
+  <span class="function">console</span>.<span class="function">log</span>(<span class="string">'Done'</span>);  <span class="comment">// Always runs</span>
+}
+
+<span class="comment">// Throw custom errors</span>
+<span class="keyword">function</span> <span class="function">divide</span>(a, b) {
+  <span class="keyword">if</span> (b === <span class="number">0</span>) <span class="keyword">throw new</span> <span class="function">Error</span>(<span class="string">'Cannot divide by zero'</span>);
+  <span class="keyword">return</span> a / b;
+}</pre>
+                </div>
+            </div>
+        </section>
+
+        <!-- Slide 41: Part 2 Summary -->
+        <section class="slide" id="part2-summary" data-narration="Part 2 covered JavaScript fundamentals: variables, types, arrays, objects, functions, DOM, and events. These are your daily tools.">
+            <div class="dark-container">
+                <h2>Part 2 Summary</h2>
+                <div class="dark-three-column" style="margin-top: 1.5rem;">
+                    <div class="dark-card">
+                        <h4>Variables &amp; Types</h4>
+                        <p>let/const, primitives</p>
+                    </div>
+                    <div class="dark-card">
+                        <h4>Data Structures</h4>
+                        <p>Arrays, objects</p>
+                    </div>
+                    <div class="dark-card">
+                        <h4>Functions</h4>
+                        <p>Declarations, arrows</p>
+                    </div>
+                    <div class="dark-card">
+                        <h4>Control Flow</h4>
+                        <p>if/else, loops</p>
+                    </div>
+                    <div class="dark-card">
+                        <h4>DOM</h4>
+                        <p>Select, modify</p>
+                    </div>
+                    <div class="dark-card">
+                        <h4>Events</h4>
+                        <p>Listeners, handling</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ========== PART 3: Advanced JavaScript (Slides 42-60) ========== -->
+
+        <!-- Slide 42: Part 3 Title -->
+        <section class="slide title-slide" id="part3" data-narration="Part 3 covers advanced JavaScript concepts: scope, closures, the this keyword, asynchronous programming, classes, and modules. These separate beginners from professionals.">
+            <h1>Part 3</h1>
+            <p class="subtitle">Advanced JavaScript</p>
+        </section>
+
+        <!-- Slide 43: Scope -->
+        <section class="slide" id="scope" data-narration="Scope determines where variables are accessible. JavaScript has global scope, function scope, and block scope. Understanding scope prevents bugs.">
+            <div class="dark-container">
+                <h2>Scope</h2>
+                <p class="subtitle">Where variables are accessible</p>
+                <div class="code-block" style="margin-top: 1rem;">
+<pre><span class="keyword">const</span> global = <span class="string">'everywhere'</span>;  <span class="comment">// global scope</span>
+
+<span class="keyword">function</span> <span class="function">outer</span>() {
+  <span class="keyword">const</span> funcScoped = <span class="string">'function only'</span>;
+
+  <span class="keyword">if</span> (<span class="keyword">true</span>) {
+    <span class="keyword">const</span> blockScoped = <span class="string">'block only'</span>;
+    <span class="keyword">var</span> notBlockScoped = <span class="string">'leaks out!'</span>;
+  }
+
+  <span class="function">console</span>.<span class="function">log</span>(notBlockScoped); <span class="comment">// works (var)</span>
+  <span class="comment">// console.log(blockScoped); // Error!</span>
+}</pre>
+                </div>
+            </div>
+        </section>
+
+        <!-- Slide 44: Closures -->
+        <section class="slide" id="closures" data-narration="A closure is a function that remembers variables from its outer scope even after that scope has finished executing. Closures enable powerful patterns like data privacy.">
+            <div class="dark-container">
+                <h2>Closures</h2>
+                <p class="subtitle">Functions remember their birth scope</p>
+                <div class="code-block" style="margin-top: 1rem;">
+<pre><span class="keyword">function</span> <span class="function">createCounter</span>() {
+  <span class="keyword">let</span> count = <span class="number">0</span>;  <span class="comment">// private variable</span>
+
+  <span class="keyword">return</span> {
+    increment: () => ++count,
+    decrement: () => --count,
+    getCount: () => count
+  };
+}
+
+<span class="keyword">const</span> counter = <span class="function">createCounter</span>();
+counter.<span class="function">increment</span>();  <span class="comment">// 1</span>
+counter.<span class="function">increment</span>();  <span class="comment">// 2</span>
+counter.<span class="function">getCount</span>();   <span class="comment">// 2</span>
+<span class="comment">// count is private - can't access directly!</span></pre>
+                </div>
+            </div>
+        </section>
+
+        <!-- Slide 45: The this Keyword -->
+        <section class="slide" id="this-keyword" data-narration="The this keyword refers to the current execution context. Its value depends on how a function is called, not where it's defined. This is one of JavaScript's trickiest concepts.">
+            <div class="dark-container">
+                <h2>The <code>this</code> Keyword</h2>
+                <p class="subtitle">Context depends on how function is called</p>
+                <div class="code-block" style="margin-top: 1rem;">
+<pre><span class="keyword">const</span> obj = {
+  name: <span class="string">'Alice'</span>,
+  greet() {
+    <span class="function">console</span>.<span class="function">log</span>(<span class="string">`Hi, I'm ${this.name}`</span>);
+  },
+  greetArrow: () => {
+    <span class="function">console</span>.<span class="function">log</span>(<span class="string">`Hi, I'm ${this.name}`</span>); <span class="comment">// undefined!</span>
+  }
+};
+
+obj.<span class="function">greet</span>();       <span class="comment">// "Hi, I'm Alice"</span>
+obj.<span class="function">greetArrow</span>();  <span class="comment">// "Hi, I'm undefined"</span>
+
+<span class="keyword">const</span> fn = obj.greet;
+<span class="function">fn</span>();  <span class="comment">// "Hi, I'm undefined" - lost context!</span></pre>
+                </div>
+            </div>
+        </section>
+
+        <!-- Slide 46: Binding this -->
+        <section class="slide" id="binding-this" data-narration="You can explicitly set the this value using call, apply, or bind. Call and apply invoke immediately, while bind returns a new function with this permanently set.">
+            <div class="dark-container">
+                <h2>Binding <code>this</code></h2>
+                <div class="code-block" style="margin-top: 1rem;">
+<pre><span class="keyword">function</span> <span class="function">greet</span>(greeting) {
+  <span class="keyword">return</span> <span class="string">`${greeting}, ${this.name}`</span>;
+}
+
+<span class="keyword">const</span> person = { name: <span class="string">'Alice'</span> };
+
+<span class="comment">// call - invoke with this + args</span>
+greet.<span class="function">call</span>(person, <span class="string">'Hello'</span>);  <span class="comment">// "Hello, Alice"</span>
+
+<span class="comment">// apply - same but args as array</span>
+greet.<span class="function">apply</span>(person, [<span class="string">'Hi'</span>]);   <span class="comment">// "Hi, Alice"</span>
+
+<span class="comment">// bind - return new function with bound this</span>
+<span class="keyword">const</span> boundGreet = greet.<span class="function">bind</span>(person);
+<span class="function">boundGreet</span>(<span class="string">'Hey'</span>);  <span class="comment">// "Hey, Alice"</span></pre>
+                </div>
+            </div>
+        </section>
+
+        <!-- Slide 47: Promises -->
+        <section class="slide" id="promises" data-narration="Promises represent eventual completion or failure of async operations. They have three states: pending, fulfilled, or rejected. Use then for success and catch for errors.">
+            <div class="dark-container">
+                <h2>Promises</h2>
+                <p class="subtitle">Handle asynchronous operations</p>
+                <div class="code-block" style="margin-top: 1rem;">
+<pre><span class="keyword">const</span> promise = <span class="keyword">new</span> <span class="function">Promise</span>((resolve, reject) => {
+  <span class="comment">// async operation</span>
+  <span class="keyword">if</span> (success) {
+    <span class="function">resolve</span>(result);
+  } <span class="keyword">else</span> {
+    <span class="function">reject</span>(<span class="keyword">new</span> <span class="function">Error</span>(<span class="string">'Failed'</span>));
+  }
+});
+
+promise
+  .<span class="function">then</span>(result => <span class="function">console</span>.<span class="function">log</span>(result))
+  .<span class="function">catch</span>(error => <span class="function">console</span>.<span class="function">error</span>(error))
+  .<span class="function">finally</span>(() => <span class="function">console</span>.<span class="function">log</span>(<span class="string">'Done'</span>));</pre>
+                </div>
+            </div>
+        </section>
+
+        <!-- Slide 48: async/await -->
+        <section class="slide" id="async-await" data-narration="Async/await is syntactic sugar for promises. It makes async code look synchronous and easier to read. Always use try-catch for error handling with await.">
+            <div class="dark-container">
+                <h2>async/await</h2>
+                <p class="subtitle">Cleaner asynchronous code</p>
+                <div class="code-block" style="margin-top: 1rem;">
+<pre><span class="keyword">async function</span> <span class="function">fetchUser</span>(id) {
+  <span class="keyword">try</span> {
+    <span class="keyword">const</span> response = <span class="keyword">await</span> <span class="function">fetch</span>(<span class="string">`/api/users/${id}`</span>);
+    <span class="keyword">const</span> user = <span class="keyword">await</span> response.<span class="function">json</span>();
+    <span class="keyword">return</span> user;
+  } <span class="keyword">catch</span> (error) {
+    <span class="function">console</span>.<span class="function">error</span>(<span class="string">'Failed:'</span>, error);
+    <span class="keyword">throw</span> error;
+  }
+}
+
+<span class="comment">// Usage</span>
+<span class="keyword">const</span> user = <span class="keyword">await</span> <span class="function">fetchUser</span>(<span class="number">123</span>);</pre>
+                </div>
+            </div>
+        </section>
+
+        <!-- Slide 49: Fetch API -->
+        <section class="slide" id="fetch-api" data-narration="The Fetch API is the modern way to make HTTP requests. It returns a promise and supports various HTTP methods, headers, and body content.">
+            <div class="dark-container">
+                <h2>Fetch API</h2>
+                <div class="code-block" style="margin-top: 1rem;">
+<pre><span class="comment">// GET request</span>
+<span class="keyword">const</span> response = <span class="keyword">await</span> <span class="function">fetch</span>(<span class="string">'/api/data'</span>);
+<span class="keyword">const</span> data = <span class="keyword">await</span> response.<span class="function">json</span>();
+
+<span class="comment">// POST request</span>
+<span class="keyword">const</span> response = <span class="keyword">await</span> <span class="function">fetch</span>(<span class="string">'/api/users'</span>, {
+  method: <span class="string">'POST'</span>,
+  headers: {
+    <span class="string">'Content-Type'</span>: <span class="string">'application/json'</span>
+  },
+  body: <span class="function">JSON</span>.<span class="function">stringify</span>({ name: <span class="string">'Alice'</span> })
+});
+
+<span class="comment">// Check status</span>
+<span class="keyword">if</span> (!response.ok) {
+  <span class="keyword">throw new</span> <span class="function">Error</span>(<span class="string">`HTTP ${response.status}`</span>);
+}</pre>
+                </div>
+            </div>
+        </section>
+
+        <!-- Slide 50: Classes -->
+        <section class="slide" id="classes" data-narration="ES6 classes provide a cleaner syntax for constructor functions and prototypes. They support inheritance, getters, setters, and static methods.">
+            <div class="dark-container">
+                <h2>Classes</h2>
+                <p class="subtitle">ES6 syntactic sugar for prototypes</p>
+                <div class="code-block" style="margin-top: 1rem;">
+<pre><span class="keyword">class</span> <span class="function">Person</span> {
+  <span class="function">constructor</span>(name, age) {
+    <span class="keyword">this</span>.name = name;
+    <span class="keyword">this</span>.age = age;
+  }
+
+  <span class="function">greet</span>() {
+    <span class="keyword">return</span> <span class="string">`Hi, I'm ${this.name}`</span>;
+  }
+
+  <span class="keyword">static</span> <span class="function">create</span>(name) {
+    <span class="keyword">return new</span> <span class="function">Person</span>(name, <span class="number">0</span>);
+  }
+}
+
+<span class="keyword">const</span> alice = <span class="keyword">new</span> <span class="function">Person</span>(<span class="string">'Alice'</span>, <span class="number">30</span>);
+alice.<span class="function">greet</span>();  <span class="comment">// "Hi, I'm Alice"</span></pre>
+                </div>
+            </div>
+        </section>
+
+        <!-- Slide 51: Class Inheritance -->
+        <section class="slide" id="class-inheritance" data-narration="Classes can extend other classes using the extends keyword. Use super to call the parent constructor and methods.">
+            <div class="dark-container">
+                <h2>Class Inheritance</h2>
+                <div class="code-block" style="margin-top: 1rem;">
+<pre><span class="keyword">class</span> <span class="function">Animal</span> {
+  <span class="function">constructor</span>(name) {
+    <span class="keyword">this</span>.name = name;
+  }
+  <span class="function">speak</span>() {
+    <span class="keyword">return</span> <span class="string">`${this.name} makes a sound`</span>;
+  }
+}
+
+<span class="keyword">class</span> <span class="function">Dog</span> <span class="keyword">extends</span> <span class="function">Animal</span> {
+  <span class="function">constructor</span>(name, breed) {
+    <span class="keyword">super</span>(name);  <span class="comment">// call parent constructor</span>
+    <span class="keyword">this</span>.breed = breed;
+  }
+  <span class="function">speak</span>() {
+    <span class="keyword">return</span> <span class="string">`${this.name} barks!`</span>;
+  }
+}
+
+<span class="keyword">const</span> dog = <span class="keyword">new</span> <span class="function">Dog</span>(<span class="string">'Rex'</span>, <span class="string">'German Shepherd'</span>);</pre>
+                </div>
+            </div>
+        </section>
+
+        <!-- Slide 52: ES Modules -->
+        <section class="slide" id="es-modules" data-narration="ES Modules let you split code into separate files. Use export to make things available and import to use them. This is the standard module system for JavaScript.">
+            <div class="dark-container">
+                <h2>ES Modules</h2>
+                <p class="subtitle">Modern JavaScript module system</p>
+                <div class="dark-two-column" style="margin-top: 1rem;">
+                    <div>
+                        <h3>Export</h3>
+                        <div class="code-block">
+<pre><span class="comment">// math.js</span>
+<span class="keyword">export const</span> PI = <span class="number">3.14159</span>;
+
+<span class="keyword">export function</span> <span class="function">add</span>(a, b) {
+  <span class="keyword">return</span> a + b;
+}
+
+<span class="keyword">export default class</span> <span class="function">Calculator</span> {
+  <span class="comment">// ...</span>
+}</pre>
+                        </div>
+                    </div>
+                    <div>
+                        <h3>Import</h3>
+                        <div class="code-block">
+<pre><span class="comment">// app.js</span>
+<span class="keyword">import</span> Calculator <span class="keyword">from</span> <span class="string">'./math.js'</span>;
+<span class="keyword">import</span> { PI, add } <span class="keyword">from</span> <span class="string">'./math.js'</span>;
+
+<span class="comment">// Rename imports</span>
+<span class="keyword">import</span> { add <span class="keyword">as</span> sum } <span class="keyword">from</span> <span class="string">'./math.js'</span>;
+
+<span class="comment">// Import all</span>
+<span class="keyword">import</span> * <span class="keyword">as</span> math <span class="keyword">from</span> <span class="string">'./math.js'</span>;</pre>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Slide 53: Optional Chaining -->
+        <section class="slide" id="optional-chaining" data-narration="Optional chaining safely accesses nested properties. If any part is null or undefined, it returns undefined instead of throwing an error.">
+            <div class="dark-container">
+                <h2>Optional Chaining</h2>
+                <p class="subtitle">Safe property access</p>
+                <div class="code-block" style="margin-top: 1rem;">
+<pre><span class="keyword">const</span> user = {
+  name: <span class="string">'Alice'</span>,
+  address: {
+    city: <span class="string">'Portland'</span>
+  }
+};
+
+<span class="comment">// Without optional chaining</span>
+<span class="keyword">const</span> zip = user && user.address && user.address.zip;
+
+<span class="comment">// With optional chaining</span>
+<span class="keyword">const</span> zip = user?.address?.zip;  <span class="comment">// undefined</span>
+
+<span class="comment">// Also works with methods and arrays</span>
+user.<span class="function">getEmail</span>?.();   <span class="comment">// undefined if method doesn't exist</span>
+arr?.[<span class="number">0</span>];            <span class="comment">// undefined if arr is nullish</span></pre>
+                </div>
+            </div>
+        </section>
+
+        <!-- Slide 54: Nullish Coalescing -->
+        <section class="slide" id="nullish-coalescing" data-narration="The nullish coalescing operator provides a default value only when the left side is null or undefined, not for other falsy values like 0 or empty string.">
+            <div class="dark-container">
+                <h2>Nullish Coalescing</h2>
+                <p class="subtitle">Default values done right</p>
+                <div class="code-block" style="margin-top: 1rem;">
+<pre><span class="comment">// Problem with || for defaults</span>
+<span class="keyword">const</span> count = <span class="number">0</span>;
+<span class="keyword">const</span> result = count || <span class="number">10</span>;  <span class="comment">// 10 (wrong!)</span>
+
+<span class="comment">// ?? only triggers on null/undefined</span>
+<span class="keyword">const</span> result = count ?? <span class="number">10</span>;  <span class="comment">// 0 (correct!)</span>
+
+<span class="comment">// More examples</span>
+<span class="keyword">null</span> ?? <span class="string">'default'</span>      <span class="comment">// 'default'</span>
+<span class="keyword">undefined</span> ?? <span class="string">'default'</span> <span class="comment">// 'default'</span>
+<span class="string">''</span> ?? <span class="string">'default'</span>        <span class="comment">// '' (empty string is not nullish)</span>
+<span class="number">0</span> ?? <span class="string">'default'</span>         <span class="comment">// 0</span></pre>
+                </div>
+            </div>
+        </section>
+
+        <!-- Slide 55: Array Methods Deep Dive -->
+        <section class="slide" id="array-methods-advanced" data-narration="Let's look at some more advanced array methods. Find returns the first match, some tests if any element passes, every tests if all pass.">
+            <div class="dark-container">
+                <h2>More Array Methods</h2>
+                <div class="code-block" style="margin-top: 1rem;">
+<pre><span class="keyword">const</span> users = [
+  { name: <span class="string">'Alice'</span>, age: <span class="number">25</span> },
+  { name: <span class="string">'Bob'</span>, age: <span class="number">30</span> },
+  { name: <span class="string">'Carol'</span>, age: <span class="number">35</span> }
+];
+
+<span class="comment">// find - first match</span>
+users.<span class="function">find</span>(u => u.age > <span class="number">28</span>);  <span class="comment">// { name: 'Bob', age: 30 }</span>
+
+<span class="comment">// some - any match?</span>
+users.<span class="function">some</span>(u => u.age > <span class="number">30</span>);  <span class="comment">// true</span>
+
+<span class="comment">// every - all match?</span>
+users.<span class="function">every</span>(u => u.age > <span class="number">20</span>); <span class="comment">// true</span>
+
+<span class="comment">// flatMap - map + flatten</span>
+[[<span class="number">1</span>,<span class="number">2</span>], [<span class="number">3</span>,<span class="number">4</span>]].<span class="function">flatMap</span>(x => x); <span class="comment">// [1,2,3,4]</span></pre>
+                </div>
+            </div>
+        </section>
+
+        <!-- Slide 56: Set and Map -->
+        <section class="slide" id="set-map" data-narration="Set stores unique values, automatically removing duplicates. Map is like an object but can use any value as keys and maintains insertion order.">
+            <div class="dark-container">
+                <h2>Set and Map</h2>
+                <div class="dark-two-column" style="margin-top: 1rem;">
+                    <div>
+                        <h3>Set (unique values)</h3>
+                        <div class="code-block">
+<pre><span class="keyword">const</span> set = <span class="keyword">new</span> <span class="function">Set</span>([<span class="number">1</span>, <span class="number">2</span>, <span class="number">2</span>, <span class="number">3</span>]);
+<span class="comment">// Set { 1, 2, 3 }</span>
+
+set.<span class="function">add</span>(<span class="number">4</span>);
+set.<span class="function">has</span>(<span class="number">2</span>);    <span class="comment">// true</span>
+set.<span class="function">delete</span>(<span class="number">1</span>);
+set.size;      <span class="comment">// 3</span>
+
+<span class="comment">// Remove duplicates</span>
+[...<span class="keyword">new</span> <span class="function">Set</span>(arr)];</pre>
+                        </div>
+                    </div>
+                    <div>
+                        <h3>Map (key-value)</h3>
+                        <div class="code-block">
+<pre><span class="keyword">const</span> map = <span class="keyword">new</span> <span class="function">Map</span>();
+
+map.<span class="function">set</span>(<span class="string">'key'</span>, <span class="string">'value'</span>);
+map.<span class="function">set</span>(obj, <span class="string">'data'</span>);  <span class="comment">// any key!</span>
+
+map.<span class="function">get</span>(<span class="string">'key'</span>); <span class="comment">// 'value'</span>
+map.<span class="function">has</span>(obj);   <span class="comment">// true</span>
+map.size;       <span class="comment">// 2</span>
+
+<span class="comment">// Iterate</span>
+<span class="keyword">for</span> (<span class="keyword">const</span> [k, v] <span class="keyword">of</span> map) {}</pre>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Slide 57: Generators -->
+        <section class="slide" id="generators" data-narration="Generators are functions that can pause and resume execution. They use the function star syntax and yield keyword to produce values on demand.">
+            <div class="dark-container">
+                <h2>Generators</h2>
+                <p class="subtitle">Pausable functions</p>
+                <div class="code-block" style="margin-top: 1rem;">
+<pre><span class="keyword">function</span>* <span class="function">numberGenerator</span>() {
+  <span class="keyword">yield</span> <span class="number">1</span>;
+  <span class="keyword">yield</span> <span class="number">2</span>;
+  <span class="keyword">yield</span> <span class="number">3</span>;
+}
+
+<span class="keyword">const</span> gen = <span class="function">numberGenerator</span>();
+gen.<span class="function">next</span>();  <span class="comment">// { value: 1, done: false }</span>
+gen.<span class="function">next</span>();  <span class="comment">// { value: 2, done: false }</span>
+gen.<span class="function">next</span>();  <span class="comment">// { value: 3, done: false }</span>
+gen.<span class="function">next</span>();  <span class="comment">// { value: undefined, done: true }</span>
+
+<span class="comment">// Use with for...of</span>
+<span class="keyword">for</span> (<span class="keyword">const</span> num <span class="keyword">of</span> <span class="function">numberGenerator</span>()) {
+  <span class="function">console</span>.<span class="function">log</span>(num);  <span class="comment">// 1, 2, 3</span>
+}</pre>
+                </div>
+            </div>
+        </section>
+
+        <!-- Slide 58: Proxy -->
+        <section class="slide" id="proxy" data-narration="Proxy lets you intercept and customize operations on objects. You can trap property access, assignment, function calls, and more.">
+            <div class="dark-container">
+                <h2>Proxy</h2>
+                <p class="subtitle">Intercept object operations</p>
+                <div class="code-block" style="margin-top: 1rem;">
+<pre><span class="keyword">const</span> handler = {
+  <span class="function">get</span>(target, prop) {
+    <span class="function">console</span>.<span class="function">log</span>(<span class="string">`Getting ${prop}`</span>);
+    <span class="keyword">return</span> target[prop];
+  },
+  <span class="function">set</span>(target, prop, value) {
+    <span class="function">console</span>.<span class="function">log</span>(<span class="string">`Setting ${prop} = ${value}`</span>);
+    target[prop] = value;
+    <span class="keyword">return true</span>;
+  }
+};
+
+<span class="keyword">const</span> proxy = <span class="keyword">new</span> <span class="function">Proxy</span>({ name: <span class="string">'Alice'</span> }, handler);
+proxy.name;        <span class="comment">// logs "Getting name", returns "Alice"</span>
+proxy.age = <span class="number">30</span>;    <span class="comment">// logs "Setting age = 30"</span></pre>
+                </div>
+            </div>
+        </section>
+
+        <!-- Slide 59: Symbol -->
+        <section class="slide" id="symbol" data-narration="Symbols are unique primitive values. They're useful for creating non-colliding property keys, especially in libraries where you don't want to conflict with user code.">
+            <div class="dark-container">
+                <h2>Symbol</h2>
+                <p class="subtitle">Unique identifiers</p>
+                <div class="code-block" style="margin-top: 1rem;">
+<pre><span class="keyword">const</span> sym1 = <span class="function">Symbol</span>(<span class="string">'description'</span>);
+<span class="keyword">const</span> sym2 = <span class="function">Symbol</span>(<span class="string">'description'</span>);
+
+sym1 === sym2  <span class="comment">// false (always unique)</span>
+
+<span class="comment">// Use as object keys</span>
+<span class="keyword">const</span> ID = <span class="function">Symbol</span>(<span class="string">'id'</span>);
+<span class="keyword">const</span> obj = {
+  [ID]: <span class="number">12345</span>,
+  name: <span class="string">'Alice'</span>
+};
+
+obj[ID]  <span class="comment">// 12345</span>
+<span class="function">Object</span>.<span class="function">keys</span>(obj)  <span class="comment">// ['name'] - symbols hidden!</span></pre>
+                </div>
+            </div>
+        </section>
+
+        <!-- Slide 60: Part 3 Summary -->
+        <section class="slide" id="part3-summary" data-narration="Part 3 covered advanced JavaScript: scope and closures, the this keyword, async programming with promises and async/await, classes, modules, and modern features.">
+            <div class="dark-container">
+                <h2>Part 3 Summary</h2>
+                <div class="dark-three-column" style="margin-top: 1.5rem;">
+                    <div class="dark-card">
+                        <h4>Scope &amp; Closures</h4>
+                        <p>Variable access, data privacy</p>
+                    </div>
+                    <div class="dark-card">
+                        <h4>this Keyword</h4>
+                        <p>Context, binding</p>
+                    </div>
+                    <div class="dark-card">
+                        <h4>Async JavaScript</h4>
+                        <p>Promises, async/await</p>
+                    </div>
+                    <div class="dark-card">
+                        <h4>Classes</h4>
+                        <p>OOP, inheritance</p>
+                    </div>
+                    <div class="dark-card">
+                        <h4>ES Modules</h4>
+                        <p>import/export</p>
+                    </div>
+                    <div class="dark-card">
+                        <h4>Modern Features</h4>
+                        <p>?., ??, Set, Map</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ========== PART 4: Practical Application & Tooling ========== -->
+
+        <!-- Part 4 Title -->
+        <section class="slide title-slide" id="part4" data-narration="Part 4 covers practical tools every JavaScript developer needs: npm for packages, ESLint and Prettier for code quality, debugging techniques, and testing with Jest.">
+            <h1>Part 4</h1>
+            <p class="subtitle">Practical Application &amp; Tooling</p>
+        </section>
+
+        <!-- Slide 77: npm Basics -->
+        <section class="slide" id="npm-basics" data-narration="npm is the package manager for JavaScript. It manages dependencies, scripts, and project configuration through package.json.">
+            <div class="dark-container">
+                <h2>npm Basics</h2>
+                <p class="subtitle">Node Package Manager</p>
+                <div class="code-block" style="margin-top: 1rem;">
+<pre><span class="comment"># Initialize a new project</span>
+npm init -y
+
+<span class="comment"># Install dependencies</span>
+npm install lodash           <span class="comment"># production dependency</span>
+npm install -D typescript    <span class="comment"># dev dependency</span>
+
+<span class="comment"># Install from package.json</span>
+npm install
+
+<span class="comment"># Run scripts</span>
+npm run build
+npm test
+npm start</pre>
+                </div>
+            </div>
+        </section>
+
+        <!-- Slide 78: package.json -->
+        <section class="slide" id="package-json" data-narration="package.json is your project's manifest. It lists dependencies, scripts, and metadata. The scripts section defines commands you can run with npm run.">
+            <div class="dark-container">
+                <h2>package.json</h2>
+                <div class="code-block" style="margin-top: 1rem;">
+<pre>{
+  <span class="string">"name"</span>: <span class="string">"my-project"</span>,
+  <span class="string">"version"</span>: <span class="string">"1.0.0"</span>,
+  <span class="string">"scripts"</span>: {
+    <span class="string">"dev"</span>: <span class="string">"vite"</span>,
+    <span class="string">"build"</span>: <span class="string">"tsc && vite build"</span>,
+    <span class="string">"test"</span>: <span class="string">"jest"</span>,
+    <span class="string">"lint"</span>: <span class="string">"eslint src/"</span>
+  },
+  <span class="string">"dependencies"</span>: {
+    <span class="string">"react"</span>: <span class="string">"^18.2.0"</span>
+  },
+  <span class="string">"devDependencies"</span>: {
+    <span class="string">"typescript"</span>: <span class="string">"^5.0.0"</span>,
+    <span class="string">"eslint"</span>: <span class="string">"^8.0.0"</span>
+  }
+}</pre>
+                </div>
+            </div>
+        </section>
+
+        <!-- Slide 79: ESLint -->
+        <section class="slide" id="eslint" data-narration="ESLint finds and fixes problems in your JavaScript code. It enforces coding standards and catches common errors before they become bugs.">
+            <div class="dark-container">
+                <h2>ESLint</h2>
+                <p class="subtitle">Find and fix code problems</p>
+                <div class="code-block" style="margin-top: 1rem;">
+<pre><span class="comment"># Install</span>
+npm install -D eslint
+
+<span class="comment"># Initialize config</span>
+npx eslint --init
+
+<span class="comment"># Run linting</span>
+npx eslint src/
+npx eslint src/ --fix  <span class="comment"># auto-fix issues</span></pre>
+                </div>
+                <div class="dark-two-column" style="margin-top: 1rem;">
+                    <div class="dark-card">
+                        <h4>Catches</h4>
+                        <p>Unused variables, undefined refs, syntax errors</p>
+                    </div>
+                    <div class="dark-card">
+                        <h4>Enforces</h4>
+                        <p>Consistent style, best practices</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Slide 80: Prettier -->
+        <section class="slide" id="prettier" data-narration="Prettier is an opinionated code formatter. It automatically formats your code for consistent style. Configure it once and forget about formatting debates.">
+            <div class="dark-container">
+                <h2>Prettier</h2>
+                <p class="subtitle">Opinionated code formatter</p>
+                <div class="code-block" style="margin-top: 1rem;">
+<pre><span class="comment"># Install</span>
+npm install -D prettier
+
+<span class="comment"># Format files</span>
+npx prettier --write src/
+
+<span class="comment"># .prettierrc config</span>
+{
+  <span class="string">"semi"</span>: <span class="keyword">true</span>,
+  <span class="string">"singleQuote"</span>: <span class="keyword">true</span>,
+  <span class="string">"tabWidth"</span>: <span class="number">2</span>,
+  <span class="string">"trailingComma"</span>: <span class="string">"es5"</span>
+}</pre>
+                </div>
+                <p style="margin-top: 1rem; color: #2dd4bf;">Tip: Enable format-on-save in your IDE</p>
+            </div>
+        </section>
+
+        <!-- Slide 81: Debugging -->
+        <section class="slide" id="debugging" data-narration="Effective debugging is essential. Use browser DevTools, debugger statements, and console methods. Learn to set breakpoints and inspect variables.">
+            <div class="dark-container">
+                <h2>Debugging Techniques</h2>
+                <div class="dark-two-column" style="margin-top: 1rem;">
+                    <div>
+                        <h3>Browser DevTools</h3>
+                        <ul>
+                            <li><strong>F12</strong> - Open DevTools</li>
+                            <li><strong>Sources tab</strong> - Set breakpoints</li>
+                            <li><strong>Console tab</strong> - Run JS</li>
+                            <li><strong>Network tab</strong> - HTTP requests</li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h3>In Code</h3>
+                        <div class="code-block">
+<pre><span class="comment">// Pause execution</span>
+<span class="keyword">debugger</span>;
+
+<span class="comment">// Log with context</span>
+<span class="function">console</span>.<span class="function">log</span>({ user, data });
+
+<span class="comment">// Trace call stack</span>
+<span class="function">console</span>.<span class="function">trace</span>();</pre>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Slide 82: Testing with Jest -->
+        <section class="slide" id="jest-basics" data-narration="Jest is a popular testing framework. It provides test runners, assertions, and mocking out of the box. Write tests to ensure your code works correctly.">
+            <div class="dark-container">
+                <h2>Testing with Jest</h2>
+                <div class="code-block" style="margin-top: 1rem;">
+<pre><span class="comment">// math.test.js</span>
+<span class="keyword">import</span> { add, multiply } <span class="keyword">from</span> <span class="string">'./math'</span>;
+
+<span class="function">describe</span>(<span class="string">'math functions'</span>, () => {
+  <span class="function">test</span>(<span class="string">'adds two numbers'</span>, () => {
+    <span class="function">expect</span>(<span class="function">add</span>(<span class="number">2</span>, <span class="number">3</span>)).<span class="function">toBe</span>(<span class="number">5</span>);
+  });
+
+  <span class="function">test</span>(<span class="string">'multiplies two numbers'</span>, () => {
+    <span class="function">expect</span>(<span class="function">multiply</span>(<span class="number">2</span>, <span class="number">3</span>)).<span class="function">toBe</span>(<span class="number">6</span>);
+  });
+});
+
+<span class="comment"># Run tests</span>
+npm test</pre>
+                </div>
+            </div>
+        </section>
+
+        <!-- Slide 83: Jest Matchers -->
+        <section class="slide" id="jest-matchers" data-narration="Jest provides many matchers for different assertion types. Use toBe for primitives, toEqual for objects, and toThrow for errors.">
+            <div class="dark-container">
+                <h2>Jest Matchers</h2>
+                <div class="code-block" style="margin-top: 1rem;">
+<pre><span class="comment">// Equality</span>
+<span class="function">expect</span>(value).<span class="function">toBe</span>(<span class="number">5</span>);           <span class="comment">// strict equality</span>
+<span class="function">expect</span>(obj).<span class="function">toEqual</span>({ a: <span class="number">1</span> });  <span class="comment">// deep equality</span>
+
+<span class="comment">// Truthiness</span>
+<span class="function">expect</span>(value).<span class="function">toBeTruthy</span>();
+<span class="function">expect</span>(value).<span class="function">toBeFalsy</span>();
+<span class="function">expect</span>(value).<span class="function">toBeNull</span>();
+
+<span class="comment">// Numbers</span>
+<span class="function">expect</span>(num).<span class="function">toBeGreaterThan</span>(<span class="number">3</span>);
+<span class="function">expect</span>(num).<span class="function">toBeCloseTo</span>(<span class="number">0.3</span>);
+
+<span class="comment">// Arrays/Strings</span>
+<span class="function">expect</span>(arr).<span class="function">toContain</span>(<span class="string">'item'</span>);
+<span class="function">expect</span>(str).<span class="function">toMatch</span>(<span class="string">/pattern/</span>);
+
+<span class="comment">// Errors</span>
+<span class="function">expect</span>(() => <span class="function">fn</span>()).<span class="function">toThrow</span>(<span class="string">'error'</span>);</pre>
+                </div>
+            </div>
+        </section>
+
+        <!-- Slide 84: Async Testing -->
+        <section class="slide" id="async-testing" data-narration="Testing async code requires special handling. Return promises, use async/await, or use Jest's done callback for asynchronous assertions.">
+            <div class="dark-container">
+                <h2>Testing Async Code</h2>
+                <div class="code-block" style="margin-top: 1rem;">
+<pre><span class="comment">// Async/await</span>
+<span class="function">test</span>(<span class="string">'fetches user data'</span>, <span class="keyword">async</span> () => {
+  <span class="keyword">const</span> user = <span class="keyword">await</span> <span class="function">fetchUser</span>(<span class="number">1</span>);
+  <span class="function">expect</span>(user.name).<span class="function">toBe</span>(<span class="string">'Alice'</span>);
+});
+
+<span class="comment">// With resolves/rejects</span>
+<span class="function">test</span>(<span class="string">'promise resolves'</span>, () => {
+  <span class="keyword">return</span> <span class="function">expect</span>(<span class="function">fetchData</span>()).<span class="function">resolves</span>.<span class="function">toBe</span>(<span class="string">'data'</span>);
+});
+
+<span class="function">test</span>(<span class="string">'promise rejects'</span>, () => {
+  <span class="keyword">return</span> <span class="function">expect</span>(<span class="function">failingFn</span>()).<span class="function">rejects</span>.<span class="function">toThrow</span>();
+});</pre>
+                </div>
+            </div>
+        </section>
+
+        <!-- Part 4 Summary -->
+        <section class="slide" id="part4-summary" data-narration="Part 4 covered essential developer tools: npm for package management, ESLint and Prettier for code quality, debugging techniques, and Jest for testing.">
+            <div class="dark-container">
+                <h2>Part 4 Summary</h2>
+                <div class="dark-three-column" style="margin-top: 1.5rem;">
+                    <div class="dark-card">
+                        <h4>npm</h4>
+                        <p>Package management, scripts</p>
+                    </div>
+                    <div class="dark-card">
+                        <h4>ESLint</h4>
+                        <p>Find code problems</p>
+                    </div>
+                    <div class="dark-card">
+                        <h4>Prettier</h4>
+                        <p>Consistent formatting</p>
+                    </div>
+                    <div class="dark-card">
+                        <h4>Debugging</h4>
+                        <p>DevTools, breakpoints</p>
+                    </div>
+                    <div class="dark-card">
+                        <h4>Jest</h4>
+                        <p>Unit testing framework</p>
+                    </div>
+                    <div class="dark-card">
+                        <h4>Best Practices</h4>
+                        <p>Lint, format, test!</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ========== PART 5: Hands-On Exercises ========== -->
+
+        <!-- Part 5 Title -->
+        <section class="slide title-slide" id="part5" data-narration="Part 5 contains hands-on exercises to practice what you've learned. Work through these challenges to solidify your JavaScript skills.">
+            <h1>Part 5</h1>
+            <p class="subtitle">Hands-On Exercises</p>
+        </section>
+
+        <!-- Slide 87: Exercise 1 - Array Methods -->
+        <section class="slide" id="exercise-1" data-narration="Exercise 1: Use array methods to transform data. Practice map, filter, and reduce to manipulate arrays functionally.">
+            <div class="dark-container">
+                <h2>Exercise 1: Array Methods</h2>
+                <p class="subtitle">Transform user data using map, filter, reduce</p>
+                <div class="code-block" style="margin-top: 1rem;">
+<pre><span class="keyword">const</span> users = [
+  { name: <span class="string">'Alice'</span>, age: <span class="number">25</span>, active: <span class="keyword">true</span> },
+  { name: <span class="string">'Bob'</span>, age: <span class="number">30</span>, active: <span class="keyword">false</span> },
+  { name: <span class="string">'Carol'</span>, age: <span class="number">35</span>, active: <span class="keyword">true</span> },
+  { name: <span class="string">'Dave'</span>, age: <span class="number">28</span>, active: <span class="keyword">true</span> }
+];
+
+<span class="comment">// TODO:
+// 1. Get names of active users only
+// 2. Calculate average age
+// 3. Find oldest active user</span></pre>
+                </div>
+            </div>
+        </section>
+
+        <!-- Slide 88: Exercise 1 Solution -->
+        <section class="slide" id="exercise-1-solution" data-narration="Here's the solution. Chain filter and map to get active user names. Use reduce to calculate average and find to get the oldest active user.">
+            <div class="dark-container">
+                <h2>Exercise 1: Solution</h2>
+                <div class="code-block" style="margin-top: 1rem;">
+<pre><span class="comment">// 1. Names of active users</span>
+<span class="keyword">const</span> activeNames = users
+  .<span class="function">filter</span>(u => u.active)
+  .<span class="function">map</span>(u => u.name);  <span class="comment">// ['Alice', 'Carol', 'Dave']</span>
+
+<span class="comment">// 2. Average age</span>
+<span class="keyword">const</span> avgAge = users.<span class="function">reduce</span>((sum, u) => sum + u.age, <span class="number">0</span>)
+  / users.length;  <span class="comment">// 29.5</span>
+
+<span class="comment">// 3. Oldest active user</span>
+<span class="keyword">const</span> oldest = users
+  .<span class="function">filter</span>(u => u.active)
+  .<span class="function">reduce</span>((max, u) => u.age > max.age ? u : max);
+<span class="comment">// { name: 'Carol', age: 35, active: true }</span></pre>
+                </div>
+            </div>
+        </section>
+
+        <!-- Slide 89: Exercise 2 - Async/Await -->
+        <section class="slide" id="exercise-2" data-narration="Exercise 2: Build a function that fetches data from an API with proper error handling. Practice async/await and try-catch patterns.">
+            <div class="dark-container">
+                <h2>Exercise 2: Async/Await</h2>
+                <p class="subtitle">Build a data fetcher with error handling</p>
+                <div class="code-block" style="margin-top: 1rem;">
+<pre><span class="comment">// TODO: Create a function that:
+// 1. Fetches user from /api/users/:id
+// 2. Fetches posts for that user from /api/users/:id/posts
+// 3. Returns combined { user, posts } object
+// 4. Handles errors gracefully</span>
+
+<span class="keyword">async function</span> <span class="function">getUserWithPosts</span>(userId) {
+  <span class="comment">// Your code here</span>
+}</pre>
+                </div>
+            </div>
+        </section>
+
+        <!-- Slide 90: Exercise 2 Solution -->
+        <section class="slide" id="exercise-2-solution" data-narration="Here's the solution with proper async/await and error handling. Note how we validate response status before parsing JSON.">
+            <div class="dark-container">
+                <h2>Exercise 2: Solution</h2>
+                <div class="code-block" style="margin-top: 1rem;">
+<pre><span class="keyword">async function</span> <span class="function">getUserWithPosts</span>(userId) {
+  <span class="keyword">try</span> {
+    <span class="keyword">const</span> userRes = <span class="keyword">await</span> <span class="function">fetch</span>(<span class="string">`/api/users/${userId}`</span>);
+    <span class="keyword">if</span> (!userRes.ok) <span class="keyword">throw new</span> <span class="function">Error</span>(<span class="string">'User not found'</span>);
+    <span class="keyword">const</span> user = <span class="keyword">await</span> userRes.<span class="function">json</span>();
+
+    <span class="keyword">const</span> postsRes = <span class="keyword">await</span> <span class="function">fetch</span>(<span class="string">`/api/users/${userId}/posts`</span>);
+    <span class="keyword">if</span> (!postsRes.ok) <span class="keyword">throw new</span> <span class="function">Error</span>(<span class="string">'Posts not found'</span>);
+    <span class="keyword">const</span> posts = <span class="keyword">await</span> postsRes.<span class="function">json</span>();
+
+    <span class="keyword">return</span> { user, posts };
+  } <span class="keyword">catch</span> (error) {
+    <span class="function">console</span>.<span class="function">error</span>(<span class="string">'Failed:'</span>, error.message);
+    <span class="keyword">throw</span> error;
+  }
+}</pre>
+                </div>
+            </div>
+        </section>
+
+        <!-- Exercise 3 - DOM Manipulation -->
+        <section class="slide" id="exercise-3" data-narration="Exercise 3: Build a dynamic todo list using DOM manipulation. Practice creating elements, handling events, and updating the UI.">
+            <div class="dark-container">
+                <h2>Exercise 3: Todo List</h2>
+                <p class="subtitle">Build a dynamic todo list</p>
+                <div class="code-block" style="margin-top: 1rem;">
+<pre><span class="comment">// TODO: Create a todo list that:
+// 1. Has an input field and "Add" button
+// 2. Adds new todos to a list when button clicked
+// 3. Each todo has a "Delete" button
+// 4. Clicking a todo toggles "completed" class</span>
+
+<span class="comment">// HTML structure:</span>
+<span class="comment">// &lt;input id="todoInput"&gt;</span>
+<span class="comment">// &lt;button id="addBtn"&gt;Add&lt;/button&gt;</span>
+<span class="comment">// &lt;ul id="todoList"&gt;&lt;/ul&gt;</span></pre>
+                </div>
+            </div>
+        </section>
+
+        <!-- Module Summary -->
+        <section class="slide" id="module-summary" data-narration="Congratulations on completing Module 3! You've learned JavaScript from its history through modern features, practical tooling, and hands-on exercises. Keep practicing!">
+            <div class="dark-container">
+                <h2>Module 3 Complete!</h2>
+                <p class="subtitle">What you've learned</p>
+                <div class="dark-three-column" style="margin-top: 1.5rem;">
+                    <div class="dark-card">
+                        <h4>Part 1</h4>
+                        <p>JS History &amp; Origins</p>
+                    </div>
+                    <div class="dark-card">
+                        <h4>Part 2</h4>
+                        <p>JS Fundamentals</p>
+                    </div>
+                    <div class="dark-card">
+                        <h4>Part 3</h4>
+                        <p>Advanced JavaScript</p>
+                    </div>
+                    <div class="dark-card">
+                        <h4>Part 4</h4>
+                        <p>Tooling &amp; Testing</p>
+                    </div>
+                    <div class="dark-card">
+                        <h4>Part 5</h4>
+                        <p>Hands-On Practice</p>
+                    </div>
+                </div>
+                <p style="text-align: center; margin-top: 1.5rem; color: #2dd4bf; font-size: 1.2rem;">Keep building, keep learning!</p>
+            </div>
+        </section>
+
     </div>
 
     <script src="../js/slides.js"></script>
