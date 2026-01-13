@@ -3,27 +3,2328 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Module 6 - Advanced Web Development">
-    <title>Module 6: Topic TBD | Advanced Web Development</title>
+    <meta name="description" content="Module 6 - RESTful APIs: Building Backend Services with Express.js and Next.js">
+    <title>Module 6: RESTful APIs | Advanced Web Development</title>
     <link rel="stylesheet" href="../css/slides.css">
+    <style>
+        /* Dark theme components */
+        .dark-container {
+            background: linear-gradient(135deg, #1a2332 0%, #2d3748 100%);
+            border-radius: 12px;
+            padding: 2rem;
+            border-left: 4px solid;
+            border-image: linear-gradient(180deg, #06b6d4, #f97316, #22c55e) 1;
+        }
+        .dark-container h2 { color: #fff; margin: 0 0 0.5rem 0; font-size: 1.8rem; }
+        .dark-container .subtitle { color: #94a3b8; margin-bottom: 1.5rem; }
+        .dark-container h3 { color: #06b6d4; margin-top: 1rem; }
+        .dark-container ul { color: #94a3b8; }
+        .dark-container li { margin-bottom: 0.5rem; }
+        .dark-container strong { color: #fff; }
+        .dark-container p { color: #94a3b8; }
+        .dark-container code { background: #2d3a4d; color: #06b6d4; padding: 0.2rem 0.4rem; border-radius: 4px; }
+
+        .dark-two-column { display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; }
+        .dark-three-column { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 1.5rem; }
+        .dark-four-column { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1rem; }
+
+        .dark-card {
+            background: #2d3a4d;
+            border-radius: 8px;
+            padding: 1rem;
+            border-left: 3px solid #06b6d4;
+        }
+        .dark-card h4 { color: #fff; margin: 0 0 0.5rem 0; }
+        .dark-card p { color: #94a3b8; font-size: 0.9rem; margin: 0; }
+        .dark-card.warning { border-left-color: #facc15; }
+        .dark-card.danger { border-left-color: #f87171; }
+        .dark-card.success { border-left-color: #4ade80; }
+        .dark-card.info { border-left-color: #22d3ee; }
+
+        .dark-table { width: 100%; border-collapse: collapse; margin: 1rem 0; }
+        .dark-table th { background: #3d4a5d; color: #fff; padding: 0.75rem 1rem; text-align: left; }
+        .dark-table td { background: #2d3a4d; color: #94a3b8; padding: 0.75rem 1rem; border-bottom: 1px solid #3d4a5d; }
+        .dark-table code { background: #1a2332; color: #06b6d4; padding: 0.2rem 0.4rem; border-radius: 4px; }
+
+        /* Method badges */
+        .method-pill {
+            display: inline-block;
+            padding: 0.25rem 0.75rem;
+            border-radius: 4px;
+            font-weight: bold;
+            font-size: 0.85rem;
+            margin-right: 0.5rem;
+        }
+        .method-pill.get { background: #4ade80; color: #1a1a1a; }
+        .method-pill.post { background: #facc15; color: #1a1a1a; }
+        .method-pill.put { background: #22d3ee; color: #1a1a1a; }
+        .method-pill.delete { background: #f87171; color: #1a1a1a; }
+
+        /* Status badges */
+        .status-badge {
+            display: inline-block;
+            padding: 0.25rem 0.5rem;
+            border-radius: 4px;
+            font-weight: bold;
+            font-size: 0.8rem;
+            margin: 0.25rem;
+        }
+        .status-badge.success { background: #166534; color: #4ade80; }
+        .status-badge.created { background: #14532d; color: #86efac; }
+        .status-badge.client-error { background: #7f1d1d; color: #fca5a5; }
+        .status-badge.server-error { background: #581c87; color: #c4b5fd; }
+
+        /* Flow diagram */
+        .flow-diagram {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 1rem;
+            margin: 2rem 0;
+        }
+        .endpoint-box {
+            background: #2d3a4d;
+            border-radius: 12px;
+            padding: 1.5rem 2rem;
+            text-align: center;
+            min-width: 140px;
+            border: 2px solid transparent;
+        }
+        .endpoint-box.client-box { border-color: #22d3ee; }
+        .endpoint-box.server-box { border-color: #f97316; }
+        .endpoint-box.db-box { border-color: #a855f7; }
+        .endpoint-box .label {
+            font-size: 0.75rem;
+            font-weight: 600;
+            letter-spacing: 0.05em;
+            margin-bottom: 0.5rem;
+        }
+        .endpoint-box.client-box .label { color: #22d3ee; }
+        .endpoint-box.server-box .label { color: #f97316; }
+        .endpoint-box.db-box .label { color: #a855f7; }
+        .endpoint-box .title {
+            color: #fff;
+            font-size: 1.1rem;
+            font-weight: 600;
+        }
+        .flow-arrow {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            color: #94a3b8;
+        }
+        .flow-arrow .arrow { font-size: 1.5rem; }
+        .flow-arrow .label { font-size: 0.7rem; margin-top: 0.25rem; }
+
+        .big-number { font-size: 4rem; font-weight: bold; color: #06b6d4; line-height: 1; }
+        .stat-label { color: #94a3b8; font-size: 1.1rem; margin-top: 0.5rem; }
+
+        .code-block { background: #1a2332; border-radius: 8px; padding: 1rem; overflow-x: auto; }
+        .code-block pre { margin: 0; color: #e2e8f0; font-family: 'Monaco', 'Menlo', monospace; font-size: 0.9rem; line-height: 1.5; }
+        .code-block .comment { color: #6b7280; }
+        .code-block .keyword { color: #c084fc; }
+        .code-block .string { color: #4ade80; }
+        .code-block .function { color: #60a5fa; }
+        .code-block .number { color: #f472b6; }
+        .code-block .tag { color: #06b6d4; }
+        .code-block .attr { color: #facc15; }
+
+        .terminal-block {
+            background: #0d1117;
+            border-radius: 8px;
+            padding: 1rem;
+            font-family: 'Monaco', 'Menlo', monospace;
+            color: #c9d1d9;
+            margin: 1rem 0;
+        }
+        .terminal-block .prompt { color: #7ee787; }
+        .terminal-block .command { color: #fff; }
+        .terminal-block .output { color: #8b949e; }
+
+        .feature-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1rem; }
+        .feature-item { display: flex; align-items: flex-start; gap: 0.75rem; }
+        .feature-icon { color: #06b6d4; font-size: 1.25rem; }
+        .feature-text { color: #94a3b8; }
+        .feature-text strong { color: #fff; display: block; margin-bottom: 0.25rem; }
+
+        .step-number {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 2.5rem;
+            height: 2.5rem;
+            background: linear-gradient(135deg, #06b6d4, #3b82f6);
+            color: #1a2332;
+            font-weight: bold;
+            font-size: 1.2rem;
+            border-radius: 50%;
+            margin-right: 1rem;
+        }
+
+        /* Resource card styles */
+        .resource-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin-top: 1.5rem; }
+        .resource-card {
+            background: #2d3a4d;
+            border-radius: 12px;
+            padding: 1.5rem;
+            text-decoration: none;
+            transition: transform 0.2s, box-shadow 0.2s;
+            border: 1px solid #3d4a5d;
+        }
+        .resource-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+        }
+        .resource-card h4 { color: #fff; margin: 0 0 0.5rem 0; }
+        .resource-card p { color: #94a3b8; margin: 0; font-size: 0.9rem; }
+        .resource-card .icon { font-size: 2rem; margin-bottom: 0.5rem; }
+
+        /* URL examples */
+        .url-example {
+            background: #2d3a4d;
+            padding: 0.75rem 1rem;
+            border-radius: 6px;
+            margin: 0.5rem 0;
+            font-family: 'Monaco', 'Menlo', monospace;
+            font-size: 0.95rem;
+        }
+        .url-example.good { border-left: 3px solid #4ade80; }
+        .url-example.bad { border-left: 3px solid #f87171; text-decoration: line-through; color: #6b7280; }
+        .url-example .base { color: #6b7280; }
+        .url-example .path { color: #4ade80; }
+        .url-example .param { color: #facc15; }
+
+        /* JSON block */
+        .json-block {
+            background: #1a2332;
+            border-radius: 8px;
+            padding: 1rem;
+            font-family: 'Monaco', 'Menlo', monospace;
+            font-size: 0.9rem;
+        }
+        .json-block .key { color: #f472b6; }
+        .json-block .string { color: #4ade80; }
+        .json-block .number { color: #facc15; }
+        .json-block .boolean { color: #60a5fa; }
+        .json-block .punctuation { color: #94a3b8; }
+
+        @media (max-width: 900px) {
+            .dark-two-column, .dark-three-column { grid-template-columns: 1fr; }
+            .dark-four-column { grid-template-columns: repeat(2, 1fr); }
+            .feature-grid { grid-template-columns: 1fr; }
+            .flow-diagram { flex-direction: column; }
+        }
+    </style>
 </head>
 <body>
+    <a href="#main-content" class="skip-link">Skip to main content</a>
+
     <div class="presentation">
-        <!-- Title Slide -->
-        <section class="slide title-slide">
+        <!-- ========== Module Title ========== -->
+
+        <!-- Slide 1: Title -->
+        <section class="slide title-slide" data-narration="Welcome to Module 6, where we dive into one of the most important skills in modern web development: building RESTful APIs. In Module 5, you built a React frontend. Now you'll learn how to build the backend services that power those frontends. APIs are how applications communicate with each other - when your React app needs data, it asks an API. By the end of this module, you'll build the same Tasks API twice: once with Express.js, the most popular Node.js framework, and once with Next.js, which lets you add API routes to your React apps. This comparison will help you understand when to use each approach.">
             <h1>Module 6</h1>
-            <p class="subtitle">Topic TBD</p>
-            <p class="meta">Advanced Web Development</p>
+            <p class="subtitle">RESTful APIs</p>
+            <p class="meta">Building Backend Services</p>
         </section>
 
-        <!-- Placeholder Content -->
-        <section class="slide">
-            <h1>Coming Soon</h1>
-            <p>Content for this module is being developed.</p>
-            <div class="info-box">
-                <p>Check back soon for updates to this module.</p>
+        <!-- Slide 2: Recommended Resources -->
+        <section class="slide" id="resources" data-narration="Here are some excellent resources to supplement your learning. The MDN Web Docs HTTP guide provides comprehensive documentation on HTTP methods and status codes - it's the authoritative reference. The Express.js official documentation is well-written and includes many examples. For Next.js, the official Route Handlers documentation covers everything you need for the App Router. And Postman's Learning Center has interactive tutorials for API testing. These resources will help reinforce the concepts we cover and provide deeper dives when you need them.">
+            <div class="dark-container">
+                <h2>Recommended Resources</h2>
+                <p class="subtitle">References to supplement your API development journey.</p>
+                <div class="resource-grid">
+                    <a href="https://developer.mozilla.org/en-US/docs/Web/HTTP" target="_blank" rel="noopener" class="resource-card">
+                        <div class="icon">📖</div>
+                        <h4>MDN HTTP Guide</h4>
+                        <p>Comprehensive HTTP documentation - methods, status codes, headers</p>
+                    </a>
+                    <a href="https://expressjs.com/" target="_blank" rel="noopener" class="resource-card">
+                        <div class="icon">🚂</div>
+                        <h4>Express.js Docs</h4>
+                        <p>Official Express documentation with examples and API reference</p>
+                    </a>
+                    <a href="https://nextjs.org/docs/app/building-your-application/routing/route-handlers" target="_blank" rel="noopener" class="resource-card">
+                        <div class="icon">▲</div>
+                        <h4>Next.js Route Handlers</h4>
+                        <p>Official docs for building APIs with Next.js App Router</p>
+                    </a>
+                    <a href="https://www.postman.com/postman/published-postman-templates/documentation/ae2ja6x/learn-by-api" target="_blank" rel="noopener" class="resource-card">
+                        <div class="icon">🧪</div>
+                        <h4>Postman Learning</h4>
+                        <p>Interactive tutorials for API testing and development</p>
+                    </a>
+                </div>
             </div>
         </section>
+
+        <!-- ========== PART 1: Understanding APIs ========== -->
+
+        <!-- Slide 3: Part 1 Title -->
+        <section class="slide title-slide" id="part1" data-narration="Part 1 covers the fundamentals of APIs and REST. Before we write any code, we need to understand what we're building and why. You'll learn what an API is, what REST means, how HTTP methods map to database operations, and how to design clean URLs. We'll also introduce Postman, the tool you'll use to test your APIs. This foundation is essential - once you understand these concepts, the coding in Parts 2 and 3 will make much more sense.">
+            <h1>Part 1</h1>
+            <p class="subtitle">Understanding APIs</p>
+        </section>
+
+        <!-- Slide 4: Quick Recap from Module 2 -->
+        <section class="slide" id="recap" data-narration="Let's quickly recap what you learned in Module 2 about how the web works. Remember the client-server model: your browser, the client, sends HTTP requests to a server, which processes them and sends back HTTP responses. Each request has a method like GET, a URL, and optional headers and body. Each response has a status code, headers, and a body with the actual content. This request-response cycle is the foundation of everything we'll build. APIs work exactly the same way - instead of returning HTML pages, they return data, usually in JSON format.">
+            <div class="dark-container">
+                <h2>Quick Recap: How the Web Works</h2>
+                <p class="subtitle">Remember from Module 2 - the HTTP request/response cycle.</p>
+                <div class="flow-diagram">
+                    <div class="endpoint-box client-box">
+                        <div class="label">CLIENT</div>
+                        <div class="title">Browser</div>
+                    </div>
+                    <div class="flow-arrow">
+                        <span class="arrow">→</span>
+                        <span class="label">HTTP Request</span>
+                    </div>
+                    <div class="endpoint-box server-box">
+                        <div class="label">SERVER</div>
+                        <div class="title">Web Server</div>
+                    </div>
+                    <div class="flow-arrow">
+                        <span class="arrow">→</span>
+                        <span class="label">HTTP Response</span>
+                    </div>
+                    <div class="endpoint-box client-box">
+                        <div class="label">CLIENT</div>
+                        <div class="title">Browser</div>
+                    </div>
+                </div>
+                <div class="dark-two-column" style="margin-top: 1.5rem;">
+                    <div class="dark-card">
+                        <h4>Request Contains</h4>
+                        <p>Method (GET, POST...), URL, Headers, Body (optional)</p>
+                    </div>
+                    <div class="dark-card">
+                        <h4>Response Contains</h4>
+                        <p>Status Code (200, 404...), Headers, Body (HTML, JSON...)</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Slide 5: What is an API? -->
+        <section class="slide" id="what-is-api" data-narration="API stands for Application Programming Interface. Think of it as a contract between two pieces of software that defines how they can communicate. Here's an analogy: imagine a restaurant. You, the customer, don't go into the kitchen to make your food. Instead, you use a menu - that's the API. You place an order through the waiter, the kitchen prepares it, and you get your food back. You don't need to know how the kitchen works internally. APIs work the same way: your frontend app makes requests to defined endpoints, the server processes them, and returns data. The frontend doesn't need to know how the database works or how the server is implemented.">
+            <div class="dark-container">
+                <h2>What is an API?</h2>
+                <p class="subtitle">Application Programming Interface - how software components communicate.</p>
+                <div class="dark-two-column" style="margin-top: 1.5rem;">
+                    <div>
+                        <h3>The Restaurant Analogy</h3>
+                        <div class="dark-card" style="margin-top: 1rem;">
+                            <h4>You (Client)</h4>
+                            <p>Order food from the menu, receive your meal</p>
+                        </div>
+                        <div class="dark-card" style="margin-top: 0.5rem;">
+                            <h4>Menu (API)</h4>
+                            <p>Defines what you can order and how</p>
+                        </div>
+                        <div class="dark-card" style="margin-top: 0.5rem;">
+                            <h4>Kitchen (Server)</h4>
+                            <p>Prepares your order - you don't see how</p>
+                        </div>
+                    </div>
+                    <div>
+                        <h3>In Web Development</h3>
+                        <div class="dark-card" style="margin-top: 1rem;">
+                            <h4>React App (Client)</h4>
+                            <p>Makes requests, displays received data</p>
+                        </div>
+                        <div class="dark-card" style="margin-top: 0.5rem;">
+                            <h4>Endpoints (API)</h4>
+                            <p>Defines available operations and data formats</p>
+                        </div>
+                        <div class="dark-card" style="margin-top: 0.5rem;">
+                            <h4>Express/Next.js (Server)</h4>
+                            <p>Processes requests, returns data</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Slide 6: What is REST? -->
+        <section class="slide" id="what-is-rest" data-narration="REST stands for REpresentational State Transfer. It's not a protocol or standard - it's an architectural style, a set of guidelines for designing web APIs. REST was defined by Roy Fielding in his PhD dissertation in 2000. The key idea is that everything is a resource - users, tasks, products - and each resource has a unique URL. You interact with resources using standard HTTP methods. REST is stateless, meaning each request contains all the information needed to process it - the server doesn't remember previous requests. This makes REST APIs simple, scalable, and cacheable. Most modern web APIs follow REST principles because they're intuitive and work well with HTTP.">
+            <div class="dark-container">
+                <h2>What is REST?</h2>
+                <p class="subtitle">REpresentational State Transfer - an architectural style for web APIs.</p>
+                <div class="dark-three-column" style="margin-top: 1.5rem;">
+                    <div class="dark-card">
+                        <h4>Resources</h4>
+                        <p>Everything is a resource (users, tasks, products) with a unique URL</p>
+                    </div>
+                    <div class="dark-card">
+                        <h4>Stateless</h4>
+                        <p>Each request contains all info needed - server doesn't remember you</p>
+                    </div>
+                    <div class="dark-card">
+                        <h4>Uniform Interface</h4>
+                        <p>Use standard HTTP methods (GET, POST, PUT, DELETE)</p>
+                    </div>
+                </div>
+                <div class="dark-card info" style="margin-top: 1.5rem;">
+                    <h4>Why REST?</h4>
+                    <p>Simple, scalable, cacheable, and works naturally with HTTP. Most modern APIs follow REST principles.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Slide 7: HTTP Methods = CRUD -->
+        <section class="slide" id="http-methods" data-narration="REST APIs use HTTP methods to indicate what operation to perform. There's a direct mapping to CRUD operations - Create, Read, Update, Delete - the four basic operations for persistent storage. GET retrieves data without modifying anything - it's safe and idempotent, meaning you can call it multiple times with the same result. POST creates new resources. PUT updates existing resources by replacing them entirely. DELETE removes resources. Some APIs also use PATCH for partial updates, but we'll focus on these four. The key insight is that the HTTP method tells the server what to do, while the URL tells it which resource to act on.">
+            <div class="dark-container">
+                <h2>HTTP Methods = CRUD Operations</h2>
+                <p class="subtitle">Each HTTP method maps to a database operation.</p>
+                <table class="dark-table" style="margin-top: 1.5rem;">
+                    <tr>
+                        <th>Method</th>
+                        <th>CRUD</th>
+                        <th>Description</th>
+                        <th>Example</th>
+                    </tr>
+                    <tr>
+                        <td><span class="method-pill get">GET</span></td>
+                        <td><strong style="color: #fff;">Read</strong></td>
+                        <td>Retrieve data</td>
+                        <td><code>GET /tasks</code></td>
+                    </tr>
+                    <tr>
+                        <td><span class="method-pill post">POST</span></td>
+                        <td><strong style="color: #fff;">Create</strong></td>
+                        <td>Create new resource</td>
+                        <td><code>POST /tasks</code></td>
+                    </tr>
+                    <tr>
+                        <td><span class="method-pill put">PUT</span></td>
+                        <td><strong style="color: #fff;">Update</strong></td>
+                        <td>Update existing resource</td>
+                        <td><code>PUT /tasks/123</code></td>
+                    </tr>
+                    <tr>
+                        <td><span class="method-pill delete">DELETE</span></td>
+                        <td><strong style="color: #fff;">Delete</strong></td>
+                        <td>Remove resource</td>
+                        <td><code>DELETE /tasks/123</code></td>
+                    </tr>
+                </table>
+            </div>
+        </section>
+
+        <!-- Slide 8: Status Codes -->
+        <section class="slide" id="status-codes" data-narration="HTTP status codes tell the client what happened with their request. They're grouped by the first digit: 2xx means success, 4xx means the client made an error, and 5xx means the server had an error. For APIs, you'll use these most often: 200 OK for successful GET requests, 201 Created when POST successfully creates something, 400 Bad Request when the client sends invalid data, 404 Not Found when the resource doesn't exist, and 500 Internal Server Error when something goes wrong on the server. Using the right status codes makes your API predictable and easier to debug. Don't just return 200 for everything - be specific about what happened.">
+            <div class="dark-container">
+                <h2>HTTP Status Codes</h2>
+                <p class="subtitle">Tell clients what happened with their request.</p>
+                <div class="dark-two-column" style="margin-top: 1.5rem;">
+                    <div>
+                        <h3 style="color: #4ade80;">Success (2xx)</h3>
+                        <div class="dark-card success" style="margin-top: 0.5rem;">
+                            <h4><span class="status-badge success">200</span> OK</h4>
+                            <p>Request succeeded - data returned</p>
+                        </div>
+                        <div class="dark-card success" style="margin-top: 0.5rem;">
+                            <h4><span class="status-badge created">201</span> Created</h4>
+                            <p>New resource created successfully</p>
+                        </div>
+                    </div>
+                    <div>
+                        <h3 style="color: #f87171;">Errors (4xx/5xx)</h3>
+                        <div class="dark-card danger" style="margin-top: 0.5rem;">
+                            <h4><span class="status-badge client-error">400</span> Bad Request</h4>
+                            <p>Client sent invalid data</p>
+                        </div>
+                        <div class="dark-card danger" style="margin-top: 0.5rem;">
+                            <h4><span class="status-badge client-error">404</span> Not Found</h4>
+                            <p>Resource doesn't exist</p>
+                        </div>
+                        <div class="dark-card" style="margin-top: 0.5rem; border-left-color: #a855f7;">
+                            <h4><span class="status-badge server-error">500</span> Server Error</h4>
+                            <p>Something went wrong on the server</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Slide 9: RESTful URL Design -->
+        <section class="slide" id="url-design" data-narration="Good URL design makes your API intuitive. The key rule is: use nouns, not verbs. The HTTP method already tells us the action, so the URL should identify the resource. For collections, use plural nouns: /tasks, /users, /products. For individual items, add the ID: /tasks/123. For nested resources, chain them: /users/456/tasks gets all tasks for user 456. Avoid verbs in URLs - /getTasks is wrong because GET already means 'get'. Keep URLs lowercase and use hyphens for multi-word resources like /user-profiles. These conventions make your API predictable - developers can guess endpoints without reading documentation.">
+            <div class="dark-container">
+                <h2>RESTful URL Design</h2>
+                <p class="subtitle">Use nouns, not verbs. Let HTTP methods indicate the action.</p>
+                <div class="dark-two-column" style="margin-top: 1.5rem;">
+                    <div>
+                        <h3 style="color: #4ade80;">Good URLs</h3>
+                        <div class="url-example good">
+                            <span class="base">GET</span> <span class="path">/tasks</span>
+                        </div>
+                        <div class="url-example good">
+                            <span class="base">GET</span> <span class="path">/tasks/</span><span class="param">123</span>
+                        </div>
+                        <div class="url-example good">
+                            <span class="base">POST</span> <span class="path">/tasks</span>
+                        </div>
+                        <div class="url-example good">
+                            <span class="base">DELETE</span> <span class="path">/tasks/</span><span class="param">123</span>
+                        </div>
+                    </div>
+                    <div>
+                        <h3 style="color: #f87171;">Bad URLs</h3>
+                        <div class="url-example bad">
+                            <span class="base">GET</span> /getTasks
+                        </div>
+                        <div class="url-example bad">
+                            <span class="base">GET</span> /getTaskById/123
+                        </div>
+                        <div class="url-example bad">
+                            <span class="base">POST</span> /createTask
+                        </div>
+                        <div class="url-example bad">
+                            <span class="base">POST</span> /deleteTask/123
+                        </div>
+                    </div>
+                </div>
+                <div class="dark-card info" style="margin-top: 1rem;">
+                    <h4>Rules</h4>
+                    <p>Plural nouns (<code>/tasks</code> not <code>/task</code>) | Lowercase | Hyphens for multi-word (<code>/user-profiles</code>)</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Slide 10: JSON Format -->
+        <section class="slide" id="json" data-narration="JSON, JavaScript Object Notation, is the standard format for API data. It's human-readable and easy for JavaScript to parse. JSON supports strings in double quotes, numbers, booleans true and false, null, arrays in square brackets, and nested objects in curly braces. When you send data to an API with POST or PUT, you send JSON in the request body. When the API responds, it returns JSON. This example shows a task object with an id number, text string, completed boolean, and createdAt timestamp. Notice everything uses double quotes for property names - that's required in JSON, unlike JavaScript objects.">
+            <div class="dark-container">
+                <h2>JSON: The Language of APIs</h2>
+                <p class="subtitle">JavaScript Object Notation - how APIs send and receive data.</p>
+                <div class="dark-two-column" style="margin-top: 1.5rem;">
+                    <div>
+                        <h3>Task Object Example</h3>
+                        <div class="json-block" style="margin-top: 0.5rem;">
+<pre><span class="punctuation">{</span>
+  <span class="key">"id"</span><span class="punctuation">:</span> <span class="number">1</span><span class="punctuation">,</span>
+  <span class="key">"text"</span><span class="punctuation">:</span> <span class="string">"Learn REST APIs"</span><span class="punctuation">,</span>
+  <span class="key">"completed"</span><span class="punctuation">:</span> <span class="boolean">false</span><span class="punctuation">,</span>
+  <span class="key">"createdAt"</span><span class="punctuation">:</span> <span class="string">"2024-01-15"</span>
+<span class="punctuation">}</span></pre>
+                        </div>
+                    </div>
+                    <div>
+                        <h3>Data Types</h3>
+                        <div class="dark-card" style="margin-top: 0.5rem;">
+                            <h4>Strings</h4>
+                            <p><code>"text"</code> - always double quotes</p>
+                        </div>
+                        <div class="dark-card" style="margin-top: 0.5rem;">
+                            <h4>Numbers</h4>
+                            <p><code>42</code>, <code>3.14</code> - no quotes</p>
+                        </div>
+                        <div class="dark-card" style="margin-top: 0.5rem;">
+                            <h4>Booleans</h4>
+                            <p><code>true</code>, <code>false</code> - lowercase</p>
+                        </div>
+                        <div class="dark-card" style="margin-top: 0.5rem;">
+                            <h4>Arrays</h4>
+                            <p><code>[1, 2, 3]</code> - square brackets</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Slide 11: Introduction to Postman -->
+        <section class="slide" id="postman" data-narration="Postman is the most popular tool for testing APIs. While you can test GET requests in a browser, you can't easily test POST, PUT, or DELETE - browsers just do GET when you enter a URL. Postman lets you make any type of HTTP request, set headers, include a JSON body, and see the full response. You can save requests into collections for reuse and even export them to share. Download Postman from postman.com - the free version has everything you need. We'll use it throughout this module to test every endpoint we build. It's an essential tool in any API developer's toolkit.">
+            <div class="dark-container">
+                <h2>Introduction to Postman</h2>
+                <p class="subtitle">The essential tool for testing and developing APIs.</p>
+                <div class="dark-three-column" style="margin-top: 1.5rem;">
+                    <div class="dark-card">
+                        <h4>Why Postman?</h4>
+                        <p>Browsers only do GET requests. Postman lets you test POST, PUT, DELETE with full control.</p>
+                    </div>
+                    <div class="dark-card">
+                        <h4>Key Features</h4>
+                        <p>Set HTTP methods, headers, JSON bodies. See full responses. Save to collections.</p>
+                    </div>
+                    <div class="dark-card">
+                        <h4>Get Started</h4>
+                        <p>Download free from <strong style="color: #06b6d4;">postman.com</strong>. Create account optional.</p>
+                    </div>
+                </div>
+                <div class="dark-card info" style="margin-top: 1.5rem;">
+                    <h4>What We'll Do</h4>
+                    <p>Test every endpoint we build. Save requests to a "Tasks API" collection. Export for assignment submission.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Slide 12: Part 1 Summary -->
+        <section class="slide" id="part1-summary" data-narration="Let's recap Part 1. APIs are interfaces that let applications communicate, typically returning JSON data instead of HTML. REST is an architectural style based on resources, statelessness, and standard HTTP methods. HTTP methods map to CRUD: GET reads, POST creates, PUT updates, DELETE removes. Status codes communicate what happened: 2xx for success, 4xx for client errors, 5xx for server errors. Good URLs use nouns not verbs, with plural names for collections. JSON is the standard data format. And Postman is your tool for testing APIs. With these fundamentals solid, you're ready to build your first API in Part 2.">
+            <div class="dark-container">
+                <h2>Part 1 Summary</h2>
+                <p class="subtitle">The foundations of RESTful API development.</p>
+                <div class="feature-grid" style="margin-top: 1.5rem;">
+                    <div class="feature-item">
+                        <span class="feature-icon">✓</span>
+                        <div class="feature-text">
+                            <strong>APIs = Communication</strong>
+                            Interfaces for apps to exchange data (usually JSON)
+                        </div>
+                    </div>
+                    <div class="feature-item">
+                        <span class="feature-icon">✓</span>
+                        <div class="feature-text">
+                            <strong>REST = Architecture</strong>
+                            Resources, stateless, uniform HTTP interface
+                        </div>
+                    </div>
+                    <div class="feature-item">
+                        <span class="feature-icon">✓</span>
+                        <div class="feature-text">
+                            <strong>Methods = CRUD</strong>
+                            GET/POST/PUT/DELETE map to Read/Create/Update/Delete
+                        </div>
+                    </div>
+                    <div class="feature-item">
+                        <span class="feature-icon">✓</span>
+                        <div class="feature-text">
+                            <strong>Status Codes = Results</strong>
+                            200 OK, 201 Created, 400 Bad, 404 Not Found, 500 Error
+                        </div>
+                    </div>
+                    <div class="feature-item">
+                        <span class="feature-icon">✓</span>
+                        <div class="feature-text">
+                            <strong>URLs = Nouns</strong>
+                            /tasks not /getTasks - method indicates action
+                        </div>
+                    </div>
+                    <div class="feature-item">
+                        <span class="feature-icon">✓</span>
+                        <div class="feature-text">
+                            <strong>Postman = Testing</strong>
+                            Essential tool for testing all HTTP methods
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ========== PART 2: Express.js ========== -->
+
+        <!-- Slide 13: Part 2 Title -->
+        <section class="slide title-slide" id="part2" data-narration="Part 2 is where we get hands-on with Express.js, the most popular Node.js web framework. Express has been the go-to choice for Node.js APIs since 2010. It's minimal and unopinionated - it gives you the basics and lets you structure your app however you want. We'll build a complete Tasks API with all CRUD operations, store data in a JSON file, and test everything with Postman. By the end of Part 2, you'll have a working API and the skills to build your own. Let's start coding!">
+            <h1>Part 2</h1>
+            <p class="subtitle">Building APIs with Express.js</p>
+        </section>
+
+        <!-- Slide 14: What is Express.js? -->
+        <section class="slide" id="what-is-express" data-narration="Express.js is a minimal, flexible Node.js web framework. It provides a thin layer on top of Node's built-in HTTP module, making it much easier to handle routes, middleware, and requests. Express follows a 'batteries not included' philosophy - it gives you the essentials and lets you add what you need. This makes it lightweight and fast, but means you'll install additional packages for things like parsing JSON bodies or enabling CORS. Express has been downloaded billions of times and powers APIs at companies like IBM, Uber, and Twitter. It's the foundation you'll find in most Node.js tutorials and job postings.">
+            <div class="dark-container">
+                <h2>What is Express.js?</h2>
+                <p class="subtitle">Minimal, flexible Node.js web framework for building APIs.</p>
+                <div class="dark-three-column" style="margin-top: 1.5rem;">
+                    <div class="dark-card">
+                        <h4>Minimal</h4>
+                        <p>Thin layer over Node.js HTTP. Fast and lightweight.</p>
+                    </div>
+                    <div class="dark-card">
+                        <h4>Flexible</h4>
+                        <p>Unopinionated - structure your app however you want.</p>
+                    </div>
+                    <div class="dark-card">
+                        <h4>Popular</h4>
+                        <p>Most used Node.js framework. Massive ecosystem.</p>
+                    </div>
+                </div>
+                <div class="flow-diagram" style="margin-top: 1.5rem;">
+                    <div class="endpoint-box client-box">
+                        <div class="label">CLIENT</div>
+                        <div class="title">Postman</div>
+                    </div>
+                    <div class="flow-arrow">
+                        <span class="arrow">→</span>
+                        <span class="label">Request</span>
+                    </div>
+                    <div class="endpoint-box server-box">
+                        <div class="label">EXPRESS</div>
+                        <div class="title">API Server</div>
+                    </div>
+                    <div class="flow-arrow">
+                        <span class="arrow">→</span>
+                        <span class="label">Read/Write</span>
+                    </div>
+                    <div class="endpoint-box db-box">
+                        <div class="label">STORAGE</div>
+                        <div class="title">tasks.json</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Slide 15: Project Setup -->
+        <section class="slide" id="express-setup" data-narration="Let's set up our Express project. First, create a new folder called express-tasks-api and navigate into it. Run npm init -y to create a package.json with default settings - the -y flag accepts all defaults so you don't have to answer questions. Then install Express with npm install express. You'll also want nodemon as a dev dependency - it automatically restarts your server when you save changes, which is invaluable during development. Create an index.js file - this will be our main entry point. Your folder should now have package.json, node_modules, and index.js. We're ready to write our first server!">
+            <div class="dark-container">
+                <h2><span class="step-number">1</span> Project Setup</h2>
+                <p class="subtitle">Create a new Node.js project and install Express.</p>
+                <div class="terminal-block">
+                    <div><span class="prompt">$</span> <span class="command">mkdir express-tasks-api</span></div>
+                    <div><span class="prompt">$</span> <span class="command">cd express-tasks-api</span></div>
+                    <div><span class="prompt">$</span> <span class="command">npm init -y</span></div>
+                    <div class="output" style="margin: 0.5rem 0;">Wrote to package.json</div>
+                    <div><span class="prompt">$</span> <span class="command">npm install express</span></div>
+                    <div><span class="prompt">$</span> <span class="command">npm install nodemon --save-dev</span></div>
+                </div>
+                <div class="dark-card info" style="margin-top: 1rem;">
+                    <h4>What's nodemon?</h4>
+                    <p>Auto-restarts server when you save changes. Essential for development!</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Slide 16: Your First Server -->
+        <section class="slide" id="first-server" data-narration="Here's the simplest possible Express server. We require express, then call it to create an app. The app.get line defines a route - when someone visits the root URL with a GET request, we send back 'Hello World'. Finally, app.listen starts the server on port 3000. Run this with node index.js and visit localhost:3000 in your browser. You should see 'Hello World'. That's your first API endpoint! The req parameter is the incoming request, res is the response you send back. Express gives you methods like res.send for text and res.json for JSON data, which we'll use next.">
+            <div class="dark-container">
+                <h2><span class="step-number">2</span> Your First Server</h2>
+                <p class="subtitle">Create index.js with a basic Express server.</p>
+                <div class="code-block">
+<pre><span class="keyword">const</span> express = <span class="function">require</span>(<span class="string">'express'</span>);
+<span class="keyword">const</span> app = <span class="function">express</span>();
+<span class="keyword">const</span> PORT = <span class="number">3000</span>;
+
+<span class="comment">// Define a route</span>
+app.<span class="function">get</span>(<span class="string">'/'</span>, (req, res) => {
+  res.<span class="function">send</span>(<span class="string">'Hello World!'</span>);
+});
+
+<span class="comment">// Start server</span>
+app.<span class="function">listen</span>(PORT, () => {
+  console.<span class="function">log</span>(<span class="string">`Server running on http://localhost:</span>${PORT}<span class="string">`</span>);
+});</pre>
+                </div>
+                <div class="terminal-block" style="margin-top: 1rem;">
+                    <div><span class="prompt">$</span> <span class="command">node index.js</span></div>
+                    <div class="output">Server running on http://localhost:3000</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Slide 17: Understanding Routes -->
+        <section class="slide" id="routes" data-narration="Routes define what happens when a request hits a specific URL with a specific method. Express provides methods matching each HTTP verb: app.get, app.post, app.put, app.delete. The first argument is the path - it can include parameters like :id that capture parts of the URL. The second argument is a callback function that receives req (the request) and res (the response). Inside the callback, you process the request and send a response. You can have multiple routes with the same path but different methods - GET /tasks returns all tasks, while POST /tasks creates a new one. This is REST in action.">
+            <div class="dark-container">
+                <h2><span class="step-number">3</span> Understanding Routes</h2>
+                <p class="subtitle">Routes map HTTP methods and URLs to handler functions.</p>
+                <div class="code-block">
+<pre><span class="comment">// Route syntax: app.METHOD(path, handler)</span>
+
+app.<span class="function">get</span>(<span class="string">'/tasks'</span>, (req, res) => {
+  <span class="comment">// Handle GET /tasks</span>
+});
+
+app.<span class="function">post</span>(<span class="string">'/tasks'</span>, (req, res) => {
+  <span class="comment">// Handle POST /tasks</span>
+});
+
+app.<span class="function">get</span>(<span class="string">'/tasks/:id'</span>, (req, res) => {
+  <span class="comment">// Handle GET /tasks/123</span>
+  <span class="comment">// req.params.id = "123"</span>
+});
+
+app.<span class="function">delete</span>(<span class="string">'/tasks/:id'</span>, (req, res) => {
+  <span class="comment">// Handle DELETE /tasks/123</span>
+});</pre>
+                </div>
+            </div>
+        </section>
+
+        <!-- Slide 18: Request Object -->
+        <section class="slide" id="req-object" data-narration="The request object contains everything about the incoming request. There are three main ways to get data from requests. req.params contains URL parameters - for /tasks/123, req.params.id is '123'. Note it's always a string, so convert to number if needed. req.query contains query string parameters - for /tasks?completed=true, req.query.completed is 'true'. And req.body contains data sent in the request body, typically JSON from POST or PUT requests. To access req.body, you need to enable JSON parsing with middleware, which we'll do next. Understanding these three sources of data is essential for building APIs.">
+            <div class="dark-container">
+                <h2><span class="step-number">4</span> The Request Object</h2>
+                <p class="subtitle">Three ways to receive data from clients.</p>
+                <div class="dark-three-column" style="margin-top: 1.5rem;">
+                    <div class="dark-card">
+                        <h4>req.params</h4>
+                        <p>URL parameters</p>
+                        <div class="code-block" style="margin-top: 0.5rem; font-size: 0.8rem;">
+<pre><span class="comment">// GET /tasks/123</span>
+req.params.id
+<span class="comment">// → "123"</span></pre>
+                        </div>
+                    </div>
+                    <div class="dark-card">
+                        <h4>req.query</h4>
+                        <p>Query string</p>
+                        <div class="code-block" style="margin-top: 0.5rem; font-size: 0.8rem;">
+<pre><span class="comment">// GET /tasks?done=true</span>
+req.query.done
+<span class="comment">// → "true"</span></pre>
+                        </div>
+                    </div>
+                    <div class="dark-card">
+                        <h4>req.body</h4>
+                        <p>JSON body data</p>
+                        <div class="code-block" style="margin-top: 0.5rem; font-size: 0.8rem;">
+<pre><span class="comment">// POST with JSON</span>
+req.body.text
+<span class="comment">// → "Learn APIs"</span></pre>
+                        </div>
+                    </div>
+                </div>
+                <div class="dark-card warning" style="margin-top: 1rem;">
+                    <h4>Important</h4>
+                    <p><code>req.body</code> requires middleware to parse JSON. We'll add that next!</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Slide 19: Response Object -->
+        <section class="slide" id="res-object" data-narration="The response object is how you send data back to the client. The most important method for APIs is res.json(), which sends a JSON response and automatically sets the Content-Type header. Use res.status() to set the HTTP status code - you can chain it with json like res.status(201).json(data). There's also res.send() for plain text and res.sendStatus() for status-only responses. Always send exactly one response per request - if you try to send multiple, you'll get an error. The pattern you'll use most often is checking conditions, then sending either success data or an error status with a message.">
+            <div class="dark-container">
+                <h2><span class="step-number">5</span> The Response Object</h2>
+                <p class="subtitle">Methods for sending data back to clients.</p>
+                <div class="code-block">
+<pre><span class="comment">// Send JSON (most common for APIs)</span>
+res.<span class="function">json</span>({ message: <span class="string">'Success'</span>, data: tasks });
+
+<span class="comment">// Set status code + JSON</span>
+res.<span class="function">status</span>(<span class="number">201</span>).<span class="function">json</span>(newTask);
+
+<span class="comment">// Error response</span>
+res.<span class="function">status</span>(<span class="number">404</span>).<span class="function">json</span>({ error: <span class="string">'Task not found'</span> });
+
+<span class="comment">// Plain text (less common)</span>
+res.<span class="function">send</span>(<span class="string">'Hello'</span>);
+
+<span class="comment">// Status only, no body</span>
+res.<span class="function">sendStatus</span>(<span class="number">204</span>); <span class="comment">// No Content</span></pre>
+                </div>
+                <div class="dark-card danger" style="margin-top: 1rem;">
+                    <h4>One Response Per Request</h4>
+                    <p>Only call <code>res.json()</code> or <code>res.send()</code> once. Multiple responses cause errors.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Slide 20: Middleware -->
+        <section class="slide" id="middleware" data-narration="Middleware are functions that run between receiving a request and sending a response. They can modify req and res, end the request cycle, or call next() to pass control to the next middleware. Express has built-in middleware like express.json() which parses JSON request bodies - without it, req.body would be undefined. Add middleware with app.use(). The order matters - add express.json() before your routes so the body is parsed by the time your route handler runs. You can also write custom middleware for logging, authentication, or error handling. Middleware is one of Express's most powerful features.">
+            <div class="dark-container">
+                <h2><span class="step-number">6</span> Middleware</h2>
+                <p class="subtitle">Functions that process requests before they reach your routes.</p>
+                <div class="code-block">
+<pre><span class="keyword">const</span> express = <span class="function">require</span>(<span class="string">'express'</span>);
+<span class="keyword">const</span> app = <span class="function">express</span>();
+
+<span class="comment">// Built-in middleware: parse JSON bodies</span>
+app.<span class="function">use</span>(express.<span class="function">json</span>());
+
+<span class="comment">// Now req.body works in your routes!</span>
+app.<span class="function">post</span>(<span class="string">'/tasks'</span>, (req, res) => {
+  console.<span class="function">log</span>(req.body); <span class="comment">// { text: "Learn APIs" }</span>
+  <span class="comment">// ...</span>
+});</pre>
+                </div>
+                <div class="dark-card warning" style="margin-top: 1rem;">
+                    <h4>Order Matters!</h4>
+                    <p>Add <code>app.use(express.json())</code> BEFORE your routes, or <code>req.body</code> will be undefined.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Slide 21: JSON File Storage -->
+        <section class="slide" id="file-storage" data-narration="For our API, we'll store tasks in a JSON file. This is simpler than a database while still persisting data between server restarts. We use Node's built-in fs module with promises for cleaner async code. Create two helper functions: readTasks reads the file and parses JSON, writeTasks converts data to JSON and writes it. If the file doesn't exist, readTasks returns an empty array. Create an empty tasks.json file with just square brackets to start. These helper functions abstract away file operations so our route handlers stay clean. In production you'd use a real database, but this approach is perfect for learning.">
+            <div class="dark-container">
+                <h2><span class="step-number">7</span> JSON File Storage</h2>
+                <p class="subtitle">Simple persistence using the file system.</p>
+                <div class="code-block" style="font-size: 0.85rem;">
+<pre><span class="keyword">const</span> fs = <span class="function">require</span>(<span class="string">'fs'</span>).promises;
+<span class="keyword">const</span> DATA_FILE = <span class="string">'./tasks.json'</span>;
+
+<span class="comment">// Helper: Read tasks from file</span>
+<span class="keyword">async function</span> <span class="function">readTasks</span>() {
+  <span class="keyword">try</span> {
+    <span class="keyword">const</span> data = <span class="keyword">await</span> fs.<span class="function">readFile</span>(DATA_FILE, <span class="string">'utf8'</span>);
+    <span class="keyword">return</span> JSON.<span class="function">parse</span>(data);
+  } <span class="keyword">catch</span> {
+    <span class="keyword">return</span> []; <span class="comment">// Return empty array if file doesn't exist</span>
+  }
+}
+
+<span class="comment">// Helper: Write tasks to file</span>
+<span class="keyword">async function</span> <span class="function">writeTasks</span>(tasks) {
+  <span class="keyword">await</span> fs.<span class="function">writeFile</span>(DATA_FILE, JSON.<span class="function">stringify</span>(tasks, <span class="keyword">null</span>, <span class="number">2</span>));
+}</pre>
+                </div>
+                <div class="dark-card info" style="margin-top: 1rem;">
+                    <h4>Create tasks.json</h4>
+                    <p>Start with an empty array: <code>[]</code></p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Slide 22: GET /tasks -->
+        <section class="slide" id="get-tasks" data-narration="Let's implement our first real endpoint: GET /tasks returns all tasks. The route handler is async because we're reading from the file system. We call our readTasks helper to get all tasks, then send them as JSON. If something goes wrong, we catch the error, log it for debugging, and send a 500 status with an error message. Test this in Postman: set the method to GET, the URL to http://localhost:3000/tasks, and click Send. You should get back an empty array at first. This is the 'Read all' operation in CRUD - the simplest and most common API endpoint.">
+            <div class="dark-container">
+                <h2><span class="step-number">8</span> GET /tasks - List All</h2>
+                <p class="subtitle">Return all tasks from the JSON file.</p>
+                <div class="code-block">
+<pre>app.<span class="function">get</span>(<span class="string">'/tasks'</span>, <span class="keyword">async</span> (req, res) => {
+  <span class="keyword">try</span> {
+    <span class="keyword">const</span> tasks = <span class="keyword">await</span> <span class="function">readTasks</span>();
+    res.<span class="function">json</span>(tasks);
+  } <span class="keyword">catch</span> (error) {
+    console.<span class="function">error</span>(error);
+    res.<span class="function">status</span>(<span class="number">500</span>).<span class="function">json</span>({ error: <span class="string">'Failed to read tasks'</span> });
+  }
+});</pre>
+                </div>
+                <div class="dark-two-column" style="margin-top: 1rem;">
+                    <div class="dark-card success">
+                        <h4>Postman Test</h4>
+                        <p><span class="method-pill get">GET</span> <code>http://localhost:3000/tasks</code></p>
+                    </div>
+                    <div class="dark-card">
+                        <h4>Expected Response</h4>
+                        <p><span class="status-badge success">200</span> <code>[]</code> (empty array initially)</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Slide 23: GET /tasks/:id -->
+        <section class="slide" id="get-task-by-id" data-narration="GET /tasks/:id returns a single task by its ID. The colon makes 'id' a URL parameter, accessible via req.params.id. Since URL parameters are always strings, we convert to a number with parseInt. We read all tasks, then use find() to locate the one with matching id. If no task is found, we return 404 Not Found - this is important for a proper REST API. If found, we return just that task. Test with a task ID that exists and one that doesn't to verify both paths work. This pattern of 'get one by ID' is fundamental to REST APIs.">
+            <div class="dark-container">
+                <h2><span class="step-number">9</span> GET /tasks/:id - Get One</h2>
+                <p class="subtitle">Return a single task by its ID.</p>
+                <div class="code-block">
+<pre>app.<span class="function">get</span>(<span class="string">'/tasks/:id'</span>, <span class="keyword">async</span> (req, res) => {
+  <span class="keyword">try</span> {
+    <span class="keyword">const</span> id = <span class="function">parseInt</span>(req.params.id);
+    <span class="keyword">const</span> tasks = <span class="keyword">await</span> <span class="function">readTasks</span>();
+    <span class="keyword">const</span> task = tasks.<span class="function">find</span>(t => t.id === id);
+
+    <span class="keyword">if</span> (!task) {
+      <span class="keyword">return</span> res.<span class="function">status</span>(<span class="number">404</span>).<span class="function">json</span>({ error: <span class="string">'Task not found'</span> });
+    }
+
+    res.<span class="function">json</span>(task);
+  } <span class="keyword">catch</span> (error) {
+    res.<span class="function">status</span>(<span class="number">500</span>).<span class="function">json</span>({ error: <span class="string">'Failed to read task'</span> });
+  }
+});</pre>
+                </div>
+                <div class="dark-card warning" style="margin-top: 1rem;">
+                    <h4>Always Handle 404</h4>
+                    <p>If the resource doesn't exist, return <span class="status-badge client-error">404</span> - don't return 200 with null!</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Slide 24: POST /tasks -->
+        <section class="slide" id="post-task" data-narration="POST /tasks creates a new task. The client sends task data in the request body as JSON - we access it via req.body.text. First we validate that text was provided - if not, return 400 Bad Request. Then we create a new task object with a unique ID using Date.now(), the provided text, completed set to false, and a timestamp. We read existing tasks, add the new one, and write back to the file. Finally, we return 201 Created with the new task. The 201 status is important - it tells the client that something was created, not just that the request succeeded. Include the created resource in the response so the client knows the assigned ID.">
+            <div class="dark-container">
+                <h2><span class="step-number">10</span> POST /tasks - Create</h2>
+                <p class="subtitle">Create a new task from request body data.</p>
+                <div class="code-block" style="font-size: 0.85rem;">
+<pre>app.<span class="function">post</span>(<span class="string">'/tasks'</span>, <span class="keyword">async</span> (req, res) => {
+  <span class="keyword">try</span> {
+    <span class="keyword">const</span> { text } = req.body;
+
+    <span class="keyword">if</span> (!text) {
+      <span class="keyword">return</span> res.<span class="function">status</span>(<span class="number">400</span>).<span class="function">json</span>({ error: <span class="string">'Text is required'</span> });
+    }
+
+    <span class="keyword">const</span> newTask = {
+      id: Date.<span class="function">now</span>(),
+      text,
+      completed: <span class="keyword">false</span>,
+      createdAt: <span class="keyword">new</span> <span class="function">Date</span>().<span class="function">toISOString</span>()
+    };
+
+    <span class="keyword">const</span> tasks = <span class="keyword">await</span> <span class="function">readTasks</span>();
+    tasks.<span class="function">push</span>(newTask);
+    <span class="keyword">await</span> <span class="function">writeTasks</span>(tasks);
+
+    res.<span class="function">status</span>(<span class="number">201</span>).<span class="function">json</span>(newTask);
+  } <span class="keyword">catch</span> (error) {
+    res.<span class="function">status</span>(<span class="number">500</span>).<span class="function">json</span>({ error: <span class="string">'Failed to create task'</span> });
+  }
+});</pre>
+                </div>
+            </div>
+        </section>
+
+        <!-- Slide 25: PUT /tasks/:id -->
+        <section class="slide" id="put-task" data-narration="PUT /tasks/:id updates an existing task. We get the ID from the URL and the update data from the request body. Find the task's index in the array - if -1, it doesn't exist, return 404. Then we use the spread operator to merge the existing task with the new data, preserving the original id. This pattern lets clients send partial updates - just text, just completed, or both. We update the array at that index, write to file, and return the updated task. Some APIs use PATCH for partial updates and PUT for full replacement, but for simplicity we're using PUT for both. Test by creating a task first, then updating it.">
+            <div class="dark-container">
+                <h2><span class="step-number">11</span> PUT /tasks/:id - Update</h2>
+                <p class="subtitle">Update an existing task with new data.</p>
+                <div class="code-block" style="font-size: 0.85rem;">
+<pre>app.<span class="function">put</span>(<span class="string">'/tasks/:id'</span>, <span class="keyword">async</span> (req, res) => {
+  <span class="keyword">try</span> {
+    <span class="keyword">const</span> id = <span class="function">parseInt</span>(req.params.id);
+    <span class="keyword">const</span> tasks = <span class="keyword">await</span> <span class="function">readTasks</span>();
+    <span class="keyword">const</span> index = tasks.<span class="function">findIndex</span>(t => t.id === id);
+
+    <span class="keyword">if</span> (index === -<span class="number">1</span>) {
+      <span class="keyword">return</span> res.<span class="function">status</span>(<span class="number">404</span>).<span class="function">json</span>({ error: <span class="string">'Task not found'</span> });
+    }
+
+    <span class="comment">// Merge existing task with updates</span>
+    tasks[index] = { ...tasks[index], ...req.body, id };
+    <span class="keyword">await</span> <span class="function">writeTasks</span>(tasks);
+
+    res.<span class="function">json</span>(tasks[index]);
+  } <span class="keyword">catch</span> (error) {
+    res.<span class="function">status</span>(<span class="number">500</span>).<span class="function">json</span>({ error: <span class="string">'Failed to update task'</span> });
+  }
+});</pre>
+                </div>
+            </div>
+        </section>
+
+        <!-- Slide 26: DELETE /tasks/:id -->
+        <section class="slide" id="delete-task" data-narration="DELETE /tasks/:id removes a task. Get the ID from the URL, read all tasks, and use filter to create a new array without the task we're deleting. Filter keeps items where the condition is true - so we keep all tasks where the id doesn't match. If the filtered array has the same length as the original, nothing was removed, meaning the task didn't exist - return 404. Otherwise, write the filtered array to file and return 204 No Content, which indicates success with no response body. Some APIs return the deleted item, but 204 is the most RESTful choice for deletes.">
+            <div class="dark-container">
+                <h2><span class="step-number">12</span> DELETE /tasks/:id - Remove</h2>
+                <p class="subtitle">Delete a task by ID.</p>
+                <div class="code-block">
+<pre>app.<span class="function">delete</span>(<span class="string">'/tasks/:id'</span>, <span class="keyword">async</span> (req, res) => {
+  <span class="keyword">try</span> {
+    <span class="keyword">const</span> id = <span class="function">parseInt</span>(req.params.id);
+    <span class="keyword">const</span> tasks = <span class="keyword">await</span> <span class="function">readTasks</span>();
+    <span class="keyword">const</span> filtered = tasks.<span class="function">filter</span>(t => t.id !== id);
+
+    <span class="keyword">if</span> (filtered.length === tasks.length) {
+      <span class="keyword">return</span> res.<span class="function">status</span>(<span class="number">404</span>).<span class="function">json</span>({ error: <span class="string">'Task not found'</span> });
+    }
+
+    <span class="keyword">await</span> <span class="function">writeTasks</span>(filtered);
+    res.<span class="function">sendStatus</span>(<span class="number">204</span>); <span class="comment">// No Content</span>
+  } <span class="keyword">catch</span> (error) {
+    res.<span class="function">status</span>(<span class="number">500</span>).<span class="function">json</span>({ error: <span class="string">'Failed to delete task'</span> });
+  }
+});</pre>
+                </div>
+                <div class="dark-card info" style="margin-top: 1rem;">
+                    <h4>204 No Content</h4>
+                    <p>Success with no response body. Perfect for DELETE operations.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Slide 27: CORS Explained -->
+        <section class="slide" id="cors" data-narration="CORS, Cross-Origin Resource Sharing, is a security feature you'll encounter when your frontend and backend run on different domains or ports. By default, browsers block requests from one origin to another - this prevents malicious sites from accessing APIs. When your React app on localhost:5173 tries to call your Express API on localhost:3000, the browser blocks it unless the server explicitly allows it. To enable CORS in Express, install the cors package and use it as middleware. In development, cors() with no arguments allows all origins. In production, you'd configure it to allow only your frontend's domain. You'll hit this immediately if you try to connect your React app to your API.">
+            <div class="dark-container">
+                <h2><span class="step-number">13</span> CORS Explained</h2>
+                <p class="subtitle">Cross-Origin Resource Sharing - enabling frontend-backend communication.</p>
+                <div class="dark-two-column" style="margin-top: 1.5rem;">
+                    <div>
+                        <h3 style="color: #f87171;">The Problem</h3>
+                        <p style="margin: 0.5rem 0;">Browsers block requests between different origins (domains/ports) for security.</p>
+                        <div class="dark-card danger" style="margin-top: 0.5rem;">
+                            <p><code>localhost:5173</code> (React) → <code>localhost:3000</code> (Express) = <strong>Blocked!</strong></p>
+                        </div>
+                    </div>
+                    <div>
+                        <h3 style="color: #4ade80;">The Solution</h3>
+                        <div class="terminal-block" style="margin-top: 0.5rem;">
+                            <div><span class="prompt">$</span> <span class="command">npm install cors</span></div>
+                        </div>
+                        <div class="code-block" style="margin-top: 0.5rem; font-size: 0.8rem;">
+<pre><span class="keyword">const</span> cors = <span class="function">require</span>(<span class="string">'cors'</span>);
+app.<span class="function">use</span>(<span class="function">cors</span>()); <span class="comment">// Allow all</span></pre>
+                        </div>
+                    </div>
+                </div>
+                <div class="dark-card warning" style="margin-top: 1rem;">
+                    <h4>For Production</h4>
+                    <p>Configure specific origins: <code>cors({ origin: 'https://yourapp.com' })</code></p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Slide 28: Testing with Postman -->
+        <section class="slide" id="postman-testing" data-narration="Now let's test all our endpoints in Postman. Create a new collection called 'Tasks API'. Add a request for each endpoint: GET all tasks, GET single task, POST to create, PUT to update, DELETE to remove. For POST and PUT, go to the Body tab, select raw, choose JSON from the dropdown, and enter your JSON data. Test the complete flow: create a task, get all tasks to see it, get it by ID, update it, then delete it. Save each request to your collection. When you're done, export the collection - you'll submit this JSON file with your assignment. The collection serves as documentation and proof of testing.">
+            <div class="dark-container">
+                <h2><span class="step-number">14</span> Testing with Postman</h2>
+                <p class="subtitle">Test all endpoints and save to a collection.</p>
+                <table class="dark-table">
+                    <tr>
+                        <th>Method</th>
+                        <th>URL</th>
+                        <th>Body</th>
+                        <th>Expected</th>
+                    </tr>
+                    <tr>
+                        <td><span class="method-pill get">GET</span></td>
+                        <td><code>/tasks</code></td>
+                        <td>-</td>
+                        <td><span class="status-badge success">200</span> Array</td>
+                    </tr>
+                    <tr>
+                        <td><span class="method-pill get">GET</span></td>
+                        <td><code>/tasks/123</code></td>
+                        <td>-</td>
+                        <td><span class="status-badge success">200</span> Object</td>
+                    </tr>
+                    <tr>
+                        <td><span class="method-pill post">POST</span></td>
+                        <td><code>/tasks</code></td>
+                        <td><code>{"text": "..."}</code></td>
+                        <td><span class="status-badge created">201</span> Created</td>
+                    </tr>
+                    <tr>
+                        <td><span class="method-pill put">PUT</span></td>
+                        <td><code>/tasks/123</code></td>
+                        <td><code>{"completed": true}</code></td>
+                        <td><span class="status-badge success">200</span> Updated</td>
+                    </tr>
+                    <tr>
+                        <td><span class="method-pill delete">DELETE</span></td>
+                        <td><code>/tasks/123</code></td>
+                        <td>-</td>
+                        <td><span class="status-badge success">204</span> No Content</td>
+                    </tr>
+                </table>
+                <div class="dark-card info" style="margin-top: 1rem;">
+                    <h4>Export Collection</h4>
+                    <p>Right-click collection → Export → Collection v2.1. Submit this JSON file!</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Slide 29: Assignment 1 -->
+        <section class="slide" id="assignment1" data-narration="Assignment 1 is to build the Tasks API in Express.js. Create a new project following the steps we covered: set up Express, add the JSON file storage helpers, implement all five CRUD endpoints with proper status codes and error handling. Test every endpoint in Postman and save the requests to a collection. You'll submit three things: your GitHub repository URL with all the code, your exported Postman collection as a JSON file, and a screenshot showing successful tests of all endpoints. Make sure your API returns appropriate status codes - 200 for success, 201 for created, 404 for not found, 400 for bad requests. This assignment is worth 50 points.">
+            <div class="dark-container">
+                <h2>Assignment 1: Express.js Tasks API</h2>
+                <p class="subtitle">Build and test a complete CRUD API with Express.</p>
+                <div class="dark-two-column" style="margin-top: 1.5rem;">
+                    <div>
+                        <h3>Requirements</h3>
+                        <ul style="margin-top: 0.5rem;">
+                            <li>Express.js project with all 5 CRUD endpoints</li>
+                            <li>JSON file storage (<code>tasks.json</code>)</li>
+                            <li>Proper status codes (200, 201, 400, 404, 500)</li>
+                            <li>Error handling for all routes</li>
+                            <li>Test all endpoints with Postman</li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h3>Deliverables</h3>
+                        <div class="dark-card" style="margin-top: 0.5rem;">
+                            <h4>1. GitHub Repository</h4>
+                            <p>Complete source code</p>
+                        </div>
+                        <div class="dark-card" style="margin-top: 0.5rem;">
+                            <h4>2. Postman Collection</h4>
+                            <p>Exported .json file</p>
+                        </div>
+                        <div class="dark-card" style="margin-top: 0.5rem;">
+                            <h4>3. Screenshot</h4>
+                            <p>Successful Postman tests</p>
+                        </div>
+                    </div>
+                </div>
+                <div style="text-align: center; margin-top: 1.5rem;">
+                    <p style="color: #06b6d4; font-size: 1.25rem; font-weight: bold;">50 Points</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Assignment 1: Step-by-Step Instructions -->
+
+        <!-- Step 1: Project Setup -->
+        <section class="slide" id="a1-step1" data-narration="Let's walk through Assignment 1 step by step. First, create your project folder. Open your terminal and navigate to where you want to create the project. Use mkdir to create a folder called express-tasks-api, then cd into it. Run npm init with the -y flag to create package.json with default settings. This creates the foundation for your Node.js project. Make sure you're in the correct directory before proceeding.">
+            <div class="dark-container">
+                <h2><span class="step-number">1</span> Assignment 1: Project Setup</h2>
+                <p class="subtitle">Create your Express.js project folder and initialize npm.</p>
+                <div class="terminal-block">
+                    <div><span class="prompt">$</span> <span class="command">mkdir express-tasks-api</span></div>
+                    <div><span class="prompt">$</span> <span class="command">cd express-tasks-api</span></div>
+                    <div><span class="prompt">$</span> <span class="command">npm init -y</span></div>
+                    <div class="output" style="margin-top: 0.5rem;">Wrote to /your/path/express-tasks-api/package.json</div>
+                </div>
+                <div class="dark-card info" style="margin-top: 1rem;">
+                    <h4>What This Creates</h4>
+                    <p>A <code>package.json</code> file that tracks your project dependencies and scripts.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Step 2: Install Dependencies -->
+        <section class="slide" id="a1-step2" data-narration="Next, install the required dependencies. You need express as your main framework, and cors to handle cross-origin requests if you want to test from a browser later. Install nodemon as a dev dependency - it automatically restarts your server when you save changes, which makes development much faster. After installation, open your package.json and add a dev script that runs nodemon index.js. This lets you start your server with npm run dev.">
+            <div class="dark-container">
+                <h2><span class="step-number">2</span> Install Dependencies</h2>
+                <p class="subtitle">Install Express, CORS, and nodemon for development.</p>
+                <div class="terminal-block">
+                    <div><span class="prompt">$</span> <span class="command">npm install express cors</span></div>
+                    <div><span class="prompt">$</span> <span class="command">npm install nodemon --save-dev</span></div>
+                </div>
+                <div class="dark-card" style="margin-top: 1rem;">
+                    <h4>Update package.json scripts</h4>
+                    <p>Add this to the "scripts" section:</p>
+                </div>
+                <div class="code-block" style="margin-top: 0.5rem;">
+<pre><span class="string">"scripts"</span>: {
+  <span class="string">"dev"</span>: <span class="string">"nodemon index.js"</span>,
+  <span class="string">"start"</span>: <span class="string">"node index.js"</span>
+}</pre>
+                </div>
+            </div>
+        </section>
+
+        <!-- Step 3: Create Data File -->
+        <section class="slide" id="a1-step3" data-narration="Create your tasks.json file that will store your task data. This file should be in your project root folder, at the same level as package.json and index.js. Start with an empty JSON array - just open and close square brackets. This file will be read and written by your API as you create, update, and delete tasks. Make sure to save it as tasks.json with the correct spelling.">
+            <div class="dark-container">
+                <h2><span class="step-number">3</span> Create Data File</h2>
+                <p class="subtitle">Create tasks.json to store your task data.</p>
+                <div class="dark-two-column" style="margin-top: 1.5rem;">
+                    <div>
+                        <h3>File: tasks.json</h3>
+                        <div class="code-block" style="margin-top: 0.5rem;">
+<pre>[]</pre>
+                        </div>
+                        <p style="margin-top: 0.5rem; font-size: 0.9rem;">Start with an empty array. Your API will populate this.</p>
+                    </div>
+                    <div>
+                        <h3>Folder Structure</h3>
+                        <div class="code-block" style="margin-top: 0.5rem;">
+<pre>express-tasks-api/
+├── node_modules/
+├── package.json
+├── package-lock.json
+├── tasks.json       <span class="comment">← Create this</span>
+└── index.js         <span class="comment">← Create next</span></pre>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Step 4: Create index.js - Part 1 -->
+        <section class="slide" id="a1-step4" data-narration="Now create your index.js file. This is the main entry point for your API. Start with the imports at the top: require express, cors, and the fs module with promises for file operations. Also require path for file path handling. Define your PORT constant and the path to your tasks.json file. Then create two helper functions: readTasks reads the JSON file and parses it, returning an empty array if the file doesn't exist. writeTasks converts your tasks array to JSON and writes it to the file. These helpers keep your route handlers clean.">
+            <div class="dark-container">
+                <h2><span class="step-number">4</span> Create index.js (Part 1)</h2>
+                <p class="subtitle">Set up imports and helper functions.</p>
+                <div class="code-block" style="font-size: 0.8rem;">
+<pre><span class="keyword">const</span> express = <span class="function">require</span>(<span class="string">'express'</span>);
+<span class="keyword">const</span> cors = <span class="function">require</span>(<span class="string">'cors'</span>);
+<span class="keyword">const</span> fs = <span class="function">require</span>(<span class="string">'fs'</span>).promises;
+<span class="keyword">const</span> path = <span class="function">require</span>(<span class="string">'path'</span>);
+
+<span class="keyword">const</span> app = <span class="function">express</span>();
+<span class="keyword">const</span> PORT = <span class="number">3000</span>;
+<span class="keyword">const</span> DATA_FILE = path.<span class="function">join</span>(__dirname, <span class="string">'tasks.json'</span>);
+
+<span class="comment">// Middleware</span>
+app.<span class="function">use</span>(<span class="function">cors</span>());
+app.<span class="function">use</span>(express.<span class="function">json</span>());
+
+<span class="comment">// Helper functions</span>
+<span class="keyword">async function</span> <span class="function">readTasks</span>() {
+  <span class="keyword">try</span> {
+    <span class="keyword">const</span> data = <span class="keyword">await</span> fs.<span class="function">readFile</span>(DATA_FILE, <span class="string">'utf8'</span>);
+    <span class="keyword">return</span> JSON.<span class="function">parse</span>(data);
+  } <span class="keyword">catch</span> { <span class="keyword">return</span> []; }
+}
+
+<span class="keyword">async function</span> <span class="function">writeTasks</span>(tasks) {
+  <span class="keyword">await</span> fs.<span class="function">writeFile</span>(DATA_FILE, JSON.<span class="function">stringify</span>(tasks, <span class="keyword">null</span>, <span class="number">2</span>));
+}</pre>
+                </div>
+            </div>
+        </section>
+
+        <!-- Step 5: Create index.js - Part 2 -->
+        <section class="slide" id="a1-step5" data-narration="Now add your route handlers. The GET /tasks route reads all tasks and returns them. GET /tasks/:id finds a single task by ID - remember to parse the ID as an integer since URL params are strings. Return 404 if the task doesn't exist. POST /tasks creates new tasks - validate that text exists, create the task object with a unique ID using Date.now(), and return 201 Created. Always include error handling with try-catch blocks.">
+            <div class="dark-container">
+                <h2><span class="step-number">5</span> Create index.js (Part 2)</h2>
+                <p class="subtitle">Add GET and POST route handlers.</p>
+                <div class="code-block" style="font-size: 0.75rem;">
+<pre><span class="comment">// GET all tasks</span>
+app.<span class="function">get</span>(<span class="string">'/tasks'</span>, <span class="keyword">async</span> (req, res) => {
+  <span class="keyword">try</span> {
+    <span class="keyword">const</span> tasks = <span class="keyword">await</span> <span class="function">readTasks</span>();
+    res.<span class="function">json</span>(tasks);
+  } <span class="keyword">catch</span> (error) {
+    res.<span class="function">status</span>(<span class="number">500</span>).<span class="function">json</span>({ error: <span class="string">'Failed to read tasks'</span> });
+  }
+});
+
+<span class="comment">// GET single task</span>
+app.<span class="function">get</span>(<span class="string">'/tasks/:id'</span>, <span class="keyword">async</span> (req, res) => {
+  <span class="keyword">try</span> {
+    <span class="keyword">const</span> id = <span class="function">parseInt</span>(req.params.id);
+    <span class="keyword">const</span> tasks = <span class="keyword">await</span> <span class="function">readTasks</span>();
+    <span class="keyword">const</span> task = tasks.<span class="function">find</span>(t => t.id === id);
+    <span class="keyword">if</span> (!task) <span class="keyword">return</span> res.<span class="function">status</span>(<span class="number">404</span>).<span class="function">json</span>({ error: <span class="string">'Task not found'</span> });
+    res.<span class="function">json</span>(task);
+  } <span class="keyword">catch</span> (error) {
+    res.<span class="function">status</span>(<span class="number">500</span>).<span class="function">json</span>({ error: <span class="string">'Failed to read task'</span> });
+  }
+});
+
+<span class="comment">// POST new task</span>
+app.<span class="function">post</span>(<span class="string">'/tasks'</span>, <span class="keyword">async</span> (req, res) => {
+  <span class="keyword">try</span> {
+    <span class="keyword">const</span> { text } = req.body;
+    <span class="keyword">if</span> (!text) <span class="keyword">return</span> res.<span class="function">status</span>(<span class="number">400</span>).<span class="function">json</span>({ error: <span class="string">'Text is required'</span> });
+    <span class="keyword">const</span> newTask = { id: Date.<span class="function">now</span>(), text, completed: <span class="keyword">false</span>, createdAt: <span class="keyword">new</span> <span class="function">Date</span>().<span class="function">toISOString</span>() };
+    <span class="keyword">const</span> tasks = <span class="keyword">await</span> <span class="function">readTasks</span>();
+    tasks.<span class="function">push</span>(newTask);
+    <span class="keyword">await</span> <span class="function">writeTasks</span>(tasks);
+    res.<span class="function">status</span>(<span class="number">201</span>).<span class="function">json</span>(newTask);
+  } <span class="keyword">catch</span> (error) {
+    res.<span class="function">status</span>(<span class="number">500</span>).<span class="function">json</span>({ error: <span class="string">'Failed to create task'</span> });
+  }
+});</pre>
+                </div>
+            </div>
+        </section>
+
+        <!-- Step 6: Create index.js - Part 3 -->
+        <section class="slide" id="a1-step6" data-narration="Add the PUT and DELETE handlers to complete your CRUD operations. PUT /tasks/:id updates an existing task - find the task index, return 404 if not found, then merge the existing task with the update data using the spread operator. DELETE /tasks/:id removes a task - use filter to create a new array without the deleted task, check if anything was actually removed, and return 204 No Content on success. Finally, add app.listen to start your server.">
+            <div class="dark-container">
+                <h2><span class="step-number">6</span> Create index.js (Part 3)</h2>
+                <p class="subtitle">Add PUT, DELETE handlers and start server.</p>
+                <div class="code-block" style="font-size: 0.75rem;">
+<pre><span class="comment">// PUT update task</span>
+app.<span class="function">put</span>(<span class="string">'/tasks/:id'</span>, <span class="keyword">async</span> (req, res) => {
+  <span class="keyword">try</span> {
+    <span class="keyword">const</span> id = <span class="function">parseInt</span>(req.params.id);
+    <span class="keyword">const</span> tasks = <span class="keyword">await</span> <span class="function">readTasks</span>();
+    <span class="keyword">const</span> index = tasks.<span class="function">findIndex</span>(t => t.id === id);
+    <span class="keyword">if</span> (index === -<span class="number">1</span>) <span class="keyword">return</span> res.<span class="function">status</span>(<span class="number">404</span>).<span class="function">json</span>({ error: <span class="string">'Task not found'</span> });
+    tasks[index] = { ...tasks[index], ...req.body, id };
+    <span class="keyword">await</span> <span class="function">writeTasks</span>(tasks);
+    res.<span class="function">json</span>(tasks[index]);
+  } <span class="keyword">catch</span> (error) {
+    res.<span class="function">status</span>(<span class="number">500</span>).<span class="function">json</span>({ error: <span class="string">'Failed to update task'</span> });
+  }
+});
+
+<span class="comment">// DELETE task</span>
+app.<span class="function">delete</span>(<span class="string">'/tasks/:id'</span>, <span class="keyword">async</span> (req, res) => {
+  <span class="keyword">try</span> {
+    <span class="keyword">const</span> id = <span class="function">parseInt</span>(req.params.id);
+    <span class="keyword">const</span> tasks = <span class="keyword">await</span> <span class="function">readTasks</span>();
+    <span class="keyword">const</span> filtered = tasks.<span class="function">filter</span>(t => t.id !== id);
+    <span class="keyword">if</span> (filtered.length === tasks.length) {
+      <span class="keyword">return</span> res.<span class="function">status</span>(<span class="number">404</span>).<span class="function">json</span>({ error: <span class="string">'Task not found'</span> });
+    }
+    <span class="keyword">await</span> <span class="function">writeTasks</span>(filtered);
+    res.<span class="function">sendStatus</span>(<span class="number">204</span>);
+  } <span class="keyword">catch</span> (error) {
+    res.<span class="function">status</span>(<span class="number">500</span>).<span class="function">json</span>({ error: <span class="string">'Failed to delete task'</span> });
+  }
+});
+
+<span class="comment">// Start server</span>
+app.<span class="function">listen</span>(PORT, () => console.<span class="function">log</span>(<span class="string">`Server running on http://localhost:</span>${PORT}<span class="string">`</span>));</pre>
+                </div>
+            </div>
+        </section>
+
+        <!-- Step 7: Start Server -->
+        <section class="slide" id="a1-step7" data-narration="Now start your server to make sure everything works. Run npm run dev in your terminal. You should see the message 'Server running on http://localhost:3000'. If you see any errors, check that your index.js syntax is correct and that all files are in the right location. With nodemon running, any changes you save will automatically restart the server. Keep this terminal window open while you test.">
+            <div class="dark-container">
+                <h2><span class="step-number">7</span> Start Your Server</h2>
+                <p class="subtitle">Run the development server and verify it starts.</p>
+                <div class="terminal-block">
+                    <div><span class="prompt">$</span> <span class="command">npm run dev</span></div>
+                    <div class="output" style="margin-top: 0.5rem;">[nodemon] starting `node index.js`</div>
+                    <div class="output">Server running on http://localhost:3000</div>
+                </div>
+                <div class="dark-two-column" style="margin-top: 1.5rem;">
+                    <div class="dark-card success">
+                        <h4>Success</h4>
+                        <p>You see "Server running on http://localhost:3000"</p>
+                    </div>
+                    <div class="dark-card danger">
+                        <h4>If Errors</h4>
+                        <p>Check for typos in index.js, missing commas, or unclosed brackets</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Step 8: Set Up Postman -->
+        <section class="slide" id="a1-step8" data-narration="Open Postman and create a new collection to organize your API tests. Click the Collections tab, then click the plus button or 'Create Collection'. Name it 'Express Tasks API'. This collection will hold all your test requests and you'll export it for submission. Creating a collection keeps your requests organized and lets you run all tests at once.">
+            <div class="dark-container">
+                <h2><span class="step-number">8</span> Set Up Postman Collection</h2>
+                <p class="subtitle">Create a collection to organize your API tests.</p>
+                <div class="dark-two-column" style="margin-top: 1.5rem;">
+                    <div>
+                        <h3>Steps in Postman</h3>
+                        <ol style="margin-top: 0.5rem; padding-left: 1.5rem;">
+                            <li style="margin-bottom: 0.5rem;">Click <strong>Collections</strong> in left sidebar</li>
+                            <li style="margin-bottom: 0.5rem;">Click <strong>+</strong> or <strong>Create Collection</strong></li>
+                            <li style="margin-bottom: 0.5rem;">Name it: <code>Express Tasks API</code></li>
+                            <li style="margin-bottom: 0.5rem;">Click <strong>Create</strong></li>
+                        </ol>
+                    </div>
+                    <div>
+                        <h3>Your Collection Will Contain</h3>
+                        <div class="dark-card" style="margin-top: 0.5rem;">
+                            <p><span class="method-pill get">GET</span> Get All Tasks</p>
+                        </div>
+                        <div class="dark-card" style="margin-top: 0.25rem;">
+                            <p><span class="method-pill get">GET</span> Get Single Task</p>
+                        </div>
+                        <div class="dark-card" style="margin-top: 0.25rem;">
+                            <p><span class="method-pill post">POST</span> Create Task</p>
+                        </div>
+                        <div class="dark-card" style="margin-top: 0.25rem;">
+                            <p><span class="method-pill put">PUT</span> Update Task</p>
+                        </div>
+                        <div class="dark-card" style="margin-top: 0.25rem;">
+                            <p><span class="method-pill delete">DELETE</span> Delete Task</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Step 9: Test POST -->
+        <section class="slide" id="a1-step9" data-narration="Start by testing POST to create a task. In Postman, create a new request. Set the method to POST and the URL to http://localhost:3000/tasks. Go to the Body tab, select 'raw', and choose JSON from the dropdown. Enter a JSON object with a text property. Click Send. You should get back a 201 Created status and the new task object with an id, text, completed, and createdAt fields. Save this request to your collection by clicking Save and selecting your Express Tasks API collection.">
+            <div class="dark-container">
+                <h2><span class="step-number">9</span> Test POST - Create Task</h2>
+                <p class="subtitle">Create your first task and verify the response.</p>
+                <div class="dark-two-column" style="margin-top: 1.5rem;">
+                    <div>
+                        <h3>Request Setup</h3>
+                        <div class="dark-card" style="margin-top: 0.5rem;">
+                            <p><strong>Method:</strong> <span class="method-pill post">POST</span></p>
+                            <p><strong>URL:</strong> <code>http://localhost:3000/tasks</code></p>
+                        </div>
+                        <div class="dark-card" style="margin-top: 0.5rem;">
+                            <p><strong>Body tab:</strong> raw → JSON</p>
+                        </div>
+                        <div class="code-block" style="margin-top: 0.5rem; font-size: 0.85rem;">
+<pre>{
+  "text": "Learn REST APIs"
+}</pre>
+                        </div>
+                    </div>
+                    <div>
+                        <h3>Expected Response</h3>
+                        <div class="dark-card success" style="margin-top: 0.5rem;">
+                            <p><strong>Status:</strong> <span class="status-badge created">201</span> Created</p>
+                        </div>
+                        <div class="code-block" style="margin-top: 0.5rem; font-size: 0.85rem;">
+<pre>{
+  "id": 1705234567890,
+  "text": "Learn REST APIs",
+  "completed": false,
+  "createdAt": "2024-01-14..."
+}</pre>
+                        </div>
+                        <p style="margin-top: 0.5rem; font-size: 0.85rem;"><strong>Save this request</strong> to your collection!</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Step 10: Test GET All -->
+        <section class="slide" id="a1-step10" data-narration="Now test GET to retrieve all tasks. Create a new request, set method to GET, URL to http://localhost:3000/tasks. No body needed for GET requests. Click Send. You should get 200 OK with an array containing the task you just created. Create a couple more tasks with POST so you have multiple items in your array. Save this request to your collection.">
+            <div class="dark-container">
+                <h2><span class="step-number">10</span> Test GET - All Tasks</h2>
+                <p class="subtitle">Retrieve all tasks from your API.</p>
+                <div class="dark-two-column" style="margin-top: 1.5rem;">
+                    <div>
+                        <h3>Request Setup</h3>
+                        <div class="dark-card" style="margin-top: 0.5rem;">
+                            <p><strong>Method:</strong> <span class="method-pill get">GET</span></p>
+                            <p><strong>URL:</strong> <code>http://localhost:3000/tasks</code></p>
+                            <p><strong>Body:</strong> None (GET requests don't have bodies)</p>
+                        </div>
+                    </div>
+                    <div>
+                        <h3>Expected Response</h3>
+                        <div class="dark-card success" style="margin-top: 0.5rem;">
+                            <p><strong>Status:</strong> <span class="status-badge success">200</span> OK</p>
+                        </div>
+                        <div class="code-block" style="margin-top: 0.5rem; font-size: 0.85rem;">
+<pre>[
+  {
+    "id": 1705234567890,
+    "text": "Learn REST APIs",
+    "completed": false,
+    "createdAt": "..."
+  }
+]</pre>
+                        </div>
+                    </div>
+                </div>
+                <div class="dark-card info" style="margin-top: 1rem;">
+                    <h4>Tip</h4>
+                    <p>Create 2-3 more tasks with POST so you have multiple items to test with!</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Step 11: Test GET Single & PUT -->
+        <section class="slide" id="a1-step11" data-narration="Test GET for a single task and PUT to update it. For GET single task, use the URL http://localhost:3000/tasks/ followed by an ID from one of your tasks. You should get 200 OK with just that one task. For PUT, use the same URL pattern, set method to PUT, and in the body send the fields you want to update - like setting completed to true. The response should show the updated task. Also test 404 by using a fake ID that doesn't exist. Save both requests.">
+            <div class="dark-container">
+                <h2><span class="step-number">11</span> Test GET Single & PUT Update</h2>
+                <p class="subtitle">Get one task by ID and update it.</p>
+                <div class="dark-two-column" style="margin-top: 1rem;">
+                    <div>
+                        <h3>GET Single Task</h3>
+                        <div class="dark-card" style="margin-top: 0.5rem;">
+                            <p><span class="method-pill get">GET</span> <code>/tasks/YOUR_TASK_ID</code></p>
+                            <p style="margin-top: 0.25rem;"><span class="status-badge success">200</span> Returns the task</p>
+                        </div>
+                        <div class="dark-card warning" style="margin-top: 0.5rem;">
+                            <h4>Test 404</h4>
+                            <p><span class="method-pill get">GET</span> <code>/tasks/9999999</code></p>
+                            <p><span class="status-badge client-error">404</span> Not Found</p>
+                        </div>
+                    </div>
+                    <div>
+                        <h3>PUT Update Task</h3>
+                        <div class="dark-card" style="margin-top: 0.5rem;">
+                            <p><span class="method-pill put">PUT</span> <code>/tasks/YOUR_TASK_ID</code></p>
+                        </div>
+                        <div class="code-block" style="margin-top: 0.5rem; font-size: 0.85rem;">
+<pre>{
+  "completed": true
+}</pre>
+                        </div>
+                        <div class="dark-card success" style="margin-top: 0.5rem;">
+                            <p><span class="status-badge success">200</span> Returns updated task with <code>completed: true</code></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Step 12: Test DELETE -->
+        <section class="slide" id="a1-step12" data-narration="Finally, test DELETE. Set the method to DELETE, use the URL with a task ID you want to remove. Click Send. You should get 204 No Content - this means success with no response body. Verify it worked by running GET all tasks again - the deleted task should be gone. Test 404 by trying to delete the same task again or using a fake ID. Save the DELETE request to your collection.">
+            <div class="dark-container">
+                <h2><span class="step-number">12</span> Test DELETE</h2>
+                <p class="subtitle">Remove a task and verify it's gone.</p>
+                <div class="dark-two-column" style="margin-top: 1.5rem;">
+                    <div>
+                        <h3>Delete Request</h3>
+                        <div class="dark-card" style="margin-top: 0.5rem;">
+                            <p><strong>Method:</strong> <span class="method-pill delete">DELETE</span></p>
+                            <p><strong>URL:</strong> <code>http://localhost:3000/tasks/YOUR_TASK_ID</code></p>
+                            <p><strong>Body:</strong> None</p>
+                        </div>
+                        <div class="dark-card success" style="margin-top: 0.5rem;">
+                            <p><strong>Status:</strong> <span class="status-badge success">204</span> No Content</p>
+                            <p>No response body - this is correct!</p>
+                        </div>
+                    </div>
+                    <div>
+                        <h3>Verify Deletion</h3>
+                        <div class="dark-card" style="margin-top: 0.5rem;">
+                            <p>Run <span class="method-pill get">GET</span> <code>/tasks</code> again</p>
+                            <p style="margin-top: 0.25rem;">The deleted task should be gone from the array</p>
+                        </div>
+                        <div class="dark-card warning" style="margin-top: 0.5rem;">
+                            <h4>Test 404</h4>
+                            <p>Try deleting the same ID again:</p>
+                            <p><span class="status-badge client-error">404</span> Not Found</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Step 13: Take Screenshots -->
+        <section class="slide" id="a1-step13" data-narration="For your submission, you need screenshots showing successful tests. The best approach is to take a screenshot of each request showing the response status and body. Make sure your screenshots clearly show: the HTTP method, the URL, the response status code, and the response body. You can take individual screenshots for each endpoint, or use Postman's collection runner to run all tests at once and screenshot the results.">
+            <div class="dark-container">
+                <h2><span class="step-number">13</span> Capture Screenshots</h2>
+                <p class="subtitle">Document your successful API tests.</p>
+                <div class="dark-two-column" style="margin-top: 1.5rem;">
+                    <div>
+                        <h3>What to Capture</h3>
+                        <p style="margin-top: 0.5rem;">Each screenshot should show:</p>
+                        <ul style="margin-top: 0.5rem; padding-left: 1.5rem;">
+                            <li><strong>Method</strong> (GET, POST, etc.)</li>
+                            <li><strong>URL</strong> being tested</li>
+                            <li><strong>Status code</strong> (200, 201, etc.)</li>
+                            <li><strong>Response body</strong></li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h3>Recommended Screenshots</h3>
+                        <div class="dark-card" style="margin-top: 0.5rem;">
+                            <p>1. POST creating a task <span class="status-badge created">201</span></p>
+                        </div>
+                        <div class="dark-card" style="margin-top: 0.25rem;">
+                            <p>2. GET all tasks <span class="status-badge success">200</span></p>
+                        </div>
+                        <div class="dark-card" style="margin-top: 0.25rem;">
+                            <p>3. GET single task <span class="status-badge success">200</span></p>
+                        </div>
+                        <div class="dark-card" style="margin-top: 0.25rem;">
+                            <p>4. PUT updating a task <span class="status-badge success">200</span></p>
+                        </div>
+                        <div class="dark-card" style="margin-top: 0.25rem;">
+                            <p>5. DELETE a task <span class="status-badge success">204</span></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Step 14: Export & Submit -->
+        <section class="slide" id="a1-step14" data-narration="Export your Postman collection for submission. Right-click on your collection name in the sidebar, select Export, choose Collection v2.1 format, and save the JSON file. Push your code to GitHub - make sure to include a .gitignore file that excludes node_modules. Your final submission includes three items: the GitHub repository URL, the exported Postman collection JSON file, and your screenshots. Double-check everything before submitting!">
+            <div class="dark-container">
+                <h2><span class="step-number">14</span> Export Collection & Submit</h2>
+                <p class="subtitle">Package everything for submission.</p>
+                <div class="dark-two-column" style="margin-top: 1.5rem;">
+                    <div>
+                        <h3>Export Postman Collection</h3>
+                        <ol style="margin-top: 0.5rem; padding-left: 1.5rem;">
+                            <li style="margin-bottom: 0.5rem;">Right-click collection name</li>
+                            <li style="margin-bottom: 0.5rem;">Select <strong>Export</strong></li>
+                            <li style="margin-bottom: 0.5rem;">Choose <strong>Collection v2.1</strong></li>
+                            <li style="margin-bottom: 0.5rem;">Save as <code>express-tasks-api.json</code></li>
+                        </ol>
+                    </div>
+                    <div>
+                        <h3>Push to GitHub</h3>
+                        <div class="terminal-block" style="margin-top: 0.5rem; font-size: 0.85rem;">
+                            <div><span class="prompt">$</span> <span class="command">git init</span></div>
+                            <div><span class="prompt">$</span> <span class="command">echo "node_modules" > .gitignore</span></div>
+                            <div><span class="prompt">$</span> <span class="command">git add .</span></div>
+                            <div><span class="prompt">$</span> <span class="command">git commit -m "Express Tasks API"</span></div>
+                            <div><span class="prompt">$</span> <span class="command">git remote add origin YOUR_REPO_URL</span></div>
+                            <div><span class="prompt">$</span> <span class="command">git push -u origin main</span></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="dark-card success" style="margin-top: 1rem;">
+                    <h4>Submission Checklist</h4>
+                    <p>1. GitHub Repository URL  |  2. Postman Collection (.json)  |  3. Screenshots</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- ========== PART 3: Next.js API Routes ========== -->
+
+        <!-- Slide 30: Part 3 Title -->
+        <section class="slide title-slide" id="part3" data-narration="Part 3 introduces a different approach to building APIs: Next.js Route Handlers. Instead of a separate backend server, Next.js lets you add API routes directly to your React project. This means one codebase, one deployment, one URL for both frontend and backend. We'll rebuild the exact same Tasks API so you can directly compare how each framework handles the same problem. You already know Next.js deploys easily to Vercel from Module 5 - now you'll add API routes to that same deployment model. Let's see how Next.js does APIs differently.">
+            <h1>Part 3</h1>
+            <p class="subtitle">API Routes with Next.js</p>
+        </section>
+
+        <!-- Slide 31: What is Next.js? -->
+        <section class="slide" id="what-is-nextjs" data-narration="Next.js is a React framework that adds server-side capabilities to React. While React alone is a client-side library, Next.js lets you build full-stack applications with server rendering, file-based routing, and API routes. Created by Vercel, it's designed to work seamlessly with their hosting platform. The big advantage for APIs is that you can put your frontend and backend in the same project. Your React components and API routes live in the same codebase, share the same deployment, and run under the same URL. This simplifies development and deployment significantly, especially for smaller projects.">
+            <div class="dark-container">
+                <h2>What is Next.js?</h2>
+                <p class="subtitle">A React framework with full-stack capabilities.</p>
+                <div class="dark-three-column" style="margin-top: 1.5rem;">
+                    <div class="dark-card">
+                        <h4>Full-Stack React</h4>
+                        <p>Frontend + backend in one project. Server-side rendering built in.</p>
+                    </div>
+                    <div class="dark-card">
+                        <h4>File-Based Routing</h4>
+                        <p>Files and folders become URLs. No router configuration needed.</p>
+                    </div>
+                    <div class="dark-card">
+                        <h4>Easy Deployment</h4>
+                        <p>Deploys to Vercel in seconds. You already did this in Module 5!</p>
+                    </div>
+                </div>
+                <div class="flow-diagram" style="margin-top: 1.5rem;">
+                    <div class="endpoint-box" style="border-color: #22d3ee;">
+                        <div class="label" style="color: #22d3ee;">PAGES</div>
+                        <div class="title">React UI</div>
+                    </div>
+                    <div style="font-size: 2rem; color: #94a3b8;">+</div>
+                    <div class="endpoint-box" style="border-color: #f97316;">
+                        <div class="label" style="color: #f97316;">API ROUTES</div>
+                        <div class="title">Backend</div>
+                    </div>
+                    <div style="font-size: 2rem; color: #94a3b8;">=</div>
+                    <div class="endpoint-box" style="border-color: #4ade80;">
+                        <div class="label" style="color: #4ade80;">ONE PROJECT</div>
+                        <div class="title">Full Stack</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Slide 32: App Router Overview -->
+        <section class="slide" id="app-router" data-narration="Next.js 13 introduced the App Router, a new way to structure Next.js applications. All your code lives in the 'app' folder. Folders become URL paths, and special files define what happens at those paths: page.js for UI, route.js for API endpoints. For API routes, you create folders under app/api. The folder path becomes the URL: app/api/tasks/route.js handles requests to /api/tasks. Dynamic segments use square brackets: app/api/tasks/[id]/route.js handles /api/tasks/123. This file-based approach means you can see your entire API structure just by looking at the folder tree.">
+            <div class="dark-container">
+                <h2>App Router Overview</h2>
+                <p class="subtitle">File-based routing - folders and files become URLs.</p>
+                <div class="dark-two-column" style="margin-top: 1.5rem;">
+                    <div>
+                        <h3>Folder Structure</h3>
+                        <div class="code-block" style="margin-top: 0.5rem; font-size: 0.85rem;">
+<pre>app/
+├── api/
+│   └── tasks/
+│       ├── route.js      <span class="comment">← /api/tasks</span>
+│       └── [id]/
+│           └── route.js  <span class="comment">← /api/tasks/:id</span>
+├── page.js               <span class="comment">← / (homepage)</span>
+└── layout.js</pre>
+                        </div>
+                    </div>
+                    <div>
+                        <h3>Key Concepts</h3>
+                        <div class="dark-card" style="margin-top: 0.5rem;">
+                            <h4>route.js</h4>
+                            <p>Defines API endpoint handlers</p>
+                        </div>
+                        <div class="dark-card" style="margin-top: 0.5rem;">
+                            <h4>[id] folder</h4>
+                            <p>Dynamic segment - captures URL params</p>
+                        </div>
+                        <div class="dark-card" style="margin-top: 0.5rem;">
+                            <h4>/api prefix</h4>
+                            <p>Convention to separate from pages</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Slide 33: Route Handlers -->
+        <section class="slide" id="route-handlers" data-narration="Route handlers are how you define API endpoints in Next.js. Instead of app.get and app.post like Express, you export functions named after HTTP methods in uppercase: GET, POST, PUT, DELETE. Each function receives a Request object and returns a Response using NextResponse. This is closer to the web platform's native Request and Response APIs, making Next.js more standards-aligned than Express. The function names must be exactly GET, POST, PUT, or DELETE - Next.js uses these names to know which function handles which HTTP method. You can have multiple handlers in the same route.js file.">
+            <div class="dark-container">
+                <h2>Route Handlers</h2>
+                <p class="subtitle">Export functions named after HTTP methods.</p>
+                <div class="code-block">
+<pre><span class="comment">// app/api/tasks/route.js</span>
+<span class="keyword">import</span> { NextResponse } <span class="keyword">from</span> <span class="string">'next/server'</span>;
+
+<span class="keyword">export async function</span> <span class="function">GET</span>(request) {
+  <span class="comment">// Handle GET /api/tasks</span>
+  <span class="keyword">return</span> NextResponse.<span class="function">json</span>({ message: <span class="string">'Hello'</span> });
+}
+
+<span class="keyword">export async function</span> <span class="function">POST</span>(request) {
+  <span class="comment">// Handle POST /api/tasks</span>
+  <span class="keyword">const</span> body = <span class="keyword">await</span> request.<span class="function">json</span>();
+  <span class="keyword">return</span> NextResponse.<span class="function">json</span>(body, { status: <span class="number">201</span> });
+}</pre>
+                </div>
+                <div class="dark-card info" style="margin-top: 1rem;">
+                    <h4>Key Difference from Express</h4>
+                    <p>Function name = HTTP method. <code>GET</code>, <code>POST</code>, <code>PUT</code>, <code>DELETE</code> (uppercase!)</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Slide 34: Project Setup -->
+        <section class="slide" id="nextjs-setup" data-narration="Let's set up our Next.js project. Run npx create-next-app@latest and name it nextjs-tasks-api. When prompted, accept the defaults - we want TypeScript disabled for simplicity, ESLint enabled, Tailwind optional, the src directory is up to you, and importantly, say yes to App Router. After creation, cd into the project and run npm run dev. The development server starts on localhost:3000. Now create the api folder structure: app/api/tasks/route.js for the collection endpoints and app/api/tasks/[id]/route.js for single-item endpoints. The square brackets are literal - they tell Next.js this is a dynamic segment.">
+            <div class="dark-container">
+                <h2><span class="step-number">1</span> Project Setup</h2>
+                <p class="subtitle">Create a Next.js project with App Router.</p>
+                <div class="terminal-block">
+                    <div><span class="prompt">$</span> <span class="command">npx create-next-app@latest nextjs-tasks-api</span></div>
+                    <div class="output" style="margin: 0.5rem 0;">✔ Would you like to use TypeScript? No</div>
+                    <div class="output">✔ Would you like to use App Router? Yes</div>
+                    <div style="margin-top: 1rem;"><span class="prompt">$</span> <span class="command">cd nextjs-tasks-api</span></div>
+                    <div><span class="prompt">$</span> <span class="command">npm run dev</span></div>
+                    <div class="output" style="margin-top: 0.5rem;">▲ Ready on http://localhost:3000</div>
+                </div>
+                <div class="dark-card info" style="margin-top: 1rem;">
+                    <h4>Create API Folders</h4>
+                    <p><code>app/api/tasks/route.js</code> and <code>app/api/tasks/[id]/route.js</code></p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Slide 35: NextRequest & NextResponse -->
+        <section class="slide" id="next-request-response" data-narration="Next.js uses NextRequest and NextResponse from next/server. These are extensions of the standard web Request and Response APIs. To read JSON from the request body, use await request.json(). To get URL parameters in dynamic routes, the second argument to your handler contains params - access it with params.id. To send responses, use NextResponse.json() with your data and optional status. You can also create responses with other status codes or headers. The API is more explicit than Express - you return responses instead of calling res.json(). This functional style makes handlers easier to test.">
+            <div class="dark-container">
+                <h2><span class="step-number">2</span> NextRequest & NextResponse</h2>
+                <p class="subtitle">Web-standard APIs for handling requests and responses.</p>
+                <div class="code-block">
+<pre><span class="keyword">import</span> { NextResponse } <span class="keyword">from</span> <span class="string">'next/server'</span>;
+
+<span class="comment">// Reading request body</span>
+<span class="keyword">const</span> body = <span class="keyword">await</span> request.<span class="function">json</span>();
+
+<span class="comment">// Getting URL params (in [id]/route.js)</span>
+<span class="keyword">export async function</span> <span class="function">GET</span>(request, { params }) {
+  <span class="keyword">const</span> id = params.id;
+}
+
+<span class="comment">// Sending responses</span>
+<span class="keyword">return</span> NextResponse.<span class="function">json</span>(data);
+<span class="keyword">return</span> NextResponse.<span class="function">json</span>(data, { status: <span class="number">201</span> });
+<span class="keyword">return</span> NextResponse.<span class="function">json</span>({ error: <span class="string">'Not found'</span> }, { status: <span class="number">404</span> });</pre>
+                </div>
+            </div>
+        </section>
+
+        <!-- Slide 36: GET & POST Routes -->
+        <section class="slide" id="next-get-post" data-narration="Let's implement GET and POST for the tasks collection. Create app/api/tasks/route.js. Both handlers use the same file storage helpers we created for Express - copy those over or recreate them. The GET handler reads all tasks and returns them as JSON. The POST handler reads the JSON body, validates that text exists, creates the new task object, saves it, and returns 201 with the created task. Notice we export named functions GET and POST - Next.js routes requests to the right handler based on the HTTP method. The pattern is very similar to Express, just with different syntax.">
+            <div class="dark-container">
+                <h2><span class="step-number">3</span> GET & POST Routes</h2>
+                <p class="subtitle">app/api/tasks/route.js - handle collection endpoints.</p>
+                <div class="code-block" style="font-size: 0.8rem;">
+<pre><span class="keyword">import</span> { NextResponse } <span class="keyword">from</span> <span class="string">'next/server'</span>;
+<span class="keyword">import</span> { readTasks, writeTasks } <span class="keyword">from</span> <span class="string">'@/lib/tasks'</span>;
+
+<span class="keyword">export async function</span> <span class="function">GET</span>() {
+  <span class="keyword">const</span> tasks = <span class="keyword">await</span> <span class="function">readTasks</span>();
+  <span class="keyword">return</span> NextResponse.<span class="function">json</span>(tasks);
+}
+
+<span class="keyword">export async function</span> <span class="function">POST</span>(request) {
+  <span class="keyword">const</span> { text } = <span class="keyword">await</span> request.<span class="function">json</span>();
+  <span class="keyword">if</span> (!text) {
+    <span class="keyword">return</span> NextResponse.<span class="function">json</span>({ error: <span class="string">'Text required'</span> }, { status: <span class="number">400</span> });
+  }
+  <span class="keyword">const</span> newTask = { id: Date.<span class="function">now</span>(), text, completed: <span class="keyword">false</span> };
+  <span class="keyword">const</span> tasks = <span class="keyword">await</span> <span class="function">readTasks</span>();
+  tasks.<span class="function">push</span>(newTask);
+  <span class="keyword">await</span> <span class="function">writeTasks</span>(tasks);
+  <span class="keyword">return</span> NextResponse.<span class="function">json</span>(newTask, { status: <span class="number">201</span> });
+}</pre>
+                </div>
+            </div>
+        </section>
+
+        <!-- Slide 37: Dynamic Routes -->
+        <section class="slide" id="next-dynamic" data-narration="For single-task operations, create app/api/tasks/[id]/route.js. The square brackets make this a dynamic segment - any request to /api/tasks/123 routes here with 123 as the id param. Each handler receives the params object as the second argument. We implement GET to fetch one task, PUT to update it, and DELETE to remove it. The logic is identical to Express - find by id, handle 404 if not found, perform the operation, return the result. The difference is purely syntactic: named function exports instead of app.method calls, NextResponse.json instead of res.json.">
+            <div class="dark-container">
+                <h2><span class="step-number">4</span> Dynamic Routes</h2>
+                <p class="subtitle">app/api/tasks/[id]/route.js - handle single task operations.</p>
+                <div class="code-block" style="font-size: 0.8rem;">
+<pre><span class="keyword">export async function</span> <span class="function">GET</span>(request, { params }) {
+  <span class="keyword">const</span> id = <span class="function">parseInt</span>(params.id);
+  <span class="keyword">const</span> tasks = <span class="keyword">await</span> <span class="function">readTasks</span>();
+  <span class="keyword">const</span> task = tasks.<span class="function">find</span>(t => t.id === id);
+  <span class="keyword">if</span> (!task) {
+    <span class="keyword">return</span> NextResponse.<span class="function">json</span>({ error: <span class="string">'Not found'</span> }, { status: <span class="number">404</span> });
+  }
+  <span class="keyword">return</span> NextResponse.<span class="function">json</span>(task);
+}
+
+<span class="keyword">export async function</span> <span class="function">DELETE</span>(request, { params }) {
+  <span class="keyword">const</span> id = <span class="function">parseInt</span>(params.id);
+  <span class="keyword">const</span> tasks = <span class="keyword">await</span> <span class="function">readTasks</span>();
+  <span class="keyword">const</span> filtered = tasks.<span class="function">filter</span>(t => t.id !== id);
+  <span class="keyword">if</span> (filtered.length === tasks.length) {
+    <span class="keyword">return</span> NextResponse.<span class="function">json</span>({ error: <span class="string">'Not found'</span> }, { status: <span class="number">404</span> });
+  }
+  <span class="keyword">await</span> <span class="function">writeTasks</span>(filtered);
+  <span class="keyword">return new</span> <span class="function">Response</span>(<span class="keyword">null</span>, { status: <span class="number">204</span> });
+}</pre>
+                </div>
+            </div>
+        </section>
+
+        <!-- Slide 38: File Storage in Next.js -->
+        <section class="slide" id="next-storage" data-narration="For file storage in Next.js, create a lib folder for shared utilities. The readTasks and writeTasks functions are almost identical to Express, with one important difference: we need the full file path. In Next.js, use process.cwd() to get the project root directory, then join it with your data file path. Create tasks.json in your project root with an empty array. One note for deployment: Vercel's serverless functions have read-only file systems, so JSON file storage won't persist across requests in production. For this assignment that's fine - we're focusing on learning the API patterns. In a real app, you'd use a database.">
+            <div class="dark-container">
+                <h2><span class="step-number">5</span> File Storage in Next.js</h2>
+                <p class="subtitle">Create lib/tasks.js with helper functions.</p>
+                <div class="code-block" style="font-size: 0.85rem;">
+<pre><span class="comment">// lib/tasks.js</span>
+<span class="keyword">import</span> fs <span class="keyword">from</span> <span class="string">'fs/promises'</span>;
+<span class="keyword">import</span> path <span class="keyword">from</span> <span class="string">'path'</span>;
+
+<span class="keyword">const</span> DATA_FILE = path.<span class="function">join</span>(process.<span class="function">cwd</span>(), <span class="string">'tasks.json'</span>);
+
+<span class="keyword">export async function</span> <span class="function">readTasks</span>() {
+  <span class="keyword">try</span> {
+    <span class="keyword">const</span> data = <span class="keyword">await</span> fs.<span class="function">readFile</span>(DATA_FILE, <span class="string">'utf8'</span>);
+    <span class="keyword">return</span> JSON.<span class="function">parse</span>(data);
+  } <span class="keyword">catch</span> {
+    <span class="keyword">return</span> [];
+  }
+}
+
+<span class="keyword">export async function</span> <span class="function">writeTasks</span>(tasks) {
+  <span class="keyword">await</span> fs.<span class="function">writeFile</span>(DATA_FILE, JSON.<span class="function">stringify</span>(tasks, <span class="keyword">null</span>, <span class="number">2</span>));
+}</pre>
+                </div>
+                <div class="dark-card warning" style="margin-top: 1rem;">
+                    <h4>Vercel Note</h4>
+                    <p>File storage is read-only on Vercel. For production, use a database.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Slide 39: Express vs Next.js -->
+        <section class="slide" id="comparison" data-narration="Let's compare Express and Next.js side by side. In Express, you call app.get, app.post, etc. and define routes in one file. In Next.js, you export named functions GET, POST, etc. from route.js files. Express uses req and res objects with methods like res.json(). Next.js uses NextRequest and NextResponse with return statements. Express runs as a standalone server; Next.js API routes are serverless functions. When should you choose each? Use Express when you need a dedicated backend, complex middleware, or WebSockets. Use Next.js when you want frontend and backend together, easy deployment, or serverless architecture. Both are valid choices - now you know both approaches!">
+            <div class="dark-container">
+                <h2>Express vs Next.js Comparison</h2>
+                <p class="subtitle">Same API, different approaches.</p>
+                <table class="dark-table" style="font-size: 0.9rem;">
+                    <tr>
+                        <th>Aspect</th>
+                        <th>Express.js</th>
+                        <th>Next.js</th>
+                    </tr>
+                    <tr>
+                        <td><strong style="color: #fff;">Routing</strong></td>
+                        <td><code>app.get('/tasks', ...)</code></td>
+                        <td><code>export function GET()</code></td>
+                    </tr>
+                    <tr>
+                        <td><strong style="color: #fff;">Response</strong></td>
+                        <td><code>res.json(data)</code></td>
+                        <td><code>return NextResponse.json(data)</code></td>
+                    </tr>
+                    <tr>
+                        <td><strong style="color: #fff;">Params</strong></td>
+                        <td><code>req.params.id</code></td>
+                        <td><code>{ params } → params.id</code></td>
+                    </tr>
+                    <tr>
+                        <td><strong style="color: #fff;">Body</strong></td>
+                        <td><code>req.body</code></td>
+                        <td><code>await request.json()</code></td>
+                    </tr>
+                    <tr>
+                        <td><strong style="color: #fff;">Deployment</strong></td>
+                        <td>Standalone server</td>
+                        <td>Serverless (Vercel)</td>
+                    </tr>
+                </table>
+                <div class="dark-two-column" style="margin-top: 1rem;">
+                    <div class="dark-card">
+                        <h4>Choose Express When</h4>
+                        <p>Dedicated backend, complex middleware, WebSockets</p>
+                    </div>
+                    <div class="dark-card">
+                        <h4>Choose Next.js When</h4>
+                        <p>Full-stack app, easy deploy, serverless fits</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Slide 40: Assignment 2 -->
+        <section class="slide" id="assignment2" data-narration="Assignment 2 is to build the same Tasks API in Next.js. Create a new Next.js project with App Router, implement all five CRUD endpoints using route handlers, and deploy to Vercel. You already know Vercel from Module 5, so deployment should be familiar. Test all endpoints with Postman against your localhost first, then test the deployed URL. Submit your GitHub repository URL, your live Vercel URL, and a screenshot of Postman testing the live API. This assignment demonstrates you can build the same functionality in two different frameworks - a valuable skill when choosing tools for real projects.">
+            <div class="dark-container">
+                <h2>Assignment 2: Next.js Tasks API</h2>
+                <p class="subtitle">Rebuild the same API using Next.js Route Handlers.</p>
+                <div class="dark-two-column" style="margin-top: 1.5rem;">
+                    <div>
+                        <h3>Requirements</h3>
+                        <ul style="margin-top: 0.5rem;">
+                            <li>Next.js project with App Router</li>
+                            <li>All 5 CRUD endpoints as route handlers</li>
+                            <li>JSON file storage (for local testing)</li>
+                            <li>Proper status codes</li>
+                            <li>Deploy to Vercel</li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h3>Deliverables</h3>
+                        <div class="dark-card" style="margin-top: 0.5rem;">
+                            <h4>1. GitHub Repository</h4>
+                            <p>Complete source code</p>
+                        </div>
+                        <div class="dark-card" style="margin-top: 0.5rem;">
+                            <h4>2. Vercel URL</h4>
+                            <p>Live deployed API</p>
+                        </div>
+                        <div class="dark-card" style="margin-top: 0.5rem;">
+                            <h4>3. Screenshot</h4>
+                            <p>Postman testing live URL</p>
+                        </div>
+                    </div>
+                </div>
+                <div style="text-align: center; margin-top: 1.5rem;">
+                    <p style="color: #06b6d4; font-size: 1.25rem; font-weight: bold;">50 Points</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Assignment 2: Step-by-Step Instructions -->
+
+        <!-- Step 1: Create Next.js Project -->
+        <section class="slide" id="a2-step1" data-narration="Let's build the same Tasks API with Next.js. Run the create-next-app command with the latest flag. When prompted, give it the name nextjs-tasks-api, select No for TypeScript to keep it simple, Yes for ESLint, No for Tailwind unless you want styling, Yes for the src directory if you prefer that structure, and most importantly Yes for App Router. After creation, navigate into the folder and start the dev server to make sure it works.">
+            <div class="dark-container">
+                <h2><span class="step-number">1</span> Assignment 2: Create Project</h2>
+                <p class="subtitle">Create a new Next.js project with App Router.</p>
+                <div class="terminal-block">
+                    <div><span class="prompt">$</span> <span class="command">npx create-next-app@latest nextjs-tasks-api</span></div>
+                    <div class="output" style="margin-top: 0.5rem;">✔ Would you like to use TypeScript? No</div>
+                    <div class="output">✔ Would you like to use ESLint? Yes</div>
+                    <div class="output">✔ Would you like to use Tailwind CSS? No</div>
+                    <div class="output">✔ Would you like to use `src/` directory? No</div>
+                    <div class="output">✔ Would you like to use App Router? <strong style="color: #4ade80;">Yes</strong></div>
+                    <div style="margin-top: 1rem;"><span class="prompt">$</span> <span class="command">cd nextjs-tasks-api</span></div>
+                    <div><span class="prompt">$</span> <span class="command">npm run dev</span></div>
+                </div>
+                <div class="dark-card success" style="margin-top: 1rem;">
+                    <h4>Verify</h4>
+                    <p>Visit <code>http://localhost:3000</code> - you should see the Next.js welcome page</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Step 2: Create Folder Structure -->
+        <section class="slide" id="a2-step2" data-narration="Create the folder structure for your API routes. In the app folder, create an api folder. Inside api, create a tasks folder. Inside tasks, create a route.js file - this will handle GET all and POST requests. Also create an [id] folder with square brackets inside tasks - the brackets tell Next.js this is a dynamic segment. Inside [id], create another route.js file for single-task operations. Also create a lib folder at the project root for your helper functions.">
+            <div class="dark-container">
+                <h2><span class="step-number">2</span> Create Folder Structure</h2>
+                <p class="subtitle">Set up API route folders following Next.js conventions.</p>
+                <div class="dark-two-column" style="margin-top: 1.5rem;">
+                    <div>
+                        <h3>Create These Folders & Files</h3>
+                        <div class="code-block" style="margin-top: 0.5rem;">
+<pre>nextjs-tasks-api/
+├── app/
+│   ├── api/
+│   │   └── tasks/
+│   │       ├── route.js      <span class="comment">← Create</span>
+│   │       └── [id]/
+│   │           └── route.js  <span class="comment">← Create</span>
+│   ├── page.js
+│   └── layout.js
+├── lib/
+│   └── tasks.js              <span class="comment">← Create</span>
+├── tasks.json                <span class="comment">← Create</span>
+└── package.json</pre>
+                        </div>
+                    </div>
+                    <div>
+                        <h3>Terminal Commands</h3>
+                        <div class="terminal-block" style="margin-top: 0.5rem; font-size: 0.85rem;">
+                            <div><span class="prompt">$</span> <span class="command">mkdir -p app/api/tasks/\[id\]</span></div>
+                            <div><span class="prompt">$</span> <span class="command">mkdir lib</span></div>
+                            <div><span class="prompt">$</span> <span class="command">touch app/api/tasks/route.js</span></div>
+                            <div><span class="prompt">$</span> <span class="command">touch app/api/tasks/\[id\]/route.js</span></div>
+                            <div><span class="prompt">$</span> <span class="command">touch lib/tasks.js</span></div>
+                            <div><span class="prompt">$</span> <span class="command">echo "[]" > tasks.json</span></div>
+                        </div>
+                        <div class="dark-card warning" style="margin-top: 0.5rem;">
+                            <h4>Important</h4>
+                            <p>The <code>[id]</code> folder must have square brackets!</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Step 3: Create Helper Functions -->
+        <section class="slide" id="a2-step3" data-narration="Create your helper functions in lib/tasks.js. These are similar to Express but use ES modules syntax with import/export. Use path.join with process.cwd() to get the correct file path - this gets the current working directory at runtime. The readTasks and writeTasks functions work the same as before: read parses JSON from the file, write stringifies and saves. Export both functions so your route handlers can import them.">
+            <div class="dark-container">
+                <h2><span class="step-number">3</span> Create Helper Functions</h2>
+                <p class="subtitle">lib/tasks.js - File storage utilities.</p>
+                <div class="code-block" style="font-size: 0.85rem;">
+<pre><span class="comment">// lib/tasks.js</span>
+<span class="keyword">import</span> fs <span class="keyword">from</span> <span class="string">'fs/promises'</span>;
+<span class="keyword">import</span> path <span class="keyword">from</span> <span class="string">'path'</span>;
+
+<span class="keyword">const</span> DATA_FILE = path.<span class="function">join</span>(process.<span class="function">cwd</span>(), <span class="string">'tasks.json'</span>);
+
+<span class="keyword">export async function</span> <span class="function">readTasks</span>() {
+  <span class="keyword">try</span> {
+    <span class="keyword">const</span> data = <span class="keyword">await</span> fs.<span class="function">readFile</span>(DATA_FILE, <span class="string">'utf8'</span>);
+    <span class="keyword">return</span> JSON.<span class="function">parse</span>(data);
+  } <span class="keyword">catch</span> {
+    <span class="keyword">return</span> [];
+  }
+}
+
+<span class="keyword">export async function</span> <span class="function">writeTasks</span>(tasks) {
+  <span class="keyword">await</span> fs.<span class="function">writeFile</span>(DATA_FILE, JSON.<span class="function">stringify</span>(tasks, <span class="keyword">null</span>, <span class="number">2</span>));
+}</pre>
+                </div>
+                <div class="dark-card info" style="margin-top: 1rem;">
+                    <h4>ES Modules</h4>
+                    <p>Next.js uses <code>import/export</code> syntax instead of <code>require/module.exports</code></p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Step 4: Create Collection Routes -->
+        <section class="slide" id="a2-step4" data-narration="Create app/api/tasks/route.js to handle collection-level endpoints: GET all tasks and POST new task. Import NextResponse from next/server and your helper functions. Export named functions GET and POST - the capitalization matters, it must match HTTP methods exactly. The GET function reads and returns all tasks. The POST function parses the request body with await request.json(), validates the text field, creates the new task, saves it, and returns 201 Created with the new task.">
+            <div class="dark-container">
+                <h2><span class="step-number">4</span> Create Collection Routes</h2>
+                <p class="subtitle">app/api/tasks/route.js - GET all and POST new.</p>
+                <div class="code-block" style="font-size: 0.75rem;">
+<pre><span class="comment">// app/api/tasks/route.js</span>
+<span class="keyword">import</span> { NextResponse } <span class="keyword">from</span> <span class="string">'next/server'</span>;
+<span class="keyword">import</span> { readTasks, writeTasks } <span class="keyword">from</span> <span class="string">'@/lib/tasks'</span>;
+
+<span class="keyword">export async function</span> <span class="function">GET</span>() {
+  <span class="keyword">const</span> tasks = <span class="keyword">await</span> <span class="function">readTasks</span>();
+  <span class="keyword">return</span> NextResponse.<span class="function">json</span>(tasks);
+}
+
+<span class="keyword">export async function</span> <span class="function">POST</span>(request) {
+  <span class="keyword">const</span> { text } = <span class="keyword">await</span> request.<span class="function">json</span>();
+
+  <span class="keyword">if</span> (!text) {
+    <span class="keyword">return</span> NextResponse.<span class="function">json</span>(
+      { error: <span class="string">'Text is required'</span> },
+      { status: <span class="number">400</span> }
+    );
+  }
+
+  <span class="keyword">const</span> newTask = {
+    id: Date.<span class="function">now</span>(),
+    text,
+    completed: <span class="keyword">false</span>,
+    createdAt: <span class="keyword">new</span> <span class="function">Date</span>().<span class="function">toISOString</span>()
+  };
+
+  <span class="keyword">const</span> tasks = <span class="keyword">await</span> <span class="function">readTasks</span>();
+  tasks.<span class="function">push</span>(newTask);
+  <span class="keyword">await</span> <span class="function">writeTasks</span>(tasks);
+
+  <span class="keyword">return</span> NextResponse.<span class="function">json</span>(newTask, { status: <span class="number">201</span> });
+}</pre>
+                </div>
+            </div>
+        </section>
+
+        <!-- Step 5: Create Single Item Routes -->
+        <section class="slide" id="a2-step5" data-narration="Create app/api/tasks/[id]/route.js for single-task operations. The second parameter to each handler destructures params, which contains the dynamic segment values. Access the id with params.id. Implement GET to fetch one task by ID, returning 404 if not found. Implement PUT to update a task - find its index, merge the updates, save and return. Implement DELETE to remove a task - filter it out and return 204 No Content.">
+            <div class="dark-container">
+                <h2><span class="step-number">5</span> Create Single Item Routes</h2>
+                <p class="subtitle">app/api/tasks/[id]/route.js - GET one, PUT, DELETE.</p>
+                <div class="code-block" style="font-size: 0.7rem;">
+<pre><span class="comment">// app/api/tasks/[id]/route.js</span>
+<span class="keyword">import</span> { NextResponse } <span class="keyword">from</span> <span class="string">'next/server'</span>;
+<span class="keyword">import</span> { readTasks, writeTasks } <span class="keyword">from</span> <span class="string">'@/lib/tasks'</span>;
+
+<span class="keyword">export async function</span> <span class="function">GET</span>(request, { params }) {
+  <span class="keyword">const</span> id = <span class="function">parseInt</span>(params.id);
+  <span class="keyword">const</span> tasks = <span class="keyword">await</span> <span class="function">readTasks</span>();
+  <span class="keyword">const</span> task = tasks.<span class="function">find</span>(t => t.id === id);
+  <span class="keyword">if</span> (!task) <span class="keyword">return</span> NextResponse.<span class="function">json</span>({ error: <span class="string">'Not found'</span> }, { status: <span class="number">404</span> });
+  <span class="keyword">return</span> NextResponse.<span class="function">json</span>(task);
+}
+
+<span class="keyword">export async function</span> <span class="function">PUT</span>(request, { params }) {
+  <span class="keyword">const</span> id = <span class="function">parseInt</span>(params.id);
+  <span class="keyword">const</span> updates = <span class="keyword">await</span> request.<span class="function">json</span>();
+  <span class="keyword">const</span> tasks = <span class="keyword">await</span> <span class="function">readTasks</span>();
+  <span class="keyword">const</span> index = tasks.<span class="function">findIndex</span>(t => t.id === id);
+  <span class="keyword">if</span> (index === -<span class="number">1</span>) <span class="keyword">return</span> NextResponse.<span class="function">json</span>({ error: <span class="string">'Not found'</span> }, { status: <span class="number">404</span> });
+  tasks[index] = { ...tasks[index], ...updates, id };
+  <span class="keyword">await</span> <span class="function">writeTasks</span>(tasks);
+  <span class="keyword">return</span> NextResponse.<span class="function">json</span>(tasks[index]);
+}
+
+<span class="keyword">export async function</span> <span class="function">DELETE</span>(request, { params }) {
+  <span class="keyword">const</span> id = <span class="function">parseInt</span>(params.id);
+  <span class="keyword">const</span> tasks = <span class="keyword">await</span> <span class="function">readTasks</span>();
+  <span class="keyword">const</span> filtered = tasks.<span class="function">filter</span>(t => t.id !== id);
+  <span class="keyword">if</span> (filtered.length === tasks.length) {
+    <span class="keyword">return</span> NextResponse.<span class="function">json</span>({ error: <span class="string">'Not found'</span> }, { status: <span class="number">404</span> });
+  }
+  <span class="keyword">await</span> <span class="function">writeTasks</span>(filtered);
+  <span class="keyword">return new</span> <span class="function">Response</span>(<span class="keyword">null</span>, { status: <span class="number">204</span> });
+}</pre>
+                </div>
+            </div>
+        </section>
+
+        <!-- Step 6: Test Locally -->
+        <section class="slide" id="a2-step6" data-narration="With your dev server running, test your API locally with Postman. Create a new collection called 'Next.js Tasks API'. The base URL is http://localhost:3000/api/tasks - notice the /api prefix, that's the Next.js convention. Test all five endpoints just like you did with Express: POST to create tasks, GET to retrieve them, PUT to update, DELETE to remove. The API should behave exactly the same as your Express version. Save all requests to your collection.">
+            <div class="dark-container">
+                <h2><span class="step-number">6</span> Test Locally with Postman</h2>
+                <p class="subtitle">Verify your API works before deploying.</p>
+                <div class="dark-two-column" style="margin-top: 1.5rem;">
+                    <div>
+                        <h3>Base URL</h3>
+                        <div class="dark-card" style="margin-top: 0.5rem;">
+                            <p><code>http://localhost:3000/api/tasks</code></p>
+                            <p style="margin-top: 0.25rem; font-size: 0.85rem;">Note the <strong>/api</strong> prefix!</p>
+                        </div>
+                        <h3 style="margin-top: 1rem;">Create Collection</h3>
+                        <p style="margin-top: 0.5rem;">Name: <code>Next.js Tasks API</code></p>
+                    </div>
+                    <div>
+                        <h3>Test All Endpoints</h3>
+                        <div class="dark-card" style="margin-top: 0.5rem;">
+                            <p><span class="method-pill post">POST</span> <code>/api/tasks</code></p>
+                        </div>
+                        <div class="dark-card" style="margin-top: 0.25rem;">
+                            <p><span class="method-pill get">GET</span> <code>/api/tasks</code></p>
+                        </div>
+                        <div class="dark-card" style="margin-top: 0.25rem;">
+                            <p><span class="method-pill get">GET</span> <code>/api/tasks/ID</code></p>
+                        </div>
+                        <div class="dark-card" style="margin-top: 0.25rem;">
+                            <p><span class="method-pill put">PUT</span> <code>/api/tasks/ID</code></p>
+                        </div>
+                        <div class="dark-card" style="margin-top: 0.25rem;">
+                            <p><span class="method-pill delete">DELETE</span> <code>/api/tasks/ID</code></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Step 7: Deploy to Vercel -->
+        <section class="slide" id="a2-step7" data-narration="Push your code to GitHub and deploy to Vercel. First, create a new repository on GitHub. Initialize git, add your remote, and push. Then go to vercel.com, sign in with GitHub, click 'Add New Project', and import your repository. Vercel automatically detects Next.js and configures everything. Click Deploy and wait for it to finish. You'll get a URL like your-project.vercel.app. Remember, Vercel's file system is read-only, so your JSON file won't persist between requests in production - that's fine for this assignment.">
+            <div class="dark-container">
+                <h2><span class="step-number">7</span> Deploy to Vercel</h2>
+                <p class="subtitle">Push to GitHub and deploy with one click.</p>
+                <div class="dark-two-column" style="margin-top: 1.5rem;">
+                    <div>
+                        <h3>Push to GitHub</h3>
+                        <div class="terminal-block" style="margin-top: 0.5rem; font-size: 0.8rem;">
+                            <div><span class="prompt">$</span> <span class="command">git init</span></div>
+                            <div><span class="prompt">$</span> <span class="command">git add .</span></div>
+                            <div><span class="prompt">$</span> <span class="command">git commit -m "Next.js Tasks API"</span></div>
+                            <div><span class="prompt">$</span> <span class="command">git remote add origin YOUR_REPO</span></div>
+                            <div><span class="prompt">$</span> <span class="command">git push -u origin main</span></div>
+                        </div>
+                    </div>
+                    <div>
+                        <h3>Deploy on Vercel</h3>
+                        <ol style="margin-top: 0.5rem; padding-left: 1.5rem;">
+                            <li style="margin-bottom: 0.5rem;">Go to <strong>vercel.com</strong></li>
+                            <li style="margin-bottom: 0.5rem;">Click <strong>Add New → Project</strong></li>
+                            <li style="margin-bottom: 0.5rem;">Import your GitHub repo</li>
+                            <li style="margin-bottom: 0.5rem;">Click <strong>Deploy</strong></li>
+                        </ol>
+                        <div class="dark-card success" style="margin-top: 0.5rem;">
+                            <p>You'll get: <code>your-project.vercel.app</code></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Step 8: Test Live URL -->
+        <section class="slide" id="a2-step8" data-narration="Test your deployed API with Postman. Update your requests to use the Vercel URL instead of localhost. Your base URL is now https://your-project.vercel.app/api/tasks. Test POST to create a task, GET to retrieve it, PUT to update it, and DELETE to remove it. Note that because Vercel's file system is read-only, data won't persist between different requests in production - each request starts fresh. For this assignment, that's okay - we're demonstrating the API works, not building a production database.">
+            <div class="dark-container">
+                <h2><span class="step-number">8</span> Test Live URL</h2>
+                <p class="subtitle">Verify your deployed API works in Postman.</p>
+                <div class="dark-two-column" style="margin-top: 1.5rem;">
+                    <div>
+                        <h3>Update Base URL</h3>
+                        <div class="dark-card" style="margin-top: 0.5rem;">
+                            <p><strong>Local:</strong> <code style="text-decoration: line-through;">http://localhost:3000</code></p>
+                            <p style="margin-top: 0.25rem;"><strong>Live:</strong> <code>https://your-project.vercel.app</code></p>
+                        </div>
+                        <div class="dark-card info" style="margin-top: 0.5rem;">
+                            <h4>Example Request</h4>
+                            <p><span class="method-pill get">GET</span></p>
+                            <p><code>https://your-project.vercel.app/api/tasks</code></p>
+                        </div>
+                    </div>
+                    <div>
+                        <h3>Test All Endpoints</h3>
+                        <p style="margin-top: 0.5rem;">Run through the complete CRUD flow:</p>
+                        <ol style="margin-top: 0.5rem; padding-left: 1.5rem;">
+                            <li style="margin-bottom: 0.25rem;"><span class="method-pill post">POST</span> Create a task</li>
+                            <li style="margin-bottom: 0.25rem;"><span class="method-pill get">GET</span> Retrieve all tasks</li>
+                            <li style="margin-bottom: 0.25rem;"><span class="method-pill get">GET</span> Get single task</li>
+                            <li style="margin-bottom: 0.25rem;"><span class="method-pill put">PUT</span> Update the task</li>
+                            <li style="margin-bottom: 0.25rem;"><span class="method-pill delete">DELETE</span> Remove the task</li>
+                        </ol>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Step 9: Capture Screenshots -->
+        <section class="slide" id="a2-step9" data-narration="Take screenshots of your Postman tests against the live Vercel URL. These screenshots are your proof that the deployed API works. Make sure each screenshot clearly shows the Vercel URL in the address bar, the HTTP method, the response status code, and the response body. You can take one screenshot per endpoint or capture the whole test flow. The key is showing that your live deployed API returns correct responses.">
+            <div class="dark-container">
+                <h2><span class="step-number">9</span> Capture Screenshots</h2>
+                <p class="subtitle">Document your live API tests.</p>
+                <div class="dark-two-column" style="margin-top: 1.5rem;">
+                    <div>
+                        <h3>Screenshot Must Show</h3>
+                        <ul style="margin-top: 0.5rem; padding-left: 1.5rem;">
+                            <li style="margin-bottom: 0.5rem;"><strong>Vercel URL</strong> (not localhost!)</li>
+                            <li style="margin-bottom: 0.5rem;"><strong>HTTP Method</strong></li>
+                            <li style="margin-bottom: 0.5rem;"><strong>Status Code</strong> (200, 201, etc.)</li>
+                            <li style="margin-bottom: 0.5rem;"><strong>Response Body</strong></li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h3>Recommended</h3>
+                        <div class="dark-card" style="margin-top: 0.5rem;">
+                            <p>1. POST creating a task on live URL</p>
+                        </div>
+                        <div class="dark-card" style="margin-top: 0.25rem;">
+                            <p>2. GET all tasks from live URL</p>
+                        </div>
+                        <div class="dark-card" style="margin-top: 0.25rem;">
+                            <p>3. At least one other endpoint (PUT/DELETE)</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="dark-card warning" style="margin-top: 1rem;">
+                    <h4>Important</h4>
+                    <p>Screenshots must show the <strong>live Vercel URL</strong>, not localhost!</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Step 10: Submit -->
+        <section class="slide" id="a2-step10" data-narration="Submit your three deliverables for Assignment 2. First, your GitHub repository URL containing all your Next.js code. Second, your live Vercel deployment URL - this should be the base URL, not including the /api/tasks path. Third, your screenshots showing Postman tests against the live URL. Double-check that your Vercel deployment is working before submitting - visit the URL and make sure it loads. Congratulations, you've now built the same API in two different frameworks!">
+            <div class="dark-container">
+                <h2><span class="step-number">10</span> Submit Your Work</h2>
+                <p class="subtitle">Package everything for submission.</p>
+                <div class="dark-three-column" style="margin-top: 1.5rem;">
+                    <div class="dark-card">
+                        <h4>1. GitHub URL</h4>
+                        <p>Your repository with complete Next.js source code</p>
+                        <p style="margin-top: 0.5rem; font-size: 0.85rem;"><code>github.com/you/nextjs-tasks-api</code></p>
+                    </div>
+                    <div class="dark-card">
+                        <h4>2. Vercel URL</h4>
+                        <p>Your live deployed API</p>
+                        <p style="margin-top: 0.5rem; font-size: 0.85rem;"><code>your-project.vercel.app</code></p>
+                    </div>
+                    <div class="dark-card">
+                        <h4>3. Screenshots</h4>
+                        <p>Postman tests against the live Vercel URL</p>
+                        <p style="margin-top: 0.5rem; font-size: 0.85rem;">Showing successful requests</p>
+                    </div>
+                </div>
+                <div class="dark-card success" style="margin-top: 1.5rem;">
+                    <h4>Submission Checklist</h4>
+                    <p>✓ GitHub repo URL  |  ✓ Live Vercel URL  |  ✓ Screenshots with Vercel URL visible</p>
+                </div>
+                <div style="text-align: center; margin-top: 1rem;">
+                    <p style="color: #06b6d4; font-size: 1.25rem; font-weight: bold;">50 Points</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Module Complete -->
+        <section class="slide" id="module-complete" data-narration="Congratulations on completing Module 6! You've learned what APIs are and how REST architecture works. You understand HTTP methods, status codes, and URL design. You built a complete CRUD API in Express.js and rebuilt it in Next.js, seeing how two major frameworks approach the same problem. You tested APIs with Postman and learned about CORS. These backend skills complement the React frontend skills from Module 5. You can now build full-stack applications - frontend, backend, and deployment. Keep practicing by adding features: authentication, filtering, pagination. The fundamentals you learned here apply to any backend framework. Great work!">
+            <div class="dark-container">
+                <h2>Module 6 Complete!</h2>
+                <p class="subtitle">You can now build RESTful APIs with Express.js and Next.js.</p>
+                <div class="dark-two-column" style="margin-top: 1.5rem;">
+                    <div class="dark-card">
+                        <h4>What You Learned</h4>
+                        <ul style="margin: 0; padding-left: 1.5rem;">
+                            <li>REST architecture principles</li>
+                            <li>HTTP methods and status codes</li>
+                            <li>Express.js API development</li>
+                            <li>Next.js Route Handlers</li>
+                            <li>API testing with Postman</li>
+                            <li>CORS and cross-origin requests</li>
+                        </ul>
+                    </div>
+                    <div class="dark-card">
+                        <h4>Keep Practicing!</h4>
+                        <p>Try adding these features:</p>
+                        <ul style="margin: 0.5rem 0 0; padding-left: 1.5rem;">
+                            <li>Filter tasks by completed status</li>
+                            <li>Sort by date or alphabetically</li>
+                            <li>Pagination for large lists</li>
+                            <li>Connect your React Todo app!</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
     </div>
 
     <script src="../js/slides.js"></script>
