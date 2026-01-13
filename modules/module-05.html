@@ -717,7 +717,7 @@
         <!-- Slide 24: Step 1 - Create Project -->
         <section class="slide" id="step1" data-narration="Step 1 is creating your React project with Vite. Open your terminal and navigate to where you want the project folder. Run npm create vite@latest and when prompted, name your project 'react-todo'. Select React as the framework and JavaScript as the variant. After creation, change into the project directory and run npm install to download dependencies. Finally, run npm run dev to start the development server. Open the URL shown (usually localhost:5173) in your browser. You should see the default Vite + React welcome page. Keep this terminal running throughout development.">
             <div class="dark-container">
-                <h2><span class="step-number">1</span>Create React Project</h2>
+                <h2><span class="step-number">1</span> Create React Project</h2>
                 <p class="subtitle">Use Vite to create a new React project with all dependencies.</p>
                 <div class="terminal-block">
                     <div><span class="prompt">$</span> <span class="command">npm create vite@latest react-todo</span></div>
@@ -738,7 +738,7 @@
         <!-- Slide 25: Step 2 - Clean Up -->
         <section class="slide" id="step2" data-narration="Step 2 is cleaning up the starter files. Vite creates some default content we don't need. Open your project in VS Code. In the src folder, delete the assets folder and clear the contents of both App.css and index.css - keep the files but empty them. The index.css file has Vite's default dark theme which we don't want. Then replace everything in App.jsx with this minimal starting point. We import useState from React because we'll need it shortly, create a simple App function that returns a heading, and export it. After saving, your browser should update to show just 'React Todo App' on a white page. This gives us a clean slate to build our Todo functionality.">
             <div class="dark-container">
-                <h2><span class="step-number">2</span>Clean Up Starter Files</h2>
+                <h2><span class="step-number">2</span> Clean Up Starter Files</h2>
                 <p class="subtitle">Remove default content and start with a clean App component.</p>
                 <p style="margin-bottom: 1rem;">In the <code>src</code> folder:</p>
                 <ul style="margin-bottom: 1rem;">
@@ -767,7 +767,7 @@
         <!-- Slide 26: Step 3 - App Structure -->
         <section class="slide" id="step3" data-narration="Step 3 is creating the basic structure for our Todo app. We need three sections: a heading, an input form to add new todos, and a list to display them. Update your App.jsx to add a form with an input field and an Add button, plus an unordered list where todos will appear. The form has onSubmit which we'll implement next. The input has placeholder text and the list is empty for now but will display our todos. This structure follows the classic Todo app pattern. Save and verify your browser shows the heading, input field, button, and empty list area.">
             <div class="dark-container">
-                <h2><span class="step-number">3</span>Create App Structure</h2>
+                <h2><span class="step-number">3</span> Create App Structure</h2>
                 <p class="subtitle">Add the basic layout: heading, input form, and todo list area.</p>
                 <div class="code-block">
 <pre><span class="keyword">function</span> <span class="function">App</span>() {
@@ -796,7 +796,7 @@
         <!-- Slide 27: Step 4 - Add State -->
         <section class="slide" id="step4" data-narration="Step 4 is adding state to manage our data. We need two pieces of state: an array of todos and the current input value. Add these useState calls inside your App function, before the return statement. The todos state starts as an empty array and will hold all our todo items. The inputValue state starts as an empty string and will track what the user types. Each todo will be an object with an id and text property. We're using Date.now() for unique IDs which gives us the current timestamp in milliseconds - simple and unique enough for our purposes.">
             <div class="dark-container">
-                <h2><span class="step-number">4</span>Add State for Todos</h2>
+                <h2><span class="step-number">4</span> Add State for Todos</h2>
                 <p class="subtitle">Use useState to track the list of todos and the input field value.</p>
                 <div class="code-block">
 <pre><span class="keyword">function</span> <span class="function">App</span>() {
@@ -821,7 +821,7 @@
         <!-- Slide 28: Step 5 - Build Input -->
         <section class="slide" id="step5" data-narration="Step 5 is connecting the input field to state, making it a 'controlled component'. Add the value attribute to your input, binding it to inputValue state. Add an onChange handler that calls setInputValue with whatever the user types - accessed through event.target.value. This creates a two-way binding: the input displays whatever is in state, and typing updates the state, which updates the display. This pattern is fundamental to React forms. Now when you type in the input, the text appears because state is updating on every keystroke.">
             <div class="dark-container">
-                <h2><span class="step-number">5</span>Build the Input Section</h2>
+                <h2><span class="step-number">5</span> Build the Input Section</h2>
                 <p class="subtitle">Make the input a controlled component by connecting it to state.</p>
                 <div class="code-block">
 <pre><span class="tag">&lt;form</span> <span class="attr">className</span>=<span class="string">"todo-form"</span><span class="tag">&gt;</span>
@@ -844,7 +844,7 @@
         <!-- Slide 29: Step 6 - Add Todo Function -->
         <section class="slide" id="step6" data-narration="Step 6 is creating the function to add new todos. Add this handleSubmit function inside your App component, after the useState calls. It first prevents the default form submission which would refresh the page. Then it checks if the input is empty and returns early if so - we don't want to add blank todos. If there's text, we create a new todo object with a unique ID and the trimmed text. We use the spread operator to create a new array with all existing todos plus the new one. Finally, we clear the input by setting inputValue back to empty string. Add onSubmit={handleSubmit} to your form tag.">
             <div class="dark-container">
-                <h2><span class="step-number">6</span>Add Todo Function</h2>
+                <h2><span class="step-number">6</span> Add Todo Function</h2>
                 <p class="subtitle">Create a function to handle form submission and add new todos.</p>
                 <div class="code-block">
 <pre><span class="keyword">const</span> <span class="function">handleSubmit</span> = (e) => {
@@ -872,7 +872,7 @@
         <!-- Slide 30: Step 7 - Display List -->
         <section class="slide" id="step7" data-narration="Step 7 is displaying the todo list. Replace the comment in your ul with code that maps over the todos array. For each todo, we render a list item with the todo's id as the key prop. Inside each list item, we display a span with the todo text and a delete button we'll wire up next. The curly braces around todos.map() embed this JavaScript expression in our JSX. Each list item gets a unique key from the todo's id. Try it out - type a todo and click Add. You should see it appear in the list below!">
             <div class="dark-container">
-                <h2><span class="step-number">7</span>Display the Todo List</h2>
+                <h2><span class="step-number">7</span> Display the Todo List</h2>
                 <p class="subtitle">Use map() to render each todo as a list item with a delete button.</p>
                 <div class="code-block">
 <pre><span class="tag">&lt;ul</span> <span class="attr">className</span>=<span class="string">"todo-list"</span><span class="tag">&gt;</span>
@@ -896,7 +896,7 @@
         <!-- Slide 31: Step 8 - Delete Todos -->
         <section class="slide" id="step8" data-narration="Step 8 is implementing the delete functionality. Add this deleteTodo function after handleSubmit. It takes an id parameter and uses the filter method to create a new array containing only todos whose id doesn't match the one we're deleting. Filter returns a new array with items that pass the test - so we keep items where todo.id is NOT equal to the id we want to delete. Then update the delete button to call this function with the specific todo's id when clicked. Now clicking Delete removes that todo from the list!">
             <div class="dark-container">
-                <h2><span class="step-number">8</span>Delete Todos</h2>
+                <h2><span class="step-number">8</span> Delete Todos</h2>
                 <p class="subtitle">Add a function to remove todos using filter().</p>
                 <div class="code-block">
 <pre><span class="comment">// Add this function in your App component</span>
@@ -922,7 +922,7 @@
         <!-- Slide 32: Step 9 - Styling -->
         <section class="slide" id="step9" data-narration="Step 9 is adding some basic CSS to make the app look presentable. Open App.css and add these styles. We center the app with a max-width and auto margins. The form uses flexbox to put the input and button side by side. The input takes up available space with flex: 1. Todo items also use flexbox with space-between to push the delete button to the right. We add some padding, borders, and colors to make everything look clean. Feel free to customize these styles to your liking! The app is now functional and looks decent.">
             <div class="dark-container">
-                <h2><span class="step-number">9</span>Basic Styling</h2>
+                <h2><span class="step-number">9</span> Basic Styling</h2>
                 <p class="subtitle">Add CSS to App.css to make the app look presentable.</p>
                 <div class="code-block" style="font-size: 0.8rem;">
 <pre><span class="comment">/* App.css */</span>
@@ -964,7 +964,7 @@
         <!-- Slide 33: Step 10a - What is Vercel? -->
         <section class="slide" id="step10a" data-narration="Before we deploy, let's understand what Vercel is. Vercel is a cloud platform specifically designed for deploying frontend applications and static websites. It was created by the same team that built Next.js, a popular React framework. Think of Vercel as a service that takes your code from GitHub, builds it, and hosts it on fast servers around the world - all for free for personal projects. Unlike traditional web hosting where you manage servers yourself, Vercel handles everything automatically. When you push code changes to GitHub, Vercel automatically rebuilds and redeploys your site. This is called continuous deployment. Many professional developers and companies use Vercel because it's fast, reliable, and has an excellent free tier for learning and personal projects.">
             <div class="dark-container">
-                <h2><span class="step-number">10</span>What is Vercel?</h2>
+                <h2><span class="step-number">10</span> What is Vercel?</h2>
                 <p class="subtitle">A cloud platform for deploying frontend apps - free, fast, and automatic.</p>
                 <div class="dark-three-column" style="margin-top: 1.5rem;">
                     <div class="dark-card">
@@ -990,7 +990,7 @@
         <!-- Slide 34: Step 10b - Push to GitHub -->
         <section class="slide" id="step10b" data-narration="Before deploying to Vercel, your code must be on GitHub. If you haven't already, create a new repository on GitHub called react-todo. Make it public so Vercel can access it on the free tier. Then in your terminal, inside your react-todo project folder, initialize git if needed, add all files, commit them, and push to your new repository. The commands shown will connect your local project to GitHub and upload all your code. Make sure you replace 'yourusername' with your actual GitHub username. After pushing, visit your repository on GitHub to verify all files are there - you should see App.jsx, App.css, package.json, and other project files.">
             <div class="dark-container">
-                <h2><span class="step-number">10</span>Push to GitHub First</h2>
+                <h2><span class="step-number">10</span> Push to GitHub First</h2>
                 <p class="subtitle">Your code must be on GitHub before Vercel can deploy it.</p>
                 <p style="margin-bottom: 1rem;">Create a new repo on GitHub named <code>react-todo</code>, then run:</p>
                 <div class="terminal-block">
@@ -1011,7 +1011,7 @@
         <!-- Slide 35: Step 10c - Create Vercel Account -->
         <section class="slide" id="step10c" data-narration="Now let's create your Vercel account. Go to vercel.com in your browser and click the Sign Up button in the top right corner. Choose 'Continue with GitHub' - this is the easiest option because it automatically connects Vercel to your GitHub repositories. You'll be asked to authorize Vercel to access your GitHub account. Click Authorize to allow this connection. This lets Vercel see your repositories and deploy them. After authorizing, you may be asked to select a plan - choose the 'Hobby' plan which is completely free and perfect for personal projects and learning. You now have a Vercel account connected to GitHub!">
             <div class="dark-container">
-                <h2><span class="step-number">10</span>Create Vercel Account</h2>
+                <h2><span class="step-number">10</span> Create Vercel Account</h2>
                 <p class="subtitle">Sign up for free using your GitHub account for easy integration.</p>
                 <div class="feature-grid" style="margin-top: 1.5rem;">
                     <div class="feature-item">
@@ -1049,7 +1049,7 @@
         <!-- Slide 36: Step 10d - Import and Deploy -->
         <section class="slide" id="step10d" data-narration="Now for the exciting part - deploying your app! From your Vercel dashboard, click 'Add New Project' or the plus button. You'll see a list of your GitHub repositories. Find and click 'Import' next to your react-todo repository. On the next screen, Vercel shows you the project configuration. The good news is Vercel automatically detects that this is a Vite React project and fills in the correct build settings for you - you don't need to change anything! Just click the 'Deploy' button and watch the magic happen. Vercel will clone your code, install dependencies, run the build command, and deploy the result. This usually takes about 30-60 seconds.">
             <div class="dark-container">
-                <h2><span class="step-number">10</span>Import and Deploy</h2>
+                <h2><span class="step-number">10</span> Import and Deploy</h2>
                 <p class="subtitle">Connect your GitHub repo and deploy with one click.</p>
                 <div class="feature-grid" style="margin-top: 1.5rem;">
                     <div class="feature-item">
@@ -1091,7 +1091,7 @@
         <!-- Slide 37: Step 10e - Get Your Live URL -->
         <section class="slide" id="step10e" data-narration="Congratulations - your app is now live on the internet! After the deployment completes, Vercel shows you a success screen with confetti animation. Your app is now available at a URL like react-todo-yourusername.vercel.app. Click the 'Visit' button or the URL to see your live Todo app. Try it out - add some todos, delete them, refresh the page. This is your real application running on Vercel's servers, accessible to anyone in the world with this URL. Copy this URL and save it somewhere - you'll need it for your assignment submission. You can also find this URL anytime by going to your Vercel dashboard and clicking on the project.">
             <div class="dark-container">
-                <h2><span class="step-number">10</span>Your App is Live!</h2>
+                <h2><span class="step-number">10</span> Your App is Live!</h2>
                 <p class="subtitle">Deployment complete - your Todo app is now on the internet.</p>
                 <div class="dark-two-column" style="margin-top: 1.5rem;">
                     <div class="dark-card" style="text-align: center;">
