@@ -736,7 +736,7 @@
         </section>
 
         <!-- Slide 25: Step 2 - Clean Up -->
-        <section class="slide" id="step2" data-narration="Step 2 is cleaning up the starter files. Vite creates some default content we don't need. Open your project in VS Code. In the src folder, delete the assets folder and the App.css file contents (keep the file, just empty it). Then replace everything in App.jsx with this minimal starting point. We import useState from React because we'll need it shortly, create a simple App function that returns a heading, and export it. After saving, your browser should update to show just 'React Todo App' on a blank page. This gives us a clean slate to build our Todo functionality.">
+        <section class="slide" id="step2" data-narration="Step 2 is cleaning up the starter files. Vite creates some default content we don't need. Open your project in VS Code. In the src folder, delete the assets folder and clear the contents of both App.css and index.css - keep the files but empty them. The index.css file has Vite's default dark theme which we don't want. Then replace everything in App.jsx with this minimal starting point. We import useState from React because we'll need it shortly, create a simple App function that returns a heading, and export it. After saving, your browser should update to show just 'React Todo App' on a white page. This gives us a clean slate to build our Todo functionality.">
             <div class="dark-container">
                 <h2><span class="step-number">2</span>Clean Up Starter Files</h2>
                 <p class="subtitle">Remove default content and start with a clean App component.</p>
@@ -744,6 +744,7 @@
                 <ul style="margin-bottom: 1rem;">
                     <li>Delete the <code>assets</code> folder</li>
                     <li>Clear contents of <code>App.css</code> (keep the file)</li>
+                    <li>Clear contents of <code>index.css</code> (removes dark theme)</li>
                     <li>Replace <code>App.jsx</code> with:</li>
                 </ul>
                 <div class="code-block">
