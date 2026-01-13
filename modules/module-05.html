@@ -3,27 +3,1063 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Module 5 - Advanced Web Development">
-    <title>Module 5: Topic TBD | Advanced Web Development</title>
+    <meta name="description" content="Module 5 - React Fundamentals: Building Interactive User Interfaces">
+    <title>Module 5: React Fundamentals | Advanced Web Development</title>
     <link rel="stylesheet" href="../css/slides.css">
+    <style>
+        /* Dark theme components */
+        .dark-container {
+            background: linear-gradient(135deg, #1a2332 0%, #2d3748 100%);
+            border-radius: 12px;
+            padding: 2rem;
+            border-left: 4px solid;
+            border-image: linear-gradient(180deg, #61dafb, #06b6d4, #3b82f6) 1;
+        }
+        .dark-container h2 { color: #fff; margin: 0 0 0.5rem 0; font-size: 1.8rem; }
+        .dark-container .subtitle { color: #94a3b8; margin-bottom: 1.5rem; }
+        .dark-container h3 { color: #61dafb; margin-top: 1rem; }
+        .dark-container ul { color: #94a3b8; }
+        .dark-container li { margin-bottom: 0.5rem; }
+        .dark-container strong { color: #fff; }
+        .dark-container p { color: #94a3b8; }
+        .dark-container code { background: #2d3a4d; color: #61dafb; padding: 0.2rem 0.4rem; border-radius: 4px; }
+
+        .dark-two-column { display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; }
+        .dark-three-column { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 1.5rem; }
+        .dark-four-column { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1rem; }
+
+        .dark-card {
+            background: #2d3a4d;
+            border-radius: 8px;
+            padding: 1rem;
+            border-left: 3px solid #61dafb;
+        }
+        .dark-card h4 { color: #fff; margin: 0 0 0.5rem 0; }
+        .dark-card p { color: #94a3b8; font-size: 0.9rem; margin: 0; }
+        .dark-card.warning { border-left-color: #facc15; }
+        .dark-card.danger { border-left-color: #f87171; }
+        .dark-card.info { border-left-color: #22d3ee; }
+
+        .dark-table { width: 100%; border-collapse: collapse; margin: 1rem 0; }
+        .dark-table th { background: #3d4a5d; color: #fff; padding: 0.75rem 1rem; text-align: left; }
+        .dark-table td { background: #2d3a4d; color: #94a3b8; padding: 0.75rem 1rem; border-bottom: 1px solid #3d4a5d; }
+        .dark-table code { background: #1a2332; color: #61dafb; padding: 0.2rem 0.4rem; border-radius: 4px; }
+
+        .big-number { font-size: 4rem; font-weight: bold; color: #61dafb; line-height: 1; }
+        .stat-label { color: #94a3b8; font-size: 1.1rem; margin-top: 0.5rem; }
+
+        .code-block { background: #1a2332; border-radius: 8px; padding: 1rem; overflow-x: auto; }
+        .code-block pre { margin: 0; color: #e2e8f0; font-family: 'Monaco', 'Menlo', monospace; font-size: 0.9rem; line-height: 1.5; }
+        .code-block .comment { color: #6b7280; }
+        .code-block .keyword { color: #c084fc; }
+        .code-block .string { color: #4ade80; }
+        .code-block .function { color: #60a5fa; }
+        .code-block .number { color: #f472b6; }
+        .code-block .tag { color: #61dafb; }
+        .code-block .attr { color: #facc15; }
+
+        .feature-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1rem; }
+        .feature-item { display: flex; align-items: flex-start; gap: 0.75rem; }
+        .feature-icon { color: #61dafb; font-size: 1.25rem; }
+        .feature-text { color: #94a3b8; }
+        .feature-text strong { color: #fff; display: block; margin-bottom: 0.25rem; }
+
+        .step-number {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 2.5rem;
+            height: 2.5rem;
+            background: linear-gradient(135deg, #61dafb, #3b82f6);
+            color: #1a2332;
+            font-weight: bold;
+            font-size: 1.2rem;
+            border-radius: 50%;
+            margin-right: 1rem;
+        }
+
+        .terminal-block {
+            background: #0d1117;
+            border-radius: 8px;
+            padding: 1rem;
+            font-family: 'Monaco', 'Menlo', monospace;
+            color: #c9d1d9;
+            margin: 1rem 0;
+        }
+        .terminal-block .prompt { color: #7ee787; }
+        .terminal-block .command { color: #fff; }
+        .terminal-block .output { color: #8b949e; }
+
+        @media (max-width: 900px) {
+            .dark-two-column, .dark-three-column { grid-template-columns: 1fr; }
+            .dark-four-column { grid-template-columns: repeat(2, 1fr); }
+            .feature-grid { grid-template-columns: 1fr; }
+        }
+
+        /* Video thumbnail styles */
+        .video-thumbnail {
+            display: block;
+            max-width: 560px;
+            margin: 1.5rem auto;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            text-decoration: none;
+        }
+        .video-thumbnail:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.4);
+        }
+
+        /* Resource card styles */
+        .resource-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin-top: 1.5rem; }
+        .resource-card {
+            background: #2d3a4d;
+            border-radius: 12px;
+            padding: 1.5rem;
+            text-decoration: none;
+            transition: transform 0.2s, box-shadow 0.2s;
+            border: 1px solid #3d4a5d;
+        }
+        .resource-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+        }
+        .resource-card h4 { color: #fff; margin: 0 0 0.5rem 0; }
+        .resource-card p { color: #94a3b8; margin: 0; font-size: 0.9rem; }
+        .resource-card .icon { font-size: 2rem; margin-bottom: 0.5rem; }
+    </style>
 </head>
 <body>
+    <a href="#main-content" class="skip-link">Skip to main content</a>
+
     <div class="presentation">
-        <!-- Title Slide -->
-        <section class="slide title-slide">
+        <!-- ========== Module Title ========== -->
+
+        <!-- Slide 1: Title -->
+        <section class="slide title-slide" data-narration="Welcome to Module 5 where we'll explore React, the most popular JavaScript library for building user interfaces. React was created by Facebook in 2013 and has since become the dominant choice for building modern web applications. Companies like Netflix, Airbnb, Instagram, and thousands of startups use React in production. Unlike traditional web development where you manipulate the DOM directly, React uses a component-based architecture and a virtual DOM for efficient updates. By the end of this module, you'll understand React's core concepts and be able to build your own interactive applications. This is where your web development skills really come together.">
             <h1>Module 5</h1>
-            <p class="subtitle">Topic TBD</p>
-            <p class="meta">Advanced Web Development</p>
+            <p class="subtitle">React Fundamentals</p>
+            <p class="meta">Building Interactive User Interfaces</p>
         </section>
 
-        <!-- Placeholder Content -->
-        <section class="slide">
-            <h1>Coming Soon</h1>
-            <p>Content for this module is being developed.</p>
-            <div class="info-box">
-                <p>Check back soon for updates to this module.</p>
+        <!-- Slide 2: Recommended Resources -->
+        <section class="slide" id="resources" data-narration="Before we dive in, here are two excellent resources to supplement your learning. LinkedIn Learning offers a comprehensive React.js Essential Training course that's free through most universities and libraries. It provides video-based instruction that some students find easier to follow. Additionally, the official React documentation at react.dev has been completely rewritten with interactive examples and is now considered one of the best programming tutorials available. I recommend using both - videos for overview and the docs for hands-on practice. These resources will help reinforce the concepts we cover in this module.">
+            <div class="dark-container">
+                <h2>Recommended Resources</h2>
+                <p class="subtitle">Two excellent ways to supplement your React learning journey.</p>
+                <div class="resource-grid">
+                    <a href="https://www.linkedin.com/learning/react-js-essential-training" target="_blank" rel="noopener" class="resource-card">
+                        <div class="icon">🎬</div>
+                        <h4>LinkedIn Learning</h4>
+                        <p>React.js Essential Training - comprehensive video course, free through universities</p>
+                    </a>
+                    <a href="https://react.dev/learn" target="_blank" rel="noopener" class="resource-card">
+                        <div class="icon">📚</div>
+                        <h4>Official React Docs</h4>
+                        <p>react.dev - interactive tutorials, always up-to-date, excellent for hands-on practice</p>
+                    </a>
+                </div>
             </div>
         </section>
+
+        <!-- ========== PART 1: React Fundamentals ========== -->
+
+        <!-- Slide 3: Part 1 Title -->
+        <section class="slide title-slide" id="part1" data-narration="Part 1 covers React fundamentals - what React is, why it exists, and the core concepts you need to understand before writing code. We'll start with the big picture and work our way down to writing your first component. React introduces several new concepts like components, JSX, and the virtual DOM that might feel unfamiliar at first. But once you understand these building blocks, everything else falls into place. Take your time with this section - a solid foundation makes the rest of React much easier to learn.">
+            <h1>Part 1</h1>
+            <p class="subtitle">React Fundamentals</p>
+        </section>
+
+        <!-- Slide 4: What is React? -->
+        <section class="slide" id="what-is-react" data-narration="React is a JavaScript library for building user interfaces, created and maintained by Meta (formerly Facebook). Notice I said library, not framework - this distinction matters. A framework like Angular dictates how you structure your entire application. React, as a library, focuses specifically on the view layer and lets you choose other tools for routing, state management, and more. React's core innovation is the component model - you build UIs by composing small, reusable pieces called components. Each component manages its own state and renders its own UI. This makes code easier to understand, test, and maintain. Think of components like LEGO blocks you snap together to build complex interfaces.">
+            <div class="dark-container">
+                <h2>What is React?</h2>
+                <p class="subtitle">A JavaScript library for building user interfaces, focused on components.</p>
+                <div class="dark-three-column" style="margin-top: 1.5rem;">
+                    <div class="dark-card">
+                        <h4>Library, Not Framework</h4>
+                        <p>Focuses on UI layer only. You choose other tools for routing, etc.</p>
+                    </div>
+                    <div class="dark-card">
+                        <h4>Component-Based</h4>
+                        <p>Build UIs from small, reusable pieces that manage their own state.</p>
+                    </div>
+                    <div class="dark-card">
+                        <h4>Declarative</h4>
+                        <p>Describe what UI should look like, React handles the updates.</p>
+                    </div>
+                </div>
+                <div style="text-align: center; margin-top: 1.5rem;">
+                    <p style="color: #61dafb; font-size: 1.1rem;">Created by Meta (Facebook) in 2013</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Slide 5: Why React? -->
+        <section class="slide" id="why-react" data-narration="Why has React become so dominant? First, it's declarative - you describe what the UI should look like for any given state, and React figures out how to update the DOM efficiently. This is much simpler than manually tracking and updating DOM elements. Second, React uses a Virtual DOM - a lightweight copy of the actual DOM in memory. When state changes, React compares the new virtual DOM with the previous one and only updates what actually changed. This makes updates fast even in complex applications. Third, the ecosystem is massive - thousands of libraries, tools, and resources exist for React. Finally, React skills are highly marketable - it's the most in-demand frontend skill in job postings.">
+            <div class="dark-container">
+                <h2>Why React?</h2>
+                <p class="subtitle">React solves real problems in building modern web applications.</p>
+                <div class="dark-two-column" style="margin-top: 1.5rem;">
+                    <div>
+                        <div class="dark-card" style="margin-bottom: 1rem;">
+                            <h4>Declarative UI</h4>
+                            <p>Describe the desired state, React handles DOM updates automatically</p>
+                        </div>
+                        <div class="dark-card">
+                            <h4>Virtual DOM</h4>
+                            <p>Efficient updates - only changes what's necessary, not the whole page</p>
+                        </div>
+                    </div>
+                    <div>
+                        <div class="dark-card" style="margin-bottom: 1rem;">
+                            <h4>Massive Ecosystem</h4>
+                            <p>Thousands of libraries, tools, and learning resources available</p>
+                        </div>
+                        <div class="dark-card">
+                            <h4>Job Market Demand</h4>
+                            <p>Most in-demand frontend skill - excellent career investment</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Slide 6: React in the Wild -->
+        <section class="slide" id="react-in-wild" data-narration="React isn't just for small projects - it powers some of the world's most complex web applications. Facebook and Instagram are built with React, of course, since Meta created it. Netflix uses React for its TV interface and some web features. Airbnb rebuilt their frontend with React and has contributed many open-source React tools. Discord, the gaming chat platform, uses React for their web and desktop apps. Other major users include Uber, Twitter, Reddit, Dropbox, and thousands of startups. When you learn React, you're learning the same technology these companies use in production. This isn't just a teaching tool - it's industry-standard technology.">
+            <div class="dark-container">
+                <h2>React in the Wild</h2>
+                <p class="subtitle">Major companies trust React for their production applications.</p>
+                <div class="dark-four-column" style="margin-top: 1.5rem; text-align: center;">
+                    <div class="dark-card">
+                        <h4>Meta</h4>
+                        <p>Facebook, Instagram, WhatsApp Web</p>
+                    </div>
+                    <div class="dark-card">
+                        <h4>Netflix</h4>
+                        <p>TV interface, web features</p>
+                    </div>
+                    <div class="dark-card">
+                        <h4>Airbnb</h4>
+                        <p>Entire frontend, open-source tools</p>
+                    </div>
+                    <div class="dark-card">
+                        <h4>Discord</h4>
+                        <p>Web and desktop apps</p>
+                    </div>
+                </div>
+                <p style="text-align: center; margin-top: 1.5rem; color: #94a3b8;">Also: Uber, Twitter, Reddit, Dropbox, Spotify, and thousands more</p>
+            </div>
+        </section>
+
+        <!-- Slide 7: Setting Up React -->
+        <section class="slide" id="setup" data-narration="To start a new React project, the modern approach is to use Vite, a fast build tool that sets up everything you need. The command 'npm create vite@latest' creates a new project with React configured and ready to go. Vite offers near-instant server startup and hot module replacement, meaning changes appear in your browser almost immediately as you code. You might also hear about Create React App, which was the standard for years, but it's now considered slower and somewhat outdated. Vite is the recommended choice for new projects in 2024 and beyond. After running the create command, you'll choose React as your framework, then install dependencies with npm install and start the dev server.">
+            <div class="dark-container">
+                <h2>Setting Up React</h2>
+                <p class="subtitle">Use Vite for the fastest, modern React development experience.</p>
+                <div class="terminal-block">
+                    <div><span class="prompt">$</span> <span class="command">npm create vite@latest my-react-app</span></div>
+                    <div class="output" style="margin: 0.5rem 0;">✔ Select a framework: › React</div>
+                    <div class="output">✔ Select a variant: › JavaScript</div>
+                    <div style="margin-top: 1rem;"><span class="prompt">$</span> <span class="command">cd my-react-app</span></div>
+                    <div><span class="prompt">$</span> <span class="command">npm install</span></div>
+                    <div><span class="prompt">$</span> <span class="command">npm run dev</span></div>
+                </div>
+                <div class="dark-info-box" style="margin-top: 1rem; padding: 1rem; background: #1e3a5f; border-radius: 8px;">
+                    <p style="margin: 0;"><strong style="color: #61dafb;">Why Vite?</strong> Near-instant startup, fast hot reload, modern defaults. Replaces older Create React App.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Slide 8: Your First Component -->
+        <section class="slide" id="first-component" data-narration="A React component is simply a JavaScript function that returns JSX, which looks like HTML. The function name must start with a capital letter - this is how React distinguishes components from regular HTML elements. Inside the function, you return the UI you want to render. This example shows a simple Greeting component that returns a div with a heading and paragraph. Notice the export default at the bottom - this lets other files import and use this component. Components can be as simple as a button or as complex as an entire page. The key insight is that components are reusable - you can use this Greeting component anywhere in your app, as many times as you want.">
+            <div class="dark-container">
+                <h2>Your First Component</h2>
+                <p class="subtitle">Components are functions that return JSX - React's way of describing UI.</p>
+                <div class="code-block">
+<pre><span class="comment">// Greeting.jsx</span>
+<span class="keyword">function</span> <span class="function">Greeting</span>() {
+  <span class="keyword">return</span> (
+    <span class="tag">&lt;div&gt;</span>
+      <span class="tag">&lt;h1&gt;</span>Hello, React!<span class="tag">&lt;/h1&gt;</span>
+      <span class="tag">&lt;p&gt;</span>Welcome to my first component.<span class="tag">&lt;/p&gt;</span>
+    <span class="tag">&lt;/div&gt;</span>
+  );
+}
+
+<span class="keyword">export default</span> Greeting;</pre>
+                </div>
+                <div class="dark-two-column" style="margin-top: 1rem;">
+                    <div class="dark-card info">
+                        <h4>Capital Letter Required</h4>
+                        <p>Component names must start with uppercase: Greeting, not greeting</p>
+                    </div>
+                    <div class="dark-card info">
+                        <h4>Return One Element</h4>
+                        <p>Wrap multiple elements in a single parent div or fragment</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Slide 9: Understanding JSX -->
+        <section class="slide" id="jsx" data-narration="JSX stands for JavaScript XML - it's a syntax extension that lets you write HTML-like code in your JavaScript. JSX isn't actually HTML; it gets transformed into JavaScript function calls by your build tool. This might seem strange at first, but it makes components much easier to read and write. There are a few key differences from HTML to remember: you use className instead of class (because class is a reserved word in JavaScript), style takes an object instead of a string, and all tags must be closed including self-closing tags like img and input. JSX lets you seamlessly mix JavaScript logic with your UI markup, which is one of React's biggest productivity boosts.">
+            <div class="dark-container">
+                <h2>Understanding JSX</h2>
+                <p class="subtitle">JSX lets you write HTML-like syntax in JavaScript - with a few differences.</p>
+                <div class="dark-two-column" style="margin-top: 1rem;">
+                    <div>
+                        <h3 style="color: #f87171;">HTML</h3>
+                        <div class="code-block">
+<pre><span class="tag">&lt;div</span> <span class="attr">class</span>=<span class="string">"container"</span><span class="tag">&gt;</span>
+  <span class="tag">&lt;label</span> <span class="attr">for</span>=<span class="string">"name"</span><span class="tag">&gt;</span>Name<span class="tag">&lt;/label&gt;</span>
+  <span class="tag">&lt;img</span> <span class="attr">src</span>=<span class="string">"pic.jpg"</span><span class="tag">&gt;</span>
+<span class="tag">&lt;/div&gt;</span></pre>
+                        </div>
+                    </div>
+                    <div>
+                        <h3 style="color: #4ade80;">JSX</h3>
+                        <div class="code-block">
+<pre><span class="tag">&lt;div</span> <span class="attr">className</span>=<span class="string">"container"</span><span class="tag">&gt;</span>
+  <span class="tag">&lt;label</span> <span class="attr">htmlFor</span>=<span class="string">"name"</span><span class="tag">&gt;</span>Name<span class="tag">&lt;/label&gt;</span>
+  <span class="tag">&lt;img</span> <span class="attr">src</span>=<span class="string">"pic.jpg"</span> <span class="tag">/&gt;</span>
+<span class="tag">&lt;/div&gt;</span></pre>
+                        </div>
+                    </div>
+                </div>
+                <div class="dark-card warning" style="margin-top: 1rem;">
+                    <h4>Key Differences</h4>
+                    <p><code>class</code> → <code>className</code> | <code>for</code> → <code>htmlFor</code> | All tags must close: <code>&lt;img /&gt;</code></p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Slide 10: JSX Expressions -->
+        <section class="slide" id="jsx-expressions" data-narration="One of JSX's most powerful features is embedding JavaScript expressions using curly braces. Any valid JavaScript expression can go inside the braces - variables, function calls, arithmetic, ternary operators, and more. This is how you make your UI dynamic. In the example, we're using a variable for the name, calling toUpperCase() on a string, doing math, and using a ternary operator for conditional rendering. You cannot use statements like if/else or for loops directly in JSX curly braces - only expressions that return a value. For conditional rendering, use ternary operators or the logical AND pattern. This seamless mixing of JavaScript and markup is what makes React components so expressive.">
+            <div class="dark-container">
+                <h2>JSX Expressions</h2>
+                <p class="subtitle">Use curly braces to embed any JavaScript expression in your JSX.</p>
+                <div class="code-block">
+<pre><span class="keyword">function</span> <span class="function">Profile</span>() {
+  <span class="keyword">const</span> name = <span class="string">'Alice'</span>;
+  <span class="keyword">const</span> age = <span class="number">25</span>;
+  <span class="keyword">const</span> isOnline = <span class="keyword">true</span>;
+
+  <span class="keyword">return</span> (
+    <span class="tag">&lt;div&gt;</span>
+      <span class="tag">&lt;h1&gt;</span>Hello, {name}!<span class="tag">&lt;/h1&gt;</span>
+      <span class="tag">&lt;p&gt;</span>Status: {<span class="string">'user'</span>.toUpperCase()}<span class="tag">&lt;/p&gt;</span>
+      <span class="tag">&lt;p&gt;</span>Age in months: {age * <span class="number">12</span>}<span class="tag">&lt;/p&gt;</span>
+      <span class="tag">&lt;p&gt;</span>{isOnline ? <span class="string">'🟢 Online'</span> : <span class="string">'⚫ Offline'</span>}<span class="tag">&lt;/p&gt;</span>
+    <span class="tag">&lt;/div&gt;</span>
+  );
+}</pre>
+                </div>
+            </div>
+        </section>
+
+        <!-- Slide 11: Component Composition -->
+        <section class="slide" id="composition" data-narration="Component composition is how you build complex UIs from simple pieces. You create small, focused components and combine them like building blocks. In this example, App is a parent component that uses Header, MainContent, and Footer as children. Each child component handles its own piece of the UI. This pattern has huge benefits: components are easier to understand when they do one thing, easier to test in isolation, and easier to reuse across your app. You might use the same Button component in dozens of places, or the same Header on every page. The key is to think about your UI as a tree of components, with data flowing down from parents to children.">
+            <div class="dark-container">
+                <h2>Component Composition</h2>
+                <p class="subtitle">Build complex UIs by nesting simple components together.</p>
+                <div class="code-block">
+<pre><span class="keyword">function</span> <span class="function">Header</span>() {
+  <span class="keyword">return</span> <span class="tag">&lt;header&gt;</span>My Website<span class="tag">&lt;/header&gt;</span>;
+}
+
+<span class="keyword">function</span> <span class="function">MainContent</span>() {
+  <span class="keyword">return</span> <span class="tag">&lt;main&gt;</span>Welcome to my site!<span class="tag">&lt;/main&gt;</span>;
+}
+
+<span class="keyword">function</span> <span class="function">App</span>() {
+  <span class="keyword">return</span> (
+    <span class="tag">&lt;div&gt;</span>
+      <span class="tag">&lt;Header /&gt;</span>
+      <span class="tag">&lt;MainContent /&gt;</span>
+      <span class="tag">&lt;Footer /&gt;</span>
+    <span class="tag">&lt;/div&gt;</span>
+  );
+}</pre>
+                </div>
+                <p style="text-align: center; margin-top: 1rem; color: #61dafb;">Think of components as LEGO blocks - snap them together to build anything</p>
+            </div>
+        </section>
+
+        <!-- Slide 12: Part 1 Summary -->
+        <section class="slide" id="part1-summary" data-narration="Let's recap Part 1. React is a JavaScript library for building UIs using a component-based architecture. Components are functions that return JSX - an HTML-like syntax that lets you describe your UI declaratively. JSX expressions with curly braces let you embed any JavaScript into your markup. Component composition lets you build complex interfaces from simple, reusable pieces. These fundamentals are the foundation everything else builds on. In Part 2, we'll make our components interactive by adding props to pass data and state to handle changes. The concepts might feel new, but they'll become second nature with practice.">
+            <div class="dark-container">
+                <h2>Part 1 Summary</h2>
+                <p class="subtitle">Key concepts from React Fundamentals.</p>
+                <div class="feature-grid" style="margin-top: 1.5rem;">
+                    <div class="feature-item">
+                        <span class="feature-icon">✓</span>
+                        <div class="feature-text">
+                            <strong>React is a Library</strong>
+                            Focuses on UI, component-based architecture
+                        </div>
+                    </div>
+                    <div class="feature-item">
+                        <span class="feature-icon">✓</span>
+                        <div class="feature-text">
+                            <strong>Components are Functions</strong>
+                            Return JSX to describe what to render
+                        </div>
+                    </div>
+                    <div class="feature-item">
+                        <span class="feature-icon">✓</span>
+                        <div class="feature-text">
+                            <strong>JSX = JavaScript + HTML</strong>
+                            Use className, close all tags, embed expressions with {}
+                        </div>
+                    </div>
+                    <div class="feature-item">
+                        <span class="feature-icon">✓</span>
+                        <div class="feature-text">
+                            <strong>Composition</strong>
+                            Build complex UIs from simple, reusable pieces
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ========== PART 2: State & Interactivity ========== -->
+
+        <!-- Slide 13: Part 2 Title -->
+        <section class="slide title-slide" id="part2" data-narration="Part 2 covers state and interactivity - how to make your components dynamic and responsive to user actions. So far, our components have been static - they display the same thing every time. Real applications need to respond to user input, fetch data, and update the display. This is where props and state come in. Props let you pass data into components, making them configurable. State lets components remember things and update when that data changes. Combined with event handlers, you can build fully interactive applications. These concepts are the heart of React development.">
+            <h1>Part 2</h1>
+            <p class="subtitle">State & Interactivity</p>
+        </section>
+
+        <!-- Slide 14: Understanding Props -->
+        <section class="slide" id="props" data-narration="Props, short for properties, are how you pass data from a parent component to a child component. Think of props like function arguments - they let you customize how a component behaves. In this example, the parent App passes a name and age to the UserCard child. Inside UserCard, we receive these props as a parameter and can use them in our JSX. Props are read-only - you cannot modify them inside the child component. This one-way data flow makes your app predictable and easier to debug. If a child needs to communicate back to the parent, it does so through callback functions passed as props.">
+            <div class="dark-container">
+                <h2>Understanding Props</h2>
+                <p class="subtitle">Props pass data from parent to child components - like function arguments.</p>
+                <div class="code-block">
+<pre><span class="comment">// Parent passes props</span>
+<span class="keyword">function</span> <span class="function">App</span>() {
+  <span class="keyword">return</span> <span class="tag">&lt;UserCard</span> <span class="attr">name</span>=<span class="string">"Alice"</span> <span class="attr">age</span>={<span class="number">25</span>} <span class="tag">/&gt;</span>;
+}
+
+<span class="comment">// Child receives props</span>
+<span class="keyword">function</span> <span class="function">UserCard</span>(props) {
+  <span class="keyword">return</span> (
+    <span class="tag">&lt;div&gt;</span>
+      <span class="tag">&lt;h2&gt;</span>{props.name}<span class="tag">&lt;/h2&gt;</span>
+      <span class="tag">&lt;p&gt;</span>Age: {props.age}<span class="tag">&lt;/p&gt;</span>
+    <span class="tag">&lt;/div&gt;</span>
+  );
+}</pre>
+                </div>
+                <div class="dark-card warning" style="margin-top: 1rem;">
+                    <h4>Props are Read-Only</h4>
+                    <p>Never modify props directly. Data flows one way: parent → child.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Slide 15: Props with Destructuring -->
+        <section class="slide" id="props-destructuring" data-narration="A cleaner way to work with props is using destructuring in the function parameters. Instead of writing props.name and props.age everywhere, you extract them directly: function UserCard({ name, age }). This makes your code more readable and you can immediately see what props a component expects. You can also set default values for props that might not always be provided - here, role defaults to 'User' if no role prop is passed. Destructuring is the standard pattern in modern React codebases. It's especially helpful when components have many props.">
+            <div class="dark-container">
+                <h2>Props with Destructuring</h2>
+                <p class="subtitle">Destructure props for cleaner code and add default values.</p>
+                <div class="code-block">
+<pre><span class="comment">// Destructure in parameters - cleaner!</span>
+<span class="keyword">function</span> <span class="function">UserCard</span>({ name, age, role = <span class="string">'User'</span> }) {
+  <span class="keyword">return</span> (
+    <span class="tag">&lt;div&gt;</span>
+      <span class="tag">&lt;h2&gt;</span>{name}<span class="tag">&lt;/h2&gt;</span>
+      <span class="tag">&lt;p&gt;</span>Age: {age}<span class="tag">&lt;/p&gt;</span>
+      <span class="tag">&lt;p&gt;</span>Role: {role}<span class="tag">&lt;/p&gt;</span>
+    <span class="tag">&lt;/div&gt;</span>
+  );
+}
+
+<span class="comment">// Usage - role will default to 'User'</span>
+<span class="tag">&lt;UserCard</span> <span class="attr">name</span>=<span class="string">"Alice"</span> <span class="attr">age</span>={<span class="number">25</span>} <span class="tag">/&gt;</span>
+<span class="tag">&lt;UserCard</span> <span class="attr">name</span>=<span class="string">"Bob"</span> <span class="attr">age</span>={<span class="number">30</span>} <span class="attr">role</span>=<span class="string">"Admin"</span> <span class="tag">/&gt;</span></pre>
+                </div>
+            </div>
+        </section>
+
+        <!-- Slide 16: Introduction to State -->
+        <section class="slide" id="state-intro" data-narration="State is data that changes over time within a component. While props come from outside and are read-only, state is internal to the component and can change. Think of a counter - the count value is state because it changes when you click. Or a form - the input values are state because they change as the user types. When state changes, React automatically re-renders the component with the new values. This is the magic of React - you just update the state, and React handles updating the DOM. The comparison table shows the key differences: props are passed in and immutable, state is internal and mutable.">
+            <div class="dark-container">
+                <h2>Introduction to State</h2>
+                <p class="subtitle">State is data that changes over time - when it updates, the component re-renders.</p>
+                <table class="dark-table">
+                    <tr>
+                        <th>Props</th>
+                        <th>State</th>
+                    </tr>
+                    <tr>
+                        <td>Passed from parent</td>
+                        <td>Internal to component</td>
+                    </tr>
+                    <tr>
+                        <td>Read-only (immutable)</td>
+                        <td>Can change (mutable)</td>
+                    </tr>
+                    <tr>
+                        <td>Like function arguments</td>
+                        <td>Like component memory</td>
+                    </tr>
+                </table>
+                <p style="text-align: center; margin-top: 1rem; color: #61dafb;">Examples of state: form inputs, counters, toggle switches, fetched data</p>
+            </div>
+        </section>
+
+        <!-- Slide 17: The useState Hook -->
+        <section class="slide" id="usestate" data-narration="The useState hook is how you add state to a component. You import it from React, then call it with an initial value. useState returns an array with two things: the current value and a function to update it. We use array destructuring to name these - here, count is the value and setCount is the updater function. When you call setCount with a new value, React re-renders the component with that new value. The naming convention is important: for a state variable named 'something', the setter is 'setSomething'. Never modify state directly like count = 5 - always use the setter function, or React won't know to re-render.">
+            <div class="dark-container">
+                <h2>The useState Hook</h2>
+                <p class="subtitle">useState adds state to your components - returns the value and a setter function.</p>
+                <div class="code-block">
+<pre><span class="keyword">import</span> { useState } <span class="keyword">from</span> <span class="string">'react'</span>;
+
+<span class="keyword">function</span> <span class="function">Counter</span>() {
+  <span class="comment">// Declare state: [currentValue, setterFunction]</span>
+  <span class="keyword">const</span> [count, setCount] = <span class="function">useState</span>(<span class="number">0</span>);
+
+  <span class="keyword">return</span> (
+    <span class="tag">&lt;div&gt;</span>
+      <span class="tag">&lt;p&gt;</span>Count: {count}<span class="tag">&lt;/p&gt;</span>
+      <span class="tag">&lt;button</span> <span class="attr">onClick</span>={() => <span class="function">setCount</span>(count + <span class="number">1</span>)}<span class="tag">&gt;</span>
+        Increment
+      <span class="tag">&lt;/button&gt;</span>
+    <span class="tag">&lt;/div&gt;</span>
+  );
+}</pre>
+                </div>
+                <div class="dark-card danger" style="margin-top: 1rem;">
+                    <h4>Never Modify State Directly</h4>
+                    <p><code>count = 5</code> ❌ Wrong | <code>setCount(5)</code> ✓ Correct</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Slide 18: Handling Events -->
+        <section class="slide" id="events" data-narration="Event handling in React is similar to HTML but with a few differences. Event names use camelCase: onClick, onChange, onSubmit instead of onclick, onchange, onsubmit. You pass a function reference, not a string. The event handler receives a synthetic event object that works the same across all browsers. Common events include onClick for clicks, onChange for input changes, and onSubmit for form submissions. For forms, you typically call event.preventDefault() to stop the page from refreshing. The example shows both an inline arrow function and a named handler function - both work, use whatever is clearer for your situation.">
+            <div class="dark-container">
+                <h2>Handling Events</h2>
+                <p class="subtitle">React events use camelCase and pass functions, not strings.</p>
+                <div class="code-block">
+<pre><span class="keyword">function</span> <span class="function">ButtonDemo</span>() {
+  <span class="keyword">const</span> <span class="function">handleClick</span> = () => {
+    <span class="function">alert</span>(<span class="string">'Button clicked!'</span>);
+  };
+
+  <span class="keyword">return</span> (
+    <span class="tag">&lt;div&gt;</span>
+      <span class="comment">{/* Named function */}</span>
+      <span class="tag">&lt;button</span> <span class="attr">onClick</span>={handleClick}<span class="tag">&gt;</span>Click Me<span class="tag">&lt;/button&gt;</span>
+
+      <span class="comment">{/* Inline arrow function */}</span>
+      <span class="tag">&lt;button</span> <span class="attr">onClick</span>={() => <span class="function">alert</span>(<span class="string">'Hi!'</span>)}<span class="tag">&gt;</span>Say Hi<span class="tag">&lt;/button&gt;</span>
+    <span class="tag">&lt;/div&gt;</span>
+  );
+}</pre>
+                </div>
+                <div class="dark-three-column" style="margin-top: 1rem;">
+                    <div class="dark-card"><h4>onClick</h4><p>Clicks, taps</p></div>
+                    <div class="dark-card"><h4>onChange</h4><p>Input changes</p></div>
+                    <div class="dark-card"><h4>onSubmit</h4><p>Form submission</p></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Slide 19: Rendering Lists -->
+        <section class="slide" id="lists" data-narration="To render a list of items, you use JavaScript's map function to transform an array of data into an array of JSX elements. In this example, we have an array of fruits and we map each one to a list item. The key prop is crucial - React uses it to track which items change, are added, or removed. Always use a unique identifier for the key, like an ID from your data. Using array index as key is discouraged because it can cause bugs when items are reordered. Without proper keys, React may re-render more than necessary or lose component state. Think of keys as giving each item a stable identity.">
+            <div class="dark-container">
+                <h2>Rendering Lists</h2>
+                <p class="subtitle">Use map() to transform arrays into JSX elements - always include a unique key.</p>
+                <div class="code-block">
+<pre><span class="keyword">function</span> <span class="function">FruitList</span>() {
+  <span class="keyword">const</span> fruits = [
+    { id: <span class="number">1</span>, name: <span class="string">'Apple'</span> },
+    { id: <span class="number">2</span>, name: <span class="string">'Banana'</span> },
+    { id: <span class="number">3</span>, name: <span class="string">'Cherry'</span> }
+  ];
+
+  <span class="keyword">return</span> (
+    <span class="tag">&lt;ul&gt;</span>
+      {fruits.<span class="function">map</span>(fruit => (
+        <span class="tag">&lt;li</span> <span class="attr">key</span>={fruit.id}<span class="tag">&gt;</span>{fruit.name}<span class="tag">&lt;/li&gt;</span>
+      ))}
+    <span class="tag">&lt;/ul&gt;</span>
+  );
+}</pre>
+                </div>
+                <div class="dark-card warning" style="margin-top: 1rem;">
+                    <h4>Why Keys Matter</h4>
+                    <p>Keys help React track items efficiently. Use unique IDs, not array indices.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Slide 20: Part 2 Summary -->
+        <section class="slide" id="part2-summary" data-narration="Let's recap Part 2. Props pass data from parent to child components - they're read-only and flow one direction. State is internal data that can change - when it changes, the component re-renders. The useState hook lets you add state to function components, returning the current value and a setter function. Events in React use camelCase names and receive function references. For lists, use map() to render arrays and always provide a unique key prop. These concepts work together: props configure components, state makes them dynamic, events trigger state changes, and lists render collections. You now have everything needed to build the Todo app in Part 3.">
+            <div class="dark-container">
+                <h2>Part 2 Summary</h2>
+                <p class="subtitle">Key concepts from State & Interactivity.</p>
+                <div class="feature-grid" style="margin-top: 1.5rem;">
+                    <div class="feature-item">
+                        <span class="feature-icon">✓</span>
+                        <div class="feature-text">
+                            <strong>Props</strong>
+                            Pass data parent → child, read-only, use destructuring
+                        </div>
+                    </div>
+                    <div class="feature-item">
+                        <span class="feature-icon">✓</span>
+                        <div class="feature-text">
+                            <strong>State with useState</strong>
+                            Internal mutable data, triggers re-render when changed
+                        </div>
+                    </div>
+                    <div class="feature-item">
+                        <span class="feature-icon">✓</span>
+                        <div class="feature-text">
+                            <strong>Event Handling</strong>
+                            camelCase names, pass functions, use synthetic events
+                        </div>
+                    </div>
+                    <div class="feature-item">
+                        <span class="feature-icon">✓</span>
+                        <div class="feature-text">
+                            <strong>Rendering Lists</strong>
+                            Use map() + unique key prop for each item
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ========== PART 3: Assignment ========== -->
+
+        <!-- Slide 21: Part 3 Title -->
+        <section class="slide title-slide" id="part3" data-narration="Part 3 contains your assignments for this module. You'll have two assignments worth 50 points each. Assignment 1 is completing W3Schools React exercises and quiz - similar to what you did for TypeScript. Assignment 2 is a hands-on project where you'll build a Todo app from scratch following step-by-step instructions. Don't worry if this seems like a lot - the Todo walkthrough guides you through every step with exact code to copy. By the end, you'll have a working React app deployed live on the internet. Let's get started!">
+            <h1>Part 3</h1>
+            <p class="subtitle">Assignment</p>
+        </section>
+
+        <!-- Slide 22: Assignment 1 -->
+        <section class="slide" id="assignment1" data-narration="Assignment 1 is to complete the W3Schools React tutorial and quiz. Start by working through the exercises at w3schools.com/react - these reinforce the concepts from Parts 1 and 2 with hands-on practice. After completing the exercises, take the React Quiz to test your understanding. When you finish the quiz, take a screenshot of your results showing your score. Submit that screenshot to Canvas. This assignment is worth 50 points and helps ensure you have a solid grasp of React fundamentals before building the Todo app.">
+            <div class="dark-container">
+                <h2>Assignment 1: W3Schools Exercises & Quiz</h2>
+                <p class="subtitle">Practice React fundamentals with interactive exercises, then test your knowledge.</p>
+                <div class="feature-grid" style="margin-top: 1.5rem;">
+                    <div class="feature-item">
+                        <span class="step-number">1</span>
+                        <div class="feature-text">
+                            <strong>Complete React Exercises</strong>
+                            <a href="https://www.w3schools.com/react/" target="_blank" style="color: #61dafb;">w3schools.com/react</a> - work through the tutorial
+                        </div>
+                    </div>
+                    <div class="feature-item">
+                        <span class="step-number">2</span>
+                        <div class="feature-text">
+                            <strong>Take the React Quiz</strong>
+                            <a href="https://www.w3schools.com/react/react_quiz.asp" target="_blank" style="color: #61dafb;">React Quiz</a> - test your understanding
+                        </div>
+                    </div>
+                    <div class="feature-item">
+                        <span class="step-number">3</span>
+                        <div class="feature-text">
+                            <strong>Screenshot Your Results</strong>
+                            Capture your quiz score when complete
+                        </div>
+                    </div>
+                    <div class="feature-item">
+                        <span class="step-number">4</span>
+                        <div class="feature-text">
+                            <strong>Submit to Canvas</strong>
+                            Upload screenshot to Module 5 Assignment 1
+                        </div>
+                    </div>
+                </div>
+                <div style="text-align: center; margin-top: 1.5rem;">
+                    <p style="color: #61dafb; font-size: 1.25rem; font-weight: bold;">50 Points</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Slide 23: Assignment 2 Overview -->
+        <section class="slide" id="assignment2" data-narration="Assignment 2 is building a React Todo app from scratch. This is a hands-on project where you'll apply everything from Parts 1 and 2. Don't worry - the following slides walk you through every step with exact code to copy. Your app will let users add new todos, display them in a list, and delete them when done. You'll then deploy it to Vercel so it's live on the internet with a real URL you can share. Follow each step carefully, and you'll have a working React app in about an hour. This assignment is worth 50 points.">
+            <div class="dark-container">
+                <h2>Assignment 2: Build a React Todo App</h2>
+                <p class="subtitle">Follow the step-by-step walkthrough to build and deploy your first React app.</p>
+                <div class="dark-three-column" style="margin-top: 1.5rem;">
+                    <div class="dark-card">
+                        <h4>What You'll Build</h4>
+                        <p>A Todo app with add, display, and delete functionality</p>
+                    </div>
+                    <div class="dark-card">
+                        <h4>Skills Applied</h4>
+                        <p>Components, JSX, state, events, lists</p>
+                    </div>
+                    <div class="dark-card">
+                        <h4>Deployment</h4>
+                        <p>Live on Vercel with a shareable URL</p>
+                    </div>
+                </div>
+                <div style="text-align: center; margin-top: 1.5rem;">
+                    <p style="color: #61dafb; font-size: 1.25rem; font-weight: bold;">50 Points</p>
+                    <p style="color: #94a3b8;">Follow Steps 1-10 on the next slides</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Slide 24: Step 1 - Create Project -->
+        <section class="slide" id="step1" data-narration="Step 1 is creating your React project with Vite. Open your terminal and navigate to where you want the project folder. Run npm create vite@latest and when prompted, name your project 'react-todo'. Select React as the framework and JavaScript as the variant. After creation, change into the project directory and run npm install to download dependencies. Finally, run npm run dev to start the development server. Open the URL shown (usually localhost:5173) in your browser. You should see the default Vite + React welcome page. Keep this terminal running throughout development.">
+            <div class="dark-container">
+                <h2><span class="step-number">1</span>Create React Project</h2>
+                <p class="subtitle">Use Vite to create a new React project with all dependencies.</p>
+                <div class="terminal-block">
+                    <div><span class="prompt">$</span> <span class="command">npm create vite@latest react-todo</span></div>
+                    <div class="output" style="margin: 0.5rem 0;">✔ Select a framework: › React</div>
+                    <div class="output">✔ Select a variant: › JavaScript</div>
+                    <div style="margin-top: 1rem;"><span class="prompt">$</span> <span class="command">cd react-todo</span></div>
+                    <div><span class="prompt">$</span> <span class="command">npm install</span></div>
+                    <div><span class="prompt">$</span> <span class="command">npm run dev</span></div>
+                    <div class="output" style="margin-top: 0.5rem;">➜  Local: http://localhost:5173/</div>
+                </div>
+                <div class="dark-card info" style="margin-top: 1rem;">
+                    <h4>Expected Result</h4>
+                    <p>Browser opens to Vite + React welcome page. Keep the terminal running!</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Slide 25: Step 2 - Clean Up -->
+        <section class="slide" id="step2" data-narration="Step 2 is cleaning up the starter files. Vite creates some default content we don't need. Open your project in VS Code. In the src folder, delete the assets folder and the App.css file contents (keep the file, just empty it). Then replace everything in App.jsx with this minimal starting point. We import useState from React because we'll need it shortly, create a simple App function that returns a heading, and export it. After saving, your browser should update to show just 'React Todo App' on a blank page. This gives us a clean slate to build our Todo functionality.">
+            <div class="dark-container">
+                <h2><span class="step-number">2</span>Clean Up Starter Files</h2>
+                <p class="subtitle">Remove default content and start with a clean App component.</p>
+                <p style="margin-bottom: 1rem;">In the <code>src</code> folder:</p>
+                <ul style="margin-bottom: 1rem;">
+                    <li>Delete the <code>assets</code> folder</li>
+                    <li>Clear contents of <code>App.css</code> (keep the file)</li>
+                    <li>Replace <code>App.jsx</code> with:</li>
+                </ul>
+                <div class="code-block">
+<pre><span class="keyword">import</span> { useState } <span class="keyword">from</span> <span class="string">'react'</span>
+<span class="keyword">import</span> <span class="string">'./App.css'</span>
+
+<span class="keyword">function</span> <span class="function">App</span>() {
+  <span class="keyword">return</span> (
+    <span class="tag">&lt;div</span> <span class="attr">className</span>=<span class="string">"app"</span><span class="tag">&gt;</span>
+      <span class="tag">&lt;h1&gt;</span>React Todo App<span class="tag">&lt;/h1&gt;</span>
+    <span class="tag">&lt;/div&gt;</span>
+  )
+}
+
+<span class="keyword">export default</span> App</pre>
+                </div>
+            </div>
+        </section>
+
+        <!-- Slide 26: Step 3 - App Structure -->
+        <section class="slide" id="step3" data-narration="Step 3 is creating the basic structure for our Todo app. We need three sections: a heading, an input form to add new todos, and a list to display them. Update your App.jsx to add a form with an input field and an Add button, plus an unordered list where todos will appear. The form has onSubmit which we'll implement next. The input has placeholder text and the list is empty for now but will display our todos. This structure follows the classic Todo app pattern. Save and verify your browser shows the heading, input field, button, and empty list area.">
+            <div class="dark-container">
+                <h2><span class="step-number">3</span>Create App Structure</h2>
+                <p class="subtitle">Add the basic layout: heading, input form, and todo list area.</p>
+                <div class="code-block">
+<pre><span class="keyword">function</span> <span class="function">App</span>() {
+  <span class="keyword">return</span> (
+    <span class="tag">&lt;div</span> <span class="attr">className</span>=<span class="string">"app"</span><span class="tag">&gt;</span>
+      <span class="tag">&lt;h1&gt;</span>React Todo App<span class="tag">&lt;/h1&gt;</span>
+
+      <span class="tag">&lt;form</span> <span class="attr">className</span>=<span class="string">"todo-form"</span><span class="tag">&gt;</span>
+        <span class="tag">&lt;input</span>
+          <span class="attr">type</span>=<span class="string">"text"</span>
+          <span class="attr">placeholder</span>=<span class="string">"Add a new todo..."</span>
+        <span class="tag">/&gt;</span>
+        <span class="tag">&lt;button</span> <span class="attr">type</span>=<span class="string">"submit"</span><span class="tag">&gt;</span>Add<span class="tag">&lt;/button&gt;</span>
+      <span class="tag">&lt;/form&gt;</span>
+
+      <span class="tag">&lt;ul</span> <span class="attr">className</span>=<span class="string">"todo-list"</span><span class="tag">&gt;</span>
+        <span class="comment">{/* Todos will appear here */}</span>
+      <span class="tag">&lt;/ul&gt;</span>
+    <span class="tag">&lt;/div&gt;</span>
+  )
+}</pre>
+                </div>
+            </div>
+        </section>
+
+        <!-- Slide 27: Step 4 - Add State -->
+        <section class="slide" id="step4" data-narration="Step 4 is adding state to manage our data. We need two pieces of state: an array of todos and the current input value. Add these useState calls inside your App function, before the return statement. The todos state starts as an empty array and will hold all our todo items. The inputValue state starts as an empty string and will track what the user types. Each todo will be an object with an id and text property. We're using Date.now() for unique IDs which gives us the current timestamp in milliseconds - simple and unique enough for our purposes.">
+            <div class="dark-container">
+                <h2><span class="step-number">4</span>Add State for Todos</h2>
+                <p class="subtitle">Use useState to track the list of todos and the input field value.</p>
+                <div class="code-block">
+<pre><span class="keyword">function</span> <span class="function">App</span>() {
+  <span class="comment">// State for the list of todos</span>
+  <span class="keyword">const</span> [todos, setTodos] = <span class="function">useState</span>([])
+
+  <span class="comment">// State for the input field</span>
+  <span class="keyword">const</span> [inputValue, setInputValue] = <span class="function">useState</span>(<span class="string">''</span>)
+
+  <span class="keyword">return</span> (
+    <span class="comment">// ... rest of JSX</span>
+  )
+}</pre>
+                </div>
+                <div class="dark-card info" style="margin-top: 1rem;">
+                    <h4>Two Pieces of State</h4>
+                    <p><code>todos</code> - array of todo objects | <code>inputValue</code> - current text in input</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Slide 28: Step 5 - Build Input -->
+        <section class="slide" id="step5" data-narration="Step 5 is connecting the input field to state, making it a 'controlled component'. Add the value attribute to your input, binding it to inputValue state. Add an onChange handler that calls setInputValue with whatever the user types - accessed through event.target.value. This creates a two-way binding: the input displays whatever is in state, and typing updates the state, which updates the display. This pattern is fundamental to React forms. Now when you type in the input, the text appears because state is updating on every keystroke.">
+            <div class="dark-container">
+                <h2><span class="step-number">5</span>Build the Input Section</h2>
+                <p class="subtitle">Make the input a controlled component by connecting it to state.</p>
+                <div class="code-block">
+<pre><span class="tag">&lt;form</span> <span class="attr">className</span>=<span class="string">"todo-form"</span><span class="tag">&gt;</span>
+  <span class="tag">&lt;input</span>
+    <span class="attr">type</span>=<span class="string">"text"</span>
+    <span class="attr">placeholder</span>=<span class="string">"Add a new todo..."</span>
+    <span class="attr">value</span>={inputValue}
+    <span class="attr">onChange</span>={(e) => <span class="function">setInputValue</span>(e.target.value)}
+  <span class="tag">/&gt;</span>
+  <span class="tag">&lt;button</span> <span class="attr">type</span>=<span class="string">"submit"</span><span class="tag">&gt;</span>Add<span class="tag">&lt;/button&gt;</span>
+<span class="tag">&lt;/form&gt;</span></pre>
+                </div>
+                <div class="dark-card info" style="margin-top: 1rem;">
+                    <h4>Controlled Component</h4>
+                    <p><code>value={inputValue}</code> displays state | <code>onChange</code> updates state when typing</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Slide 29: Step 6 - Add Todo Function -->
+        <section class="slide" id="step6" data-narration="Step 6 is creating the function to add new todos. Add this handleSubmit function inside your App component, after the useState calls. It first prevents the default form submission which would refresh the page. Then it checks if the input is empty and returns early if so - we don't want to add blank todos. If there's text, we create a new todo object with a unique ID and the trimmed text. We use the spread operator to create a new array with all existing todos plus the new one. Finally, we clear the input by setting inputValue back to empty string. Add onSubmit={handleSubmit} to your form tag.">
+            <div class="dark-container">
+                <h2><span class="step-number">6</span>Add Todo Function</h2>
+                <p class="subtitle">Create a function to handle form submission and add new todos.</p>
+                <div class="code-block">
+<pre><span class="keyword">const</span> <span class="function">handleSubmit</span> = (e) => {
+  e.<span class="function">preventDefault</span>()  <span class="comment">// Prevent page refresh</span>
+
+  <span class="keyword">if</span> (!inputValue.<span class="function">trim</span>()) <span class="keyword">return</span>  <span class="comment">// Don't add empty todos</span>
+
+  <span class="comment">// Create new todo object</span>
+  <span class="keyword">const</span> newTodo = {
+    id: Date.<span class="function">now</span>(),  <span class="comment">// Unique ID</span>
+    text: inputValue.<span class="function">trim</span>()
+  }
+
+  <span class="comment">// Add to list and clear input</span>
+  <span class="function">setTodos</span>([...todos, newTodo])
+  <span class="function">setInputValue</span>(<span class="string">''</span>)
+}
+
+<span class="comment">// Add to form:</span>
+<span class="tag">&lt;form</span> <span class="attr">onSubmit</span>={handleSubmit}<span class="tag">&gt;</span></pre>
+                </div>
+            </div>
+        </section>
+
+        <!-- Slide 30: Step 7 - Display List -->
+        <section class="slide" id="step7" data-narration="Step 7 is displaying the todo list. Replace the comment in your ul with code that maps over the todos array. For each todo, we render a list item with the todo's id as the key prop. Inside each list item, we display a span with the todo text and a delete button we'll wire up next. The curly braces around todos.map() embed this JavaScript expression in our JSX. Each list item gets a unique key from the todo's id. Try it out - type a todo and click Add. You should see it appear in the list below!">
+            <div class="dark-container">
+                <h2><span class="step-number">7</span>Display the Todo List</h2>
+                <p class="subtitle">Use map() to render each todo as a list item with a delete button.</p>
+                <div class="code-block">
+<pre><span class="tag">&lt;ul</span> <span class="attr">className</span>=<span class="string">"todo-list"</span><span class="tag">&gt;</span>
+  {todos.<span class="function">map</span>(todo => (
+    <span class="tag">&lt;li</span> <span class="attr">key</span>={todo.id} <span class="attr">className</span>=<span class="string">"todo-item"</span><span class="tag">&gt;</span>
+      <span class="tag">&lt;span&gt;</span>{todo.text}<span class="tag">&lt;/span&gt;</span>
+      <span class="tag">&lt;button</span> <span class="attr">className</span>=<span class="string">"delete-btn"</span><span class="tag">&gt;</span>
+        Delete
+      <span class="tag">&lt;/button&gt;</span>
+    <span class="tag">&lt;/li&gt;</span>
+  ))}
+<span class="tag">&lt;/ul&gt;</span></pre>
+                </div>
+                <div class="dark-card info" style="margin-top: 1rem;">
+                    <h4>Test It!</h4>
+                    <p>Add a todo and watch it appear in the list. The delete button doesn't work yet.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Slide 31: Step 8 - Delete Todos -->
+        <section class="slide" id="step8" data-narration="Step 8 is implementing the delete functionality. Add this deleteTodo function after handleSubmit. It takes an id parameter and uses the filter method to create a new array containing only todos whose id doesn't match the one we're deleting. Filter returns a new array with items that pass the test - so we keep items where todo.id is NOT equal to the id we want to delete. Then update the delete button to call this function with the specific todo's id when clicked. Now clicking Delete removes that todo from the list!">
+            <div class="dark-container">
+                <h2><span class="step-number">8</span>Delete Todos</h2>
+                <p class="subtitle">Add a function to remove todos using filter().</p>
+                <div class="code-block">
+<pre><span class="comment">// Add this function in your App component</span>
+<span class="keyword">const</span> <span class="function">deleteTodo</span> = (id) => {
+  <span class="function">setTodos</span>(todos.<span class="function">filter</span>(todo => todo.id !== id))
+}
+
+<span class="comment">// Update the delete button:</span>
+<span class="tag">&lt;button</span>
+  <span class="attr">className</span>=<span class="string">"delete-btn"</span>
+  <span class="attr">onClick</span>={() => <span class="function">deleteTodo</span>(todo.id)}
+<span class="tag">&gt;</span>
+  Delete
+<span class="tag">&lt;/button&gt;</span></pre>
+                </div>
+                <div class="dark-card info" style="margin-top: 1rem;">
+                    <h4>How filter() Works</h4>
+                    <p>Creates new array with items where <code>todo.id !== id</code> is true (keeps non-matching)</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Slide 32: Step 9 - Styling -->
+        <section class="slide" id="step9" data-narration="Step 9 is adding some basic CSS to make the app look presentable. Open App.css and add these styles. We center the app with a max-width and auto margins. The form uses flexbox to put the input and button side by side. The input takes up available space with flex: 1. Todo items also use flexbox with space-between to push the delete button to the right. We add some padding, borders, and colors to make everything look clean. Feel free to customize these styles to your liking! The app is now functional and looks decent.">
+            <div class="dark-container">
+                <h2><span class="step-number">9</span>Basic Styling</h2>
+                <p class="subtitle">Add CSS to App.css to make the app look presentable.</p>
+                <div class="code-block" style="font-size: 0.8rem;">
+<pre><span class="comment">/* App.css */</span>
+.<span class="function">app</span> {
+  <span class="attr">max-width</span>: <span class="number">500px</span>;
+  <span class="attr">margin</span>: <span class="number">2rem</span> auto;
+  <span class="attr">padding</span>: <span class="number">1rem</span>;
+  <span class="attr">font-family</span>: Arial, sans-serif;
+}
+.<span class="function">todo-form</span> {
+  <span class="attr">display</span>: flex;
+  <span class="attr">gap</span>: <span class="number">0.5rem</span>;
+  <span class="attr">margin-bottom</span>: <span class="number">1rem</span>;
+}
+.<span class="function">todo-form</span> input {
+  <span class="attr">flex</span>: <span class="number">1</span>;
+  <span class="attr">padding</span>: <span class="number">0.5rem</span>;
+  <span class="attr">font-size</span>: <span class="number">1rem</span>;
+}
+.<span class="function">todo-list</span> { <span class="attr">list-style</span>: none; <span class="attr">padding</span>: <span class="number">0</span>; }
+.<span class="function">todo-item</span> {
+  <span class="attr">display</span>: flex;
+  <span class="attr">justify-content</span>: space-between;
+  <span class="attr">padding</span>: <span class="number">0.75rem</span>;
+  <span class="attr">border</span>: <span class="number">1px</span> solid <span class="string">#ddd</span>;
+  <span class="attr">margin-bottom</span>: <span class="number">0.5rem</span>;
+}
+.<span class="function">delete-btn</span> {
+  <span class="attr">background</span>: <span class="string">#ff4444</span>;
+  <span class="attr">color</span>: white;
+  <span class="attr">border</span>: none;
+  <span class="attr">padding</span>: <span class="number">0.25rem 0.5rem</span>;
+  <span class="attr">cursor</span>: pointer;
+}</pre>
+                </div>
+            </div>
+        </section>
+
+        <!-- Slide 33: Step 10 - Deploy to Vercel -->
+        <section class="slide" id="step10" data-narration="Step 10 is deploying your app to Vercel so it's live on the internet. First, make sure your code is pushed to a GitHub repository - create a new repo and push your react-todo project. Then go to vercel.com and sign up with your GitHub account. Click 'Add New Project' and select your react-todo repository. Vercel automatically detects it's a Vite React project and configures the build settings. Click Deploy and wait a minute or two. Once complete, Vercel gives you a URL like your-project.vercel.app where your app is live! Copy this URL - you'll need it for submission.">
+            <div class="dark-container">
+                <h2><span class="step-number">10</span>Deploy to Vercel</h2>
+                <p class="subtitle">Push to GitHub and deploy with Vercel for a live URL.</p>
+                <div class="feature-grid" style="margin-top: 1rem;">
+                    <div class="feature-item">
+                        <span class="step-number" style="width: 2rem; height: 2rem; font-size: 1rem;">1</span>
+                        <div class="feature-text">
+                            <strong>Push to GitHub</strong>
+                            Create a repo and push your react-todo project
+                        </div>
+                    </div>
+                    <div class="feature-item">
+                        <span class="step-number" style="width: 2rem; height: 2rem; font-size: 1rem;">2</span>
+                        <div class="feature-text">
+                            <strong>Sign up at vercel.com</strong>
+                            Use your GitHub account to sign in
+                        </div>
+                    </div>
+                    <div class="feature-item">
+                        <span class="step-number" style="width: 2rem; height: 2rem; font-size: 1rem;">3</span>
+                        <div class="feature-text">
+                            <strong>Add New Project</strong>
+                            Import your react-todo repository
+                        </div>
+                    </div>
+                    <div class="feature-item">
+                        <span class="step-number" style="width: 2rem; height: 2rem; font-size: 1rem;">4</span>
+                        <div class="feature-text">
+                            <strong>Click Deploy</strong>
+                            Vercel auto-detects settings - just deploy!
+                        </div>
+                    </div>
+                </div>
+                <div class="dark-card info" style="margin-top: 1rem;">
+                    <h4>Your Live URL</h4>
+                    <p>After deploy, you'll get a URL like <code>your-project.vercel.app</code> - save this!</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Slide 34: Assignment 2 Submission -->
+        <section class="slide" id="submission" data-narration="Here's what to submit for Assignment 2. You need two things: the GitHub repository URL where your code lives, and the Vercel deployment URL where your app is running live. Both links should be submitted to the Module 5 Assignment 2 on Canvas. Make sure your app works - you should be able to add todos, see them in the list, and delete them. Test your Vercel URL in a private/incognito browser window to make sure it works for others. If you get stuck on any step, refer back to the slides or reach out for help. Good luck!">
+            <div class="dark-container">
+                <h2>Assignment 2 Submission</h2>
+                <p class="subtitle">Submit both links to Canvas for full credit.</p>
+                <div class="dark-two-column" style="margin-top: 1.5rem;">
+                    <div class="dark-card">
+                        <h4>GitHub Repository URL</h4>
+                        <p>Link to your react-todo repo with all source code</p>
+                        <p style="margin-top: 0.5rem; color: #61dafb;">github.com/yourusername/react-todo</p>
+                    </div>
+                    <div class="dark-card">
+                        <h4>Vercel Deployment URL</h4>
+                        <p>Link to your live, working Todo app</p>
+                        <p style="margin-top: 0.5rem; color: #61dafb;">your-project.vercel.app</p>
+                    </div>
+                </div>
+                <div style="text-align: center; margin-top: 1.5rem;">
+                    <p style="color: #61dafb; font-size: 1.25rem; font-weight: bold;">50 Points</p>
+                </div>
+                <div class="dark-card warning" style="margin-top: 1rem;">
+                    <h4>Before Submitting</h4>
+                    <p>Test your Vercel URL in incognito mode to make sure it works for others!</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Slide 35: Module Complete -->
+        <section class="slide" id="module-complete" data-narration="Congratulations on completing Module 5! You've learned the fundamentals of React: components, JSX, props, state, hooks, events, and rendering lists. More importantly, you've built a real application and deployed it to the internet. These are the same patterns used in production React applications at companies worldwide. Keep practicing - try adding new features to your Todo app like marking todos complete, editing text, or filtering the list. In upcoming modules, we'll build on this foundation with more advanced patterns. Great work!">
+            <div class="dark-container">
+                <h2>Module 5 Complete!</h2>
+                <p class="subtitle">You've built and deployed your first React application.</p>
+                <div class="dark-two-column" style="margin-top: 1.5rem;">
+                    <div class="dark-card">
+                        <h4>What You Learned</h4>
+                        <ul style="margin: 0; padding-left: 1.5rem;">
+                            <li>React components and JSX</li>
+                            <li>Props for passing data</li>
+                            <li>State with useState hook</li>
+                            <li>Event handling</li>
+                            <li>Rendering lists with map()</li>
+                            <li>Deploying to Vercel</li>
+                        </ul>
+                    </div>
+                    <div class="dark-card">
+                        <h4>Keep Practicing!</h4>
+                        <p>Try adding features to your Todo app:</p>
+                        <ul style="margin: 0.5rem 0 0; padding-left: 1.5rem;">
+                            <li>Mark todos as complete</li>
+                            <li>Edit existing todos</li>
+                            <li>Filter by status</li>
+                            <li>Save to localStorage</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
     </div>
 
     <script src="../js/slides.js"></script>
