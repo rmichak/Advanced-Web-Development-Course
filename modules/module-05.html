@@ -961,44 +961,157 @@
             </div>
         </section>
 
-        <!-- Slide 33: Step 10 - Deploy to Vercel -->
-        <section class="slide" id="step10" data-narration="Step 10 is deploying your app to Vercel so it's live on the internet. First, make sure your code is pushed to a GitHub repository - create a new repo and push your react-todo project. Then go to vercel.com and sign up with your GitHub account. Click 'Add New Project' and select your react-todo repository. Vercel automatically detects it's a Vite React project and configures the build settings. Click Deploy and wait a minute or two. Once complete, Vercel gives you a URL like your-project.vercel.app where your app is live! Copy this URL - you'll need it for submission.">
+        <!-- Slide 33: Step 10a - What is Vercel? -->
+        <section class="slide" id="step10a" data-narration="Before we deploy, let's understand what Vercel is. Vercel is a cloud platform specifically designed for deploying frontend applications and static websites. It was created by the same team that built Next.js, a popular React framework. Think of Vercel as a service that takes your code from GitHub, builds it, and hosts it on fast servers around the world - all for free for personal projects. Unlike traditional web hosting where you manage servers yourself, Vercel handles everything automatically. When you push code changes to GitHub, Vercel automatically rebuilds and redeploys your site. This is called continuous deployment. Many professional developers and companies use Vercel because it's fast, reliable, and has an excellent free tier for learning and personal projects.">
             <div class="dark-container">
-                <h2><span class="step-number">10</span>Deploy to Vercel</h2>
-                <p class="subtitle">Push to GitHub and deploy with Vercel for a live URL.</p>
-                <div class="feature-grid" style="margin-top: 1rem;">
+                <h2><span class="step-number">10</span>What is Vercel?</h2>
+                <p class="subtitle">A cloud platform for deploying frontend apps - free, fast, and automatic.</p>
+                <div class="dark-three-column" style="margin-top: 1.5rem;">
+                    <div class="dark-card">
+                        <h4>Free Hosting</h4>
+                        <p>Deploy unlimited personal projects at no cost with generous limits</p>
+                    </div>
+                    <div class="dark-card">
+                        <h4>Auto Deploy</h4>
+                        <p>Push to GitHub and Vercel automatically rebuilds your site</p>
+                    </div>
+                    <div class="dark-card">
+                        <h4>Global CDN</h4>
+                        <p>Your app loads fast worldwide from edge servers</p>
+                    </div>
+                </div>
+                <div class="dark-card info" style="margin-top: 1.5rem;">
+                    <h4>Why Vercel for React?</h4>
+                    <p>Vercel auto-detects React/Vite projects and configures optimal build settings. Zero configuration needed!</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Slide 34: Step 10b - Push to GitHub -->
+        <section class="slide" id="step10b" data-narration="Before deploying to Vercel, your code must be on GitHub. If you haven't already, create a new repository on GitHub called react-todo. Make it public so Vercel can access it on the free tier. Then in your terminal, inside your react-todo project folder, initialize git if needed, add all files, commit them, and push to your new repository. The commands shown will connect your local project to GitHub and upload all your code. Make sure you replace 'yourusername' with your actual GitHub username. After pushing, visit your repository on GitHub to verify all files are there - you should see App.jsx, App.css, package.json, and other project files.">
+            <div class="dark-container">
+                <h2><span class="step-number">10</span>Push to GitHub First</h2>
+                <p class="subtitle">Your code must be on GitHub before Vercel can deploy it.</p>
+                <p style="margin-bottom: 1rem;">Create a new repo on GitHub named <code>react-todo</code>, then run:</p>
+                <div class="terminal-block">
+                    <div><span class="prompt">$</span> <span class="command">git init</span></div>
+                    <div><span class="prompt">$</span> <span class="command">git add .</span></div>
+                    <div><span class="prompt">$</span> <span class="command">git commit -m "Initial commit - React Todo App"</span></div>
+                    <div><span class="prompt">$</span> <span class="command">git branch -M main</span></div>
+                    <div><span class="prompt">$</span> <span class="command">git remote add origin https://github.com/yourusername/react-todo.git</span></div>
+                    <div><span class="prompt">$</span> <span class="command">git push -u origin main</span></div>
+                </div>
+                <div class="dark-card warning" style="margin-top: 1rem;">
+                    <h4>Replace yourusername</h4>
+                    <p>Use your actual GitHub username in the remote URL above!</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Slide 35: Step 10c - Create Vercel Account -->
+        <section class="slide" id="step10c" data-narration="Now let's create your Vercel account. Go to vercel.com in your browser and click the Sign Up button in the top right corner. Choose 'Continue with GitHub' - this is the easiest option because it automatically connects Vercel to your GitHub repositories. You'll be asked to authorize Vercel to access your GitHub account. Click Authorize to allow this connection. This lets Vercel see your repositories and deploy them. After authorizing, you may be asked to select a plan - choose the 'Hobby' plan which is completely free and perfect for personal projects and learning. You now have a Vercel account connected to GitHub!">
+            <div class="dark-container">
+                <h2><span class="step-number">10</span>Create Vercel Account</h2>
+                <p class="subtitle">Sign up for free using your GitHub account for easy integration.</p>
+                <div class="feature-grid" style="margin-top: 1.5rem;">
                     <div class="feature-item">
                         <span class="step-number" style="width: 2rem; height: 2rem; font-size: 1rem;">1</span>
                         <div class="feature-text">
-                            <strong>Push to GitHub</strong>
-                            Create a repo and push your react-todo project
+                            <strong>Go to vercel.com</strong>
+                            Click "Sign Up" in the top right corner
                         </div>
                     </div>
                     <div class="feature-item">
                         <span class="step-number" style="width: 2rem; height: 2rem; font-size: 1rem;">2</span>
                         <div class="feature-text">
-                            <strong>Sign up at vercel.com</strong>
-                            Use your GitHub account to sign in
+                            <strong>Continue with GitHub</strong>
+                            Choose GitHub as your sign-in method
                         </div>
                     </div>
                     <div class="feature-item">
                         <span class="step-number" style="width: 2rem; height: 2rem; font-size: 1rem;">3</span>
                         <div class="feature-text">
+                            <strong>Authorize Vercel</strong>
+                            Allow Vercel to access your GitHub repos
+                        </div>
+                    </div>
+                    <div class="feature-item">
+                        <span class="step-number" style="width: 2rem; height: 2rem; font-size: 1rem;">4</span>
+                        <div class="feature-text">
+                            <strong>Select Hobby Plan</strong>
+                            Choose the free tier - perfect for learning!
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Slide 36: Step 10d - Import and Deploy -->
+        <section class="slide" id="step10d" data-narration="Now for the exciting part - deploying your app! From your Vercel dashboard, click 'Add New Project' or the plus button. You'll see a list of your GitHub repositories. Find and click 'Import' next to your react-todo repository. On the next screen, Vercel shows you the project configuration. The good news is Vercel automatically detects that this is a Vite React project and fills in the correct build settings for you - you don't need to change anything! Just click the 'Deploy' button and watch the magic happen. Vercel will clone your code, install dependencies, run the build command, and deploy the result. This usually takes about 30-60 seconds.">
+            <div class="dark-container">
+                <h2><span class="step-number">10</span>Import and Deploy</h2>
+                <p class="subtitle">Connect your GitHub repo and deploy with one click.</p>
+                <div class="feature-grid" style="margin-top: 1.5rem;">
+                    <div class="feature-item">
+                        <span class="step-number" style="width: 2rem; height: 2rem; font-size: 1rem;">1</span>
+                        <div class="feature-text">
                             <strong>Add New Project</strong>
-                            Import your react-todo repository
+                            Click "Add New" → "Project" from dashboard
+                        </div>
+                    </div>
+                    <div class="feature-item">
+                        <span class="step-number" style="width: 2rem; height: 2rem; font-size: 1rem;">2</span>
+                        <div class="feature-text">
+                            <strong>Import react-todo</strong>
+                            Find your repo and click "Import"
+                        </div>
+                    </div>
+                    <div class="feature-item">
+                        <span class="step-number" style="width: 2rem; height: 2rem; font-size: 1rem;">3</span>
+                        <div class="feature-text">
+                            <strong>Keep Default Settings</strong>
+                            Vercel auto-detects Vite - no changes needed!
                         </div>
                     </div>
                     <div class="feature-item">
                         <span class="step-number" style="width: 2rem; height: 2rem; font-size: 1rem;">4</span>
                         <div class="feature-text">
                             <strong>Click Deploy</strong>
-                            Vercel auto-detects settings - just deploy!
+                            Wait 30-60 seconds for build to complete
                         </div>
                     </div>
                 </div>
                 <div class="dark-card info" style="margin-top: 1rem;">
-                    <h4>Your Live URL</h4>
-                    <p>After deploy, you'll get a URL like <code>your-project.vercel.app</code> - save this!</p>
+                    <h4>Build Settings (Auto-Detected)</h4>
+                    <p>Framework: Vite | Build Command: <code>npm run build</code> | Output: <code>dist</code></p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Slide 37: Step 10e - Get Your Live URL -->
+        <section class="slide" id="step10e" data-narration="Congratulations - your app is now live on the internet! After the deployment completes, Vercel shows you a success screen with confetti animation. Your app is now available at a URL like react-todo-yourusername.vercel.app. Click the 'Visit' button or the URL to see your live Todo app. Try it out - add some todos, delete them, refresh the page. This is your real application running on Vercel's servers, accessible to anyone in the world with this URL. Copy this URL and save it somewhere - you'll need it for your assignment submission. You can also find this URL anytime by going to your Vercel dashboard and clicking on the project.">
+            <div class="dark-container">
+                <h2><span class="step-number">10</span>Your App is Live!</h2>
+                <p class="subtitle">Deployment complete - your Todo app is now on the internet.</p>
+                <div class="dark-two-column" style="margin-top: 1.5rem;">
+                    <div class="dark-card" style="text-align: center;">
+                        <h4 style="color: #4ade80;">Deployment Successful</h4>
+                        <p style="font-size: 1.5rem; color: #61dafb; margin: 1rem 0;">react-todo-xxx.vercel.app</p>
+                        <p>Click "Visit" to see your live app!</p>
+                    </div>
+                    <div class="dark-card">
+                        <h4>What to Do Now</h4>
+                        <ul style="margin: 0; padding-left: 1.5rem;">
+                            <li>Click your URL to test the app</li>
+                            <li>Add and delete some todos</li>
+                            <li>Copy the URL for submission</li>
+                            <li>Share with friends!</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="dark-card warning" style="margin-top: 1rem;">
+                    <h4>Save Your URL!</h4>
+                    <p>Copy your Vercel URL now - you need it for the assignment submission.</p>
                 </div>
             </div>
         </section>
