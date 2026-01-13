@@ -6,6 +6,346 @@
     <meta name="description" content="Module 1: Development Environment Setup - Advanced Web Development Course">
     <title>Module 1: Development Environment Setup | Advanced Web Development</title>
     <link rel="stylesheet" href="../css/slides.css">
+    <style>
+        /* Dark Theme Styles for Module 1 */
+        .vscode-container {
+            background: linear-gradient(135deg, #1a2332 0%, #2d3748 100%);
+            border-radius: 12px;
+            padding: 2rem;
+            border-left: 4px solid;
+            border-image: linear-gradient(180deg, #007acc, #0098ff, #00b4d8) 1;
+        }
+        .vscode-container h2 {
+            color: #fff;
+            margin: 0 0 0.25rem 0;
+            font-size: 1.8rem;
+        }
+        .vscode-container .subtitle {
+            color: #94a3b8;
+            margin-bottom: 1.5rem;
+            font-size: 1rem;
+        }
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 1rem;
+        }
+        .feature-card {
+            background: #2d3a4d;
+            border-radius: 8px;
+            padding: 1.25rem 1rem;
+            text-align: center;
+            border-top: 3px solid #007acc;
+            transition: transform 0.2s, border-color 0.2s;
+        }
+        .feature-card:hover {
+            transform: translateY(-3px);
+            border-color: #00b4d8;
+        }
+        .feature-card .icon {
+            font-size: 2rem;
+            margin-bottom: 0.75rem;
+            display: block;
+        }
+        .feature-card h4 {
+            color: #fff;
+            margin: 0 0 0.5rem 0;
+            font-size: 0.95rem;
+        }
+        .feature-card p {
+            color: #94a3b8;
+            font-size: 0.8rem;
+            margin: 0;
+            line-height: 1.4;
+        }
+        .vscode-info {
+            background: #1e3a5f;
+            border-left: 4px solid #007acc;
+            border-radius: 8px;
+            padding: 1rem 1.25rem;
+            margin-top: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+        .vscode-info p {
+            color: #94a3b8;
+            margin: 0;
+            font-size: 0.9rem;
+        }
+        .vscode-info strong {
+            color: #fff;
+        }
+        @media (max-width: 1000px) {
+            .feature-grid { grid-template-columns: repeat(3, 1fr); }
+        }
+        @media (max-width: 700px) {
+            .feature-grid { grid-template-columns: repeat(2, 1fr); }
+        }
+
+        /* Dark Container - Reusable */
+        .dark-container {
+            background: linear-gradient(135deg, #1a2332 0%, #2d3748 100%);
+            border-radius: 12px;
+            padding: 2rem;
+            border-left: 4px solid;
+            border-image: linear-gradient(180deg, #06b6d4, #f97316, #ef4444) 1;
+        }
+        .dark-container h2 {
+            color: #fff;
+            margin: 0 0 0.5rem 0;
+            font-size: 1.8rem;
+        }
+        .dark-container .subtitle {
+            color: #94a3b8;
+            margin-bottom: 1.5rem;
+        }
+        .dark-container h3 { color: #2dd4bf; margin-bottom: 1rem; }
+        .dark-container ul { color: #94a3b8; margin: 0; padding-left: 1.25rem; }
+        .dark-container li { margin-bottom: 0.5rem; }
+        .dark-container strong { color: #fff; }
+
+        /* Learning Objectives Grid */
+        .objectives-grid {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 1rem;
+        }
+        .objective-card {
+            background: #2d3a4d;
+            border-radius: 8px;
+            padding: 1.25rem;
+            text-align: center;
+            border-bottom: 3px solid #2dd4bf;
+        }
+        .objective-card .number {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #2dd4bf;
+            margin-bottom: 0.5rem;
+        }
+        .objective-card h4 {
+            color: #fff;
+            margin: 0 0 0.5rem 0;
+            font-size: 0.9rem;
+        }
+        .objective-card p {
+            color: #94a3b8;
+            font-size: 0.8rem;
+            margin: 0;
+        }
+
+        /* Dark Two Column */
+        .dark-two-column {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+        }
+        .dark-column {
+            background: #2d3a4d;
+            border-radius: 8px;
+            padding: 1.5rem;
+        }
+        .dark-column h3 {
+            color: #fff;
+            margin: 0 0 1rem 0;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid #3d4a5d;
+        }
+        .dark-column.pro h3 { border-color: #4ade80; }
+        .dark-column.you h3 { border-color: #22d3ee; }
+        .dark-column ul { list-style: none; padding: 0; margin: 0; }
+        .dark-column li {
+            color: #94a3b8;
+            padding: 0.5rem 0;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+        .dark-column li::before {
+            content: "✓";
+            color: #4ade80;
+            font-weight: bold;
+        }
+
+        /* Dark Steps */
+        .dark-steps {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+        .dark-step {
+            display: flex;
+            align-items: flex-start;
+            gap: 1rem;
+            background: #2d3a4d;
+            padding: 1rem 1.25rem;
+            border-radius: 8px;
+        }
+        .dark-step-number {
+            background: #2dd4bf;
+            color: #1a1a1a;
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            flex-shrink: 0;
+        }
+        .dark-step-content h4 {
+            color: #fff;
+            margin: 0 0 0.25rem 0;
+        }
+        .dark-step-content p {
+            color: #94a3b8;
+            margin: 0;
+            font-size: 0.9rem;
+        }
+
+        /* Dark Table */
+        .dark-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 1rem;
+        }
+        .dark-table th {
+            background: #3d4a5d;
+            color: #fff;
+            padding: 0.75rem 1rem;
+            text-align: left;
+            font-weight: 600;
+        }
+        .dark-table td {
+            background: #2d3a4d;
+            color: #94a3b8;
+            padding: 0.75rem 1rem;
+            border-bottom: 1px solid #3d4a5d;
+        }
+        .dark-table td strong { color: #fff; }
+
+        /* Dark Code Block */
+        .dark-code {
+            background: #1e293b;
+            border-radius: 8px;
+            padding: 1rem 1.25rem;
+            font-family: 'Monaco', 'Menlo', monospace;
+            font-size: 0.9rem;
+            color: #e2e8f0;
+            border: 1px solid #3d4a5d;
+            overflow-x: auto;
+            margin: 1rem 0;
+        }
+        .dark-code .cmd { color: #4ade80; }
+        .dark-code .flag { color: #f472b6; }
+        .dark-code .string { color: #facc15; }
+        .dark-code .comment { color: #64748b; }
+
+        /* Dark Info/Warning Boxes */
+        .dark-info {
+            background: #1e3a5f;
+            border-left: 4px solid #38bdf8;
+            border-radius: 8px;
+            padding: 1rem 1.25rem;
+            margin-top: 1rem;
+        }
+        .dark-info p { color: #94a3b8; margin: 0; }
+        .dark-info strong { color: #fff; }
+        .dark-warning {
+            background: #4a3a1e;
+            border-left: 4px solid #facc15;
+            border-radius: 8px;
+            padding: 1rem 1.25rem;
+            margin-top: 1rem;
+        }
+        .dark-warning p { color: #fcd34d; margin: 0; }
+
+        /* Tool Cards (4 column) */
+        .tool-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 1rem;
+        }
+        .tool-card {
+            background: #2d3a4d;
+            border-radius: 8px;
+            padding: 1.5rem 1rem;
+            text-align: center;
+            border-top: 3px solid;
+        }
+        .tool-card.vscode { border-color: #007acc; }
+        .tool-card.node { border-color: #68a063; }
+        .tool-card.git { border-color: #f05032; }
+        .tool-card.github { border-color: #fff; }
+        .tool-card .icon { font-size: 2.5rem; margin-bottom: 0.75rem; display: block; }
+        .tool-card h4 { color: #fff; margin: 0 0 0.5rem 0; }
+        .tool-card p { color: #94a3b8; font-size: 0.85rem; margin: 0; }
+
+        /* Flow Diagram */
+        .flow-diagram {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            margin: 1.5rem 0;
+            flex-wrap: wrap;
+        }
+        .flow-box {
+            background: #2d3a4d;
+            padding: 1rem 1.5rem;
+            border-radius: 8px;
+            text-align: center;
+            border: 2px solid #3d4a5d;
+        }
+        .flow-box.active { border-color: #2dd4bf; }
+        .flow-box h4 { color: #fff; margin: 0 0 0.25rem 0; font-size: 0.9rem; }
+        .flow-box p { color: #94a3b8; margin: 0; font-size: 0.8rem; }
+        .flow-arrow { color: #2dd4bf; font-size: 1.5rem; }
+
+        /* Comparison Layout */
+        .compare-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+        }
+        .compare-card {
+            background: #2d3a4d;
+            border-radius: 8px;
+            padding: 1.5rem;
+            border-top: 4px solid;
+        }
+        .compare-card.git-card { border-color: #f05032; }
+        .compare-card.github-card { border-color: #fff; }
+        .compare-card h3 {
+            color: #fff;
+            margin: 0 0 1rem 0;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+        .compare-card ul { list-style: none; padding: 0; margin: 0; }
+        .compare-card li {
+            color: #94a3b8;
+            padding: 0.5rem 0;
+            padding-left: 1.5rem;
+            position: relative;
+        }
+        .compare-card li::before {
+            content: "•";
+            position: absolute;
+            left: 0;
+            color: #64748b;
+        }
+
+        /* Responsive */
+        @media (max-width: 900px) {
+            .objectives-grid { grid-template-columns: repeat(3, 1fr); }
+            .dark-two-column { grid-template-columns: 1fr; }
+            .tool-grid { grid-template-columns: repeat(2, 1fr); }
+            .compare-grid { grid-template-columns: 1fr; }
+        }
+    </style>
 </head>
 <body>
     <div class="presentation">
@@ -18,38 +358,66 @@
 
         <!-- Learning Objectives -->
         <section class="slide" id="learning-objectives" data-narration="These are your concrete goals for today. Notice we're not just installing software—we're building understanding. You'll learn why each tool matters, not just how to click through an installer. The Git workflow at the end is especially important: clone, commit, push, and pull will become second nature to you by the end of this course, but it all starts here with understanding the fundamentals.">
-            <h1>Learning Objectives</h1>
-            <p>By the end of this module, you will be able to:</p>
-            <ul>
-                <li>Install and configure Visual Studio Code for web development</li>
-                <li>Install Node.js and understand its role in modern web development</li>
-                <li>Set up Git for version control on your local machine</li>
-                <li>Create a GitHub account and connect it to your local Git</li>
-                <li>Perform basic Git operations: clone, commit, push, and pull</li>
-            </ul>
+            <div class="dark-container">
+                <h2>Learning Objectives</h2>
+                <p class="subtitle">What you'll master in this module</p>
+                <div class="objectives-grid">
+                    <div class="objective-card">
+                        <div class="number">1</div>
+                        <h4>VS Code</h4>
+                        <p>Install & configure your code editor</p>
+                    </div>
+                    <div class="objective-card">
+                        <div class="number">2</div>
+                        <h4>Node.js</h4>
+                        <p>Set up JavaScript runtime & npm</p>
+                    </div>
+                    <div class="objective-card">
+                        <div class="number">3</div>
+                        <h4>Git</h4>
+                        <p>Local version control setup</p>
+                    </div>
+                    <div class="objective-card">
+                        <div class="number">4</div>
+                        <h4>GitHub</h4>
+                        <p>Cloud hosting & SSH connection</p>
+                    </div>
+                    <div class="objective-card">
+                        <div class="number">5</div>
+                        <h4>Workflow</h4>
+                        <p>Clone, commit, push, pull</p>
+                    </div>
+                </div>
+            </div>
         </section>
 
         <!-- Why These Tools Matter -->
-        <section class="slide" data-narration="Let me be direct: if you want to work as a web developer, these tools are non-negotiable. Every job posting you'll see expects proficiency with VS Code or similar editors, version control with Git, and collaboration through GitHub. But beyond job requirements, these tools will make you more productive. Version control means you'll never lose work again. GitHub gives you a portfolio that speaks louder than any resume. Start building that portfolio now—employers will look at your GitHub activity.">
-            <h1>Why These Tools Matter</h1>
-            <div class="two-column">
-                <div>
-                    <h2>Professional Standards</h2>
-                    <ul>
-                        <li>Industry-standard tooling</li>
-                        <li>Used by companies worldwide</li>
-                        <li>Essential for collaboration</li>
-                        <li>Required for job readiness</li>
-                    </ul>
+        <section class="slide" id="why-tools-matter" data-narration="Let me be direct: if you want to work as a web developer, these tools are non-negotiable. Every job posting you'll see expects proficiency with VS Code or similar editors, version control with Git, and collaboration through GitHub. But beyond job requirements, these tools will make you more productive. Version control means you'll never lose work again. GitHub gives you a portfolio that speaks louder than any resume. Start building that portfolio now—employers will look at your GitHub activity.">
+            <div class="dark-container">
+                <h2>Why These Tools Matter</h2>
+                <p class="subtitle">Industry standards that define professional development</p>
+                <div class="dark-two-column">
+                    <div class="dark-column pro">
+                        <h3>🏢 Professional Standards</h3>
+                        <ul>
+                            <li>Industry-standard tooling</li>
+                            <li>Used by companies worldwide</li>
+                            <li>Essential for collaboration</li>
+                            <li>Required for job readiness</li>
+                        </ul>
+                    </div>
+                    <div class="dark-column you">
+                        <h3>🚀 Your Success</h3>
+                        <ul>
+                            <li>Efficient coding workflow</li>
+                            <li>Track changes to your code</li>
+                            <li>Collaborate with classmates</li>
+                            <li>Build a portfolio on GitHub</li>
+                        </ul>
+                    </div>
                 </div>
-                <div>
-                    <h2>Your Success</h2>
-                    <ul>
-                        <li>Efficient coding workflow</li>
-                        <li>Track changes to your code</li>
-                        <li>Collaborate with classmates</li>
-                        <li>Build a portfolio on GitHub</li>
-                    </ul>
+                <div class="dark-info">
+                    <p><strong>Key insight:</strong> Your GitHub profile is your portfolio. Employers check it before interviews.</p>
                 </div>
             </div>
         </section>
@@ -61,97 +429,179 @@
         </section>
 
         <!-- What is VS Code -->
-        <section class="slide" data-narration="VS Code launched in 2015 and quickly overtook established editors like Sublime Text and Atom. What makes it special? It strikes the perfect balance between a lightweight text editor and a full IDE. IntelliSense is particularly impressive—it analyzes your code as you type and offers intelligent suggestions. The integrated terminal is a game-changer: you can write code, run commands, and see output all without leaving the editor. And because it's open source, the community has built thousands of extensions for every programming language and framework imaginable.">
-            <h1>What is Visual Studio Code?</h1>
-            <p>VS Code is a free, open-source code editor developed by Microsoft.</p>
-            <div class="highlight-box">
-                <h2>Key Features</h2>
-                <ul>
-                    <li><strong>IntelliSense:</strong> Smart code completion</li>
-                    <li><strong>Integrated Terminal:</strong> Run commands without leaving the editor</li>
-                    <li><strong>Git Integration:</strong> Built-in version control</li>
-                    <li><strong>Extensions:</strong> Customize with thousands of add-ons</li>
-                    <li><strong>Cross-Platform:</strong> Works on Windows, macOS, and Linux</li>
-                </ul>
+        <section class="slide" id="what-is-vscode" data-narration="VS Code launched in 2015 and quickly overtook established editors like Sublime Text and Atom. What makes it special? It strikes the perfect balance between a lightweight text editor and a full IDE. IntelliSense is particularly impressive—it analyzes your code as you type and offers intelligent suggestions. The integrated terminal is a game-changer: you can write code, run commands, and see output all without leaving the editor. And because it's open source, the community has built thousands of extensions for every programming language and framework imaginable.">
+            <div class="vscode-container">
+                <h2>Visual Studio Code</h2>
+                <p class="subtitle">Free, open-source code editor by Microsoft</p>
+
+                <div class="feature-grid">
+                    <div class="feature-card">
+                        <span class="icon">💡</span>
+                        <h4>IntelliSense</h4>
+                        <p>Smart code completion as you type</p>
+                    </div>
+                    <div class="feature-card">
+                        <span class="icon">⌨️</span>
+                        <h4>Terminal</h4>
+                        <p>Run commands without leaving the editor</p>
+                    </div>
+                    <div class="feature-card">
+                        <span class="icon">🔀</span>
+                        <h4>Git Built-in</h4>
+                        <p>Version control at your fingertips</p>
+                    </div>
+                    <div class="feature-card">
+                        <span class="icon">🧩</span>
+                        <h4>Extensions</h4>
+                        <p>Thousands of add-ons available</p>
+                    </div>
+                    <div class="feature-card">
+                        <span class="icon">💻</span>
+                        <h4>Cross-Platform</h4>
+                        <p>Windows, macOS, Linux</p>
+                    </div>
+                </div>
+
+                <div class="vscode-info">
+                    <p><strong>Why VS Code?</strong> Used by millions of developers worldwide. The #1 code editor in Stack Overflow surveys since 2018.</p>
+                </div>
             </div>
         </section>
 
         <!-- Installing VS Code -->
         <section class="slide" id="vscode-install" data-narration="Installation is straightforward. The website automatically detects your operating system and offers the right download. On Windows, pay special attention to that PATH option during installation—it lets you type 'code .' in any terminal to open that folder in VS Code. This is incredibly useful when you're navigating to a project folder and want to quickly open it in your editor. Mac users can enable the same functionality through the Command Palette after installation.">
-            <h1>Installing VS Code</h1>
-            <ol>
-                <li>Visit <strong>code.visualstudio.com</strong></li>
-                <li>Click the download button for your operating system</li>
-                <li>Run the installer and follow the prompts</li>
-                <li>Launch VS Code after installation</li>
-            </ol>
-            <div class="info-box">
-                <p><strong>Tip:</strong> During installation on Windows, check "Add to PATH" to enable opening VS Code from the command line with <code>code .</code></p>
+            <div class="dark-container">
+                <h2>Installing VS Code</h2>
+                <p class="subtitle">4 simple steps to get started</p>
+                <div class="dark-steps">
+                    <div class="dark-step">
+                        <span class="dark-step-number">1</span>
+                        <div class="dark-step-content">
+                            <h4>Visit code.visualstudio.com</h4>
+                            <p>The site auto-detects your operating system</p>
+                        </div>
+                    </div>
+                    <div class="dark-step">
+                        <span class="dark-step-number">2</span>
+                        <div class="dark-step-content">
+                            <h4>Click Download</h4>
+                            <p>Choose the version for your OS (Windows, macOS, Linux)</p>
+                        </div>
+                    </div>
+                    <div class="dark-step">
+                        <span class="dark-step-number">3</span>
+                        <div class="dark-step-content">
+                            <h4>Run the Installer</h4>
+                            <p>Follow prompts and accept defaults</p>
+                        </div>
+                    </div>
+                    <div class="dark-step">
+                        <span class="dark-step-number">4</span>
+                        <div class="dark-step-content">
+                            <h4>Launch VS Code</h4>
+                            <p>Open the application and explore!</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="dark-info">
+                    <p><strong>Windows tip:</strong> Check "Add to PATH" during install to use <code style="background:#1e293b;padding:2px 6px;border-radius:4px;">code .</code> from terminal</p>
+                </div>
             </div>
         </section>
 
         <!-- Essential VS Code Extensions -->
         <section class="slide" id="vscode-extensions" data-narration="These five extensions will transform your development experience. Live Server is essential—it runs a local web server and automatically refreshes your browser when you save changes. No more manually hitting F5! Prettier enforces consistent code formatting across your projects. ESLint catches JavaScript errors before they become bugs. GitLens supercharges the built-in Git support with features like blame annotations showing who wrote each line of code. Auto Rename Tag saves countless keystrokes when editing HTML. Install all five—you'll thank me later.">
-            <h1>Essential VS Code Extensions</h1>
-            <p>Install these extensions for web development:</p>
-            <table>
-                <thead>
-                    <tr>
-                        <th>Extension</th>
-                        <th>Purpose</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td><strong>Live Server</strong></td>
-                        <td>Launch a local development server with live reload</td>
-                    </tr>
-                    <tr>
-                        <td><strong>Prettier</strong></td>
-                        <td>Automatic code formatting</td>
-                    </tr>
-                    <tr>
-                        <td><strong>ESLint</strong></td>
-                        <td>JavaScript linting and error detection</td>
-                    </tr>
-                    <tr>
-                        <td><strong>GitLens</strong></td>
-                        <td>Enhanced Git capabilities</td>
-                    </tr>
-                    <tr>
-                        <td><strong>Auto Rename Tag</strong></td>
-                        <td>Automatically rename paired HTML tags</td>
-                    </tr>
-                </tbody>
-            </table>
+            <div class="dark-container">
+                <h2>Essential Extensions</h2>
+                <p class="subtitle">5 must-have extensions for web development</p>
+                <div class="feature-grid">
+                    <div class="feature-card">
+                        <span class="icon">🔴</span>
+                        <h4>Live Server</h4>
+                        <p>Auto-refresh browser on save</p>
+                    </div>
+                    <div class="feature-card">
+                        <span class="icon">✨</span>
+                        <h4>Prettier</h4>
+                        <p>Auto-format your code</p>
+                    </div>
+                    <div class="feature-card">
+                        <span class="icon">🔍</span>
+                        <h4>ESLint</h4>
+                        <p>Catch JS errors early</p>
+                    </div>
+                    <div class="feature-card">
+                        <span class="icon">📊</span>
+                        <h4>GitLens</h4>
+                        <p>Enhanced Git features</p>
+                    </div>
+                    <div class="feature-card">
+                        <span class="icon">🏷️</span>
+                        <h4>Auto Rename Tag</h4>
+                        <p>Sync HTML tag pairs</p>
+                    </div>
+                </div>
+            </div>
         </section>
 
         <!-- Installing Extensions -->
-        <section class="slide" data-narration="The Extensions marketplace is one of VS Code's greatest strengths. Take a moment right now to install Live Server—search for it by name, click Install, and you're done. Once installed, you can right-click any HTML file and select 'Open with Live Server.' Your default browser will open, and any changes you save will instantly appear. This feedback loop of edit-save-see is fundamental to efficient web development.">
-            <h1>How to Install Extensions</h1>
-            <ol>
-                <li>Open VS Code</li>
-                <li>Click the Extensions icon in the sidebar (or press <kbd>Ctrl+Shift+X</kbd>)</li>
-                <li>Search for the extension name</li>
-                <li>Click <strong>Install</strong></li>
-            </ol>
-            <div class="highlight-box">
-                <p><strong>Try it now:</strong> Install the "Live Server" extension. You'll use this to preview your web pages throughout the course.</p>
+        <section class="slide" id="install-extensions" data-narration="The Extensions marketplace is one of VS Code's greatest strengths. Take a moment right now to install Live Server—search for it by name, click Install, and you're done. Once installed, you can right-click any HTML file and select 'Open with Live Server.' Your default browser will open, and any changes you save will instantly appear. This feedback loop of edit-save-see is fundamental to efficient web development.">
+            <div class="dark-container">
+                <h2>Installing Extensions</h2>
+                <p class="subtitle">Quick 4-step process</p>
+                <div class="flow-diagram">
+                    <div class="flow-box">
+                        <h4>Open VS Code</h4>
+                    </div>
+                    <span class="flow-arrow">→</span>
+                    <div class="flow-box">
+                        <h4>Extensions Icon</h4>
+                        <p>or Ctrl+Shift+X</p>
+                    </div>
+                    <span class="flow-arrow">→</span>
+                    <div class="flow-box">
+                        <h4>Search</h4>
+                        <p>Type extension name</p>
+                    </div>
+                    <span class="flow-arrow">→</span>
+                    <div class="flow-box active">
+                        <h4>Install</h4>
+                        <p>Click the button</p>
+                    </div>
+                </div>
+                <div class="dark-info">
+                    <p><strong>Try it now:</strong> Install "Live Server" — right-click any HTML file → "Open with Live Server"</p>
+                </div>
             </div>
         </section>
 
         <!-- VS Code Settings -->
-        <section class="slide" data-narration="These settings optimize VS Code for web development. Auto Save eliminates the 'forgot to save' problem—your work is automatically saved after a brief delay. Format On Save works with Prettier to keep your code consistently formatted without thinking about it. A tab size of 2 spaces is the web development convention—it keeps code readable without excessive horizontal scrolling. Word Wrap prevents long lines from disappearing off screen. Take a minute to configure these now; they'll serve you throughout your career.">
-            <h1>Recommended VS Code Settings</h1>
-            <p>Open Settings with <kbd>Ctrl+,</kbd> (Windows/Linux) or <kbd>Cmd+,</kbd> (Mac)</p>
-            <div class="highlight-box">
+        <section class="slide" id="vscode-settings" data-narration="These settings optimize VS Code for web development. Auto Save eliminates the 'forgot to save' problem—your work is automatically saved after a brief delay. Format On Save works with Prettier to keep your code consistently formatted without thinking about it. A tab size of 2 spaces is the web development convention—it keeps code readable without excessive horizontal scrolling. Word Wrap prevents long lines from disappearing off screen. Take a minute to configure these now; they'll serve you throughout your career.">
+            <div class="dark-container">
                 <h2>Recommended Settings</h2>
-                <ul>
-                    <li><strong>Auto Save:</strong> Set to "afterDelay" to save automatically</li>
-                    <li><strong>Format On Save:</strong> Enable to auto-format code</li>
-                    <li><strong>Tab Size:</strong> Set to 2 for web development</li>
-                    <li><strong>Word Wrap:</strong> Enable for easier reading</li>
-                </ul>
+                <p class="subtitle">Open Settings: Ctrl+, (Windows) or Cmd+, (Mac)</p>
+                <div class="tool-grid">
+                    <div class="tool-card vscode">
+                        <span class="icon">💾</span>
+                        <h4>Auto Save</h4>
+                        <p>Set to "afterDelay"</p>
+                    </div>
+                    <div class="tool-card vscode">
+                        <span class="icon">🎨</span>
+                        <h4>Format On Save</h4>
+                        <p>Enable for auto-format</p>
+                    </div>
+                    <div class="tool-card vscode">
+                        <span class="icon">↔️</span>
+                        <h4>Tab Size</h4>
+                        <p>Set to 2 spaces</p>
+                    </div>
+                    <div class="tool-card vscode">
+                        <span class="icon">↩️</span>
+                        <h4>Word Wrap</h4>
+                        <p>Enable for readability</p>
+                    </div>
+                </div>
             </div>
         </section>
 
@@ -162,56 +612,99 @@
         </section>
 
         <!-- What is Node.js -->
-        <section class="slide" data-narration="Here's the key insight: Node.js is Chrome's V8 JavaScript engine extracted and packaged to run standalone. Before Node.js, JavaScript was confined to browsers. Now, the same language you use for frontend interactivity can build backend servers, command-line tools, and more. But for this course, we primarily need Node.js for npm—the Node Package Manager. npm gives us access to over a million open-source packages. Need a date formatting library? npm install it. Need a build tool? npm has dozens. This ecosystem is what makes modern web development so powerful.">
-            <h1>What is Node.js?</h1>
-            <p>Node.js lets you run JavaScript outside the browser.</p>
-            <div class="two-column">
-                <div>
-                    <h2>Why We Need It</h2>
-                    <ul>
-                        <li>Run JavaScript on your computer</li>
-                        <li>Use npm (Node Package Manager)</li>
-                        <li>Build servers and APIs</li>
-                        <li>Run development tools</li>
-                    </ul>
+        <section class="slide" id="what-is-nodejs" data-narration="Here's the key insight: Node.js is Chrome's V8 JavaScript engine extracted and packaged to run standalone. Before Node.js, JavaScript was confined to browsers. Now, the same language you use for frontend interactivity can build backend servers, command-line tools, and more. But for this course, we primarily need Node.js for npm—the Node Package Manager. npm gives us access to over a million open-source packages. Need a date formatting library? npm install it. Need a build tool? npm has dozens. This ecosystem is what makes modern web development so powerful.">
+            <div class="dark-container" style="border-image: linear-gradient(180deg, #68a063, #3c873a, #215732) 1;">
+                <h2>What is Node.js?</h2>
+                <p class="subtitle">JavaScript runtime that runs outside the browser</p>
+                <div class="dark-two-column">
+                    <div class="dark-column pro">
+                        <h3>🟢 Why We Need It</h3>
+                        <ul>
+                            <li>Run JavaScript on your computer</li>
+                            <li>Use npm (Node Package Manager)</li>
+                            <li>Build servers and APIs</li>
+                            <li>Run development tools</li>
+                        </ul>
+                    </div>
+                    <div class="dark-column you">
+                        <h3>📦 What npm Does</h3>
+                        <ul>
+                            <li>Install libraries and tools</li>
+                            <li>Manage project dependencies</li>
+                            <li>Run scripts and commands</li>
+                            <li>Share code with others</li>
+                        </ul>
+                    </div>
                 </div>
-                <div>
-                    <h2>What npm Does</h2>
-                    <ul>
-                        <li>Install libraries and tools</li>
-                        <li>Manage project dependencies</li>
-                        <li>Run scripts and commands</li>
-                        <li>Share code with others</li>
-                    </ul>
+                <div class="dark-info">
+                    <p><strong>1M+ packages</strong> available on npm — the world's largest software registry</p>
                 </div>
             </div>
         </section>
 
         <!-- Installing Node.js -->
         <section class="slide" id="nodejs-install" data-narration="When you visit nodejs.org, you'll see two download options: LTS and Current. Always choose LTS for your development machine. LTS stands for Long Term Support—it's the stable, battle-tested version that companies run in production. The Current version has the newest features but may have bugs that haven't been discovered yet. LTS versions are supported for 30 months, giving the community time to find and fix issues. Professional developers stick with LTS unless they have a specific reason to need cutting-edge features.">
-            <h1>Installing Node.js</h1>
-            <ol>
-                <li>Visit <strong>nodejs.org</strong></li>
-                <li>Download the <strong>LTS (Long Term Support)</strong> version</li>
-                <li>Run the installer and accept the defaults</li>
-                <li>Restart your terminal/command prompt</li>
-            </ol>
-            <div class="warning-box">
-                <p><strong>Important:</strong> Always download the LTS version for stability. The "Current" version may have untested features.</p>
+            <div class="dark-container" style="border-image: linear-gradient(180deg, #68a063, #3c873a, #215732) 1;">
+                <h2>Installing Node.js</h2>
+                <p class="subtitle">Always choose LTS for stability</p>
+                <div class="dark-steps">
+                    <div class="dark-step">
+                        <span class="dark-step-number">1</span>
+                        <div class="dark-step-content">
+                            <h4>Visit nodejs.org</h4>
+                            <p>Official download page</p>
+                        </div>
+                    </div>
+                    <div class="dark-step">
+                        <span class="dark-step-number">2</span>
+                        <div class="dark-step-content">
+                            <h4>Download LTS Version</h4>
+                            <p>Long Term Support = stable, production-ready</p>
+                        </div>
+                    </div>
+                    <div class="dark-step">
+                        <span class="dark-step-number">3</span>
+                        <div class="dark-step-content">
+                            <h4>Run Installer</h4>
+                            <p>Accept all defaults</p>
+                        </div>
+                    </div>
+                    <div class="dark-step">
+                        <span class="dark-step-number">4</span>
+                        <div class="dark-step-content">
+                            <h4>Restart Terminal</h4>
+                            <p>Required for PATH to update</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="dark-warning">
+                    <p>⚠️ Avoid "Current" version — may contain untested features</p>
+                </div>
             </div>
         </section>
 
         <!-- Verify Node Installation -->
-        <section class="slide" data-narration="After installation, verification is crucial. Open a new terminal window—this is important because existing terminals won't recognize the new PATH settings. Run 'node --version' to confirm Node.js is installed, then 'npm --version' for the package manager. If you see version numbers, you're good. If you get 'command not found,' try restarting your computer. Still having issues? The installer may not have added Node to your PATH correctly—a common problem we can troubleshoot together.">
-            <h1>Verify Your Installation</h1>
-            <p>Open a terminal and run these commands:</p>
-            <pre><code>node --version
-npm --version</code></pre>
-            <p>You should see version numbers like:</p>
-            <pre><code>v22.12.0
-10.9.0</code></pre>
-            <div class="info-box">
-                <p><strong>Tip:</strong> In VS Code, open the integrated terminal with <kbd>Ctrl+`</kbd> (backtick key).</p>
+        <section class="slide" id="verify-node" data-narration="After installation, verification is crucial. Open a new terminal window—this is important because existing terminals won't recognize the new PATH settings. Run 'node --version' to confirm Node.js is installed, then 'npm --version' for the package manager. If you see version numbers, you're good. If you get 'command not found,' try restarting your computer. Still having issues? The installer may not have added Node to your PATH correctly—a common problem we can troubleshoot together.">
+            <div class="dark-container" style="border-image: linear-gradient(180deg, #68a063, #3c873a, #215732) 1;">
+                <h2>Verify Installation</h2>
+                <p class="subtitle">Open a NEW terminal window and run:</p>
+                <div class="dark-code">
+<span class="cmd">node</span> <span class="flag">--version</span>    <span class="comment"># Expected: v22.x.x</span>
+<span class="cmd">npm</span> <span class="flag">--version</span>     <span class="comment"># Expected: 10.x.x</span>
+                </div>
+                <div class="dark-two-column" style="margin-top:1.5rem;">
+                    <div class="dark-column pro" style="text-align:center;">
+                        <h3 style="color:#4ade80;">✓ Success</h3>
+                        <p style="color:#94a3b8;">You see version numbers</p>
+                    </div>
+                    <div class="dark-column you" style="text-align:center;">
+                        <h3 style="color:#f87171;">✗ Error</h3>
+                        <p style="color:#94a3b8;">Restart computer, retry</p>
+                    </div>
+                </div>
+                <div class="dark-info">
+                    <p><strong>VS Code tip:</strong> Open integrated terminal with <code style="background:#1e293b;padding:2px 6px;border-radius:4px;">Ctrl+`</code></p>
+                </div>
             </div>
         </section>
 
@@ -223,54 +716,83 @@ npm --version</code></pre>
 
         <!-- What is Git -->
         <section class="slide" id="git-intro" data-narration="Git was created by Linus Torvalds in 2005—the same person who created Linux. He built Git because existing version control systems couldn't handle the scale of Linux kernel development. Git is a distributed version control system, meaning every developer has a complete copy of the project history. This is powerful: you can work offline, you have automatic backups, and there's no single point of failure. Think of Git as an unlimited undo button that also lets you explore different timelines of your project. Made a mistake? Go back. Want to try something experimental? Create a branch. Changed your mind? Merge or delete it.">
-            <h1>What is Git?</h1>
-            <p>Git is a version control system that tracks changes to your code.</p>
-            <div class="highlight-box">
-                <h2>Why Use Git?</h2>
-                <ul>
-                    <li><strong>History:</strong> See every change ever made to your code</li>
-                    <li><strong>Backup:</strong> Never lose your work</li>
-                    <li><strong>Branching:</strong> Work on features without affecting main code</li>
-                    <li><strong>Collaboration:</strong> Work with others on the same project</li>
-                    <li><strong>Undo:</strong> Revert to previous versions if something breaks</li>
-                </ul>
+            <div class="dark-container" style="border-image: linear-gradient(180deg, #f05032, #de4c36, #c73e2d) 1;">
+                <h2>What is Git?</h2>
+                <p class="subtitle">Version control that tracks every change to your code</p>
+                <div class="feature-grid">
+                    <div class="feature-card" style="border-top-color:#f05032;">
+                        <span class="icon">📜</span>
+                        <h4>History</h4>
+                        <p>See every change ever made</p>
+                    </div>
+                    <div class="feature-card" style="border-top-color:#f05032;">
+                        <span class="icon">💾</span>
+                        <h4>Backup</h4>
+                        <p>Never lose your work</p>
+                    </div>
+                    <div class="feature-card" style="border-top-color:#f05032;">
+                        <span class="icon">🌿</span>
+                        <h4>Branching</h4>
+                        <p>Experiment safely</p>
+                    </div>
+                    <div class="feature-card" style="border-top-color:#f05032;">
+                        <span class="icon">👥</span>
+                        <h4>Collaboration</h4>
+                        <p>Work with teams</p>
+                    </div>
+                    <div class="feature-card" style="border-top-color:#f05032;">
+                        <span class="icon">↩️</span>
+                        <h4>Undo</h4>
+                        <p>Revert any mistake</p>
+                    </div>
+                </div>
             </div>
         </section>
 
         <!-- Installing Git -->
         <section class="slide" id="git-install" data-narration="Git installation varies by operating system. On Windows, you'll download the installer from git-scm.com. During installation, the most important choice is enabling Git from the Windows Command Prompt—this lets you use Git from any terminal, not just Git Bash. On macOS, the easiest approach is to simply type 'git' in Terminal. If Git isn't installed, macOS will prompt you to install the Xcode Command Line Tools, which includes Git along with other development utilities. This takes a few minutes but gives you everything you need.">
-            <h1>Installing Git</h1>
-            <div class="two-column">
-                <div>
-                    <h2>Windows</h2>
-                    <ol>
-                        <li>Visit <strong>git-scm.com</strong></li>
-                        <li>Download the Windows installer</li>
-                        <li>Run installer, accept defaults</li>
-                        <li>Select "Use Git from Windows Command Prompt"</li>
-                    </ol>
-                </div>
-                <div>
-                    <h2>macOS</h2>
-                    <ol>
-                        <li>Open Terminal</li>
-                        <li>Type <code>git --version</code></li>
-                        <li>If not installed, follow the prompt to install Xcode Command Line Tools</li>
-                    </ol>
+            <div class="dark-container" style="border-image: linear-gradient(180deg, #f05032, #de4c36, #c73e2d) 1;">
+                <h2>Installing Git</h2>
+                <p class="subtitle">Platform-specific installation</p>
+                <div class="compare-grid">
+                    <div class="compare-card git-card">
+                        <h3>🪟 Windows</h3>
+                        <ul>
+                            <li>Visit git-scm.com</li>
+                            <li>Download Windows installer</li>
+                            <li>Run installer, accept defaults</li>
+                            <li>Select "Use Git from Command Prompt"</li>
+                        </ul>
+                    </div>
+                    <div class="compare-card" style="border-color:#94a3b8;">
+                        <h3>🍎 macOS</h3>
+                        <ul>
+                            <li>Open Terminal</li>
+                            <li>Type: git --version</li>
+                            <li>Follow prompt to install Xcode CLI Tools</li>
+                            <li>Wait for installation (~5 min)</li>
+                        </ul>
+                    </div>
                 </div>
             </div>
         </section>
 
         <!-- Configure Git -->
         <section class="slide" id="git-config" data-narration="Before you can use Git, you must tell it who you are. Every commit you make is stamped with your name and email—this is how teams know who made which changes. The --global flag means this identity applies to all repositories on your computer. Here's the critical part: use the same email address you'll use for GitHub. When you push commits to GitHub, it matches the email in your commits to GitHub accounts. Using a different email means your contributions won't be linked to your profile—bad for building your portfolio.">
-            <h1>Configure Git</h1>
-            <p>Set your identity for Git commits:</p>
-            <pre><code>git config --global user.name "Your Name"
-git config --global user.email "your.email@example.com"</code></pre>
-            <p>Verify your configuration:</p>
-            <pre><code>git config --list</code></pre>
-            <div class="warning-box">
-                <p><strong>Important:</strong> Use the same email you'll use for GitHub. This links your commits to your GitHub account.</p>
+            <div class="dark-container" style="border-image: linear-gradient(180deg, #f05032, #de4c36, #c73e2d) 1;">
+                <h2>Configure Git</h2>
+                <p class="subtitle">Set your identity for commits</p>
+                <div class="dark-code">
+<span class="cmd">git config</span> <span class="flag">--global</span> user.name <span class="string">"Your Name"</span>
+<span class="cmd">git config</span> <span class="flag">--global</span> user.email <span class="string">"you@example.com"</span>
+                </div>
+                <p style="color:#94a3b8;margin:1rem 0 0.5rem;">Verify your configuration:</p>
+                <div class="dark-code">
+<span class="cmd">git config</span> <span class="flag">--list</span>
+                </div>
+                <div class="dark-warning">
+                    <p>⚠️ Use the same email you'll use for GitHub — links commits to your profile!</p>
+                </div>
             </div>
         </section>
 
@@ -281,80 +803,160 @@ git config --global user.email "your.email@example.com"</code></pre>
         </section>
 
         <!-- Git vs GitHub -->
-        <section class="slide" data-narration="This distinction confuses many beginners: Git and GitHub are not the same thing. Git is software that runs on your computer—it's the version control system that tracks changes. GitHub is a website that hosts Git repositories in the cloud. You could use Git without ever touching GitHub. You could also use alternatives like GitLab or Bitbucket. But GitHub has become the de facto standard for open source and many companies. Think of Git as your local tool and GitHub as the cloud service that lets you share and back up your work.">
-            <h1>Git vs GitHub</h1>
-            <div class="two-column">
-                <div>
-                    <h2>Git</h2>
-                    <ul>
-                        <li>Software on your computer</li>
-                        <li>Tracks changes locally</li>
-                        <li>Works offline</li>
-                        <li>Free and open source</li>
-                    </ul>
+        <section class="slide" id="git-vs-github" data-narration="This distinction confuses many beginners: Git and GitHub are not the same thing. Git is software that runs on your computer—it's the version control system that tracks changes. GitHub is a website that hosts Git repositories in the cloud. You could use Git without ever touching GitHub. You could also use alternatives like GitLab or Bitbucket. But GitHub has become the de facto standard for open source and many companies. Think of Git as your local tool and GitHub as the cloud service that lets you share and back up your work.">
+            <div class="dark-container">
+                <h2>Git vs GitHub</h2>
+                <p class="subtitle">They're related but different</p>
+                <div class="compare-grid">
+                    <div class="compare-card git-card">
+                        <h3>🔧 Git</h3>
+                        <ul>
+                            <li>Software on your computer</li>
+                            <li>Tracks changes locally</li>
+                            <li>Works offline</li>
+                            <li>Free and open source</li>
+                        </ul>
+                    </div>
+                    <div class="compare-card github-card">
+                        <h3>☁️ GitHub</h3>
+                        <ul>
+                            <li>Website/cloud service</li>
+                            <li>Stores your code online</li>
+                            <li>Enables collaboration</li>
+                            <li>Free for public repos</li>
+                        </ul>
+                    </div>
                 </div>
-                <div>
-                    <h2>GitHub</h2>
-                    <ul>
-                        <li>Website/cloud service</li>
-                        <li>Stores your code online</li>
-                        <li>Enables collaboration</li>
-                        <li>Free for public repositories</li>
-                    </ul>
+                <div class="dark-info">
+                    <p><strong>Think of it this way:</strong> Git is the tool, GitHub is where you store and share your work</p>
                 </div>
-            </div>
-            <div class="info-box">
-                <p><strong>Think of it this way:</strong> Git is the tool, GitHub is where you store and share your work.</p>
             </div>
         </section>
 
         <!-- Create GitHub Account -->
         <section class="slide" id="github-account" data-narration="Creating a GitHub account takes just a few minutes. When choosing your username, think long-term: this username will appear in every repository URL you create and on your public profile. Avoid numbers, underscores, or anything that looks unprofessional. Your GitHub profile is increasingly important for job hunting—recruiters and hiring managers will look at your contribution history, your projects, and how you write code. Start building that professional presence now.">
-            <h1>Create a GitHub Account</h1>
-            <ol>
-                <li>Visit <strong>github.com</strong></li>
-                <li>Click <strong>Sign Up</strong></li>
-                <li>Enter your email, create a password, choose a username</li>
-                <li>Verify your email address</li>
-                <li>Complete the welcome survey (optional)</li>
-            </ol>
-            <div class="highlight-box">
-                <p><strong>Username Tip:</strong> Choose a professional username. Employers may see your GitHub profile!</p>
+            <div class="dark-container">
+                <h2>Create GitHub Account</h2>
+                <p class="subtitle">Your developer portfolio starts here</p>
+                <div class="dark-steps">
+                    <div class="dark-step">
+                        <span class="dark-step-number">1</span>
+                        <div class="dark-step-content">
+                            <h4>Visit github.com</h4>
+                            <p>Click "Sign Up"</p>
+                        </div>
+                    </div>
+                    <div class="dark-step">
+                        <span class="dark-step-number">2</span>
+                        <div class="dark-step-content">
+                            <h4>Enter Details</h4>
+                            <p>Email, password, username</p>
+                        </div>
+                    </div>
+                    <div class="dark-step">
+                        <span class="dark-step-number">3</span>
+                        <div class="dark-step-content">
+                            <h4>Verify Email</h4>
+                            <p>Check inbox and click link</p>
+                        </div>
+                    </div>
+                    <div class="dark-step">
+                        <span class="dark-step-number">4</span>
+                        <div class="dark-step-content">
+                            <h4>Complete Setup</h4>
+                            <p>Welcome survey (optional)</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="dark-warning">
+                    <p>⚠️ Choose a professional username — employers WILL see your GitHub profile!</p>
+                </div>
             </div>
         </section>
 
         <!-- SSH Keys -->
         <section class="slide" id="ssh-setup" data-narration="SSH keys are the secure way to connect to GitHub. Instead of typing your password every time you push or pull, SSH uses cryptographic keys to authenticate you. It works like a lock and key: you generate a pair of keys—one private that stays on your computer, and one public that you give to GitHub. When you connect, GitHub challenges your computer to prove it has the private key that matches the public key you registered. This happens automatically and securely. The ed25519 algorithm we're using is modern and fast—it's the recommended choice for new keys.">
-            <h1>Set Up SSH Keys</h1>
-            <p>SSH keys let you connect to GitHub without entering your password each time.</p>
-            <p><strong>Generate a new SSH key:</strong></p>
-            <pre><code>ssh-keygen -t ed25519 -C "your.email@example.com"</code></pre>
-            <p>Press Enter to accept the default file location, then set a passphrase (optional).</p>
+            <div class="dark-container">
+                <h2>Set Up SSH Keys</h2>
+                <p class="subtitle">Secure, password-free authentication</p>
+                <p style="color:#94a3b8;margin-bottom:1rem;">Generate a new SSH key pair:</p>
+                <div class="dark-code">
+<span class="cmd">ssh-keygen</span> <span class="flag">-t ed25519</span> <span class="flag">-C</span> <span class="string">"your.email@example.com"</span>
+                </div>
+                <div class="dark-two-column" style="margin-top:1.5rem;">
+                    <div class="dark-column pro">
+                        <h3>🔐 Private Key</h3>
+                        <ul>
+                            <li>Stays on YOUR computer</li>
+                            <li>NEVER share this file</li>
+                            <li>~/.ssh/id_ed25519</li>
+                        </ul>
+                    </div>
+                    <div class="dark-column you">
+                        <h3>🔑 Public Key</h3>
+                        <ul>
+                            <li>Give to GitHub</li>
+                            <li>Safe to share</li>
+                            <li>~/.ssh/id_ed25519.pub</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
         </section>
 
         <!-- Add SSH Key to GitHub -->
-        <section class="slide" data-narration="Now you need to give GitHub your public key. The 'cat' command displays your public key—notice the .pub extension means public. Copy everything from 'ssh-ed25519' through your email address. On GitHub, navigate to Settings, then SSH and GPG Keys. Paste your key there and give it a descriptive title like 'Work Laptop' or 'Home Desktop.' This helps you identify which key is which if you have multiple computers. Never share your private key—the file without the .pub extension. That must stay secret.">
-            <h1>Add SSH Key to GitHub</h1>
-            <ol>
-                <li>Copy your public key:
-                    <pre><code>cat ~/.ssh/id_ed25519.pub</code></pre>
-                </li>
-                <li>Go to <strong>GitHub.com → Settings → SSH and GPG Keys</strong></li>
-                <li>Click <strong>New SSH Key</strong></li>
-                <li>Paste your key and give it a title (e.g., "My Laptop")</li>
-                <li>Click <strong>Add SSH Key</strong></li>
-            </ol>
+        <section class="slide" id="add-ssh-key" data-narration="Now you need to give GitHub your public key. The 'cat' command displays your public key—notice the .pub extension means public. Copy everything from 'ssh-ed25519' through your email address. On GitHub, navigate to Settings, then SSH and GPG Keys. Paste your key there and give it a descriptive title like 'Work Laptop' or 'Home Desktop.' This helps you identify which key is which if you have multiple computers. Never share your private key—the file without the .pub extension. That must stay secret.">
+            <div class="dark-container">
+                <h2>Add SSH Key to GitHub</h2>
+                <p class="subtitle">Connect your computer to your account</p>
+                <p style="color:#94a3b8;margin-bottom:0.5rem;">First, copy your public key:</p>
+                <div class="dark-code">
+<span class="cmd">cat</span> ~/.ssh/id_ed25519<span class="string">.pub</span>
+                </div>
+                <div class="dark-steps" style="margin-top:1.5rem;">
+                    <div class="dark-step">
+                        <span class="dark-step-number">1</span>
+                        <div class="dark-step-content">
+                            <h4>GitHub.com → Settings → SSH and GPG Keys</h4>
+                        </div>
+                    </div>
+                    <div class="dark-step">
+                        <span class="dark-step-number">2</span>
+                        <div class="dark-step-content">
+                            <h4>Click "New SSH Key"</h4>
+                        </div>
+                    </div>
+                    <div class="dark-step">
+                        <span class="dark-step-number">3</span>
+                        <div class="dark-step-content">
+                            <h4>Paste key, add title (e.g., "My Laptop")</h4>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </section>
 
         <!-- Test SSH Connection -->
-        <section class="slide" data-narration="Let's verify everything works. This ssh command attempts to authenticate with GitHub without actually logging in. If you see 'Hi' followed by your username, you're all set. The message about shell access just means you can't use GitHub as a remote server—you can only use it for Git operations, which is exactly what we want. If you see permission denied or other errors, double-check that you copied the entire public key and that it's added to the correct GitHub account.">
-            <h1>Test Your Connection</h1>
-            <p>Verify SSH is working:</p>
-            <pre><code>ssh -T git@github.com</code></pre>
-            <p>You should see:</p>
-            <pre><code>Hi username! You've successfully authenticated, but GitHub does not provide shell access.</code></pre>
-            <div class="info-box">
-                <p><strong>Success!</strong> You can now push and pull code to GitHub without entering your password.</p>
+        <section class="slide" id="test-ssh" data-narration="Let's verify everything works. This ssh command attempts to authenticate with GitHub without actually logging in. If you see 'Hi' followed by your username, you're all set. The message about shell access just means you can't use GitHub as a remote server—you can only use it for Git operations, which is exactly what we want. If you see permission denied or other errors, double-check that you copied the entire public key and that it's added to the correct GitHub account.">
+            <div class="dark-container">
+                <h2>Test Your Connection</h2>
+                <p class="subtitle">Verify SSH is working</p>
+                <div class="dark-code">
+<span class="cmd">ssh</span> <span class="flag">-T</span> git@github.com
+                </div>
+                <div class="dark-two-column" style="margin-top:1.5rem;">
+                    <div class="dark-column pro" style="text-align:center;">
+                        <h3 style="color:#4ade80;">✓ Success</h3>
+                        <p style="color:#94a3b8;font-size:0.85rem;">"Hi username! You've successfully authenticated..."</p>
+                    </div>
+                    <div class="dark-column you" style="text-align:center;">
+                        <h3 style="color:#f87171;">✗ Permission Denied</h3>
+                        <p style="color:#94a3b8;font-size:0.85rem;">Re-check key was copied completely</p>
+                    </div>
+                </div>
+                <div class="dark-info">
+                    <p><strong>You're ready!</strong> Push and pull without passwords from now on.</p>
+                </div>
             </div>
         </section>
 
@@ -365,135 +967,172 @@ git config --global user.email "your.email@example.com"</code></pre>
         </section>
 
         <!-- Git Workflow Overview -->
-        <section class="slide" data-narration="Here's the mental model: Git works in stages. First, you make changes to files—just normal editing. Then you stage the changes you want to save—think of this as putting items in a box. Next, you commit those staged changes—sealing the box with a label describing what's inside. Finally, you push to GitHub—shipping the box to the cloud. This staged approach gives you precise control over what gets saved and when. You might change ten files but only want to commit three of them in one logical group.">
-            <h1>The Git Workflow</h1>
-            <div class="highlight-box">
-                <h2>Four Steps to Save Your Work</h2>
-                <ol>
-                    <li><strong>Make changes</strong> to your files</li>
-                    <li><strong>Stage</strong> the changes (<code>git add</code>)</li>
-                    <li><strong>Commit</strong> with a message (<code>git commit</code>)</li>
-                    <li><strong>Push</strong> to GitHub (<code>git push</code>)</li>
-                </ol>
+        <section class="slide" id="workflow-overview" data-narration="Here's the mental model: Git works in stages. First, you make changes to files—just normal editing. Then you stage the changes you want to save—think of this as putting items in a box. Next, you commit those staged changes—sealing the box with a label describing what's inside. Finally, you push to GitHub—shipping the box to the cloud. This staged approach gives you precise control over what gets saved and when. You might change ten files but only want to commit three of them in one logical group.">
+            <div class="dark-container" style="border-image: linear-gradient(180deg, #f05032, #de4c36, #c73e2d) 1;">
+                <h2>The Git Workflow</h2>
+                <p class="subtitle">Four steps to save your work</p>
+                <div class="flow-diagram">
+                    <div class="flow-box">
+                        <h4>Edit</h4>
+                        <p>Make changes</p>
+                    </div>
+                    <span class="flow-arrow">→</span>
+                    <div class="flow-box">
+                        <h4>Stage</h4>
+                        <p>git add</p>
+                    </div>
+                    <span class="flow-arrow">→</span>
+                    <div class="flow-box">
+                        <h4>Commit</h4>
+                        <p>git commit</p>
+                    </div>
+                    <span class="flow-arrow">→</span>
+                    <div class="flow-box active">
+                        <h4>Push</h4>
+                        <p>git push</p>
+                    </div>
+                </div>
             </div>
         </section>
 
         <!-- Clone a Repository -->
-        <section class="slide" data-narration="Cloning is how you get a repository from GitHub onto your computer. When you clone, you get everything—all the files, all the history, all the branches. The SSH URL we're using starts with 'git@github.com' rather than 'https://'. Since you set up SSH keys, this URL will authenticate automatically. Cloning creates a new folder with the repository name, so make sure you're in the right parent directory before running the command.">
-            <h1>Clone a Repository</h1>
-            <p>Download a repository from GitHub to your computer:</p>
-            <pre><code>git clone git@github.com:username/repository-name.git</code></pre>
-            <p>This creates a folder with all the project files and Git history.</p>
-            <div class="info-box">
-                <p><strong>Tip:</strong> Use the SSH URL (starts with <code>git@github.com</code>) when you've set up SSH keys.</p>
+        <section class="slide" id="git-clone" data-narration="Cloning is how you get a repository from GitHub onto your computer. When you clone, you get everything—all the files, all the history, all the branches. The SSH URL we're using starts with 'git@github.com' rather than 'https://'. Since you set up SSH keys, this URL will authenticate automatically. Cloning creates a new folder with the repository name, so make sure you're in the right parent directory before running the command.">
+            <div class="dark-container" style="border-image: linear-gradient(180deg, #f05032, #de4c36, #c73e2d) 1;">
+                <h2>Clone a Repository</h2>
+                <p class="subtitle">Download a project from GitHub</p>
+                <div class="dark-code">
+<span class="cmd">git clone</span> git@github.com:username/repo-name.git
+                </div>
+                <div class="dark-info">
+                    <p><strong>What happens:</strong> Creates a folder with all files + complete Git history</p>
+                </div>
             </div>
         </section>
 
         <!-- Check Status -->
-        <section class="slide" data-narration="Git status is your best friend—run it constantly. It tells you exactly what Git sees: which files are new, which are modified, and which are ready to commit. The output is color-coded: red means untracked or modified but not staged; green means staged and ready to commit. Make it a habit to run 'git status' before and after every Git operation. It helps you understand what's happening and catch mistakes before they become problems.">
-            <h1>Check Repository Status</h1>
-            <p>See what files have changed:</p>
-            <pre><code>git status</code></pre>
-            <p>This shows:</p>
-            <ul>
-                <li><strong>Untracked files:</strong> New files Git doesn't know about</li>
-                <li><strong>Modified files:</strong> Changed files not yet staged</li>
-                <li><strong>Staged files:</strong> Files ready to be committed</li>
-            </ul>
+        <section class="slide" id="git-status" data-narration="Git status is your best friend—run it constantly. It tells you exactly what Git sees: which files are new, which are modified, and which are ready to commit. The output is color-coded: red means untracked or modified but not staged; green means staged and ready to commit. Make it a habit to run 'git status' before and after every Git operation. It helps you understand what's happening and catch mistakes before they become problems.">
+            <div class="dark-container" style="border-image: linear-gradient(180deg, #f05032, #de4c36, #c73e2d) 1;">
+                <h2>Check Status</h2>
+                <p class="subtitle">Your most-used command</p>
+                <div class="dark-code">
+<span class="cmd">git status</span>
+                </div>
+                <div class="tool-grid" style="margin-top:1.5rem;">
+                    <div class="tool-card git">
+                        <h4 style="color:#f87171;">Red</h4>
+                        <p>Untracked or modified</p>
+                    </div>
+                    <div class="tool-card" style="border-color:#4ade80;">
+                        <h4 style="color:#4ade80;">Green</h4>
+                        <p>Staged, ready to commit</p>
+                    </div>
+                    <div class="tool-card" style="border-color:#94a3b8;">
+                        <h4>Clean</h4>
+                        <p>Nothing to commit</p>
+                    </div>
+                    <div class="tool-card" style="border-color:#facc15;">
+                        <h4 style="color:#facc15;">Tip</h4>
+                        <p>Run it constantly!</p>
+                    </div>
+                </div>
+            </div>
         </section>
 
         <!-- Stage Changes -->
-        <section class="slide" data-narration="The staging area is a Git concept that trips up beginners. Why not just commit directly? Because staging lets you craft meaningful commits. Say you fixed a bug and also reformatted some code. Those are two different logical changes. You can stage and commit the bug fix first, then stage and commit the formatting separately. This keeps your project history clean and makes it easier to review changes or roll back if needed. The 'git add .' shortcut stages everything, which is convenient but use it thoughtfully.">
-            <h1>Stage Your Changes</h1>
-            <p>Add files to the staging area:</p>
-            <pre><code># Add a specific file
-git add filename.html
-
-# Add all changed files
-git add .
-
-# Add all files of a type
-git add *.css</code></pre>
-            <div class="highlight-box">
-                <p><strong>Staging</strong> means selecting which changes to include in your next commit.</p>
+        <section class="slide" id="git-add" data-narration="The staging area is a Git concept that trips up beginners. Why not just commit directly? Because staging lets you craft meaningful commits. Say you fixed a bug and also reformatted some code. Those are two different logical changes. You can stage and commit the bug fix first, then stage and commit the formatting separately. This keeps your project history clean and makes it easier to review changes or roll back if needed. The 'git add .' shortcut stages everything, which is convenient but use it thoughtfully.">
+            <div class="dark-container" style="border-image: linear-gradient(180deg, #f05032, #de4c36, #c73e2d) 1;">
+                <h2>Stage Changes</h2>
+                <p class="subtitle">Select what to include in your commit</p>
+                <div class="dark-code">
+<span class="cmd">git add</span> filename.html     <span class="comment"># One file</span>
+<span class="cmd">git add</span> .                  <span class="comment"># All changes</span>
+<span class="cmd">git add</span> *.css              <span class="comment"># By pattern</span>
+                </div>
+                <div class="dark-info">
+                    <p><strong>Why stage?</strong> Craft meaningful commits by grouping related changes together</p>
+                </div>
             </div>
         </section>
 
         <!-- Commit Changes -->
-        <section class="slide" data-narration="A commit is a snapshot of your project at a point in time. The message describes what changed and why. Good commit messages are invaluable—when you're debugging six months from now, you'll thank yourself for writing clear messages. Start with an imperative verb: 'Add feature,' 'Fix bug,' 'Update styles.' Not 'Added' or 'Adding'—think of completing the sentence 'This commit will...' Keep the first line under 50 characters. If you need more detail, add a blank line and then a longer description.">
-            <h1>Commit Your Changes</h1>
-            <p>Save your staged changes with a message:</p>
-            <pre><code>git commit -m "Add navigation menu to homepage"</code></pre>
-            <div class="warning-box">
-                <h2>Good Commit Messages</h2>
-                <ul>
-                    <li>Start with a verb: "Add", "Fix", "Update", "Remove"</li>
-                    <li>Be specific about what changed</li>
-                    <li>Keep it under 50 characters</li>
-                </ul>
+        <section class="slide" id="git-commit" data-narration="A commit is a snapshot of your project at a point in time. The message describes what changed and why. Good commit messages are invaluable—when you're debugging six months from now, you'll thank yourself for writing clear messages. Start with an imperative verb: 'Add feature,' 'Fix bug,' 'Update styles.' Not 'Added' or 'Adding'—think of completing the sentence 'This commit will...' Keep the first line under 50 characters. If you need more detail, add a blank line and then a longer description.">
+            <div class="dark-container" style="border-image: linear-gradient(180deg, #f05032, #de4c36, #c73e2d) 1;">
+                <h2>Commit Changes</h2>
+                <p class="subtitle">Save a snapshot with a message</p>
+                <div class="dark-code">
+<span class="cmd">git commit</span> <span class="flag">-m</span> <span class="string">"Add navigation menu to homepage"</span>
+                </div>
+                <div class="dark-two-column" style="margin-top:1.5rem;">
+                    <div class="dark-column pro">
+                        <h3 style="color:#4ade80;">✓ Good Messages</h3>
+                        <ul>
+                            <li>"Add user login form"</li>
+                            <li>"Fix header alignment bug"</li>
+                            <li>"Update footer styles"</li>
+                        </ul>
+                    </div>
+                    <div class="dark-column you">
+                        <h3 style="color:#f87171;">✗ Bad Messages</h3>
+                        <ul>
+                            <li>"Fixed stuff"</li>
+                            <li>"Changes"</li>
+                            <li>"asdfasdf"</li>
+                        </ul>
+                    </div>
+                </div>
             </div>
         </section>
 
         <!-- Push to GitHub -->
-        <section class="slide" data-narration="Commits only exist locally until you push them. Think of push as syncing your local history with GitHub. The word 'origin' is an alias for your GitHub repository URL—Git sets this up automatically when you clone. 'main' is the branch name; historically this was called 'master,' but 'main' is now the standard. After pushing, your commits are backed up in the cloud, visible on GitHub, and available for collaborators to pull.">
-            <h1>Push to GitHub</h1>
-            <p>Upload your commits to GitHub:</p>
-            <pre><code>git push origin main</code></pre>
-            <p>This sends your local commits to the remote repository on GitHub.</p>
-            <div class="info-box">
-                <p><strong>origin</strong> = the remote repository (GitHub)</p>
-                <p><strong>main</strong> = the branch name</p>
+        <section class="slide" id="git-push" data-narration="Commits only exist locally until you push them. Think of push as syncing your local history with GitHub. The word 'origin' is an alias for your GitHub repository URL—Git sets this up automatically when you clone. 'main' is the branch name; historically this was called 'master,' but 'main' is now the standard. After pushing, your commits are backed up in the cloud, visible on GitHub, and available for collaborators to pull.">
+            <div class="dark-container" style="border-image: linear-gradient(180deg, #f05032, #de4c36, #c73e2d) 1;">
+                <h2>Push to GitHub</h2>
+                <p class="subtitle">Upload your commits to the cloud</p>
+                <div class="dark-code">
+<span class="cmd">git push</span> origin main
+                </div>
+                <div class="dark-two-column" style="margin-top:1.5rem;">
+                    <div class="dark-column pro">
+                        <h3>origin</h3>
+                        <p style="color:#94a3b8;">The remote repo (GitHub)</p>
+                    </div>
+                    <div class="dark-column you">
+                        <h3>main</h3>
+                        <p style="color:#94a3b8;">The branch name</p>
+                    </div>
+                </div>
             </div>
         </section>
 
         <!-- Pull from GitHub -->
-        <section class="slide" data-narration="Pull is the opposite of push—it downloads commits from GitHub to your computer. This is essential when working with others. If a teammate pushes changes while you're working, you need to pull their changes before you can push yours. Make pulling the first thing you do when starting work. It only takes a second and prevents painful merge conflicts. Conflicts happen when you and someone else change the same lines of code—easier to prevent than to resolve.">
-            <h1>Pull from GitHub</h1>
-            <p>Download changes from GitHub to your computer:</p>
-            <pre><code>git pull origin main</code></pre>
-            <p>Always pull before starting work to get the latest changes!</p>
-            <div class="warning-box">
-                <p><strong>Best Practice:</strong> Pull at the start of each coding session to avoid conflicts.</p>
+        <section class="slide" id="git-pull" data-narration="Pull is the opposite of push—it downloads commits from GitHub to your computer. This is essential when working with others. If a teammate pushes changes while you're working, you need to pull their changes before you can push yours. Make pulling the first thing you do when starting work. It only takes a second and prevents painful merge conflicts. Conflicts happen when you and someone else change the same lines of code—easier to prevent than to resolve.">
+            <div class="dark-container" style="border-image: linear-gradient(180deg, #f05032, #de4c36, #c73e2d) 1;">
+                <h2>Pull from GitHub</h2>
+                <p class="subtitle">Download latest changes</p>
+                <div class="dark-code">
+<span class="cmd">git pull</span> origin main
+                </div>
+                <div class="dark-warning">
+                    <p>⚠️ Always pull at the START of each coding session to avoid conflicts!</p>
+                </div>
             </div>
         </section>
 
         <!-- Common Git Commands Summary -->
         <section class="slide" id="git-commands" data-narration="Here's your quick reference card. These six commands cover 90% of your daily Git usage. Clone once to get the repository. Status constantly to see what's happening. Add to stage changes. Commit to save them locally. Push to upload to GitHub. Pull to download updates. Print this slide, tape it to your monitor, and use it until these commands become muscle memory. We'll learn more advanced Git operations later in the course, but master these first.">
-            <h1>Git Commands Summary</h1>
-            <table>
-                <thead>
-                    <tr>
-                        <th>Command</th>
-                        <th>Purpose</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td><code>git clone [url]</code></td>
-                        <td>Download a repository</td>
-                    </tr>
-                    <tr>
-                        <td><code>git status</code></td>
-                        <td>Check what's changed</td>
-                    </tr>
-                    <tr>
-                        <td><code>git add .</code></td>
-                        <td>Stage all changes</td>
-                    </tr>
-                    <tr>
-                        <td><code>git commit -m "msg"</code></td>
-                        <td>Save changes locally</td>
-                    </tr>
-                    <tr>
-                        <td><code>git push</code></td>
-                        <td>Upload to GitHub</td>
-                    </tr>
-                    <tr>
-                        <td><code>git pull</code></td>
-                        <td>Download from GitHub</td>
-                    </tr>
-                </tbody>
-            </table>
+            <div class="dark-container" style="border-image: linear-gradient(180deg, #f05032, #de4c36, #c73e2d) 1;">
+                <h2>Git Commands Cheat Sheet</h2>
+                <p class="subtitle">These 6 commands cover 90% of daily usage</p>
+                <table class="dark-table">
+                    <tr><th>Command</th><th>Purpose</th></tr>
+                    <tr><td><strong>git clone [url]</strong></td><td>Download a repository</td></tr>
+                    <tr><td><strong>git status</strong></td><td>Check what's changed</td></tr>
+                    <tr><td><strong>git add .</strong></td><td>Stage all changes</td></tr>
+                    <tr><td><strong>git commit -m "msg"</strong></td><td>Save changes locally</td></tr>
+                    <tr><td><strong>git push</strong></td><td>Upload to GitHub</td></tr>
+                    <tr><td><strong>git pull</strong></td><td>Download from GitHub</td></tr>
+                </table>
+            </div>
         </section>
 
         <!-- Recommended Video -->
