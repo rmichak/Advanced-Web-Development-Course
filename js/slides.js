@@ -18,6 +18,9 @@ class AccessibleSlidePresentation {
     }
 
     init() {
+        // Save original hash before any navigation overwrites it
+        const originalHash = window.location.hash;
+
         // Get all slides
         this.slides = document.querySelectorAll('.slide');
         this.totalSlides = this.slides.length;
@@ -39,11 +42,8 @@ class AccessibleSlidePresentation {
         // Initialize ARIA attributes on slides
         this.initializeSlideARIA();
 
-        // Show first slide
-        this.goToSlide(0);
-
-        // Check URL hash for specific slide
-        this.checkUrlHash();
+        // Navigate to hash target or default to first slide
+        this.navigateToInitialSlide(originalHash);
 
         // Announce to screen readers that presentation is ready
         this.announce('Presentation loaded. ' + this.totalSlides + ' slides available. Use arrow keys to navigate.');
@@ -199,7 +199,10 @@ class AccessibleSlidePresentation {
             slide.setAttribute('aria-roledescription', 'slide');
             slide.setAttribute('aria-label', 'Slide ' + (index + 1) + ' of ' + this.totalSlides);
             slide.setAttribute('tabindex', '-1');
-            slide.id = 'slide-' + (index + 1);
+            // Only set ID if slide doesn't already have one (preserve existing IDs like #assignment)
+            if (!slide.id) {
+                slide.id = 'slide-' + (index + 1);
+            }
 
             // Hide non-active slides from screen readers
             if (index !== 0) {
@@ -677,6 +680,33 @@ class AccessibleSlidePresentation {
                 this.mobileNavOpen ? 'Close slide navigation menu' : 'Open slide navigation menu'
             );
         }
+    }
+
+    navigateToInitialSlide(hash) {
+        // Try #slide-N format first
+        const slideMatch = hash.match(/^#slide-(\d+)$/);
+        if (slideMatch) {
+            const slideNum = parseInt(slideMatch[1], 10) - 1;
+            if (slideNum >= 0 && slideNum < this.totalSlides) {
+                this.goToSlide(slideNum);
+                return;
+            }
+        }
+
+        // Try named anchor (e.g., #assignment, #part2)
+        if (hash && hash.length > 1) {
+            const targetSlide = document.querySelector(hash);
+            if (targetSlide && targetSlide.classList.contains('slide')) {
+                const slideIndex = Array.from(this.slides).indexOf(targetSlide);
+                if (slideIndex >= 0) {
+                    this.goToSlide(slideIndex);
+                    return;
+                }
+            }
+        }
+
+        // Default to first slide
+        this.goToSlide(0);
     }
 
     checkUrlHash() {
