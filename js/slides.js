@@ -24,6 +24,12 @@ class AccessibleSlidePresentation {
         this.autoplayEnabled = localStorage.getItem('slideAutoplayEnabled') === 'true';
         this.autoplayCheckbox = null;
 
+        // Recording properties (localhost only)
+        this.recordBtn = null;
+        this.mediaRecorder = null;
+        this.audioChunks = [];
+        this.isRecording = false;
+
         this.init();
     }
 
@@ -297,6 +303,19 @@ class AccessibleSlidePresentation {
         controls.appendChild(narrationBtn);
         this.narrationBtn = narrationBtn;
 
+        // Record button (localhost only)
+        if (this.isLocalhost()) {
+            const recordBtn = document.createElement('button');
+            recordBtn.type = 'button';
+            recordBtn.className = 'record-btn';
+            recordBtn.setAttribute('aria-label', 'Record custom audio (R)');
+            recordBtn.setAttribute('title', 'Record audio (R)');
+            recordBtn.textContent = '\u{1F3A4} Record';
+            recordBtn.addEventListener('click', () => this.toggleRecording());
+            controls.appendChild(recordBtn);
+            this.recordBtn = recordBtn;
+        }
+
         // Navigation buttons
         const navButtons = document.createElement('div');
         navButtons.className = 'nav-buttons';
@@ -527,6 +546,199 @@ class AccessibleSlidePresentation {
         this.announce(this.autoplayEnabled ? 'Autoplay enabled' : 'Autoplay disabled');
     }
 
+    /**
+     * Check if running on localhost
+     */
+    isLocalhost() {
+        const hostname = window.location.hostname;
+        return hostname === 'localhost' || hostname === '127.0.0.1' || hostname === '::1';
+    }
+
+    /**
+     * Toggle recording on/off
+     */
+    toggleRecording() {
+        if (!this.isLocalhost()) return;
+
+        if (this.isRecording) {
+            this.stopRecording();
+        } else {
+            this.startRecording();
+        }
+    }
+
+    /**
+     * Start recording audio
+     */
+    async startRecording() {
+        // Stop any playing narration first
+        this.stopNarration();
+
+        try {
+            const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+            this.audioChunks = [];
+
+            this.mediaRecorder = new MediaRecorder(stream, {
+                mimeType: 'audio/webm;codecs=opus'
+            });
+
+            this.mediaRecorder.ondataavailable = (event) => {
+                if (event.data.size > 0) {
+                    this.audioChunks.push(event.data);
+                }
+            };
+
+            this.mediaRecorder.onstop = () => {
+                const blob = new Blob(this.audioChunks, { type: 'audio/webm' });
+                this.saveRecording(blob);
+
+                // Stop all tracks to release microphone
+                stream.getTracks().forEach(track => track.stop());
+            };
+
+            this.mediaRecorder.start();
+            this.isRecording = true;
+            this.updateRecordButton();
+
+            // Add visual indicator to narration panel
+            if (this.narrationPanel) {
+                this.narrationPanel.classList.add('recording');
+            }
+
+            this.announce('Recording started');
+
+        } catch (error) {
+            console.error('Failed to start recording:', error);
+            if (error.name === 'NotAllowedError') {
+                this.showToast('Microphone access required for recording', 'error');
+            } else {
+                this.showToast('Failed to start recording: ' + error.message, 'error');
+            }
+        }
+    }
+
+    /**
+     * Stop recording audio
+     */
+    stopRecording() {
+        if (this.mediaRecorder && this.isRecording) {
+            this.mediaRecorder.stop();
+            this.isRecording = false;
+            this.updateRecordButton();
+
+            // Remove visual indicator
+            if (this.narrationPanel) {
+                this.narrationPanel.classList.remove('recording');
+            }
+
+            this.announce('Recording stopped, saving...');
+        }
+    }
+
+    /**
+     * Save recorded audio to server
+     */
+    async saveRecording(blob) {
+        const moduleName = this.getModuleName();
+        if (!moduleName) {
+            this.showToast('Could not determine module name', 'error');
+            return;
+        }
+
+        const slideNum = this.currentSlide + 1;
+        this.updateRecordButton('saving');
+
+        try {
+            const response = await fetch(
+                `/api/save-audio?module=${moduleName}&slide=${slideNum}`,
+                {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'audio/webm'
+                    },
+                    body: blob
+                }
+            );
+
+            if (!response.ok) {
+                const error = await response.json();
+                throw new Error(error.error || 'Server error');
+            }
+
+            this.showToast('Audio saved successfully!', 'success');
+            this.updateRecordButton();
+
+            // Play the new recording if autoplay is on
+            if (this.autoplayEnabled) {
+                const narration = this.slides[this.currentSlide].getAttribute('data-narration');
+                if (narration) {
+                    setTimeout(() => this.playNarration(narration), 500);
+                }
+            }
+
+        } catch (error) {
+            console.error('Failed to save recording:', error);
+            if (error.message.includes('ffmpeg')) {
+                this.showToast('ffmpeg not installed. Run: brew install ffmpeg', 'error');
+            } else if (error.message === 'Failed to fetch') {
+                this.showToast('Dev server not running. Run: npm run dev', 'error');
+            } else {
+                this.showToast('Failed to save: ' + error.message, 'error');
+            }
+            this.updateRecordButton();
+        }
+    }
+
+    /**
+     * Update record button state
+     */
+    updateRecordButton(state) {
+        if (!this.recordBtn) return;
+
+        if (state === 'saving') {
+            this.recordBtn.disabled = true;
+            this.recordBtn.textContent = '\u{1F4BE} Saving...';
+            this.recordBtn.classList.remove('recording');
+        } else if (this.isRecording) {
+            this.recordBtn.disabled = false;
+            this.recordBtn.textContent = '\u{23F9} Stop';
+            this.recordBtn.classList.add('recording');
+            this.recordBtn.setAttribute('aria-label', 'Stop recording (R)');
+        } else {
+            this.recordBtn.disabled = false;
+            this.recordBtn.textContent = '\u{1F3A4} Record';
+            this.recordBtn.classList.remove('recording');
+            this.recordBtn.setAttribute('aria-label', 'Record custom audio (R)');
+        }
+    }
+
+    /**
+     * Show a toast notification
+     */
+    showToast(message, type = 'info') {
+        // Remove any existing toast
+        const existing = document.querySelector('.toast-notification');
+        if (existing) existing.remove();
+
+        const toast = document.createElement('div');
+        toast.className = `toast-notification toast-${type}`;
+        toast.setAttribute('role', 'alert');
+        toast.textContent = message;
+
+        document.body.appendChild(toast);
+
+        // Trigger animation
+        requestAnimationFrame(() => {
+            toast.classList.add('visible');
+        });
+
+        // Auto-remove after 3 seconds
+        setTimeout(() => {
+            toast.classList.remove('visible');
+            setTimeout(() => toast.remove(), 300);
+        }, 3000);
+    }
+
     updateNarrationButton() {
         if (!this.narrationBtn) return;
 
@@ -597,6 +809,7 @@ class AccessibleSlidePresentation {
             { key: '1-9', action: 'Go to slide 1-9' },
             { key: 'N', action: 'Play/pause narration' },
             { key: 'A', action: 'Toggle autoplay' },
+            ...(this.isLocalhost() ? [{ key: 'R', action: 'Start/stop recording' }] : []),
             { key: 'Escape', action: 'Close dialogs' },
             { key: '?', action: 'Open this help' }
         ];
@@ -710,6 +923,13 @@ class AccessibleSlidePresentation {
             case 'A':
                 e.preventDefault();
                 this.toggleAutoplay();
+                break;
+            case 'r':
+            case 'R':
+                if (this.isLocalhost()) {
+                    e.preventDefault();
+                    this.toggleRecording();
+                }
                 break;
             case '1':
             case '2':

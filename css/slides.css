@@ -775,6 +775,110 @@ img {
 }
 
 /* ========================================
+   Record Button (localhost only)
+   ======================================== */
+.record-btn {
+    background-color: #6c757d;
+    color: #fff;
+    border: none;
+    padding: 10px 16px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 0.95rem;
+    font-weight: 600;
+    transition: var(--transition);
+    min-width: 100px;
+}
+
+.record-btn:hover {
+    background-color: #5a6268;
+}
+
+.record-btn:focus {
+    outline: 3px solid var(--focus-color);
+    outline-offset: 2px;
+}
+
+.record-btn:disabled {
+    background-color: #e0e0e0;
+    color: #999;
+    cursor: not-allowed;
+}
+
+.record-btn.recording {
+    background-color: #dc3545;
+    animation: pulse-record 1.5s ease-in-out infinite;
+}
+
+@keyframes pulse-record {
+    0%, 100% {
+        box-shadow: 0 0 0 0 rgba(220, 53, 69, 0.4);
+    }
+    50% {
+        box-shadow: 0 0 0 10px rgba(220, 53, 69, 0);
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .record-btn.recording {
+        animation: none;
+        box-shadow: 0 0 0 3px rgba(220, 53, 69, 0.5);
+    }
+}
+
+/* Recording indicator on narration panel */
+.narration-panel.recording {
+    border-top-color: #dc3545;
+    background: linear-gradient(180deg, #fff5f5 0%, #ffe5e5 100%);
+}
+
+.narration-panel.recording .narration-label {
+    color: #dc3545;
+}
+
+.narration-panel.recording .narration-label::before {
+    content: '\1F534';
+}
+
+/* ========================================
+   Toast Notifications
+   ======================================== */
+.toast-notification {
+    position: fixed;
+    bottom: 100px;
+    left: 50%;
+    transform: translateX(-50%) translateY(20px);
+    padding: 12px 24px;
+    border-radius: 8px;
+    font-size: 0.95rem;
+    font-weight: 500;
+    z-index: 10002;
+    opacity: 0;
+    transition: opacity 0.3s ease, transform 0.3s ease;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+}
+
+.toast-notification.visible {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+}
+
+.toast-success {
+    background-color: #28a745;
+    color: #fff;
+}
+
+.toast-error {
+    background-color: #dc3545;
+    color: #fff;
+}
+
+.toast-info {
+    background-color: var(--secondary-color);
+    color: #fff;
+}
+
+/* ========================================
    Keyboard Shortcuts Help
    ======================================== */
 .help-btn {
@@ -1025,6 +1129,12 @@ img {
     }
 
     .narration-btn {
+        padding: 8px 12px;
+        font-size: 0.85rem;
+        min-width: 80px;
+    }
+
+    .record-btn {
         padding: 8px 12px;
         font-size: 0.85rem;
         min-width: 80px;

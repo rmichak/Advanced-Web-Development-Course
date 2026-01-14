@@ -149,8 +149,20 @@ async function processModule(moduleNum, manifest) {
             continue;
         }
 
+        // Get manifest entry (handles both old string format and new object format)
+        const manifestEntry = manifest.generated[manifestKey];
+        const entryHash = typeof manifestEntry === 'string' ? manifestEntry : manifestEntry?.hash;
+        const isCustom = typeof manifestEntry === 'object' && manifestEntry?.custom;
+
+        // Skip if this is a custom recording (user recorded their own voice)
+        if (isCustom) {
+            console.log(colors.yellow(`  ⊘ ${audioFile} (custom recording - skipped)`));
+            skipped++;
+            continue;
+        }
+
         // Skip if already generated and unchanged
-        if (manifest.generated[manifestKey] === hash && existsSync(audioPath)) {
+        if (entryHash === hash && existsSync(audioPath)) {
             console.log(colors.dim(`  ○ ${audioFile} (unchanged)`));
             skipped++;
             continue;
