@@ -1,0 +1,486 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Assignment 2: Next.js Tasks API - IT431</title>
+    <link rel="stylesheet" href="../css/slides.css">
+    <style>
+        /* Assignment-specific dark theme styles */
+        .dark-container {
+            background: linear-gradient(135deg, #1e1e2f 0%, #16213e 100%);
+            padding: 2rem;
+            border-radius: 12px;
+            color: #e4e4e7;
+            height: 100%;
+        }
+        .dark-container h2 {
+            color: #a5b4fc;
+            border-bottom-color: #667eea;
+        }
+        .dark-container h3 {
+            color: #c4b5fd;
+        }
+        .dark-container h4 {
+            color: #93c5fd;
+        }
+        .dark-container p, .dark-container li {
+            color: #d1d5db;
+        }
+        .dark-container code:not(pre code) {
+            background: #374151;
+            color: #fbbf24;
+        }
+        .dark-container pre {
+            background: #0d1117 !important;
+            border: 1px solid #30363d;
+        }
+        .step-number {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 36px;
+            height: 36px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: #fff;
+            border-radius: 50%;
+            font-weight: bold;
+            margin-right: 12px;
+        }
+        .dark-card {
+            background: rgba(255,255,255,0.05);
+            border-radius: 8px;
+            padding: 1rem;
+            margin: 0.5rem 0;
+        }
+        .dark-card.success { border-left: 4px solid #22c55e; }
+        .dark-card.warning { border-left: 4px solid #f59e0b; }
+        .dark-card.info { border-left: 4px solid #3b82f6; }
+        .dark-card.danger { border-left: 4px solid #ef4444; }
+        .terminal-block {
+            background: #0d1117;
+            border-radius: 8px;
+            padding: 1rem;
+            font-family: var(--font-code);
+            font-size: 0.9rem;
+        }
+        .terminal-block .prompt { color: #22c55e; }
+        .terminal-block .command { color: #e4e4e7; }
+        .terminal-block .output { color: #6b7280; }
+        .code-block {
+            background: #0d1117;
+            border-radius: 8px;
+            padding: 1rem;
+            overflow-x: auto;
+        }
+        .code-block pre {
+            margin: 0 !important;
+            padding: 0 !important;
+            background: transparent !important;
+            border: none !important;
+        }
+        .method-pill {
+            display: inline-block;
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-size: 0.75rem;
+            font-weight: bold;
+            margin-right: 8px;
+        }
+        .method-pill.get { background: #22c55e; color: #fff; }
+        .method-pill.post { background: #f59e0b; color: #fff; }
+        .method-pill.put { background: #3b82f6; color: #fff; }
+        .method-pill.delete { background: #ef4444; color: #fff; }
+        .status-badge {
+            display: inline-block;
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-size: 0.8rem;
+            font-weight: bold;
+        }
+        .status-badge.success { background: #22c55e; color: #fff; }
+        .status-badge.created { background: #f59e0b; color: #fff; }
+        .dark-two-column {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.5rem;
+        }
+        .dark-three-column {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 1rem;
+        }
+        @media (max-width: 900px) {
+            .dark-two-column, .dark-three-column {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="presentation">
+
+        <!-- Title Slide -->
+        <section class="slide title-slide" id="title" data-narration="Welcome to Assignment 2. In this assignment, you'll rebuild the Tasks API using Next.js Route Handlers. You'll implement the same CRUD endpoints using Next.js App Router, deploy to Vercel, and test your live API with Postman. This assignment is worth 50 points.">
+            <h1>Assignment 2</h1>
+            <p class="subtitle">Next.js Tasks API</p>
+            <p class="meta">Rebuild the API using Next.js Route Handlers</p>
+            <p class="meta" style="margin-top: 1rem; font-size: 1.3rem; color: #fbbf24;">50 Points</p>
+        </section>
+
+        <!-- Step 1 -->
+        <section class="slide" id="step1" data-narration="Let's build the same Tasks API with Next.js. Run the create-next-app command with the latest flag. When prompted, select the options shown, and most importantly say Yes for App Router.">
+            <div class="dark-container">
+                <h2><span class="step-number">1</span> Create Next.js Project</h2>
+                <p>Create a new Next.js project with App Router:</p>
+                <div class="terminal-block">
+                    <div><span class="prompt">$</span> <span class="command">npx create-next-app@latest nextjs-tasks-api</span></div>
+                    <div class="output" style="margin-top: 0.5rem;">✔ Would you like to use TypeScript? No</div>
+                    <div class="output">✔ Would you like to use ESLint? Yes</div>
+                    <div class="output">✔ Would you like to use Tailwind CSS? No</div>
+                    <div class="output">✔ Would you like to use `src/` directory? No</div>
+                    <div class="output">✔ Would you like to use App Router? <strong style="color: #4ade80;">Yes</strong></div>
+                    <div style="margin-top: 1rem;"><span class="prompt">$</span> <span class="command">cd nextjs-tasks-api</span></div>
+                    <div><span class="prompt">$</span> <span class="command">npm run dev</span></div>
+                </div>
+                <div class="dark-card success" style="margin-top: 1rem;">
+                    <h4>Verify</h4>
+                    <p>Visit <code>http://localhost:3000</code> - you should see the Next.js welcome page</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Step 2 -->
+        <section class="slide" id="step2" data-narration="Create the folder structure for your API routes. In the app folder, create an api folder, then a tasks folder with route.js. Also create a [id] folder with square brackets for dynamic routes.">
+            <div class="dark-container">
+                <h2><span class="step-number">2</span> Create Folder Structure</h2>
+                <p>Set up API route folders following Next.js conventions:</p>
+                <div class="dark-two-column" style="margin-top: 1.5rem;">
+                    <div>
+                        <h3>Create These Folders & Files</h3>
+                        <div class="code-block" style="margin-top: 0.5rem;">
+<pre>nextjs-tasks-api/
+├── app/
+│   ├── api/
+│   │   └── tasks/
+│   │       ├── route.js      <span class="comment">← Create</span>
+│   │       └── [id]/
+│   │           └── route.js  <span class="comment">← Create</span>
+│   ├── page.js
+│   └── layout.js
+├── lib/
+│   └── tasks.js              <span class="comment">← Create</span>
+├── tasks.json                <span class="comment">← Create</span>
+└── package.json</pre>
+                        </div>
+                    </div>
+                    <div>
+                        <h3>Terminal Commands</h3>
+                        <div class="terminal-block" style="margin-top: 0.5rem; font-size: 0.85rem;">
+                            <div><span class="prompt">$</span> <span class="command">mkdir -p app/api/tasks/\[id\]</span></div>
+                            <div><span class="prompt">$</span> <span class="command">mkdir lib</span></div>
+                            <div><span class="prompt">$</span> <span class="command">touch app/api/tasks/route.js</span></div>
+                            <div><span class="prompt">$</span> <span class="command">touch app/api/tasks/\[id\]/route.js</span></div>
+                            <div><span class="prompt">$</span> <span class="command">touch lib/tasks.js</span></div>
+                            <div><span class="prompt">$</span> <span class="command">echo "[]" > tasks.json</span></div>
+                        </div>
+                        <div class="dark-card warning" style="margin-top: 0.5rem;">
+                            <h4>Important</h4>
+                            <p>The <code>[id]</code> folder must have square brackets!</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Step 3 -->
+        <section class="slide" id="step3" data-narration="Create your helper functions in lib/tasks.js. These are similar to Express but use ES modules syntax with import/export.">
+            <div class="dark-container">
+                <h2><span class="step-number">3</span> Create Helper Functions</h2>
+                <p><code>lib/tasks.js</code> - File storage utilities:</p>
+                <div class="code-block" style="font-size: 0.85rem;">
+<pre><span class="comment">// lib/tasks.js</span>
+<span class="keyword">import</span> fs <span class="keyword">from</span> <span class="string">'fs/promises'</span>;
+<span class="keyword">import</span> path <span class="keyword">from</span> <span class="string">'path'</span>;
+
+<span class="keyword">const</span> DATA_FILE = path.<span class="function">join</span>(process.<span class="function">cwd</span>(), <span class="string">'tasks.json'</span>);
+
+<span class="keyword">export async function</span> <span class="function">readTasks</span>() {
+  <span class="keyword">try</span> {
+    <span class="keyword">const</span> data = <span class="keyword">await</span> fs.<span class="function">readFile</span>(DATA_FILE, <span class="string">'utf8'</span>);
+    <span class="keyword">return</span> JSON.<span class="function">parse</span>(data);
+  } <span class="keyword">catch</span> {
+    <span class="keyword">return</span> [];
+  }
+}
+
+<span class="keyword">export async function</span> <span class="function">writeTasks</span>(tasks) {
+  <span class="keyword">await</span> fs.<span class="function">writeFile</span>(DATA_FILE, JSON.<span class="function">stringify</span>(tasks, <span class="keyword">null</span>, <span class="number">2</span>));
+}</pre>
+                </div>
+                <div class="dark-card info" style="margin-top: 1rem;">
+                    <h4>ES Modules</h4>
+                    <p>Next.js uses <code>import/export</code> syntax instead of <code>require/module.exports</code></p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Step 4 -->
+        <section class="slide" id="step4" data-narration="Create app/api/tasks/route.js to handle collection-level endpoints: GET all tasks and POST new task.">
+            <div class="dark-container">
+                <h2><span class="step-number">4</span> Create Collection Routes</h2>
+                <p><code>app/api/tasks/route.js</code> - GET all and POST new:</p>
+                <div class="code-block" style="font-size: 0.75rem;">
+<pre><span class="comment">// app/api/tasks/route.js</span>
+<span class="keyword">import</span> { NextResponse } <span class="keyword">from</span> <span class="string">'next/server'</span>;
+<span class="keyword">import</span> { readTasks, writeTasks } <span class="keyword">from</span> <span class="string">'@/lib/tasks'</span>;
+
+<span class="keyword">export async function</span> <span class="function">GET</span>() {
+  <span class="keyword">const</span> tasks = <span class="keyword">await</span> <span class="function">readTasks</span>();
+  <span class="keyword">return</span> NextResponse.<span class="function">json</span>(tasks);
+}
+
+<span class="keyword">export async function</span> <span class="function">POST</span>(request) {
+  <span class="keyword">const</span> { text } = <span class="keyword">await</span> request.<span class="function">json</span>();
+
+  <span class="keyword">if</span> (!text) {
+    <span class="keyword">return</span> NextResponse.<span class="function">json</span>(
+      { error: <span class="string">'Text is required'</span> },
+      { status: <span class="number">400</span> }
+    );
+  }
+
+  <span class="keyword">const</span> newTask = {
+    id: Date.<span class="function">now</span>(),
+    text,
+    completed: <span class="keyword">false</span>,
+    createdAt: <span class="keyword">new</span> <span class="function">Date</span>().<span class="function">toISOString</span>()
+  };
+
+  <span class="keyword">const</span> tasks = <span class="keyword">await</span> <span class="function">readTasks</span>();
+  tasks.<span class="function">push</span>(newTask);
+  <span class="keyword">await</span> <span class="function">writeTasks</span>(tasks);
+
+  <span class="keyword">return</span> NextResponse.<span class="function">json</span>(newTask, { status: <span class="number">201</span> });
+}</pre>
+                </div>
+            </div>
+        </section>
+
+        <!-- Step 5 -->
+        <section class="slide" id="step5" data-narration="Create app/api/tasks/[id]/route.js for single-task operations. The params object contains the dynamic segment values.">
+            <div class="dark-container">
+                <h2><span class="step-number">5</span> Create Single Item Routes</h2>
+                <p><code>app/api/tasks/[id]/route.js</code> - GET one, PUT, DELETE:</p>
+                <div class="code-block" style="font-size: 0.7rem;">
+<pre><span class="comment">// app/api/tasks/[id]/route.js</span>
+<span class="keyword">import</span> { NextResponse } <span class="keyword">from</span> <span class="string">'next/server'</span>;
+<span class="keyword">import</span> { readTasks, writeTasks } <span class="keyword">from</span> <span class="string">'@/lib/tasks'</span>;
+
+<span class="keyword">export async function</span> <span class="function">GET</span>(request, { params }) {
+  <span class="keyword">const</span> id = <span class="function">parseInt</span>(params.id);
+  <span class="keyword">const</span> tasks = <span class="keyword">await</span> <span class="function">readTasks</span>();
+  <span class="keyword">const</span> task = tasks.<span class="function">find</span>(t => t.id === id);
+  <span class="keyword">if</span> (!task) <span class="keyword">return</span> NextResponse.<span class="function">json</span>({ error: <span class="string">'Not found'</span> }, { status: <span class="number">404</span> });
+  <span class="keyword">return</span> NextResponse.<span class="function">json</span>(task);
+}
+
+<span class="keyword">export async function</span> <span class="function">PUT</span>(request, { params }) {
+  <span class="keyword">const</span> id = <span class="function">parseInt</span>(params.id);
+  <span class="keyword">const</span> updates = <span class="keyword">await</span> request.<span class="function">json</span>();
+  <span class="keyword">const</span> tasks = <span class="keyword">await</span> <span class="function">readTasks</span>();
+  <span class="keyword">const</span> index = tasks.<span class="function">findIndex</span>(t => t.id === id);
+  <span class="keyword">if</span> (index === -<span class="number">1</span>) <span class="keyword">return</span> NextResponse.<span class="function">json</span>({ error: <span class="string">'Not found'</span> }, { status: <span class="number">404</span> });
+  tasks[index] = { ...tasks[index], ...updates, id };
+  <span class="keyword">await</span> <span class="function">writeTasks</span>(tasks);
+  <span class="keyword">return</span> NextResponse.<span class="function">json</span>(tasks[index]);
+}
+
+<span class="keyword">export async function</span> <span class="function">DELETE</span>(request, { params }) {
+  <span class="keyword">const</span> id = <span class="function">parseInt</span>(params.id);
+  <span class="keyword">const</span> tasks = <span class="keyword">await</span> <span class="function">readTasks</span>();
+  <span class="keyword">const</span> filtered = tasks.<span class="function">filter</span>(t => t.id !== id);
+  <span class="keyword">if</span> (filtered.length === tasks.length) {
+    <span class="keyword">return</span> NextResponse.<span class="function">json</span>({ error: <span class="string">'Not found'</span> }, { status: <span class="number">404</span> });
+  }
+  <span class="keyword">await</span> <span class="function">writeTasks</span>(filtered);
+  <span class="keyword">return new</span> <span class="function">Response</span>(<span class="keyword">null</span>, { status: <span class="number">204</span> });
+}</pre>
+                </div>
+            </div>
+        </section>
+
+        <!-- Step 6 -->
+        <section class="slide" id="step6" data-narration="With your dev server running, test your API locally with Postman. The base URL is http://localhost:3000/api/tasks - notice the /api prefix.">
+            <div class="dark-container">
+                <h2><span class="step-number">6</span> Test Locally with Postman</h2>
+                <p>Verify your API works before deploying:</p>
+                <div class="dark-two-column" style="margin-top: 1.5rem;">
+                    <div>
+                        <h3>Base URL</h3>
+                        <div class="dark-card" style="margin-top: 0.5rem;">
+                            <p><code>http://localhost:3000/api/tasks</code></p>
+                            <p style="margin-top: 0.25rem; font-size: 0.85rem;">Note the <strong>/api</strong> prefix!</p>
+                        </div>
+                        <h3 style="margin-top: 1rem;">Create Collection</h3>
+                        <p style="margin-top: 0.5rem;">Name: <code>Next.js Tasks API</code></p>
+                    </div>
+                    <div>
+                        <h3>Test All Endpoints</h3>
+                        <div class="dark-card" style="margin-top: 0.5rem;">
+                            <p><span class="method-pill post">POST</span> <code>/api/tasks</code></p>
+                        </div>
+                        <div class="dark-card" style="margin-top: 0.25rem;">
+                            <p><span class="method-pill get">GET</span> <code>/api/tasks</code></p>
+                        </div>
+                        <div class="dark-card" style="margin-top: 0.25rem;">
+                            <p><span class="method-pill get">GET</span> <code>/api/tasks/ID</code></p>
+                        </div>
+                        <div class="dark-card" style="margin-top: 0.25rem;">
+                            <p><span class="method-pill put">PUT</span> <code>/api/tasks/ID</code></p>
+                        </div>
+                        <div class="dark-card" style="margin-top: 0.25rem;">
+                            <p><span class="method-pill delete">DELETE</span> <code>/api/tasks/ID</code></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Step 7 -->
+        <section class="slide" id="step7" data-narration="Push your code to GitHub and deploy to Vercel. Vercel automatically detects Next.js and configures everything.">
+            <div class="dark-container">
+                <h2><span class="step-number">7</span> Deploy to Vercel</h2>
+                <p>Push to GitHub and deploy with one click:</p>
+                <div class="dark-two-column" style="margin-top: 1.5rem;">
+                    <div>
+                        <h3>Push to GitHub</h3>
+                        <div class="terminal-block" style="margin-top: 0.5rem; font-size: 0.8rem;">
+                            <div><span class="prompt">$</span> <span class="command">git init</span></div>
+                            <div><span class="prompt">$</span> <span class="command">git add .</span></div>
+                            <div><span class="prompt">$</span> <span class="command">git commit -m "Next.js Tasks API"</span></div>
+                            <div><span class="prompt">$</span> <span class="command">git remote add origin YOUR_REPO</span></div>
+                            <div><span class="prompt">$</span> <span class="command">git push -u origin main</span></div>
+                        </div>
+                    </div>
+                    <div>
+                        <h3>Deploy on Vercel</h3>
+                        <ol style="margin-top: 0.5rem; padding-left: 1.5rem;">
+                            <li style="margin-bottom: 0.5rem;">Go to <strong>vercel.com</strong></li>
+                            <li style="margin-bottom: 0.5rem;">Click <strong>Add New → Project</strong></li>
+                            <li style="margin-bottom: 0.5rem;">Import your GitHub repo</li>
+                            <li style="margin-bottom: 0.5rem;">Click <strong>Deploy</strong></li>
+                        </ol>
+                        <div class="dark-card success" style="margin-top: 0.5rem;">
+                            <p>You'll get: <code>your-project.vercel.app</code></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Step 8 -->
+        <section class="slide" id="step8" data-narration="Test your deployed API with Postman. Update your requests to use the Vercel URL instead of localhost.">
+            <div class="dark-container">
+                <h2><span class="step-number">8</span> Test Live URL</h2>
+                <p>Verify your deployed API works in Postman:</p>
+                <div class="dark-two-column" style="margin-top: 1.5rem;">
+                    <div>
+                        <h3>Update Base URL</h3>
+                        <div class="dark-card" style="margin-top: 0.5rem;">
+                            <p><strong>Local:</strong> <code style="text-decoration: line-through;">http://localhost:3000</code></p>
+                            <p style="margin-top: 0.25rem;"><strong>Live:</strong> <code>https://your-project.vercel.app</code></p>
+                        </div>
+                        <div class="dark-card info" style="margin-top: 0.5rem;">
+                            <h4>Example Request</h4>
+                            <p><span class="method-pill get">GET</span></p>
+                            <p><code>https://your-project.vercel.app/api/tasks</code></p>
+                        </div>
+                    </div>
+                    <div>
+                        <h3>Test All Endpoints</h3>
+                        <p style="margin-top: 0.5rem;">Run through the complete CRUD flow:</p>
+                        <ol style="margin-top: 0.5rem; padding-left: 1.5rem;">
+                            <li style="margin-bottom: 0.25rem;"><span class="method-pill post">POST</span> Create a task</li>
+                            <li style="margin-bottom: 0.25rem;"><span class="method-pill get">GET</span> Retrieve all tasks</li>
+                            <li style="margin-bottom: 0.25rem;"><span class="method-pill get">GET</span> Get single task</li>
+                            <li style="margin-bottom: 0.25rem;"><span class="method-pill put">PUT</span> Update the task</li>
+                            <li style="margin-bottom: 0.25rem;"><span class="method-pill delete">DELETE</span> Remove the task</li>
+                        </ol>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Step 9 -->
+        <section class="slide" id="step9" data-narration="Take screenshots of your Postman tests against the live Vercel URL. These screenshots are your proof that the deployed API works.">
+            <div class="dark-container">
+                <h2><span class="step-number">9</span> Capture Screenshots</h2>
+                <p>Document your live API tests:</p>
+                <div class="dark-two-column" style="margin-top: 1.5rem;">
+                    <div>
+                        <h3>Screenshot Must Show</h3>
+                        <ul style="margin-top: 0.5rem; padding-left: 1.5rem;">
+                            <li style="margin-bottom: 0.5rem;"><strong>Vercel URL</strong> (not localhost!)</li>
+                            <li style="margin-bottom: 0.5rem;"><strong>HTTP Method</strong></li>
+                            <li style="margin-bottom: 0.5rem;"><strong>Status Code</strong> (200, 201, etc.)</li>
+                            <li style="margin-bottom: 0.5rem;"><strong>Response Body</strong></li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h3>Recommended</h3>
+                        <div class="dark-card" style="margin-top: 0.5rem;">
+                            <p>1. POST creating a task on live URL</p>
+                        </div>
+                        <div class="dark-card" style="margin-top: 0.25rem;">
+                            <p>2. GET all tasks from live URL</p>
+                        </div>
+                        <div class="dark-card" style="margin-top: 0.25rem;">
+                            <p>3. At least one other endpoint (PUT/DELETE)</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="dark-card warning" style="margin-top: 1rem;">
+                    <h4>Important</h4>
+                    <p>Screenshots must show the <strong>live Vercel URL</strong>, not localhost!</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Step 10 -->
+        <section class="slide" id="step10" data-narration="Submit your three deliverables: GitHub repository URL, live Vercel URL, and screenshots showing Postman tests against the live URL.">
+            <div class="dark-container">
+                <h2><span class="step-number">10</span> Submit Your Work</h2>
+                <p>Package everything for submission:</p>
+                <div class="dark-three-column" style="margin-top: 1.5rem;">
+                    <div class="dark-card">
+                        <h4>1. GitHub URL</h4>
+                        <p>Your repository with complete Next.js source code</p>
+                        <p style="margin-top: 0.5rem; font-size: 0.85rem;"><code>github.com/you/nextjs-tasks-api</code></p>
+                    </div>
+                    <div class="dark-card">
+                        <h4>2. Vercel URL</h4>
+                        <p>Your live deployed API</p>
+                        <p style="margin-top: 0.5rem; font-size: 0.85rem;"><code>your-project.vercel.app</code></p>
+                    </div>
+                    <div class="dark-card">
+                        <h4>3. Screenshots</h4>
+                        <p>Postman tests against the live Vercel URL</p>
+                        <p style="margin-top: 0.5rem; font-size: 0.85rem;">Showing successful requests</p>
+                    </div>
+                </div>
+                <div class="dark-card success" style="margin-top: 1.5rem;">
+                    <h4>Submission Checklist</h4>
+                    <p>✓ GitHub repo URL  |  ✓ Live Vercel URL  |  ✓ Screenshots with Vercel URL visible</p>
+                </div>
+                <div style="text-align: center; margin-top: 1rem;">
+                    <p style="color: #06b6d4; font-size: 1.25rem; font-weight: bold;">50 Points</p>
+                </div>
+            </div>
+        </section>
+
+    </div>
+
+    <script src="../js/slides.js"></script>
+</body>
+</html>

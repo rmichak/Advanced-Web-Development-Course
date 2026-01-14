@@ -1,0 +1,606 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Assignment 1: Express.js Tasks API - IT431</title>
+    <link rel="stylesheet" href="../css/slides.css">
+    <style>
+        /* Assignment-specific dark theme styles */
+        .dark-container {
+            background: linear-gradient(135deg, #1e1e2f 0%, #16213e 100%);
+            padding: 2rem;
+            border-radius: 12px;
+            color: #e4e4e7;
+            height: 100%;
+        }
+        .dark-container h2 {
+            color: #a5b4fc;
+            border-bottom-color: #667eea;
+        }
+        .dark-container h3 {
+            color: #c4b5fd;
+        }
+        .dark-container h4 {
+            color: #93c5fd;
+        }
+        .dark-container p, .dark-container li {
+            color: #d1d5db;
+        }
+        .dark-container code:not(pre code) {
+            background: #374151;
+            color: #fbbf24;
+        }
+        .dark-container pre {
+            background: #0d1117 !important;
+            border: 1px solid #30363d;
+        }
+        .step-number {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 36px;
+            height: 36px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: #fff;
+            border-radius: 50%;
+            font-weight: bold;
+            margin-right: 12px;
+        }
+        .dark-card {
+            background: rgba(255,255,255,0.05);
+            border-radius: 8px;
+            padding: 1rem;
+            margin: 0.5rem 0;
+        }
+        .dark-card.success { border-left: 4px solid #22c55e; }
+        .dark-card.warning { border-left: 4px solid #f59e0b; }
+        .dark-card.info { border-left: 4px solid #3b82f6; }
+        .terminal-block {
+            background: #0d1117;
+            border-radius: 8px;
+            padding: 1rem;
+            font-family: var(--font-code);
+            font-size: 0.9rem;
+        }
+        .terminal-block .prompt { color: #22c55e; }
+        .terminal-block .command { color: #e4e4e7; }
+        .terminal-block .output { color: #6b7280; }
+        .code-block {
+            background: #0d1117;
+            border-radius: 8px;
+            padding: 1rem;
+            overflow-x: auto;
+        }
+        .code-block pre {
+            margin: 0 !important;
+            padding: 0 !important;
+            background: transparent !important;
+            border: none !important;
+        }
+        .method-pill {
+            display: inline-block;
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-size: 0.75rem;
+            font-weight: bold;
+            margin-right: 8px;
+        }
+        .method-pill.get { background: #22c55e; color: #fff; }
+        .method-pill.post { background: #f59e0b; color: #fff; }
+        .method-pill.put { background: #3b82f6; color: #fff; }
+        .method-pill.delete { background: #ef4444; color: #fff; }
+        .status-badge {
+            display: inline-block;
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-size: 0.8rem;
+            font-weight: bold;
+        }
+        .status-badge.success { background: #22c55e; color: #fff; }
+        .status-badge.created { background: #f59e0b; color: #fff; }
+        .dark-two-column {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.5rem;
+        }
+        .dark-three-column {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 1rem;
+        }
+        @media (max-width: 900px) {
+            .dark-two-column, .dark-three-column {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="presentation">
+
+        <!-- Title Slide -->
+        <section class="slide title-slide" id="title" data-narration="Welcome to Assignment 1. In this assignment, you'll build a complete CRUD API using Express.js with JSON file storage. You'll implement all five REST endpoints, test them with Postman, and submit your code along with your test collection. This assignment is worth 50 points.">
+            <h1>Assignment 1</h1>
+            <p class="subtitle">Express.js Tasks API</p>
+            <p class="meta">Build a complete CRUD API with Express.js</p>
+            <p class="meta" style="margin-top: 1rem; font-size: 1.3rem; color: #fbbf24;">50 Points</p>
+        </section>
+
+        <!-- Step 1 -->
+        <section class="slide" id="step1" data-narration="Let's start by creating your project folder. Open your terminal and navigate to where you want to create the project. Use mkdir to create a folder called express-tasks-api, then cd into it. Run npm init with the -y flag to create package.json with default settings. This creates the foundation for your Node.js project.">
+            <div class="dark-container">
+                <h2><span class="step-number">1</span> Create Your Project</h2>
+                <p>Open your terminal and create a new project folder:</p>
+                <div class="terminal-block">
+                    <div><span class="prompt">$</span> <span class="command">mkdir express-tasks-api</span></div>
+                    <div><span class="prompt">$</span> <span class="command">cd express-tasks-api</span></div>
+                    <div><span class="prompt">$</span> <span class="command">npm init -y</span></div>
+                    <div class="output" style="margin-top: 0.5rem;">Wrote to /your/path/express-tasks-api/package.json</div>
+                </div>
+                <div class="dark-card info" style="margin-top: 1rem;">
+                    <h4>What This Creates</h4>
+                    <p>A <code>package.json</code> file that tracks your project dependencies and scripts.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Step 2 -->
+        <section class="slide" id="step2" data-narration="Next, install the required dependencies. You need express as your main framework, and cors to handle cross-origin requests. Install nodemon as a dev dependency - it automatically restarts your server when you save changes. After installation, update your package.json scripts.">
+            <div class="dark-container">
+                <h2><span class="step-number">2</span> Install Dependencies</h2>
+                <p>Install Express, CORS, and nodemon for development:</p>
+                <div class="terminal-block">
+                    <div><span class="prompt">$</span> <span class="command">npm install express cors</span></div>
+                    <div><span class="prompt">$</span> <span class="command">npm install nodemon --save-dev</span></div>
+                </div>
+                <div class="dark-card" style="margin-top: 1rem;">
+                    <h4>Update package.json scripts</h4>
+                    <p>Add this to the "scripts" section:</p>
+                </div>
+                <div class="code-block" style="margin-top: 0.5rem;">
+<pre><span class="string">"scripts"</span>: {
+  <span class="string">"dev"</span>: <span class="string">"nodemon index.js"</span>,
+  <span class="string">"start"</span>: <span class="string">"node index.js"</span>
+}</pre>
+                </div>
+            </div>
+        </section>
+
+        <!-- Step 3 -->
+        <section class="slide" id="step3" data-narration="Create your tasks.json file that will store your task data. This file should be in your project root folder. Start with an empty JSON array. This file will be read and written by your API.">
+            <div class="dark-container">
+                <h2><span class="step-number">3</span> Create Data File</h2>
+                <p>Create <code>tasks.json</code> in your project root with an empty array:</p>
+                <div class="dark-two-column" style="margin-top: 1.5rem;">
+                    <div>
+                        <h3>File: tasks.json</h3>
+                        <div class="code-block" style="margin-top: 0.5rem;">
+<pre>[]</pre>
+                        </div>
+                        <p style="margin-top: 0.5rem; font-size: 0.9rem;">Start with an empty array. Your API will populate this.</p>
+                    </div>
+                    <div>
+                        <h3>Folder Structure</h3>
+                        <div class="code-block" style="margin-top: 0.5rem;">
+<pre>express-tasks-api/
+├── node_modules/
+├── package.json
+├── package-lock.json
+├── tasks.json       <span class="comment">← Create this</span>
+└── index.js         <span class="comment">← Create next</span></pre>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Step 4 -->
+        <section class="slide" id="step4" data-narration="Now create your index.js file. Start with the imports: require express, cors, and the fs module with promises. Define your PORT and the path to your tasks.json file. Then create two helper functions: readTasks and writeTasks.">
+            <div class="dark-container">
+                <h2><span class="step-number">4</span> Create index.js (Part 1)</h2>
+                <p>Set up imports and helper functions:</p>
+                <div class="code-block" style="font-size: 0.85rem;">
+<pre><span class="keyword">const</span> express = <span class="function">require</span>(<span class="string">'express'</span>);
+<span class="keyword">const</span> cors = <span class="function">require</span>(<span class="string">'cors'</span>);
+<span class="keyword">const</span> fs = <span class="function">require</span>(<span class="string">'fs'</span>).promises;
+<span class="keyword">const</span> path = <span class="function">require</span>(<span class="string">'path'</span>);
+
+<span class="keyword">const</span> app = <span class="function">express</span>();
+<span class="keyword">const</span> PORT = <span class="number">3000</span>;
+<span class="keyword">const</span> DATA_FILE = path.<span class="function">join</span>(__dirname, <span class="string">'tasks.json'</span>);
+
+<span class="comment">// Middleware</span>
+app.<span class="function">use</span>(<span class="function">cors</span>());
+app.<span class="function">use</span>(express.<span class="function">json</span>());
+
+<span class="comment">// Helper functions</span>
+<span class="keyword">async function</span> <span class="function">readTasks</span>() {
+  <span class="keyword">try</span> {
+    <span class="keyword">const</span> data = <span class="keyword">await</span> fs.<span class="function">readFile</span>(DATA_FILE, <span class="string">'utf8'</span>);
+    <span class="keyword">return</span> JSON.<span class="function">parse</span>(data);
+  } <span class="keyword">catch</span> { <span class="keyword">return</span> []; }
+}
+
+<span class="keyword">async function</span> <span class="function">writeTasks</span>(tasks) {
+  <span class="keyword">await</span> fs.<span class="function">writeFile</span>(DATA_FILE, JSON.<span class="function">stringify</span>(tasks, <span class="keyword">null</span>, <span class="number">2</span>));
+}</pre>
+                </div>
+            </div>
+        </section>
+
+        <!-- Step 5 -->
+        <section class="slide" id="step5" data-narration="Now add your GET and POST route handlers. The GET /tasks route reads all tasks and returns them. GET /tasks/:id finds a single task by ID. POST /tasks creates new tasks with validation.">
+            <div class="dark-container">
+                <h2><span class="step-number">5</span> Create index.js (Part 2)</h2>
+                <p>Add GET and POST route handlers:</p>
+                <div class="code-block" style="font-size: 0.75rem;">
+<pre><span class="comment">// GET all tasks</span>
+app.<span class="function">get</span>(<span class="string">'/tasks'</span>, <span class="keyword">async</span> (req, res) => {
+  <span class="keyword">try</span> {
+    <span class="keyword">const</span> tasks = <span class="keyword">await</span> <span class="function">readTasks</span>();
+    res.<span class="function">json</span>(tasks);
+  } <span class="keyword">catch</span> (error) {
+    res.<span class="function">status</span>(<span class="number">500</span>).<span class="function">json</span>({ error: <span class="string">'Failed to read tasks'</span> });
+  }
+});
+
+<span class="comment">// GET single task</span>
+app.<span class="function">get</span>(<span class="string">'/tasks/:id'</span>, <span class="keyword">async</span> (req, res) => {
+  <span class="keyword">try</span> {
+    <span class="keyword">const</span> id = <span class="function">parseInt</span>(req.params.id);
+    <span class="keyword">const</span> tasks = <span class="keyword">await</span> <span class="function">readTasks</span>();
+    <span class="keyword">const</span> task = tasks.<span class="function">find</span>(t => t.id === id);
+    <span class="keyword">if</span> (!task) <span class="keyword">return</span> res.<span class="function">status</span>(<span class="number">404</span>).<span class="function">json</span>({ error: <span class="string">'Task not found'</span> });
+    res.<span class="function">json</span>(task);
+  } <span class="keyword">catch</span> (error) {
+    res.<span class="function">status</span>(<span class="number">500</span>).<span class="function">json</span>({ error: <span class="string">'Failed to read task'</span> });
+  }
+});
+
+<span class="comment">// POST new task</span>
+app.<span class="function">post</span>(<span class="string">'/tasks'</span>, <span class="keyword">async</span> (req, res) => {
+  <span class="keyword">try</span> {
+    <span class="keyword">const</span> { text } = req.body;
+    <span class="keyword">if</span> (!text) <span class="keyword">return</span> res.<span class="function">status</span>(<span class="number">400</span>).<span class="function">json</span>({ error: <span class="string">'Text is required'</span> });
+    <span class="keyword">const</span> newTask = { id: Date.<span class="function">now</span>(), text, completed: <span class="keyword">false</span>, createdAt: <span class="keyword">new</span> <span class="function">Date</span>().<span class="function">toISOString</span>() };
+    <span class="keyword">const</span> tasks = <span class="keyword">await</span> <span class="function">readTasks</span>();
+    tasks.<span class="function">push</span>(newTask);
+    <span class="keyword">await</span> <span class="function">writeTasks</span>(tasks);
+    res.<span class="function">status</span>(<span class="number">201</span>).<span class="function">json</span>(newTask);
+  } <span class="keyword">catch</span> (error) {
+    res.<span class="function">status</span>(<span class="number">500</span>).<span class="function">json</span>({ error: <span class="string">'Failed to create task'</span> });
+  }
+});</pre>
+                </div>
+            </div>
+        </section>
+
+        <!-- Step 6 -->
+        <section class="slide" id="step6" data-narration="Add the PUT and DELETE handlers to complete your CRUD operations. PUT updates an existing task, DELETE removes a task. Finally, add app.listen to start your server.">
+            <div class="dark-container">
+                <h2><span class="step-number">6</span> Create index.js (Part 3)</h2>
+                <p>Add PUT, DELETE handlers and start server:</p>
+                <div class="code-block" style="font-size: 0.75rem;">
+<pre><span class="comment">// PUT update task</span>
+app.<span class="function">put</span>(<span class="string">'/tasks/:id'</span>, <span class="keyword">async</span> (req, res) => {
+  <span class="keyword">try</span> {
+    <span class="keyword">const</span> id = <span class="function">parseInt</span>(req.params.id);
+    <span class="keyword">const</span> tasks = <span class="keyword">await</span> <span class="function">readTasks</span>();
+    <span class="keyword">const</span> index = tasks.<span class="function">findIndex</span>(t => t.id === id);
+    <span class="keyword">if</span> (index === -<span class="number">1</span>) <span class="keyword">return</span> res.<span class="function">status</span>(<span class="number">404</span>).<span class="function">json</span>({ error: <span class="string">'Task not found'</span> });
+    tasks[index] = { ...tasks[index], ...req.body, id };
+    <span class="keyword">await</span> <span class="function">writeTasks</span>(tasks);
+    res.<span class="function">json</span>(tasks[index]);
+  } <span class="keyword">catch</span> (error) {
+    res.<span class="function">status</span>(<span class="number">500</span>).<span class="function">json</span>({ error: <span class="string">'Failed to update task'</span> });
+  }
+});
+
+<span class="comment">// DELETE task</span>
+app.<span class="function">delete</span>(<span class="string">'/tasks/:id'</span>, <span class="keyword">async</span> (req, res) => {
+  <span class="keyword">try</span> {
+    <span class="keyword">const</span> id = <span class="function">parseInt</span>(req.params.id);
+    <span class="keyword">const</span> tasks = <span class="keyword">await</span> <span class="function">readTasks</span>();
+    <span class="keyword">const</span> filtered = tasks.<span class="function">filter</span>(t => t.id !== id);
+    <span class="keyword">if</span> (filtered.length === tasks.length) {
+      <span class="keyword">return</span> res.<span class="function">status</span>(<span class="number">404</span>).<span class="function">json</span>({ error: <span class="string">'Task not found'</span> });
+    }
+    <span class="keyword">await</span> <span class="function">writeTasks</span>(filtered);
+    res.<span class="function">sendStatus</span>(<span class="number">204</span>);
+  } <span class="keyword">catch</span> (error) {
+    res.<span class="function">status</span>(<span class="number">500</span>).<span class="function">json</span>({ error: <span class="string">'Failed to delete task'</span> });
+  }
+});
+
+<span class="comment">// Start server</span>
+app.<span class="function">listen</span>(PORT, () => console.<span class="function">log</span>(<span class="string">`Server running on http://localhost:</span>${PORT}<span class="string">`</span>));</pre>
+                </div>
+            </div>
+        </section>
+
+        <!-- Step 7 -->
+        <section class="slide" id="step7" data-narration="Now start your server to make sure everything works. Run npm run dev in your terminal. You should see the message 'Server running on http://localhost:3000'.">
+            <div class="dark-container">
+                <h2><span class="step-number">7</span> Start Your Server</h2>
+                <p>Run the development server and verify it starts:</p>
+                <div class="terminal-block">
+                    <div><span class="prompt">$</span> <span class="command">npm run dev</span></div>
+                    <div class="output" style="margin-top: 0.5rem;">[nodemon] starting `node index.js`</div>
+                    <div class="output">Server running on http://localhost:3000</div>
+                </div>
+                <div class="dark-two-column" style="margin-top: 1.5rem;">
+                    <div class="dark-card success">
+                        <h4>Success</h4>
+                        <p>You see "Server running on http://localhost:3000"</p>
+                    </div>
+                    <div class="dark-card warning">
+                        <h4>If Errors</h4>
+                        <p>Check for typos in index.js, missing commas, or unclosed brackets</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Step 8 -->
+        <section class="slide" id="step8" data-narration="Open Postman and create a new collection to organize your API tests. Name it 'Express Tasks API'. This collection will hold all your test requests and you'll export it for submission.">
+            <div class="dark-container">
+                <h2><span class="step-number">8</span> Set Up Postman Collection</h2>
+                <p>Create a collection to organize your API tests:</p>
+                <div class="dark-two-column" style="margin-top: 1.5rem;">
+                    <div>
+                        <h3>Steps in Postman</h3>
+                        <ol style="margin-top: 0.5rem; padding-left: 1.5rem;">
+                            <li style="margin-bottom: 0.5rem;">Click <strong>Collections</strong> in left sidebar</li>
+                            <li style="margin-bottom: 0.5rem;">Click <strong>+</strong> or <strong>Create Collection</strong></li>
+                            <li style="margin-bottom: 0.5rem;">Name it: <code>Express Tasks API</code></li>
+                            <li style="margin-bottom: 0.5rem;">Click <strong>Create</strong></li>
+                        </ol>
+                    </div>
+                    <div>
+                        <h3>Your Collection Will Contain</h3>
+                        <div class="dark-card" style="margin-top: 0.5rem;">
+                            <p><span class="method-pill get">GET</span> Get All Tasks</p>
+                        </div>
+                        <div class="dark-card" style="margin-top: 0.25rem;">
+                            <p><span class="method-pill get">GET</span> Get Single Task</p>
+                        </div>
+                        <div class="dark-card" style="margin-top: 0.25rem;">
+                            <p><span class="method-pill post">POST</span> Create Task</p>
+                        </div>
+                        <div class="dark-card" style="margin-top: 0.25rem;">
+                            <p><span class="method-pill put">PUT</span> Update Task</p>
+                        </div>
+                        <div class="dark-card" style="margin-top: 0.25rem;">
+                            <p><span class="method-pill delete">DELETE</span> Delete Task</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Step 9 -->
+        <section class="slide" id="step9" data-narration="Start by testing POST to create a task. In Postman, create a new request. Set the method to POST and the URL to http://localhost:3000/tasks. Go to the Body tab, select raw, and choose JSON. Enter a JSON object with a text property.">
+            <div class="dark-container">
+                <h2><span class="step-number">9</span> Test POST - Create Task</h2>
+                <p>Create your first task and verify the response:</p>
+                <div class="dark-two-column" style="margin-top: 1.5rem;">
+                    <div>
+                        <h3>Request Setup</h3>
+                        <div class="dark-card" style="margin-top: 0.5rem;">
+                            <p><strong>Method:</strong> <span class="method-pill post">POST</span></p>
+                            <p><strong>URL:</strong> <code>http://localhost:3000/tasks</code></p>
+                        </div>
+                        <div class="dark-card" style="margin-top: 0.5rem;">
+                            <p><strong>Body tab:</strong> raw → JSON</p>
+                        </div>
+                        <div class="code-block" style="margin-top: 0.5rem; font-size: 0.85rem;">
+<pre>{
+  "text": "Learn REST APIs"
+}</pre>
+                        </div>
+                    </div>
+                    <div>
+                        <h3>Expected Response</h3>
+                        <div class="dark-card success" style="margin-top: 0.5rem;">
+                            <p><strong>Status:</strong> <span class="status-badge created">201</span> Created</p>
+                        </div>
+                        <div class="code-block" style="margin-top: 0.5rem; font-size: 0.85rem;">
+<pre>{
+  "id": 1705234567890,
+  "text": "Learn REST APIs",
+  "completed": false,
+  "createdAt": "2024-01-14..."
+}</pre>
+                        </div>
+                        <p style="margin-top: 0.5rem; font-size: 0.85rem;"><strong>Save this request</strong> to your collection!</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Step 10 -->
+        <section class="slide" id="step10" data-narration="Now test GET to retrieve all tasks. Create a new request, set method to GET, URL to http://localhost:3000/tasks. No body needed. You should get 200 OK with an array containing your tasks.">
+            <div class="dark-container">
+                <h2><span class="step-number">10</span> Test GET - All Tasks</h2>
+                <p>Retrieve all tasks from your API:</p>
+                <div class="dark-two-column" style="margin-top: 1.5rem;">
+                    <div>
+                        <h3>Request Setup</h3>
+                        <div class="dark-card" style="margin-top: 0.5rem;">
+                            <p><strong>Method:</strong> <span class="method-pill get">GET</span></p>
+                            <p><strong>URL:</strong> <code>http://localhost:3000/tasks</code></p>
+                            <p><strong>Body:</strong> None (GET requests don't have bodies)</p>
+                        </div>
+                    </div>
+                    <div>
+                        <h3>Expected Response</h3>
+                        <div class="dark-card success" style="margin-top: 0.5rem;">
+                            <p><strong>Status:</strong> <span class="status-badge success">200</span> OK</p>
+                        </div>
+                        <div class="code-block" style="margin-top: 0.5rem; font-size: 0.85rem;">
+<pre>[
+  {
+    "id": 1705234567890,
+    "text": "Learn REST APIs",
+    "completed": false,
+    "createdAt": "..."
+  }
+]</pre>
+                        </div>
+                    </div>
+                </div>
+                <div class="dark-card info" style="margin-top: 1rem;">
+                    <h4>Tip</h4>
+                    <p>Create 2-3 more tasks with POST so you have multiple items to test with!</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Step 11 -->
+        <section class="slide" id="step11" data-narration="Test GET for a single task and PUT to update it. For GET single task, use the URL with a task ID. For PUT, send the fields you want to update in the body.">
+            <div class="dark-container">
+                <h2><span class="step-number">11</span> Test GET Single & PUT Update</h2>
+                <p>Get one task by ID and update it:</p>
+                <div class="dark-two-column" style="margin-top: 1rem;">
+                    <div>
+                        <h3>GET Single Task</h3>
+                        <div class="dark-card" style="margin-top: 0.5rem;">
+                            <p><span class="method-pill get">GET</span> <code>/tasks/YOUR_TASK_ID</code></p>
+                            <p style="margin-top: 0.25rem;"><span class="status-badge success">200</span> Returns the task</p>
+                        </div>
+                        <div class="dark-card warning" style="margin-top: 0.5rem;">
+                            <h4>Test 404</h4>
+                            <p><span class="method-pill get">GET</span> <code>/tasks/9999999</code></p>
+                            <p><span class="status-badge" style="background:#ef4444;color:#fff;">404</span> Not Found</p>
+                        </div>
+                    </div>
+                    <div>
+                        <h3>PUT Update Task</h3>
+                        <div class="dark-card" style="margin-top: 0.5rem;">
+                            <p><span class="method-pill put">PUT</span> <code>/tasks/YOUR_TASK_ID</code></p>
+                        </div>
+                        <div class="code-block" style="margin-top: 0.5rem; font-size: 0.85rem;">
+<pre>{
+  "completed": true
+}</pre>
+                        </div>
+                        <div class="dark-card success" style="margin-top: 0.5rem;">
+                            <p><span class="status-badge success">200</span> Returns updated task</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Step 12 -->
+        <section class="slide" id="step12" data-narration="Finally, test DELETE. Set the method to DELETE, use the URL with a task ID. You should get 204 No Content. Verify by running GET all tasks again.">
+            <div class="dark-container">
+                <h2><span class="step-number">12</span> Test DELETE</h2>
+                <p>Remove a task and verify it's gone:</p>
+                <div class="dark-two-column" style="margin-top: 1.5rem;">
+                    <div>
+                        <h3>Delete Request</h3>
+                        <div class="dark-card" style="margin-top: 0.5rem;">
+                            <p><strong>Method:</strong> <span class="method-pill delete">DELETE</span></p>
+                            <p><strong>URL:</strong> <code>http://localhost:3000/tasks/YOUR_TASK_ID</code></p>
+                            <p><strong>Body:</strong> None</p>
+                        </div>
+                        <div class="dark-card success" style="margin-top: 0.5rem;">
+                            <p><strong>Status:</strong> <span class="status-badge success">204</span> No Content</p>
+                            <p>No response body - this is correct!</p>
+                        </div>
+                    </div>
+                    <div>
+                        <h3>Verify Deletion</h3>
+                        <div class="dark-card" style="margin-top: 0.5rem;">
+                            <p>Run <span class="method-pill get">GET</span> <code>/tasks</code> again</p>
+                            <p style="margin-top: 0.25rem;">The deleted task should be gone from the array</p>
+                        </div>
+                        <div class="dark-card warning" style="margin-top: 0.5rem;">
+                            <h4>Test 404</h4>
+                            <p>Try deleting the same ID again:</p>
+                            <p><span class="status-badge" style="background:#ef4444;color:#fff;">404</span> Not Found</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Step 13 -->
+        <section class="slide" id="step13" data-narration="Take screenshots showing successful tests for each endpoint. Each screenshot should clearly show the HTTP method, URL, status code, and response body.">
+            <div class="dark-container">
+                <h2><span class="step-number">13</span> Capture Screenshots</h2>
+                <p>Document your successful API tests:</p>
+                <div class="dark-two-column" style="margin-top: 1.5rem;">
+                    <div>
+                        <h3>What to Capture</h3>
+                        <p style="margin-top: 0.5rem;">Each screenshot should show:</p>
+                        <ul style="margin-top: 0.5rem; padding-left: 1.5rem;">
+                            <li><strong>Method</strong> (GET, POST, etc.)</li>
+                            <li><strong>URL</strong> being tested</li>
+                            <li><strong>Status code</strong> (200, 201, etc.)</li>
+                            <li><strong>Response body</strong></li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h3>Recommended Screenshots</h3>
+                        <div class="dark-card" style="margin-top: 0.5rem;">
+                            <p>1. POST creating a task <span class="status-badge created">201</span></p>
+                        </div>
+                        <div class="dark-card" style="margin-top: 0.25rem;">
+                            <p>2. GET all tasks <span class="status-badge success">200</span></p>
+                        </div>
+                        <div class="dark-card" style="margin-top: 0.25rem;">
+                            <p>3. GET single task <span class="status-badge success">200</span></p>
+                        </div>
+                        <div class="dark-card" style="margin-top: 0.25rem;">
+                            <p>4. PUT updating a task <span class="status-badge success">200</span></p>
+                        </div>
+                        <div class="dark-card" style="margin-top: 0.25rem;">
+                            <p>5. DELETE a task <span class="status-badge success">204</span></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Step 14 -->
+        <section class="slide" id="step14" data-narration="Export your Postman collection and push your code to GitHub. Right-click on your collection, select Export, choose Collection v2.1, and save the JSON file.">
+            <div class="dark-container">
+                <h2><span class="step-number">14</span> Export Collection & Submit</h2>
+                <p>Package everything for submission:</p>
+                <div class="dark-two-column" style="margin-top: 1.5rem;">
+                    <div>
+                        <h3>Export Postman Collection</h3>
+                        <ol style="margin-top: 0.5rem; padding-left: 1.5rem;">
+                            <li style="margin-bottom: 0.5rem;">Right-click collection name</li>
+                            <li style="margin-bottom: 0.5rem;">Select <strong>Export</strong></li>
+                            <li style="margin-bottom: 0.5rem;">Choose <strong>Collection v2.1</strong></li>
+                            <li style="margin-bottom: 0.5rem;">Save as <code>express-tasks-api.json</code></li>
+                        </ol>
+                    </div>
+                    <div>
+                        <h3>Push to GitHub</h3>
+                        <div class="terminal-block" style="margin-top: 0.5rem; font-size: 0.85rem;">
+                            <div><span class="prompt">$</span> <span class="command">git init</span></div>
+                            <div><span class="prompt">$</span> <span class="command">echo "node_modules" > .gitignore</span></div>
+                            <div><span class="prompt">$</span> <span class="command">git add .</span></div>
+                            <div><span class="prompt">$</span> <span class="command">git commit -m "Express Tasks API"</span></div>
+                            <div><span class="prompt">$</span> <span class="command">git remote add origin YOUR_REPO_URL</span></div>
+                            <div><span class="prompt">$</span> <span class="command">git push -u origin main</span></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="dark-card success" style="margin-top: 1rem;">
+                    <h4>Submission Checklist</h4>
+                    <p>1. GitHub Repository URL  |  2. Postman Collection (.json)  |  3. Screenshots</p>
+                </div>
+            </div>
+        </section>
+
+    </div>
+
+    <script src="../js/slides.js"></script>
+</body>
+</html>
