@@ -14,6 +14,14 @@ class AccessibleSlidePresentation {
         this.mobileNavOpen = false;
         this.narrationPanel = null;
 
+        // Text-to-speech properties
+        this.synth = window.speechSynthesis;
+        this.utterance = null;
+        this.isPlaying = false;
+        this.narrationBtn = null;
+        this.audioElement = null;
+        this.usingAudioFile = false;
+
         this.init();
     }
 
@@ -257,6 +265,18 @@ class AccessibleSlidePresentation {
         slideCounter.appendChild(document.createTextNode(' of ' + this.totalSlides));
         controls.appendChild(slideCounter);
 
+        // Narration play/pause button
+        const narrationBtn = document.createElement('button');
+        narrationBtn.type = 'button';
+        narrationBtn.className = 'narration-btn';
+        narrationBtn.setAttribute('aria-label', 'Play instructor narration (N)');
+        narrationBtn.setAttribute('aria-pressed', 'false');
+        narrationBtn.setAttribute('title', 'Play narration (N)');
+        narrationBtn.textContent = '\u{1F50A} Play';
+        narrationBtn.addEventListener('click', () => this.toggleNarration());
+        controls.appendChild(narrationBtn);
+        this.narrationBtn = narrationBtn;
+
         // Navigation buttons
         const navButtons = document.createElement('div');
         navButtons.className = 'nav-buttons';
@@ -333,6 +353,181 @@ class AccessibleSlidePresentation {
         const narration = activeSlide.getAttribute('data-narration') || '';
 
         this.narrationContent.textContent = narration;
+
+        // Update button state based on whether narration exists
+        this.updateNarrationButton();
+    }
+
+    toggleNarration() {
+        const activeSlide = this.slides[this.currentSlide];
+        const narration = activeSlide.getAttribute('data-narration') || '';
+
+        // Don't do anything if no narration available
+        if (!narration) return;
+
+        if (this.isPlaying) {
+            // Pause playback
+            if (this.usingAudioFile && this.audioElement) {
+                this.audioElement.pause();
+            } else if (this.synth) {
+                this.synth.pause();
+            }
+            this.isPlaying = false;
+            this.updateNarrationButton();
+            this.announce('Narration paused');
+        } else if (this.usingAudioFile && this.audioElement && this.audioElement.paused && this.audioElement.currentTime > 0) {
+            // Resume audio file
+            this.audioElement.play();
+            this.isPlaying = true;
+            this.updateNarrationButton();
+            this.announce('Narration resumed');
+        } else if (!this.usingAudioFile && this.synth && this.synth.paused) {
+            // Resume speech synthesis
+            this.synth.resume();
+            this.isPlaying = true;
+            this.updateNarrationButton();
+            this.announce('Narration resumed');
+        } else {
+            // Start new playback - try audio file first
+            this.stopNarration();
+            this.playNarration(narration);
+        }
+    }
+
+    /**
+     * Get module name from current URL
+     */
+    getModuleName() {
+        const path = window.location.pathname;
+        const match = path.match(/module-(\d+)/);
+        if (match) {
+            return `module-${match[1].padStart(2, '0')}`;
+        }
+        return null;
+    }
+
+    /**
+     * Get audio file path for current slide
+     */
+    getAudioPath() {
+        const moduleName = this.getModuleName();
+        if (!moduleName) return null;
+
+        const slideNum = String(this.currentSlide + 1).padStart(2, '0');
+        return `../audio/${moduleName}/slide-${slideNum}.mp3`;
+    }
+
+    /**
+     * Play narration - tries audio file first, falls back to speech synthesis
+     */
+    playNarration(narrationText) {
+        const audioPath = this.getAudioPath();
+
+        if (audioPath) {
+            // Try to play audio file
+            this.audioElement = new Audio(audioPath);
+            this.usingAudioFile = true;
+
+            this.audioElement.oncanplaythrough = () => {
+                this.audioElement.play();
+                this.isPlaying = true;
+                this.updateNarrationButton();
+                this.announce('Narration started');
+            };
+
+            this.audioElement.onended = () => {
+                this.isPlaying = false;
+                this.usingAudioFile = false;
+                this.updateNarrationButton();
+            };
+
+            this.audioElement.onerror = () => {
+                // Audio file not found - fall back to speech synthesis
+                this.usingAudioFile = false;
+                this.playWithSpeechSynthesis(narrationText);
+            };
+
+            // Start loading
+            this.audioElement.load();
+        } else {
+            // No module detected, use speech synthesis
+            this.playWithSpeechSynthesis(narrationText);
+        }
+    }
+
+    /**
+     * Play narration using browser speech synthesis (fallback)
+     */
+    playWithSpeechSynthesis(narrationText) {
+        if (!this.synth) return;
+
+        this.usingAudioFile = false;
+        this.utterance = new SpeechSynthesisUtterance(narrationText);
+        this.utterance.onend = () => {
+            this.isPlaying = false;
+            this.updateNarrationButton();
+        };
+        this.utterance.onerror = () => {
+            this.isPlaying = false;
+            this.updateNarrationButton();
+        };
+        this.synth.speak(this.utterance);
+        this.isPlaying = true;
+        this.updateNarrationButton();
+        this.announce('Narration started');
+    }
+
+    stopNarration() {
+        // Stop audio element if playing
+        if (this.audioElement) {
+            this.audioElement.pause();
+            this.audioElement.currentTime = 0;
+            this.audioElement = null;
+        }
+
+        // Stop speech synthesis if playing
+        if (this.synth) {
+            this.synth.cancel();
+        }
+
+        this.isPlaying = false;
+        this.usingAudioFile = false;
+        this.utterance = null;
+        this.updateNarrationButton();
+    }
+
+    updateNarrationButton() {
+        if (!this.narrationBtn) return;
+
+        const activeSlide = this.slides[this.currentSlide];
+        const narration = activeSlide.getAttribute('data-narration') || '';
+
+        // Disable button if no narration
+        if (!narration) {
+            this.narrationBtn.disabled = true;
+            this.narrationBtn.setAttribute('aria-disabled', 'true');
+            this.narrationBtn.setAttribute('title', 'No narration for this slide');
+            this.narrationBtn.textContent = '\u{1F507} No Audio';
+            this.narrationBtn.classList.remove('playing');
+            return;
+        }
+
+        this.narrationBtn.disabled = false;
+        this.narrationBtn.setAttribute('aria-disabled', 'false');
+
+        if (this.isPlaying) {
+            this.narrationBtn.textContent = '\u{23F8} Pause';
+            this.narrationBtn.setAttribute('aria-label', 'Pause instructor narration (N)');
+            this.narrationBtn.setAttribute('aria-pressed', 'true');
+            this.narrationBtn.setAttribute('title', 'Pause narration (N)');
+            this.narrationBtn.classList.add('playing');
+        } else {
+            this.narrationBtn.textContent = '\u{1F50A} Play';
+            this.narrationBtn.setAttribute('aria-label', 'Play instructor narration (N)');
+            this.narrationBtn.setAttribute('aria-pressed', 'false');
+            this.narrationBtn.setAttribute('title', 'Play narration (N)');
+            this.narrationBtn.classList.remove('playing');
+        }
     }
 
     createHelpDialog() {
@@ -369,6 +564,7 @@ class AccessibleSlidePresentation {
             { key: 'Home', action: 'First slide' },
             { key: 'End', action: 'Last slide' },
             { key: '1-9', action: 'Go to slide 1-9' },
+            { key: 'N', action: 'Play/pause narration' },
             { key: 'Escape', action: 'Close dialogs' },
             { key: '?', action: 'Open this help' }
         ];
@@ -473,6 +669,11 @@ class AccessibleSlidePresentation {
                 e.preventDefault();
                 this.toggleHelpDialog(true);
                 break;
+            case 'n':
+            case 'N':
+                e.preventDefault();
+                this.toggleNarration();
+                break;
             case '1':
             case '2':
             case '3':
@@ -520,6 +721,9 @@ class AccessibleSlidePresentation {
     goToSlide(index) {
         // Bounds checking
         if (index < 0 || index >= this.totalSlides) return;
+
+        // Stop any playing narration when changing slides
+        this.stopNarration();
 
         const previousSlide = this.currentSlide;
 

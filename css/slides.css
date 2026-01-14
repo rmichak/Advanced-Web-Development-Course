@@ -692,6 +692,58 @@ img {
 }
 
 /* ========================================
+   Narration Play/Pause Button
+   ======================================== */
+.narration-btn {
+    background-color: var(--secondary-color);
+    color: #fff;
+    border: none;
+    padding: 10px 16px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 0.95rem;
+    font-weight: 600;
+    transition: var(--transition);
+    min-width: 100px;
+}
+
+.narration-btn:hover {
+    background-color: #1a5276;
+}
+
+.narration-btn:focus {
+    outline: 3px solid var(--focus-color);
+    outline-offset: 2px;
+}
+
+.narration-btn:disabled {
+    background-color: #e0e0e0;
+    color: #999;
+    cursor: not-allowed;
+}
+
+.narration-btn.playing {
+    background-color: #27ae60;
+    animation: pulse-glow 2s ease-in-out infinite;
+}
+
+@keyframes pulse-glow {
+    0%, 100% {
+        box-shadow: 0 0 0 0 rgba(39, 174, 96, 0.4);
+    }
+    50% {
+        box-shadow: 0 0 0 8px rgba(39, 174, 96, 0);
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .narration-btn.playing {
+        animation: none;
+        box-shadow: 0 0 0 3px rgba(39, 174, 96, 0.5);
+    }
+}
+
+/* ========================================
    Keyboard Shortcuts Help
    ======================================== */
 .help-btn {
@@ -929,6 +981,12 @@ img {
         flex-wrap: wrap;
         gap: 10px;
         padding: 10px;
+    }
+
+    .narration-btn {
+        padding: 8px 12px;
+        font-size: 0.85rem;
+        min-width: 80px;
     }
 
     .progress-container {
