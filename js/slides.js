@@ -21,6 +21,8 @@ class AccessibleSlidePresentation {
         this.narrationBtn = null;
         this.audioElement = null;
         this.usingAudioFile = false;
+        this.autoplayEnabled = localStorage.getItem('slideAutoplayEnabled') === 'true';
+        this.autoplayCheckbox = null;
 
         this.init();
     }
@@ -265,6 +267,24 @@ class AccessibleSlidePresentation {
         slideCounter.appendChild(document.createTextNode(' of ' + this.totalSlides));
         controls.appendChild(slideCounter);
 
+        // Autoplay toggle
+        const autoplayToggle = document.createElement('label');
+        autoplayToggle.className = 'autoplay-toggle';
+
+        const autoplayCheckbox = document.createElement('input');
+        autoplayCheckbox.type = 'checkbox';
+        autoplayCheckbox.checked = this.autoplayEnabled;
+        autoplayCheckbox.setAttribute('aria-label', 'Enable autoplay narration (A)');
+        autoplayCheckbox.addEventListener('change', () => this.toggleAutoplay());
+
+        const autoplayLabel = document.createElement('span');
+        autoplayLabel.textContent = 'Autoplay';
+
+        autoplayToggle.appendChild(autoplayCheckbox);
+        autoplayToggle.appendChild(autoplayLabel);
+        controls.appendChild(autoplayToggle);
+        this.autoplayCheckbox = autoplayCheckbox;
+
         // Narration play/pause button
         const narrationBtn = document.createElement('button');
         narrationBtn.type = 'button';
@@ -496,6 +516,17 @@ class AccessibleSlidePresentation {
         this.updateNarrationButton();
     }
 
+    toggleAutoplay() {
+        this.autoplayEnabled = !this.autoplayEnabled;
+        localStorage.setItem('slideAutoplayEnabled', this.autoplayEnabled);
+
+        if (this.autoplayCheckbox) {
+            this.autoplayCheckbox.checked = this.autoplayEnabled;
+        }
+
+        this.announce(this.autoplayEnabled ? 'Autoplay enabled' : 'Autoplay disabled');
+    }
+
     updateNarrationButton() {
         if (!this.narrationBtn) return;
 
@@ -565,6 +596,7 @@ class AccessibleSlidePresentation {
             { key: 'End', action: 'Last slide' },
             { key: '1-9', action: 'Go to slide 1-9' },
             { key: 'N', action: 'Play/pause narration' },
+            { key: 'A', action: 'Toggle autoplay' },
             { key: 'Escape', action: 'Close dialogs' },
             { key: '?', action: 'Open this help' }
         ];
@@ -674,6 +706,11 @@ class AccessibleSlidePresentation {
                 e.preventDefault();
                 this.toggleNarration();
                 break;
+            case 'a':
+            case 'A':
+                e.preventDefault();
+                this.toggleAutoplay();
+                break;
             case '1':
             case '2':
             case '3':
@@ -758,6 +795,14 @@ class AccessibleSlidePresentation {
         const titleEl = activeSlide.querySelector('h1, h2');
         const titleText = titleEl ? titleEl.textContent : 'Slide ' + (index + 1);
         this.announce('Slide ' + (index + 1) + ' of ' + this.totalSlides + ': ' + titleText);
+
+        // Autoplay narration if enabled
+        if (this.autoplayEnabled) {
+            const narration = activeSlide.getAttribute('data-narration');
+            if (narration) {
+                this.playNarration(narration);
+            }
+        }
     }
 
     nextSlide() {

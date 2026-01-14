@@ -692,6 +692,37 @@ img {
 }
 
 /* ========================================
+   Autoplay Toggle
+   ======================================== */
+.autoplay-toggle {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    cursor: pointer;
+    font-size: 0.9rem;
+    color: var(--text-color);
+    padding: 8px 12px;
+    border-radius: 5px;
+    transition: var(--transition);
+    user-select: none;
+}
+
+.autoplay-toggle:hover {
+    background: #f0f0f0;
+}
+
+.autoplay-toggle input[type="checkbox"] {
+    width: 18px;
+    height: 18px;
+    cursor: pointer;
+    accent-color: var(--secondary-color);
+}
+
+.autoplay-toggle span {
+    font-weight: 500;
+}
+
+/* ========================================
    Narration Play/Pause Button
    ======================================== */
 .narration-btn {
@@ -981,6 +1012,16 @@ img {
         flex-wrap: wrap;
         gap: 10px;
         padding: 10px;
+    }
+
+    .autoplay-toggle {
+        padding: 6px 10px;
+        font-size: 0.8rem;
+    }
+
+    .autoplay-toggle input[type="checkbox"] {
+        width: 16px;
+        height: 16px;
     }
 
     .narration-btn {
