@@ -1,6 +1,9 @@
 {
   "generated": {
-    "module-01/slide-01.mp3": "8238605c0ab5fa8d011c35e757e6fc12",
+    "module-01/slide-01.mp3": {
+      "custom": true,
+      "recordedAt": "2026-01-14T13:51:28.293Z"
+    },
     "module-01/slide-02.mp3": "40ec9c89e7bd78bfc235ca2a2122143c",
     "module-01/slide-03.mp3": "e8f7a2788ae8ea275123db0ca44176b6",
     "module-01/slide-04.mp3": "2f72a15b0ed8ca6794a29486f42208a5",
