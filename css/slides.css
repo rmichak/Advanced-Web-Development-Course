@@ -841,6 +841,214 @@ img {
 }
 
 /* ========================================
+   Edit Mode (localhost only)
+   ======================================== */
+.narration-panel.editing {
+    border-top-color: #17a2b8;
+    background: linear-gradient(180deg, #f0f9ff 0%, #e6f4ff 100%);
+    max-height: none;
+    overflow: visible;
+}
+
+.narration-panel.editing .narration-label {
+    color: #17a2b8;
+}
+
+.narration-panel.editing .narration-label::before {
+    content: '\270F\FE0F';
+}
+
+.narration-textarea {
+    width: 100%;
+    min-height: 60px;
+    max-height: 120px;
+    padding: 10px;
+    font-family: var(--font-main);
+    font-size: 0.95rem;
+    line-height: 1.6;
+    color: var(--text-color);
+    background: #fff;
+    border: 2px solid #17a2b8;
+    border-radius: 6px;
+    resize: vertical;
+    transition: border-color 0.2s ease;
+}
+
+.narration-textarea:focus {
+    outline: none;
+    border-color: var(--secondary-color);
+    box-shadow: 0 0 0 3px rgba(23, 162, 184, 0.2);
+}
+
+.narration-textarea::placeholder {
+    color: var(--text-light);
+    font-style: italic;
+}
+
+.edit-toolbar {
+    display: flex;
+    gap: 8px;
+    margin-top: 10px;
+    padding-top: 10px;
+    border-top: 1px solid #ddd;
+}
+
+.edit-btn {
+    padding: 8px 16px;
+    border-radius: 5px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: var(--transition);
+}
+
+.edit-btn.save-btn {
+    background-color: #28a745;
+    color: #fff;
+    border: none;
+}
+
+.edit-btn.save-btn:hover {
+    background-color: #218838;
+}
+
+.edit-btn.cancel-btn {
+    background-color: transparent;
+    color: var(--text-color);
+    border: 2px solid var(--border-color);
+}
+
+.edit-btn.cancel-btn:hover {
+    background-color: #f0f0f0;
+    border-color: var(--text-light);
+}
+
+.edit-btn:focus {
+    outline: 3px solid var(--focus-color);
+    outline-offset: 2px;
+}
+
+/* Clickable narration content on localhost */
+.narration-content.editable {
+    cursor: pointer;
+    padding: 8px;
+    margin: -8px;
+    border-radius: 4px;
+    transition: background-color 0.2s ease;
+}
+
+.narration-content.editable:hover {
+    background-color: rgba(23, 162, 184, 0.1);
+}
+
+.narration-content.editable:focus {
+    outline: 2px dashed #17a2b8;
+    outline-offset: 4px;
+}
+
+/* ========================================
+   Audio Choice Modal
+   ======================================== */
+.audio-modal-overlay {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 10003;
+}
+
+.audio-modal-overlay.visible {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.audio-modal {
+    background: #fff;
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+    max-width: 450px;
+    width: 90%;
+    text-align: center;
+}
+
+.audio-modal h3 {
+    font-size: 1.3rem;
+    color: var(--primary-color);
+    margin-bottom: 8px;
+}
+
+.audio-modal p {
+    color: var(--text-light);
+    margin-bottom: 24px;
+    font-size: 0.95rem;
+}
+
+.audio-modal-buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.audio-modal-btn {
+    padding: 14px 20px;
+    border-radius: 8px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: var(--transition);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+}
+
+.audio-modal-btn.record-option {
+    background-color: #6c757d;
+    color: #fff;
+    border: none;
+}
+
+.audio-modal-btn.record-option:hover {
+    background-color: #5a6268;
+}
+
+.audio-modal-btn.generate-option {
+    background-color: var(--secondary-color);
+    color: #fff;
+    border: none;
+}
+
+.audio-modal-btn.generate-option:hover {
+    background-color: #1a5276;
+}
+
+.audio-modal-btn.skip-option {
+    background-color: transparent;
+    color: var(--text-light);
+    border: 2px solid var(--border-color);
+}
+
+.audio-modal-btn.skip-option:hover {
+    background-color: #f0f0f0;
+    border-color: var(--text-light);
+}
+
+.audio-modal-btn:focus {
+    outline: 3px solid var(--focus-color);
+    outline-offset: 2px;
+}
+
+.audio-modal-btn:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+/* ========================================
    Toast Notifications
    ======================================== */
 .toast-notification {

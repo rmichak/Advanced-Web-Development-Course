@@ -30,6 +30,14 @@ class AccessibleSlidePresentation {
         this.audioChunks = [];
         this.isRecording = false;
 
+        // Edit mode properties (localhost only)
+        this.isEditing = false;
+        this.editTextarea = null;
+        this.editToolbar = null;
+        this.originalNarration = '';
+        this.audioModal = null;
+        this.audioModalOverlay = null;
+
         this.init();
     }
 
@@ -375,6 +383,22 @@ class AccessibleSlidePresentation {
         // Create content area
         const content = document.createElement('div');
         content.className = 'narration-content';
+
+        // Make content clickable to edit on localhost
+        if (this.isLocalhost()) {
+            content.classList.add('editable');
+            content.setAttribute('tabindex', '0');
+            content.setAttribute('role', 'button');
+            content.setAttribute('aria-label', 'Click to edit instructor notes');
+            content.addEventListener('click', () => this.enterEditMode());
+            content.addEventListener('keydown', (e) => {
+                if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault();
+                    this.enterEditMode();
+                }
+            });
+        }
+
         narrationPanel.appendChild(content);
 
         // Insert narration panel into main content (before controls, after presentation)
@@ -383,10 +407,19 @@ class AccessibleSlidePresentation {
         // Store reference
         this.narrationPanel = narrationPanel;
         this.narrationContent = content;
+        this.narrationLabel = label;
+
+        // Create audio choice modal (localhost only)
+        if (this.isLocalhost()) {
+            this.createAudioModal();
+        }
     }
 
     updateNarration() {
         if (!this.narrationContent) return;
+
+        // Don't update if in edit mode
+        if (this.isEditing) return;
 
         const activeSlide = this.slides[this.currentSlide];
         const narration = activeSlide.getAttribute('data-narration') || '';
@@ -395,6 +428,355 @@ class AccessibleSlidePresentation {
 
         // Update button state based on whether narration exists
         this.updateNarrationButton();
+    }
+
+    /**
+     * Enter edit mode for instructor notes (localhost only)
+     */
+    enterEditMode() {
+        if (!this.isLocalhost() || this.isEditing) return;
+
+        // Stop any playing narration
+        this.stopNarration();
+
+        const activeSlide = this.slides[this.currentSlide];
+        this.originalNarration = activeSlide.getAttribute('data-narration') || '';
+        this.isEditing = true;
+
+        // Add editing class to panel
+        this.narrationPanel.classList.add('editing');
+
+        // Update label
+        if (this.narrationLabel) {
+            this.narrationLabel.textContent = 'Editing Notes';
+        }
+
+        // Hide the narration content and create textarea
+        this.narrationContent.style.display = 'none';
+
+        // Create textarea
+        this.editTextarea = document.createElement('textarea');
+        this.editTextarea.className = 'narration-textarea';
+        this.editTextarea.value = this.originalNarration;
+        this.editTextarea.placeholder = 'Enter instructor notes for this slide...';
+        this.editTextarea.setAttribute('aria-label', 'Edit instructor notes');
+
+        // Handle escape key to cancel
+        this.editTextarea.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') {
+                e.preventDefault();
+                this.exitEditMode(false);
+            }
+        });
+
+        // Create toolbar
+        this.editToolbar = document.createElement('div');
+        this.editToolbar.className = 'edit-toolbar';
+
+        const saveBtn = document.createElement('button');
+        saveBtn.type = 'button';
+        saveBtn.className = 'edit-btn save-btn';
+        saveBtn.textContent = 'Save';
+        saveBtn.addEventListener('click', () => this.saveNarration());
+
+        const cancelBtn = document.createElement('button');
+        cancelBtn.type = 'button';
+        cancelBtn.className = 'edit-btn cancel-btn';
+        cancelBtn.textContent = 'Cancel';
+        cancelBtn.addEventListener('click', () => this.exitEditMode(false));
+
+        this.editToolbar.appendChild(saveBtn);
+        this.editToolbar.appendChild(cancelBtn);
+
+        // Insert textarea and toolbar into panel
+        this.narrationPanel.appendChild(this.editTextarea);
+        this.narrationPanel.appendChild(this.editToolbar);
+
+        // Focus textarea
+        this.editTextarea.focus();
+
+        this.announce('Edit mode: editing instructor notes');
+    }
+
+    /**
+     * Exit edit mode
+     */
+    exitEditMode(showAudioModal = false) {
+        if (!this.isEditing) return;
+
+        this.isEditing = false;
+
+        // Remove editing class
+        this.narrationPanel.classList.remove('editing');
+
+        // Restore label
+        if (this.narrationLabel) {
+            this.narrationLabel.textContent = 'Instructor Notes';
+        }
+
+        // Remove textarea and toolbar
+        if (this.editTextarea) {
+            this.editTextarea.remove();
+            this.editTextarea = null;
+        }
+        if (this.editToolbar) {
+            this.editToolbar.remove();
+            this.editToolbar = null;
+        }
+
+        // Show narration content again
+        this.narrationContent.style.display = '';
+
+        // Update displayed narration
+        this.updateNarration();
+
+        // Show audio modal if save was successful
+        if (showAudioModal) {
+            this.showAudioModal();
+        } else {
+            this.announce('Edit cancelled');
+        }
+    }
+
+    /**
+     * Save edited narration to server
+     */
+    async saveNarration() {
+        if (!this.editTextarea) return;
+
+        const newNarration = this.editTextarea.value.trim();
+        const moduleName = this.getModuleName();
+        const slideNum = this.currentSlide + 1;
+
+        if (!moduleName) {
+            this.showToast('Could not determine module name', 'error');
+            return;
+        }
+
+        // Show saving state
+        const saveBtn = this.editToolbar.querySelector('.save-btn');
+        const originalText = saveBtn.textContent;
+        saveBtn.textContent = 'Saving...';
+        saveBtn.disabled = true;
+
+        try {
+            const response = await fetch(
+                `/api/save-narration?module=${moduleName}&slide=${slideNum}`,
+                {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ narration: newNarration })
+                }
+            );
+
+            if (!response.ok) {
+                const error = await response.json();
+                throw new Error(error.error || 'Server error');
+            }
+
+            // Update the slide's data-narration attribute locally
+            const activeSlide = this.slides[this.currentSlide];
+            activeSlide.setAttribute('data-narration', newNarration);
+
+            this.showToast('Notes saved successfully!', 'success');
+
+            // Exit edit mode and show audio modal
+            this.exitEditMode(true);
+
+        } catch (error) {
+            console.error('Failed to save narration:', error);
+            saveBtn.textContent = originalText;
+            saveBtn.disabled = false;
+
+            if (error.message === 'Failed to fetch') {
+                this.showToast('Dev server not running. Run: npm run dev', 'error');
+            } else {
+                this.showToast('Failed to save: ' + error.message, 'error');
+            }
+        }
+    }
+
+    /**
+     * Create audio choice modal
+     */
+    createAudioModal() {
+        // Create overlay
+        this.audioModalOverlay = document.createElement('div');
+        this.audioModalOverlay.className = 'audio-modal-overlay';
+
+        // Create modal
+        this.audioModal = document.createElement('div');
+        this.audioModal.className = 'audio-modal';
+        this.audioModal.setAttribute('role', 'dialog');
+        this.audioModal.setAttribute('aria-labelledby', 'audio-modal-title');
+        this.audioModal.setAttribute('aria-modal', 'true');
+
+        const title = document.createElement('h3');
+        title.id = 'audio-modal-title';
+        title.textContent = 'Notes Saved!';
+        this.audioModal.appendChild(title);
+
+        const description = document.createElement('p');
+        description.textContent = 'What would you like to do with the audio?';
+        this.audioModal.appendChild(description);
+
+        // Buttons container
+        const buttonsContainer = document.createElement('div');
+        buttonsContainer.className = 'audio-modal-buttons';
+
+        // Record button
+        const recordBtn = document.createElement('button');
+        recordBtn.type = 'button';
+        recordBtn.className = 'audio-modal-btn record-option';
+        recordBtn.textContent = '\u{1F3A4} Record Custom Audio';
+        recordBtn.addEventListener('click', () => {
+            this.hideAudioModal();
+            this.toggleRecording();
+        });
+        buttonsContainer.appendChild(recordBtn);
+
+        // Generate button
+        const generateBtn = document.createElement('button');
+        generateBtn.type = 'button';
+        generateBtn.className = 'audio-modal-btn generate-option';
+        generateBtn.textContent = '\u{1F50A} Generate with ElevenLabs';
+        generateBtn.addEventListener('click', () => {
+            this.generateAudio();
+        });
+        buttonsContainer.appendChild(generateBtn);
+        this.generateAudioBtn = generateBtn;
+
+        // Skip button
+        const skipBtn = document.createElement('button');
+        skipBtn.type = 'button';
+        skipBtn.className = 'audio-modal-btn skip-option';
+        skipBtn.textContent = 'Skip for now';
+        skipBtn.addEventListener('click', () => {
+            this.hideAudioModal();
+        });
+        buttonsContainer.appendChild(skipBtn);
+
+        this.audioModal.appendChild(buttonsContainer);
+        this.audioModalOverlay.appendChild(this.audioModal);
+
+        // Close on overlay click
+        this.audioModalOverlay.addEventListener('click', (e) => {
+            if (e.target === this.audioModalOverlay) {
+                this.hideAudioModal();
+            }
+        });
+
+        // Handle escape key
+        this.audioModal.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') {
+                e.preventDefault();
+                this.hideAudioModal();
+            }
+        });
+
+        document.body.appendChild(this.audioModalOverlay);
+    }
+
+    /**
+     * Show audio choice modal
+     */
+    showAudioModal() {
+        if (!this.audioModalOverlay) return;
+
+        this.audioModalOverlay.classList.add('visible');
+
+        // Focus first button
+        const firstBtn = this.audioModal.querySelector('button');
+        if (firstBtn) firstBtn.focus();
+
+        this.announce('Notes saved. Choose how to handle audio.');
+    }
+
+    /**
+     * Hide audio choice modal
+     */
+    hideAudioModal() {
+        if (!this.audioModalOverlay) return;
+
+        this.audioModalOverlay.classList.remove('visible');
+
+        // Focus back on narration content
+        if (this.narrationContent) {
+            this.narrationContent.focus();
+        }
+    }
+
+    /**
+     * Generate audio using ElevenLabs API
+     */
+    async generateAudio() {
+        const activeSlide = this.slides[this.currentSlide];
+        const narration = activeSlide.getAttribute('data-narration') || '';
+
+        if (!narration) {
+            this.showToast('No narration text to generate audio from', 'error');
+            this.hideAudioModal();
+            return;
+        }
+
+        const moduleName = this.getModuleName();
+        const slideNum = this.currentSlide + 1;
+
+        if (!moduleName) {
+            this.showToast('Could not determine module name', 'error');
+            return;
+        }
+
+        // Show generating state
+        if (this.generateAudioBtn) {
+            this.generateAudioBtn.textContent = 'Generating...';
+            this.generateAudioBtn.disabled = true;
+        }
+
+        try {
+            const response = await fetch(
+                `/api/generate-audio?module=${moduleName}&slide=${slideNum}`,
+                {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ text: narration })
+                }
+            );
+
+            if (!response.ok) {
+                const error = await response.json();
+                throw new Error(error.error || 'Server error');
+            }
+
+            this.showToast('Audio generated successfully!', 'success');
+            this.hideAudioModal();
+
+            // Play the new audio if autoplay is enabled
+            if (this.autoplayEnabled) {
+                setTimeout(() => this.playNarration(narration), 500);
+            }
+
+        } catch (error) {
+            console.error('Failed to generate audio:', error);
+
+            // Reset button
+            if (this.generateAudioBtn) {
+                this.generateAudioBtn.textContent = '\u{1F50A} Generate with ElevenLabs';
+                this.generateAudioBtn.disabled = false;
+            }
+
+            if (error.message.includes('API key')) {
+                this.showToast('ElevenLabs API key not configured in .env', 'error');
+            } else if (error.message === 'Failed to fetch') {
+                this.showToast('Dev server not running. Run: npm run dev', 'error');
+            } else {
+                this.showToast('Failed to generate: ' + error.message, 'error');
+            }
+        }
     }
 
     toggleNarration() {
@@ -868,16 +1250,30 @@ class AccessibleSlidePresentation {
     }
 
     handleKeydown(e) {
-        // Don't interfere with form inputs
-        if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') return;
+        // Don't interfere with form inputs (except for Escape)
+        if ((e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') && e.key !== 'Escape') return;
 
-        // Handle help dialog close
+        // Handle escape key for various dialogs/modes
         if (e.key === 'Escape') {
+            // Audio modal takes priority
+            if (this.audioModalOverlay && this.audioModalOverlay.classList.contains('visible')) {
+                e.preventDefault();
+                this.hideAudioModal();
+                return;
+            }
+            // Edit mode
+            if (this.isEditing) {
+                e.preventDefault();
+                this.exitEditMode(false);
+                return;
+            }
+            // Help dialog
             if (this.helpDialogOpen) {
                 e.preventDefault();
                 this.toggleHelpDialog(false);
                 return;
             }
+            // Mobile nav
             if (this.mobileNavOpen) {
                 e.preventDefault();
                 this.toggleMobileNav(false);
@@ -885,8 +1281,10 @@ class AccessibleSlidePresentation {
             }
         }
 
-        // Don't handle other keys if help dialog is open
+        // Don't handle other keys if any modal/edit mode is active
         if (this.helpDialogOpen) return;
+        if (this.isEditing) return;
+        if (this.audioModalOverlay && this.audioModalOverlay.classList.contains('visible')) return;
 
         switch (e.key) {
             case 'ArrowRight':
