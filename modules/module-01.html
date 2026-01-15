@@ -345,6 +345,226 @@
             .tool-grid { grid-template-columns: repeat(2, 1fr); }
             .compare-grid { grid-template-columns: 1fr; }
         }
+
+        /* ========================================
+           Assignment Slide Styles
+           ======================================== */
+        .assignment-content {
+            padding-bottom: 2rem;
+        }
+
+        .assignment-header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 12px;
+            padding: 2rem 2.5rem;
+            margin-bottom: 1.5rem;
+            text-align: center;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        }
+        .assignment-header h2 {
+            font-size: 2rem;
+            font-weight: 700;
+            margin: 0 0 1rem 0;
+            color: #fff;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+            border: none;
+        }
+        .assignment-header .overview {
+            font-size: 1rem;
+            color: rgba(255, 255, 255, 0.9);
+            max-width: 800px;
+            margin: 0 auto;
+            line-height: 1.6;
+        }
+
+        .assignment-step {
+            background: linear-gradient(135deg, #1a2332 0%, #2d3748 100%);
+            border-radius: 12px;
+            padding: 1.5rem 2rem;
+            margin-bottom: 1.25rem;
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
+            border-left: 4px solid #667eea;
+        }
+        .assignment-step h3 {
+            font-size: 1.3rem;
+            color: #a5b4fc;
+            margin: 0 0 1rem 0;
+            padding-bottom: 0.5rem;
+            border-bottom: 1px solid #3d4a5d;
+        }
+        .assignment-step h4 {
+            font-size: 1.1rem;
+            color: #c4b5fd;
+            margin: 1.25rem 0 0.75rem 0;
+        }
+        .assignment-step h5 {
+            font-size: 1rem;
+            color: #93c5fd;
+            margin: 1rem 0 0.5rem 0;
+        }
+        .assignment-step p {
+            color: #d1d5db;
+            margin-bottom: 0.75rem;
+            line-height: 1.6;
+        }
+        .assignment-step ul, .assignment-step ol {
+            margin-left: 1.5rem;
+            margin-bottom: 0.75rem;
+            color: #d1d5db;
+        }
+        .assignment-step li {
+            margin-bottom: 0.5rem;
+            line-height: 1.5;
+        }
+        .assignment-step li ul, .assignment-step li ol {
+            margin-top: 0.5rem;
+        }
+        .assignment-step a {
+            color: #60a5fa;
+            text-decoration: none;
+        }
+        .assignment-step a:hover {
+            text-decoration: underline;
+        }
+        .assignment-step strong {
+            color: #f9fafb;
+        }
+        .assignment-step code {
+            background: #374151;
+            color: #fbbf24;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-family: 'Monaco', 'Menlo', 'Consolas', monospace;
+            font-size: 0.88rem;
+        }
+        .assignment-step pre {
+            background: #0d1117;
+            border-radius: 8px;
+            padding: 1rem 1.25rem;
+            margin: 0.75rem 0;
+            overflow-x: auto;
+            border: 1px solid #30363d;
+        }
+        .assignment-step pre code {
+            background: none;
+            color: #e2e8f0;
+            padding: 0;
+            font-size: 0.9rem;
+            line-height: 1.5;
+        }
+
+        .assignment-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 0.75rem 0;
+        }
+        .assignment-table th {
+            background: #374151;
+            color: #f9fafb;
+            padding: 0.75rem 1rem;
+            text-align: left;
+            font-weight: 600;
+        }
+        .assignment-table td {
+            background: #2d3a4d;
+            color: #d1d5db;
+            padding: 0.75rem 1rem;
+            border-bottom: 1px solid #3d4a5d;
+        }
+        .assignment-table td strong {
+            color: #fff;
+        }
+        .assignment-table a {
+            color: #60a5fa;
+        }
+
+        .os-content {
+            background: #252537;
+            border-radius: 8px;
+            padding: 1rem 1.25rem;
+            margin: 0.75rem 0;
+        }
+        .os-content h5 {
+            color: #c4b5fd;
+            margin: 0 0 0.75rem 0;
+        }
+
+        .dark-success {
+            background: #14532d;
+            border-left: 4px solid #22c55e;
+            border-radius: 0 8px 8px 0;
+            padding: 0.75rem 1rem;
+            margin: 0.75rem 0;
+        }
+        .dark-success p {
+            color: #bbf7d0;
+            margin: 0;
+        }
+        .dark-success strong {
+            color: #4ade80;
+        }
+
+        .assignment-deliverables {
+            background: linear-gradient(135deg, #065f46 0%, #064e3b 100%);
+            border-radius: 12px;
+            padding: 1.5rem 2rem;
+            margin-bottom: 1.25rem;
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
+        }
+        .assignment-deliverables h3 {
+            color: #6ee7b7;
+            margin: 0 0 1rem 0;
+            padding-bottom: 0.5rem;
+            border-bottom: 1px solid #34d399;
+        }
+        .assignment-deliverables p {
+            color: #d1fae5;
+            margin-bottom: 0.75rem;
+        }
+        .assignment-deliverables li {
+            color: #d1fae5;
+            margin-bottom: 0.5rem;
+        }
+        .assignment-deliverables strong {
+            color: #fff;
+        }
+        .assignment-deliverables code {
+            background: #064e3b;
+            color: #6ee7b7;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-family: 'Monaco', 'Menlo', 'Consolas', monospace;
+            font-size: 0.88rem;
+        }
+
+        .assignment-checklist {
+            background: #1a1a2e;
+            border: 2px dashed #f59e0b;
+            border-radius: 8px;
+            padding: 1rem 1.25rem;
+            margin: 1rem 0;
+        }
+        .assignment-checklist h4 {
+            color: #fbbf24;
+            margin: 0 0 0.75rem 0;
+        }
+        .assignment-checklist li {
+            color: #fcd34d;
+            margin-bottom: 0.4rem;
+        }
+        .assignment-checklist code {
+            background: #292524;
+            color: #fb923c;
+        }
+
+        .assignment-footer {
+            text-align: center;
+            padding: 1.5rem;
+            color: #6b7280;
+            font-size: 0.9rem;
+            border-top: 1px solid #3d4a5d;
+            margin-top: 1rem;
+        }
     </style>
 </head>
 <body>
@@ -1178,61 +1398,635 @@
         </section>
 
         <!-- Assignment -->
-        <section class="slide" id="assignment" data-narration="This assignment is worth 100 points and is due at the end of week one. You'll verify that your development environment is ready for modern web development. We're installing React and Next.js now to ensure compatibility, though we won't use them until later modules. Each of the five sections is worth 20 points, and you'll need to capture screenshots as evidence of successful setup. Take your time with this—a properly configured environment will save you countless hours of frustration throughout the course.">
-            <h2>Assignment: Environment Setup</h2>
-            <p class="subtitle"><strong>Due:</strong> End of Week 1 | <strong>Points:</strong> 100</p>
+        <section class="slide" id="assignment" data-narration="This comprehensive assignment guides you through setting up a complete modern web development environment. You will install Node.js, npm, Git, Express.js, React, and Next.js. By the end, you will have a working setup ready for full-stack web development projects throughout this course. Take your time with each step and capture the required screenshots as you go.">
+            <div class="assignment-content">
+                <!-- Title Header -->
+                <header class="assignment-header">
+                    <h2>Assignment: Development Environment Setup</h2>
+                    <p class="overview">In this assignment, you will install and configure a complete modern web development environment including Node.js, npm, Express.js, React, and Next.js. By the end, you will have a working setup ready for full-stack web development projects throughout this course.</p>
+                </header>
 
-            <div class="info-box" style="margin-bottom: 1rem;">
-                <p><strong>Overview:</strong> Verify your environment is ready for modern web development. React and Next.js are installed now but used in later modules. All commands are typed in a terminal—use VS Code's integrated terminal (<kbd>Ctrl+`</kbd> or <kbd>Cmd+`</kbd>), or open Command Prompt (Windows) or Terminal (Mac/Linux).</p>
-            </div>
+                <!-- Step 1: Overview and Prerequisites -->
+                <section class="assignment-step">
+                    <h3>1. Overview and Prerequisites</h3>
+                    <p>Before we begin, ensure you have the following:</p>
+                    <ul>
+                        <li>A computer running <strong>macOS</strong> (Ventura or later recommended) or <strong>Windows 10/11</strong></li>
+                        <li>Administrator access to install software</li>
+                        <li>A stable internet connection</li>
+                        <li>At least <strong>10 GB</strong> of free disk space</li>
+                    </ul>
 
-            <div class="highlight-box" style="margin-bottom: 1rem;">
-                <h4>Step 1: VS Code Setup (20 pts)</h4>
-                <p>Download and install from <a href="https://code.visualstudio.com" target="_blank" rel="noopener">code.visualstudio.com</a>. Create a project folder (e.g., <code>dev-environment</code> on your Desktop), then open it with <strong>File → Open Folder</strong>.</p>
-                <pre><code>Open integrated terminal: Ctrl+` (Windows/Linux) or Cmd+` (Mac)</code></pre>
-                <p><strong>Screenshot:</strong> VS Code with terminal panel open and your folder visible in the sidebar.</p>
-            </div>
+                    <h4>Technologies You Will Install</h4>
+                    <table class="assignment-table">
+                        <thead>
+                            <tr>
+                                <th>Technology</th>
+                                <th>Minimum Version</th>
+                                <th>How to Check Latest</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>Git</strong></td>
+                                <td>2.40.x or higher</td>
+                                <td><a href="https://git-scm.com" target="_blank" rel="noopener">git-scm.com</a></td>
+                            </tr>
+                            <tr>
+                                <td><strong>Node.js</strong></td>
+                                <td>20.x or higher (LTS)</td>
+                                <td><a href="https://nodejs.org" target="_blank" rel="noopener">nodejs.org</a> — Always install the LTS version</td>
+                            </tr>
+                            <tr>
+                                <td><strong>npm</strong></td>
+                                <td>10.x or higher</td>
+                                <td>Bundled with Node.js — installed automatically</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Express.js</strong></td>
+                                <td>5.x or higher</td>
+                                <td><a href="https://www.npmjs.com/package/express" target="_blank" rel="noopener">npmjs.com/package/express</a></td>
+                            </tr>
+                            <tr>
+                                <td><strong>React</strong></td>
+                                <td>19.x or higher</td>
+                                <td><a href="https://www.npmjs.com/package/react" target="_blank" rel="noopener">npmjs.com/package/react</a></td>
+                            </tr>
+                            <tr>
+                                <td><strong>Next.js</strong></td>
+                                <td>15.x or higher</td>
+                                <td><a href="https://www.npmjs.com/package/next" target="_blank" rel="noopener">npmjs.com/package/next</a></td>
+                            </tr>
+                        </tbody>
+                    </table>
 
-            <div class="highlight-box" style="margin-bottom: 1rem;">
-                <h4>Step 2: Node.js &amp; npm (20 pts)</h4>
-                <p>Download and install the LTS version from <a href="https://nodejs.org" target="_blank" rel="noopener">nodejs.org</a>. After installation, <strong>close and reopen your terminal</strong>, then run:</p>
-                <pre><code>node -v
-npm -v</code></pre>
-                <p><strong>Screenshot:</strong> Terminal showing version numbers (e.g., v20.x.x and 10.x.x).</p>
-            </div>
+                    <h4>Accounts You Will Need</h4>
+                    <table class="assignment-table">
+                        <thead>
+                            <tr>
+                                <th>Service</th>
+                                <th>Purpose</th>
+                                <th>Sign Up Link</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>GitHub</strong></td>
+                                <td>Code hosting, version control, collaboration</td>
+                                <td><a href="https://github.com/signup" target="_blank" rel="noopener">github.com/signup</a></td>
+                            </tr>
+                        </tbody>
+                    </table>
 
-            <div class="highlight-box" style="margin-bottom: 1rem;">
-                <h4>Step 3: Git (20 pts)</h4>
-                <p>Download and install from <a href="https://git-scm.com" target="_blank" rel="noopener">git-scm.com</a> (Windows) or type <code>git</code> in Terminal to trigger Xcode tools (Mac). After installation, <strong>close and reopen your terminal</strong>, then run:</p>
-                <pre><code>git --version</code></pre>
-                <p><strong>Screenshot:</strong> Terminal showing Git version.</p>
-            </div>
+                    <div class="dark-info">
+                        <p><strong>Understanding Versions:</strong> Software versions follow a pattern like <code>MAJOR.MINOR.PATCH</code> (e.g., 20.11.0). The <strong>major</strong> number (first digit) is what matters most for compatibility. When this assignment says "20.x or higher," it means any version where the major number is 20 or greater.</p>
+                    </div>
 
-            <div class="highlight-box" style="margin-bottom: 1rem;">
-                <h4>Step 4: React App (20 pts)</h4>
-                <p>In your project folder, run these commands. The first creates a React app (takes a few minutes), the second enters the folder, the third starts the server:</p>
-                <pre><code>npx create-react-app@latest test-react
-cd test-react
-npm start</code></pre>
-                <p><strong>Screenshot:</strong> Browser at localhost:3000 showing the React starter page.</p>
-            </div>
+                    <div class="dark-info">
+                        <p><strong>What is LTS?</strong> LTS stands for "Long-Term Support." These versions receive security updates and bug fixes for an extended period (typically 30 months for Node.js). Always choose the LTS version for coursework and production projects.</p>
+                    </div>
+                </section>
 
-            <div class="highlight-box" style="margin-bottom: 1rem;">
-                <h4>Step 5: Next.js App (20 pts)</h4>
-                <p>Stop the React server (<kbd>Ctrl+C</kbd>), navigate back (<code>cd ..</code>), then run these commands. Accept default prompts when creating the app:</p>
-                <pre><code>npx create-next-app@latest test-nextjs
-cd test-nextjs
-npm run dev</code></pre>
-                <p><strong>Screenshot:</strong> Browser at localhost:3000 showing the Next.js starter page.</p>
-            </div>
+                <!-- Step 2: Install Node.js -->
+                <section class="assignment-step">
+                    <h3>2. Install Node.js and npm</h3>
+                    <p>Node.js is the foundation of our development environment. It allows you to run JavaScript outside the browser and comes bundled with npm (Node Package Manager).</p>
 
-            <div class="warning-box" style="margin-bottom: 1rem;">
-                <h3>Submission</h3>
-                <p>Submit a Word document or PDF containing <strong>all five screenshots</strong> showing successful setup of each component.</p>
-            </div>
+                    <h4>For macOS Users</h4>
+                    <div class="os-content">
+                        <h5>Option A: Using the Official Installer (Recommended for Beginners)</h5>
+                        <ol>
+                            <li>Visit <a href="https://nodejs.org" target="_blank" rel="noopener">https://nodejs.org</a></li>
+                            <li>Download the <strong>LTS version</strong> (the button on the left — it will show a version number with "LTS" next to it)</li>
+                            <li>Open the downloaded <code>.pkg</code> file</li>
+                            <li>Follow the installation wizard, accepting the default options</li>
+                            <li>When prompted, enter your administrator password</li>
+                        </ol>
 
-            <div class="info-box">
-                <p><strong>Notes:</strong> If you encounter issues, update older versions via <a href="https://nodejs.org/en/download" target="_blank" rel="noopener">nodejs.org</a> or <a href="https://git-scm.com/downloads" target="_blank" rel="noopener">git-scm.com</a>. Don't hesitate to ask for help—configuration problems are common!</p>
+                        <h5>Option B: Using Homebrew (Recommended for Developers)</h5>
+                        <p>If you don't have Homebrew installed, first install it:</p>
+                        <pre><code>/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"</code></pre>
+                        <p>Then install Node.js:</p>
+                        <pre><code>brew install node</code></pre>
+                    </div>
+
+                    <h4>For Windows Users</h4>
+                    <div class="os-content">
+                        <h5>Option A: Using the Official Installer (Recommended)</h5>
+                        <ol>
+                            <li>Visit <a href="https://nodejs.org" target="_blank" rel="noopener">https://nodejs.org</a></li>
+                            <li>Download the <strong>LTS version</strong> for Windows (the button on the left)</li>
+                            <li>Run the downloaded <code>.msi</code> installer</li>
+                            <li>Follow the installation wizard:
+                                <ul>
+                                    <li>Accept the license agreement</li>
+                                    <li>Use the default installation path</li>
+                                    <li><strong>Important:</strong> Check the box that says "Automatically install the necessary tools"</li>
+                                </ul>
+                            </li>
+                            <li>Click Install and wait for completion</li>
+                        </ol>
+
+                        <h5>Option B: Using winget (Windows Package Manager)</h5>
+                        <p>Open PowerShell or Command Prompt as Administrator and run:</p>
+                        <pre><code>winget install OpenJS.NodeJS.LTS</code></pre>
+                    </div>
+
+                    <h4>Verify Installation</h4>
+                    <p>Open a <strong>new</strong> terminal window and run:</p>
+                    <pre><code>node --version</code></pre>
+                    <p>You should see output like <code>v20.11.0</code>, <code>v22.5.1</code>, or similar. The exact numbers will vary — what matters is that the <strong>major version (first number) is 20 or higher</strong>.</p>
+
+                    <p>Also verify npm:</p>
+                    <pre><code>npm --version</code></pre>
+                    <p>You should see a version number like <code>10.2.0</code> or higher.</p>
+
+                    <div class="dark-success">
+                        <p><strong>Success Criteria:</strong> Node.js major version is 20 or higher, and npm major version is 10 or higher.</p>
+                    </div>
+
+                    <div class="dark-warning">
+                        <p><strong>Troubleshooting:</strong> If the commands are not recognized, try closing and reopening your terminal. On Windows, you may need to restart your computer for the PATH changes to take effect.</p>
+                    </div>
+                </section>
+
+                <!-- Step 3: Install Git and Set Up GitHub -->
+                <section class="assignment-step">
+                    <h3>3. Install Git and Set Up GitHub</h3>
+                    <p>Git is a version control system that tracks changes to your code. GitHub is a cloud-based platform for hosting Git repositories and collaborating with others.</p>
+
+                    <h4>Create a GitHub Account</h4>
+                    <p>If you don't already have a GitHub account:</p>
+                    <ol>
+                        <li>Visit <a href="https://github.com/signup" target="_blank" rel="noopener">https://github.com/signup</a></li>
+                        <li>Enter your email address and create a password</li>
+                        <li>Choose a username (this will be visible on your profile and repositories)</li>
+                        <li>Complete the verification and email confirmation</li>
+                        <li>Choose the <strong>Free</strong> plan</li>
+                    </ol>
+
+                    <div class="dark-info">
+                        <p><strong>Tip:</strong> Choose a professional username — potential employers may see your GitHub profile.</p>
+                    </div>
+
+                    <h4>Install Git</h4>
+                    <div class="os-content">
+                        <h5>For macOS Users</h5>
+                        <p>Git may already be installed. Check by running:</p>
+                        <pre><code>git --version</code></pre>
+                        <p>If Git is not installed, you'll be prompted to install the Xcode Command Line Tools. Click "Install" when prompted.</p>
+                        <p>Alternatively, with Homebrew:</p>
+                        <pre><code>brew install git</code></pre>
+                    </div>
+
+                    <div class="os-content">
+                        <h5>For Windows Users</h5>
+                        <ol>
+                            <li>Visit <a href="https://git-scm.com/download/win" target="_blank" rel="noopener">https://git-scm.com/download/win</a></li>
+                            <li>The download should start automatically</li>
+                            <li>Run the installer with default options, but note:
+                                <ul>
+                                    <li><strong>Default editor:</strong> Select "Use Visual Studio Code as Git's default editor"</li>
+                                    <li><strong>PATH environment:</strong> Select "Git from the command line and also from 3rd-party software"</li>
+                                    <li><strong>Line ending conversions:</strong> Select "Checkout Windows-style, commit Unix-style line endings"</li>
+                                </ul>
+                            </li>
+                        </ol>
+                    </div>
+
+                    <h4>Verify Git Installation</h4>
+                    <pre><code>git --version</code></pre>
+                    <p>You should see output like <code>git version 2.43.0</code>. The <strong>major version should be 2 and minor version 40 or higher</strong>.</p>
+
+                    <h4>Configure Git</h4>
+                    <p>Set up your identity. <strong>Use the same email address you used for your GitHub account.</strong></p>
+                    <pre><code>git config --global user.name "Your Full Name"
+git config --global user.email "your.email@example.com"</code></pre>
+
+                    <h4>Verify Git Configuration</h4>
+                    <pre><code>git config --global --list</code></pre>
+
+                    <h4>Connect Git to GitHub (SSH Key Setup)</h4>
+                    <p>To push code to GitHub without entering your password every time:</p>
+
+                    <h5>Step 1: Generate an SSH Key</h5>
+                    <pre><code>ssh-keygen -t ed25519 -C "your.email@example.com"</code></pre>
+                    <p>Press <strong>Enter</strong> to accept defaults when prompted.</p>
+
+                    <h5>Step 2: Start the SSH Agent</h5>
+                    <pre><code>eval "$(ssh-agent -s)"</code></pre>
+
+                    <h5>Step 3: Add Your SSH Key to the Agent</h5>
+                    <pre><code>ssh-add ~/.ssh/id_ed25519</code></pre>
+
+                    <h5>Step 4: Copy Your Public Key</h5>
+                    <p><strong>On macOS:</strong></p>
+                    <pre><code>pbcopy &lt; ~/.ssh/id_ed25519.pub</code></pre>
+                    <p><strong>On Windows (Git Bash):</strong></p>
+                    <pre><code>cat ~/.ssh/id_ed25519.pub | clip</code></pre>
+
+                    <h5>Step 5: Add the Key to GitHub</h5>
+                    <ol>
+                        <li>Go to <a href="https://github.com/settings/keys" target="_blank" rel="noopener">https://github.com/settings/keys</a></li>
+                        <li>Click <strong>"New SSH key"</strong></li>
+                        <li>Give it a title (e.g., "My Laptop")</li>
+                        <li>Paste your key into the "Key" field</li>
+                        <li>Click <strong>"Add SSH key"</strong></li>
+                    </ol>
+
+                    <h5>Step 6: Test the Connection</h5>
+                    <pre><code>ssh -T git@github.com</code></pre>
+                    <p>If successful, you'll see: <code>Hi username! You've successfully authenticated...</code></p>
+
+                    <div class="dark-success">
+                        <p><strong>Success Criteria:</strong> Git version is 2.40.x or higher, your name and email are configured, and you can authenticate with GitHub via SSH.</p>
+                    </div>
+                </section>
+
+                <!-- Step 4: Set Up a Code Editor -->
+                <section class="assignment-step">
+                    <h3>4. Install Visual Studio Code and Postman</h3>
+                    <p>Visual Studio Code (VS Code) is a free, powerful code editor. Postman is an essential tool for testing APIs.</p>
+
+                    <h4>VS Code Installation</h4>
+                    <ol>
+                        <li>Visit <a href="https://code.visualstudio.com" target="_blank" rel="noopener">https://code.visualstudio.com</a></li>
+                        <li>Download the installer for your operating system</li>
+                        <li>Run the installer and follow the prompts</li>
+                        <li>On Windows, check the options to add "Open with Code" to context menus and add to PATH</li>
+                    </ol>
+
+                    <h4>Install Recommended VS Code Extensions</h4>
+                    <p>Press <code>Ctrl+Shift+X</code> (Windows) or <code>Cmd+Shift+X</code> (macOS) and search for:</p>
+                    <ul>
+                        <li><strong>ES7+ React/Redux/React-Native snippets</strong> — Code snippets for React</li>
+                        <li><strong>Prettier - Code formatter</strong> — Automatic code formatting</li>
+                        <li><strong>ESLint</strong> — JavaScript linting</li>
+                        <li><strong>Auto Rename Tag</strong> — Automatically rename paired HTML/JSX tags</li>
+                    </ul>
+
+                    <h4>Install Postman</h4>
+                    <ol>
+                        <li>Visit <a href="https://www.postman.com/downloads/" target="_blank" rel="noopener">https://www.postman.com/downloads/</a></li>
+                        <li>Download and install for your operating system</li>
+                        <li>Create a free Postman account when prompted (optional)</li>
+                    </ol>
+
+                    <h4>Verify VS Code Command Line</h4>
+                    <pre><code>code --version</code></pre>
+                </section>
+
+                <!-- Step 5: Create Working Directory -->
+                <section class="assignment-step">
+                    <h3>5. Create Your Course Working Directory</h3>
+                    <p>Create a dedicated folder for all your course projects.</p>
+
+                    <h4>For macOS Users</h4>
+                    <pre><code>mkdir -p ~/Documents/WebDev
+cd ~/Documents/WebDev</code></pre>
+
+                    <h4>For Windows Users</h4>
+                    <pre><code>mkdir C:\WebDev
+cd C:\WebDev</code></pre>
+
+                    <p>Open this folder in VS Code:</p>
+                    <pre><code>code .</code></pre>
+                </section>
+
+                <!-- Step 6: Create and Test Express.js Project -->
+                <section class="assignment-step">
+                    <h3>6. Create and Test an Express.js Project</h3>
+                    <p>Express.js is a minimal web framework for Node.js. Let's create a simple server to verify your setup.</p>
+
+                    <h4>Initialize a New Project</h4>
+                    <p>In your terminal (inside your WebDev folder):</p>
+                    <pre><code>mkdir express-test
+cd express-test
+npm init -y</code></pre>
+
+                    <h4>Install Express.js</h4>
+                    <pre><code>npm install express</code></pre>
+
+                    <h4>Verify Express Version</h4>
+                    <pre><code>npm list express</code></pre>
+                    <p>The <strong>major version should be 5 or higher</strong>. If you see Express 4.x, install version 5: <code>npm install express@5</code></p>
+
+                    <h4>Create the Server File</h4>
+                    <p>Create a new file called <code>server.js</code>:</p>
+                    <pre><code>const express = require('express');
+const app = express();
+const PORT = 3000;
+
+app.get('/', (req, res) =&gt; {
+  res.json({
+    message: 'Express server is running!',
+    nodeVersion: process.version,
+    expressVersion: require('express/package.json').version,
+    timestamp: new Date().toISOString()
+  });
+});
+
+app.listen(PORT, () =&gt; {
+  console.log(`Server running at http://localhost:${PORT}`);
+});</code></pre>
+
+                    <h4>Run the Server</h4>
+                    <pre><code>node server.js</code></pre>
+
+                    <h4>Test the Server</h4>
+                    <ol>
+                        <li>Open your browser to <code>http://localhost:3000</code></li>
+                        <li>You should see a JSON response with your Node.js and Express versions</li>
+                        <li>Take a <strong>screenshot</strong> of this output</li>
+                        <li>Press <code>Ctrl+C</code> to stop the server</li>
+                    </ol>
+
+                    <div class="dark-success">
+                        <p><strong>Success Criteria:</strong> The JSON response shows Express version 5.x or higher.</p>
+                    </div>
+                </section>
+
+                <!-- Step 7: Create and Test React Project -->
+                <section class="assignment-step">
+                    <h3>7. Create and Test a React Project</h3>
+                    <p>React is a JavaScript library for building user interfaces. We'll use Vite, the modern build tool.</p>
+
+                    <h4>Navigate Back to WebDev Folder</h4>
+                    <pre><code>cd ..</code></pre>
+
+                    <h4>Create a New React Project with Vite</h4>
+                    <pre><code>npm create vite@latest react-test -- --template react</code></pre>
+                    <p>If prompted to install <code>create-vite</code>, type <code>y</code> and press Enter.</p>
+
+                    <h4>Install Dependencies</h4>
+                    <pre><code>cd react-test
+npm install</code></pre>
+
+                    <h4>Verify React Version</h4>
+                    <pre><code>npm list react</code></pre>
+                    <p>The <strong>major version should be 19 or higher</strong>.</p>
+
+                    <h4>Start the Development Server</h4>
+                    <pre><code>npm run dev</code></pre>
+
+                    <h4>Test the Application</h4>
+                    <ol>
+                        <li>Open your browser to the URL shown (typically <code>http://localhost:5173</code>)</li>
+                        <li>You should see the Vite + React welcome page</li>
+                        <li>Click the counter button to verify interactivity</li>
+                        <li>Take a <strong>screenshot</strong></li>
+                        <li>Press <code>Ctrl+C</code> to stop the server</li>
+                    </ol>
+
+                    <div class="dark-success">
+                        <p><strong>Success Criteria:</strong> React version is 19.x or higher, and the application runs successfully.</p>
+                    </div>
+                </section>
+
+                <!-- Step 8: Create and Test Next.js Project -->
+                <section class="assignment-step">
+                    <h3>8. Create and Test a Next.js Project</h3>
+                    <p>Next.js is a full-stack React framework with server-side rendering, routing, and more.</p>
+
+                    <h4>Navigate Back to WebDev Folder</h4>
+                    <pre><code>cd ..</code></pre>
+
+                    <h4>Create a New Next.js Project</h4>
+                    <pre><code>npx create-next-app@latest nextjs-test</code></pre>
+                    <p>When prompted, select:</p>
+                    <ul>
+                        <li><strong>TypeScript?</strong> No</li>
+                        <li><strong>ESLint?</strong> Yes</li>
+                        <li><strong>Tailwind CSS?</strong> Yes</li>
+                        <li><strong>src/ directory?</strong> No</li>
+                        <li><strong>App Router?</strong> Yes</li>
+                        <li><strong>Turbopack?</strong> Yes (if available)</li>
+                        <li><strong>Customize import alias?</strong> No</li>
+                    </ul>
+
+                    <h4>Navigate and Verify Version</h4>
+                    <pre><code>cd nextjs-test
+npm list next</code></pre>
+                    <p>The <strong>major version should be 15 or higher</strong>.</p>
+
+                    <h4>Start the Development Server</h4>
+                    <pre><code>npm run dev</code></pre>
+
+                    <h4>Test the Application</h4>
+                    <ol>
+                        <li>Open your browser to <code>http://localhost:3000</code></li>
+                        <li>You should see the Next.js welcome page</li>
+                        <li>Take a <strong>screenshot</strong></li>
+                        <li>Press <code>Ctrl+C</code> to stop the server</li>
+                    </ol>
+
+                    <div class="dark-success">
+                        <p><strong>Success Criteria:</strong> Next.js version is 15.x or higher, and the application runs successfully.</p>
+                    </div>
+                </section>
+
+                <!-- Step 9: Create Verification Script -->
+                <section class="assignment-step">
+                    <h3>9. Create a Verification Script</h3>
+                    <p>Create a script that displays all your installed versions in one place.</p>
+
+                    <h4>Navigate to WebDev Folder</h4>
+                    <pre><code>cd ..</code></pre>
+
+                    <h4>Create the Verification Script</h4>
+                    <p>Create a file named <code>verify-setup.js</code> in your WebDev folder:</p>
+                    <pre><code>const { execSync } = require('child_process');
+const path = require('path');
+const fs = require('fs');
+
+console.log('='.repeat(60));
+console.log('  DEVELOPMENT ENVIRONMENT VERIFICATION');
+console.log('  Generated:', new Date().toLocaleString());
+console.log('='.repeat(60));
+console.log();
+
+const requirements = {
+  git: 2.40, node: 20, npm: 10, express: 5, react: 19, next: 15
+};
+
+let allPassed = true;
+
+function checkMajorVersion(name, current, minimum) {
+  const majorVersion = parseInt(current.replace('v', '').split('.')[0]);
+  const passed = majorVersion &gt;= minimum;
+  if (!passed) allPassed = false;
+  const status = passed ? 'PASS' : 'FAIL';
+  console.log(`${status} - Requires ${minimum}.x or higher, found ${current}`);
+  return passed;
+}
+
+// Git
+console.log('GIT');
+console.log('-'.repeat(40));
+try {
+  const gitVersion = execSync('git --version').toString().trim();
+  console.log('Version:', gitVersion);
+  const gitUser = execSync('git config --global user.name').toString().trim();
+  const gitEmail = execSync('git config --global user.email').toString().trim();
+  console.log('User:', gitUser);
+  console.log('Email:', gitEmail);
+} catch (e) { console.log('FAIL - Git not installed'); allPassed = false; }
+console.log();
+
+// Node.js
+console.log('NODE.JS');
+console.log('-'.repeat(40));
+console.log('Version:', process.version);
+checkMajorVersion('Node.js', process.version, requirements.node);
+console.log();
+
+// npm
+console.log('NPM');
+console.log('-'.repeat(40));
+const npmVersion = execSync('npm --version').toString().trim();
+console.log('Version:', npmVersion);
+checkMajorVersion('npm', npmVersion, requirements.npm);
+console.log();
+
+// Express
+console.log('EXPRESS.JS');
+console.log('-'.repeat(40));
+try {
+  const expressPath = path.join(__dirname, 'express-test', 'node_modules', 'express', 'package.json');
+  if (fs.existsSync(expressPath)) {
+    const expressPkg = require(expressPath);
+    console.log('Version:', expressPkg.version);
+    checkMajorVersion('Express', expressPkg.version, requirements.express);
+  } else { console.log('FAIL - Not found in express-test folder'); allPassed = false; }
+} catch (e) { console.log('FAIL - Not installed'); allPassed = false; }
+console.log();
+
+// React
+console.log('REACT');
+console.log('-'.repeat(40));
+try {
+  const reactPath = path.join(__dirname, 'react-test', 'node_modules', 'react', 'package.json');
+  if (fs.existsSync(reactPath)) {
+    const reactPkg = require(reactPath);
+    console.log('Version:', reactPkg.version);
+    checkMajorVersion('React', reactPkg.version, requirements.react);
+  } else { console.log('FAIL - Not found in react-test folder'); allPassed = false; }
+} catch (e) { console.log('FAIL - Not installed'); allPassed = false; }
+console.log();
+
+// Next.js
+console.log('NEXT.JS');
+console.log('-'.repeat(40));
+try {
+  const nextPath = path.join(__dirname, 'nextjs-test', 'node_modules', 'next', 'package.json');
+  if (fs.existsSync(nextPath)) {
+    const nextPkg = require(nextPath);
+    console.log('Version:', nextPkg.version);
+    checkMajorVersion('Next.js', nextPkg.version, requirements.next);
+  } else { console.log('FAIL - Not found in nextjs-test folder'); allPassed = false; }
+} catch (e) { console.log('FAIL - Not installed'); allPassed = false; }
+console.log();
+
+console.log('='.repeat(60));
+if (allPassed) {
+  console.log('  ALL CHECKS PASSED - Your environment is ready!');
+} else {
+  console.log('  SOME CHECKS FAILED - Please review the issues above');
+}
+console.log('='.repeat(60));</code></pre>
+
+                    <h4>Run the Verification Script</h4>
+                    <pre><code>node verify-setup.js</code></pre>
+                    <p>Take a <strong>screenshot</strong> of this output.</p>
+
+                    <div class="dark-success">
+                        <p><strong>Success Criteria:</strong> All checks show "PASS" and you see "ALL CHECKS PASSED."</p>
+                    </div>
+                </section>
+
+                <!-- Step 10: Troubleshooting -->
+                <section class="assignment-step">
+                    <h3>10. Troubleshooting Common Issues</h3>
+
+                    <h4>"command not found: node" or "node is not recognized"</h4>
+                    <ul>
+                        <li>Close and reopen your terminal</li>
+                        <li>On Windows, restart your computer</li>
+                        <li>Verify Node.js is in your PATH environment variable</li>
+                    </ul>
+
+                    <h4>SSH key not working with GitHub</h4>
+                    <ul>
+                        <li>Make sure you copied the <strong>public</strong> key (id_ed25519.pub), not the private key</li>
+                        <li>Verify the SSH agent is running: <code>eval "$(ssh-agent -s)"</code></li>
+                        <li>Re-add your key: <code>ssh-add ~/.ssh/id_ed25519</code></li>
+                    </ul>
+
+                    <h4>npm permission errors on macOS</h4>
+                    <pre><code>mkdir ~/.npm-global
+npm config set prefix '~/.npm-global'
+echo 'export PATH=~/.npm-global/bin:$PATH' &gt;&gt; ~/.zshrc
+source ~/.zshrc</code></pre>
+
+                    <h4>Port already in use</h4>
+                    <ul>
+                        <li>Find and stop the process using that port</li>
+                        <li>Or use a different port by modifying the PORT variable</li>
+                    </ul>
+
+                    <h4>npm packages fail to install</h4>
+                    <ul>
+                        <li>Clear npm cache: <code>npm cache clean --force</code></li>
+                        <li>Delete <code>node_modules</code> and <code>package-lock.json</code>, then run <code>npm install</code> again</li>
+                    </ul>
+                </section>
+
+                <!-- Deliverables -->
+                <section class="assignment-deliverables">
+                    <h3>11. Deliverables</h3>
+                    <p>Submit a <strong>Word document or PDF</strong> containing the following:</p>
+                    <ul>
+                        <li><strong>Screenshot 1:</strong> Terminal output showing <code>git --version</code> and <code>git config --global --list</code></li>
+                        <li><strong>Screenshot 2:</strong> Your GitHub profile page (showing your username)</li>
+                        <li><strong>Screenshot 3:</strong> Terminal showing successful GitHub SSH connection (<code>ssh -T git@github.com</code>)</li>
+                        <li><strong>Screenshot 4:</strong> Terminal showing <code>node --version</code> and <code>npm --version</code></li>
+                        <li><strong>Screenshot 5:</strong> Browser showing Express.js JSON response at localhost:3000</li>
+                        <li><strong>Screenshot 6:</strong> Browser showing React application running</li>
+                        <li><strong>Screenshot 7:</strong> Browser showing Next.js application running</li>
+                        <li><strong>Screenshot 8:</strong> Terminal output from <code>node verify-setup.js</code> showing "ALL CHECKS PASSED"</li>
+                        <li><strong>Screenshot 9:</strong> VS Code with test project open, showing installed extensions</li>
+                        <li><strong>Screenshot 10:</strong> Postman application open</li>
+                    </ul>
+
+                    <div class="assignment-checklist">
+                        <h4>Minimum Version Requirements Checklist</h4>
+                        <ul>
+                            <li>Git version is <strong>2.40.x or higher</strong></li>
+                            <li>Git is configured with your name and email</li>
+                            <li>GitHub account is created</li>
+                            <li>SSH key is set up and connected to GitHub</li>
+                            <li>Node.js version is <strong>20.x or higher</strong> (LTS)</li>
+                            <li>npm version is <strong>10.x or higher</strong></li>
+                            <li>Express.js version is <strong>5.x or higher</strong></li>
+                            <li>React version is <strong>19.x or higher</strong></li>
+                            <li>Next.js version is <strong>15.x or higher</strong></li>
+                            <li>Postman is installed</li>
+                            <li>All screenshots are clear and readable</li>
+                            <li>Verification script shows "ALL CHECKS PASSED"</li>
+                            <li>Your name is on the document</li>
+                        </ul>
+                    </div>
+
+                    <p><strong>File naming convention:</strong> <code>LastName_FirstName_DevSetup.pdf</code></p>
+
+                    <div class="dark-info">
+                        <p><strong>How to Check for Latest Versions:</strong> Git: <a href="https://git-scm.com" target="_blank" rel="noopener">git-scm.com</a> | Node.js: <a href="https://nodejs.org" target="_blank" rel="noopener">nodejs.org</a> (LTS) | npm packages: <a href="https://www.npmjs.com" target="_blank" rel="noopener">npmjs.com</a> or run <code>npm view &lt;package-name&gt; version</code></p>
+                    </div>
+                </section>
+
+                <footer class="assignment-footer">
+                    <p>Advanced Web Development Course | Development Environment Setup Assignment</p>
+                </footer>
             </div>
         </section>
 
