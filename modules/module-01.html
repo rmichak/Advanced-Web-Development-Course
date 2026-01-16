@@ -642,14 +642,8 @@
             </div>
         </section>
 
-        <!-- VS Code Section Header -->
-        <section class="slide title-slide" id="vscode-section" data-narration="Let's start with VS Code—your primary tool for writing code. You'll spend more time in this editor than any other application during this course, so it's worth getting comfortable with it. VS Code has become the dominant code editor in the industry, and for good reason.">
-            <h1>Visual Studio Code</h1>
-            <p class="subtitle">Your Code Editor</p>
-        </section>
-
-        <!-- What is VS Code -->
-        <section class="slide" id="what-is-vscode" data-narration="VS Code launched in 2015 and quickly overtook established editors like Sublime Text and Atom. What makes it special? It strikes the perfect balance between a lightweight text editor and a full IDE. IntelliSense is particularly impressive—it analyzes your code as you type and offers intelligent suggestions. The integrated terminal is a game-changer: you can write code, run commands, and see output all without leaving the editor. And because it's open source, the community has built thousands of extensions for every programming language and framework imaginable.">
+        <!-- VS Code Introduction -->
+        <section class="slide" id="vscode-intro" data-narration="Visual Studio Code is your primary tool for writing code in this course. It's a free, open-source editor from Microsoft that has become the industry standard—the number one choice in Stack Overflow surveys since 2018. What makes it special? IntelliSense provides smart code completion, the integrated terminal lets you run commands without leaving the editor, Git is built right in, and thousands of extensions customize it for any workflow. It runs on Windows, Mac, and Linux. Rather than walk through installation step by step, I've linked two excellent tutorials below. The official VS Code tutorial covers everything from download to your first project, and the YouTube video provides a visual walkthrough if you prefer that format. Take some time to install VS Code and explore these resources before our next class.">
             <div class="vscode-container">
                 <h2>Visual Studio Code</h2>
                 <p class="subtitle">Free, open-source code editor by Microsoft</p>
@@ -658,168 +652,44 @@
                     <div class="feature-card">
                         <span class="icon">💡</span>
                         <h4>IntelliSense</h4>
-                        <p>Smart code completion as you type</p>
+                        <p>Smart code completion</p>
                     </div>
                     <div class="feature-card">
                         <span class="icon">⌨️</span>
                         <h4>Terminal</h4>
-                        <p>Run commands without leaving the editor</p>
+                        <p>Built-in command line</p>
                     </div>
                     <div class="feature-card">
                         <span class="icon">🔀</span>
                         <h4>Git Built-in</h4>
-                        <p>Version control at your fingertips</p>
+                        <p>Version control ready</p>
                     </div>
                     <div class="feature-card">
                         <span class="icon">🧩</span>
                         <h4>Extensions</h4>
-                        <p>Thousands of add-ons available</p>
+                        <p>Thousands available</p>
                     </div>
                     <div class="feature-card">
                         <span class="icon">💻</span>
                         <h4>Cross-Platform</h4>
-                        <p>Windows, macOS, Linux</p>
+                        <p>Win, Mac, Linux</p>
                     </div>
                 </div>
 
-                <div class="vscode-info">
-                    <p><strong>Why VS Code?</strong> Used by millions of developers worldwide. The #1 code editor in Stack Overflow surveys since 2018.</p>
-                </div>
-            </div>
-        </section>
-
-        <!-- Installing VS Code -->
-        <section class="slide" id="vscode-install" data-narration="Installation is straightforward. The website automatically detects your operating system and offers the right download. On Windows, pay special attention to that PATH option during installation—it lets you type 'code .' in any terminal to open that folder in VS Code. This is incredibly useful when you're navigating to a project folder and want to quickly open it in your editor. Mac users can enable the same functionality through the Command Palette after installation.">
-            <div class="dark-container">
-                <h2>Installing VS Code</h2>
-                <p class="subtitle">4 simple steps to get started</p>
-                <div class="dark-steps">
-                    <div class="dark-step">
-                        <span class="dark-step-number">1</span>
-                        <div class="dark-step-content">
-                            <h4>Visit code.visualstudio.com</h4>
-                            <p>The site auto-detects your operating system</p>
-                        </div>
-                    </div>
-                    <div class="dark-step">
-                        <span class="dark-step-number">2</span>
-                        <div class="dark-step-content">
-                            <h4>Click Download</h4>
-                            <p>Choose the version for your OS (Windows, macOS, Linux)</p>
-                        </div>
-                    </div>
-                    <div class="dark-step">
-                        <span class="dark-step-number">3</span>
-                        <div class="dark-step-content">
-                            <h4>Run the Installer</h4>
-                            <p>Follow prompts and accept defaults</p>
-                        </div>
-                    </div>
-                    <div class="dark-step">
-                        <span class="dark-step-number">4</span>
-                        <div class="dark-step-content">
-                            <h4>Launch VS Code</h4>
-                            <p>Open the application and explore!</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="dark-info">
-                    <p><strong>Windows tip:</strong> Check "Add to PATH" during install to use <code style="background:#1e293b;padding:2px 6px;border-radius:4px;">code .</code> from terminal</p>
-                </div>
-            </div>
-        </section>
-
-        <!-- Essential VS Code Extensions -->
-        <section class="slide" id="vscode-extensions" data-narration="These five extensions will transform your development experience. Live Server is essential—it runs a local web server and automatically refreshes your browser when you save changes. No more manually hitting F5! Prettier enforces consistent code formatting across your projects. ESLint catches JavaScript errors before they become bugs. GitLens supercharges the built-in Git support with features like blame annotations showing who wrote each line of code. Auto Rename Tag saves countless keystrokes when editing HTML. Install all five—you'll thank me later.">
-            <div class="dark-container">
-                <h2>Essential Extensions</h2>
-                <p class="subtitle">5 must-have extensions for web development</p>
-                <div class="feature-grid">
-                    <div class="feature-card">
-                        <span class="icon">🔴</span>
-                        <h4>Live Server</h4>
-                        <p>Auto-refresh browser on save</p>
-                    </div>
-                    <div class="feature-card">
-                        <span class="icon">✨</span>
-                        <h4>Prettier</h4>
-                        <p>Auto-format your code</p>
-                    </div>
-                    <div class="feature-card">
-                        <span class="icon">🔍</span>
-                        <h4>ESLint</h4>
-                        <p>Catch JS errors early</p>
-                    </div>
-                    <div class="feature-card">
-                        <span class="icon">📊</span>
-                        <h4>GitLens</h4>
-                        <p>Enhanced Git features</p>
-                    </div>
-                    <div class="feature-card">
-                        <span class="icon">🏷️</span>
-                        <h4>Auto Rename Tag</h4>
-                        <p>Sync HTML tag pairs</p>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- Installing Extensions -->
-        <section class="slide" id="install-extensions" data-narration="The Extensions marketplace is one of VS Code's greatest strengths. Take a moment right now to install Live Server—search for it by name, click Install, and you're done. Once installed, you can right-click any HTML file and select 'Open with Live Server.' Your default browser will open, and any changes you save will instantly appear. This feedback loop of edit-save-see is fundamental to efficient web development.">
-            <div class="dark-container">
-                <h2>Installing Extensions</h2>
-                <p class="subtitle">Quick 4-step process</p>
-                <div class="flow-diagram">
-                    <div class="flow-box">
-                        <h4>Open VS Code</h4>
-                    </div>
-                    <span class="flow-arrow">→</span>
-                    <div class="flow-box">
-                        <h4>Extensions Icon</h4>
-                        <p>or Ctrl+Shift+X</p>
-                    </div>
-                    <span class="flow-arrow">→</span>
-                    <div class="flow-box">
-                        <h4>Search</h4>
-                        <p>Type extension name</p>
-                    </div>
-                    <span class="flow-arrow">→</span>
-                    <div class="flow-box active">
-                        <h4>Install</h4>
-                        <p>Click the button</p>
-                    </div>
-                </div>
-                <div class="dark-info">
-                    <p><strong>Try it now:</strong> Install "Live Server" — right-click any HTML file → "Open with Live Server"</p>
-                </div>
-            </div>
-        </section>
-
-        <!-- VS Code Settings -->
-        <section class="slide" id="vscode-settings" data-narration="These settings optimize VS Code for web development. Auto Save eliminates the 'forgot to save' problem—your work is automatically saved after a brief delay. Format On Save works with Prettier to keep your code consistently formatted without thinking about it. A tab size of 2 spaces is the web development convention—it keeps code readable without excessive horizontal scrolling. Word Wrap prevents long lines from disappearing off screen. Take a minute to configure these now; they'll serve you throughout your career.">
-            <div class="dark-container">
-                <h2>Recommended Settings</h2>
-                <p class="subtitle">Open Settings: Ctrl+, (Windows) or Cmd+, (Mac)</p>
-                <div class="tool-grid">
-                    <div class="tool-card vscode">
-                        <span class="icon">💾</span>
-                        <h4>Auto Save</h4>
-                        <p>Set to "afterDelay"</p>
-                    </div>
-                    <div class="tool-card vscode">
-                        <span class="icon">🎨</span>
-                        <h4>Format On Save</h4>
-                        <p>Enable for auto-format</p>
-                    </div>
-                    <div class="tool-card vscode">
-                        <span class="icon">↔️</span>
-                        <h4>Tab Size</h4>
-                        <p>Set to 2 spaces</p>
-                    </div>
-                    <div class="tool-card vscode">
-                        <span class="icon">↩️</span>
-                        <h4>Word Wrap</h4>
-                        <p>Enable for readability</p>
+                <div style="margin-top: 1.5rem; text-align: center;">
+                    <p style="font-size: 1.1rem; margin-bottom: 1rem; color: white;"><strong>Get Started with These Tutorials</strong></p>
+                    <div style="display: flex; gap: 1.5rem; justify-content: center; align-items: stretch; flex-wrap: wrap;">
+                        <a href="https://code.visualstudio.com/docs/getstarted/getting-started" target="_blank" style="text-decoration: none; display: flex; flex-direction: column; justify-content: center; background: linear-gradient(135deg, #1e3a5f, #2d5a87); border-radius: 12px; padding: 1.5rem 2rem; color: white; transition: transform 0.2s, box-shadow 0.2s; min-width: 200px; text-align: center;">
+                            <span style="font-size: 2.5rem; display: block; margin-bottom: 0.5rem;">📖</span>
+                            <span style="font-weight: 600; font-size: 1.1rem;">Official VS Code Docs</span>
+                            <span style="display: block; font-size: 0.85rem; opacity: 0.8; margin-top: 0.25rem;">Step-by-step guide</span>
+                        </a>
+                        <a href="https://www.youtube.com/watch?v=B-s71n0dHUk" target="_blank" style="text-decoration: none; display: block; background: #1a1a2e; border-radius: 12px; overflow: hidden; transition: transform 0.2s, box-shadow 0.2s; width: 280px;">
+                            <img src="../images/vscode-tutorial-thumbnail.jpg" alt="Getting Started with VS Code" style="width: 100%; height: auto; display: block;">
+                            <div style="padding: 0.75rem 1rem; color: white; text-align: center;">
+                                <span style="font-weight: 600; font-size: 0.95rem;">Watch: Getting Started with VS Code</span>
+                            </div>
+                        </a>
                     </div>
                 </div>
             </div>
@@ -928,27 +798,21 @@
             </div>
         </section>
 
-        <!-- Git Section Header -->
-        <section class="slide title-slide" id="git-section" data-narration="Now we come to Git—arguably the most important tool you'll learn in this course. Git is version control, and version control is how professional developers work. It's not optional; it's foundational. Every company you'll work for uses Git or something like it. Let's understand what it is and why it matters.">
-            <h1>Git</h1>
-            <p class="subtitle">Version Control System</p>
-        </section>
-
-        <!-- What is Git -->
-        <section class="slide" id="git-intro" data-narration="Git was created by Linus Torvalds in 2005—the same person who created Linux. He built Git because existing version control systems couldn't handle the scale of Linux kernel development. Git is a distributed version control system, meaning every developer has a complete copy of the project history. This is powerful: you can work offline, you have automatic backups, and there's no single point of failure. Think of Git as an unlimited undo button that also lets you explore different timelines of your project. Made a mistake? Go back. Want to try something experimental? Create a branch. Changed your mind? Merge or delete it.">
+        <!-- Git Introduction -->
+        <section class="slide" id="git-intro" data-narration="Git is arguably the most important tool you'll learn in this course. It's version control—and version control is how professional developers work. Created by Linus Torvalds in 2005, Git tracks every change to your code, lets you experiment safely with branches, and enables team collaboration. Think of it as an unlimited undo button that also lets you explore different timelines of your project. Every company you'll work for uses Git. Rather than walk through installation step by step, I've linked an excellent tutorial below. The freeCodeCamp crash course is about an hour long and covers everything with screen recordings showing exactly what to do. Watch it to see Git in action and reinforce these concepts.">
             <div class="dark-container" style="border-image: linear-gradient(180deg, #f05032, #de4c36, #c73e2d) 1;">
-                <h2>What is Git?</h2>
+                <h2>Git</h2>
                 <p class="subtitle">Version control that tracks every change to your code</p>
                 <div class="feature-grid">
                     <div class="feature-card" style="border-top-color:#f05032;">
                         <span class="icon">📜</span>
                         <h4>History</h4>
-                        <p>See every change ever made</p>
+                        <p>Every change tracked</p>
                     </div>
                     <div class="feature-card" style="border-top-color:#f05032;">
                         <span class="icon">💾</span>
                         <h4>Backup</h4>
-                        <p>Never lose your work</p>
+                        <p>Never lose work</p>
                     </div>
                     <div class="feature-card" style="border-top-color:#f05032;">
                         <span class="icon">🌿</span>
@@ -963,70 +827,33 @@
                     <div class="feature-card" style="border-top-color:#f05032;">
                         <span class="icon">↩️</span>
                         <h4>Undo</h4>
-                        <p>Revert any mistake</p>
+                        <p>Revert mistakes</p>
+                    </div>
+                </div>
+                <div style="margin-top: 1.5rem; text-align: center;">
+                    <p style="font-size: 1.1rem; margin-bottom: 1rem; color: white;"><strong>Get Started with These Tutorials</strong></p>
+                    <div style="display: flex; gap: 1.5rem; justify-content: center; align-items: stretch; flex-wrap: wrap;">
+                        <a href="https://git-scm.com/book/en/v2/Getting-Started-Installing-Git" target="_blank" style="text-decoration: none; display: flex; flex-direction: column; justify-content: center; background: linear-gradient(135deg, #f05032, #c73e2d); border-radius: 12px; padding: 1.5rem 2rem; color: white; transition: transform 0.2s, box-shadow 0.2s; min-width: 200px; text-align: center;">
+                            <span style="font-size: 2.5rem; display: block; margin-bottom: 0.5rem;">📖</span>
+                            <span style="font-weight: 600; font-size: 1.1rem;">Official Git Docs</span>
+                            <span style="display: block; font-size: 0.85rem; opacity: 0.9; margin-top: 0.25rem;">Installation guide</span>
+                        </a>
+                        <a href="https://www.youtube.com/watch?v=RGOj5yH7evk" target="_blank" style="text-decoration: none; display: block; background: #1a1a2e; border-radius: 12px; overflow: hidden; transition: transform 0.2s, box-shadow 0.2s; width: 280px;">
+                            <img src="../images/git-tutorial-thumbnail.jpg" alt="Git and GitHub for Beginners - Crash Course" style="width: 100%; height: auto; display: block;">
+                            <div style="padding: 0.75rem 1rem; color: white; text-align: center;">
+                                <span style="font-weight: 600; font-size: 0.95rem;">Watch: Git & GitHub Crash Course</span>
+                            </div>
+                        </a>
                     </div>
                 </div>
             </div>
         </section>
 
-        <!-- Installing Git -->
-        <section class="slide" id="git-install" data-narration="Git installation varies by operating system. On Windows, you'll download the installer from git-scm.com. During installation, the most important choice is enabling Git from the Windows Command Prompt—this lets you use Git from any terminal, not just Git Bash. On macOS, the easiest approach is to simply type 'git' in Terminal. If Git isn't installed, macOS will prompt you to install the Xcode Command Line Tools, which includes Git along with other development utilities. This takes a few minutes but gives you everything you need.">
-            <div class="dark-container" style="border-image: linear-gradient(180deg, #f05032, #de4c36, #c73e2d) 1;">
-                <h2>Installing Git</h2>
-                <p class="subtitle">Platform-specific installation</p>
-                <div class="compare-grid">
-                    <div class="compare-card git-card">
-                        <h3>🪟 Windows</h3>
-                        <ul>
-                            <li>Visit git-scm.com</li>
-                            <li>Download Windows installer</li>
-                            <li>Run installer, accept defaults</li>
-                            <li>Select "Use Git from Command Prompt"</li>
-                        </ul>
-                    </div>
-                    <div class="compare-card" style="border-color:#94a3b8;">
-                        <h3>🍎 macOS</h3>
-                        <ul>
-                            <li>Open Terminal</li>
-                            <li>Type: git --version</li>
-                            <li>Follow prompt to install Xcode CLI Tools</li>
-                            <li>Wait for installation (~5 min)</li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- Configure Git -->
-        <section class="slide" id="git-config" data-narration="Before you can use Git, you must tell it who you are. Every commit you make is stamped with your name and email—this is how teams know who made which changes. The --global flag means this identity applies to all repositories on your computer. Here's the critical part: use the same email address you'll use for GitHub. When you push commits to GitHub, it matches the email in your commits to GitHub accounts. Using a different email means your contributions won't be linked to your profile—bad for building your portfolio.">
-            <div class="dark-container" style="border-image: linear-gradient(180deg, #f05032, #de4c36, #c73e2d) 1;">
-                <h2>Configure Git</h2>
-                <p class="subtitle">Set your identity for commits</p>
-                <div class="dark-code">
-<span class="cmd">git config</span> <span class="flag">--global</span> user.name <span class="string">"Your Name"</span>
-<span class="cmd">git config</span> <span class="flag">--global</span> user.email <span class="string">"you@example.com"</span>
-                </div>
-                <p style="color:#94a3b8;margin:1rem 0 0.5rem;">Verify your configuration:</p>
-                <div class="dark-code">
-<span class="cmd">git config</span> <span class="flag">--list</span>
-                </div>
-                <div class="dark-warning">
-                    <p>⚠️ Use the same email you'll use for GitHub — links commits to your profile!</p>
-                </div>
-            </div>
-        </section>
-
-        <!-- GitHub Section Header -->
-        <section class="slide title-slide" id="github-section" data-narration="With Git installed and configured, let's connect it to GitHub. GitHub is where your code lives in the cloud. It's your backup, your portfolio, and your collaboration platform all in one. Over 100 million developers use GitHub—it's where open source happens and where employers look for candidates.">
-            <h1>GitHub</h1>
-            <p class="subtitle">Cloud-Based Code Hosting</p>
-        </section>
-
-        <!-- Git vs GitHub -->
-        <section class="slide" id="git-vs-github" data-narration="This distinction confuses many beginners: Git and GitHub are not the same thing. Git is software that runs on your computer—it's the version control system that tracks changes. GitHub is a website that hosts Git repositories in the cloud. You could use Git without ever touching GitHub. You could also use alternatives like GitLab or Bitbucket. But GitHub has become the de facto standard for open source and many companies. Think of Git as your local tool and GitHub as the cloud service that lets you share and back up your work.">
+        <!-- GitHub Introduction -->
+        <section class="slide" id="github-intro" data-narration="GitHub is where your code lives in the cloud. It's your backup, your portfolio, and your collaboration platform. Over 100 million developers use GitHub—it's where open source happens and where employers look for candidates. Important distinction: Git is software on your computer that tracks changes locally. GitHub is a website that stores your repositories online. You could use Git without GitHub, but together they're powerful. To get started, create a free account at github.com—choose a professional username since employers will see your profile. Then set up SSH keys for secure, password-free authentication. The crash course video linked on the previous slide covers all of this in detail with screen recordings.">
             <div class="dark-container">
-                <h2>Git vs GitHub</h2>
-                <p class="subtitle">They're related but different</p>
+                <h2>GitHub</h2>
+                <p class="subtitle">Cloud hosting for your Git repositories</p>
                 <div class="compare-grid">
                     <div class="compare-card git-card">
                         <h3>🔧 Git</h3>
@@ -1034,148 +861,43 @@
                             <li>Software on your computer</li>
                             <li>Tracks changes locally</li>
                             <li>Works offline</li>
-                            <li>Free and open source</li>
                         </ul>
                     </div>
                     <div class="compare-card github-card">
                         <h3>☁️ GitHub</h3>
                         <ul>
                             <li>Website/cloud service</li>
-                            <li>Stores your code online</li>
+                            <li>Stores code online</li>
                             <li>Enables collaboration</li>
-                            <li>Free for public repos</li>
                         </ul>
                     </div>
                 </div>
-                <div class="dark-info">
-                    <p><strong>Think of it this way:</strong> Git is the tool, GitHub is where you store and share your work</p>
-                </div>
-            </div>
-        </section>
-
-        <!-- Create GitHub Account -->
-        <section class="slide" id="github-account" data-narration="Creating a GitHub account takes just a few minutes. When choosing your username, think long-term: this username will appear in every repository URL you create and on your public profile. Avoid numbers, underscores, or anything that looks unprofessional. Your GitHub profile is increasingly important for job hunting—recruiters and hiring managers will look at your contribution history, your projects, and how you write code. Start building that professional presence now.">
-            <div class="dark-container">
-                <h2>Create GitHub Account</h2>
-                <p class="subtitle">Your developer portfolio starts here</p>
-                <div class="dark-steps">
-                    <div class="dark-step">
-                        <span class="dark-step-number">1</span>
-                        <div class="dark-step-content">
-                            <h4>Visit github.com</h4>
-                            <p>Click "Sign Up"</p>
+                <div style="margin-top: 1.5rem; text-align: center;">
+                    <p style="font-size: 1rem; margin-bottom: 1rem; color: white;"><strong>Quick Setup Steps</strong></p>
+                    <div class="flow-diagram">
+                        <div class="flow-box">
+                            <h4>Create Account</h4>
+                            <p>github.com</p>
                         </div>
-                    </div>
-                    <div class="dark-step">
-                        <span class="dark-step-number">2</span>
-                        <div class="dark-step-content">
-                            <h4>Enter Details</h4>
-                            <p>Email, password, username</p>
+                        <span class="flow-arrow">→</span>
+                        <div class="flow-box">
+                            <h4>Generate SSH Key</h4>
+                            <p>ssh-keygen</p>
                         </div>
-                    </div>
-                    <div class="dark-step">
-                        <span class="dark-step-number">3</span>
-                        <div class="dark-step-content">
-                            <h4>Verify Email</h4>
-                            <p>Check inbox and click link</p>
+                        <span class="flow-arrow">→</span>
+                        <div class="flow-box">
+                            <h4>Add to GitHub</h4>
+                            <p>Settings → SSH</p>
                         </div>
-                    </div>
-                    <div class="dark-step">
-                        <span class="dark-step-number">4</span>
-                        <div class="dark-step-content">
-                            <h4>Complete Setup</h4>
-                            <p>Welcome survey (optional)</p>
+                        <span class="flow-arrow">→</span>
+                        <div class="flow-box active">
+                            <h4>Test</h4>
+                            <p>ssh -T git@github.com</p>
                         </div>
                     </div>
                 </div>
-                <div class="dark-warning">
+                <div class="dark-warning" style="margin-top: 1rem;">
                     <p>⚠️ Choose a professional username — employers WILL see your GitHub profile!</p>
-                </div>
-            </div>
-        </section>
-
-        <!-- SSH Keys -->
-        <section class="slide" id="ssh-setup" data-narration="SSH keys are the secure way to connect to GitHub. Instead of typing your password every time you push or pull, SSH uses cryptographic keys to authenticate you. It works like a lock and key: you generate a pair of keys—one private that stays on your computer, and one public that you give to GitHub. When you connect, GitHub challenges your computer to prove it has the private key that matches the public key you registered. This happens automatically and securely. The ed25519 algorithm we're using is modern and fast—it's the recommended choice for new keys.">
-            <div class="dark-container">
-                <h2>Set Up SSH Keys</h2>
-                <p class="subtitle">Secure, password-free authentication</p>
-                <p style="color:#94a3b8;margin-bottom:1rem;">Generate a new SSH key pair:</p>
-                <div class="dark-code">
-<span class="cmd">ssh-keygen</span> <span class="flag">-t ed25519</span> <span class="flag">-C</span> <span class="string">"your.email@example.com"</span>
-                </div>
-                <div class="dark-two-column" style="margin-top:1.5rem;">
-                    <div class="dark-column pro">
-                        <h3>🔐 Private Key</h3>
-                        <ul>
-                            <li>Stays on YOUR computer</li>
-                            <li>NEVER share this file</li>
-                            <li>~/.ssh/id_ed25519</li>
-                        </ul>
-                    </div>
-                    <div class="dark-column you">
-                        <h3>🔑 Public Key</h3>
-                        <ul>
-                            <li>Give to GitHub</li>
-                            <li>Safe to share</li>
-                            <li>~/.ssh/id_ed25519.pub</li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- Add SSH Key to GitHub -->
-        <section class="slide" id="add-ssh-key" data-narration="Now you need to give GitHub your public key. The 'cat' command displays your public key—notice the .pub extension means public. Copy everything from 'ssh-ed25519' through your email address. On GitHub, navigate to Settings, then SSH and GPG Keys. Paste your key there and give it a descriptive title like 'Work Laptop' or 'Home Desktop.' This helps you identify which key is which if you have multiple computers. Never share your private key—the file without the .pub extension. That must stay secret.">
-            <div class="dark-container">
-                <h2>Add SSH Key to GitHub</h2>
-                <p class="subtitle">Connect your computer to your account</p>
-                <p style="color:#94a3b8;margin-bottom:0.5rem;">First, copy your public key:</p>
-                <div class="dark-code">
-<span class="cmd">cat</span> ~/.ssh/id_ed25519<span class="string">.pub</span>
-                </div>
-                <div class="dark-steps" style="margin-top:1.5rem;">
-                    <div class="dark-step">
-                        <span class="dark-step-number">1</span>
-                        <div class="dark-step-content">
-                            <h4>GitHub.com → Settings → SSH and GPG Keys</h4>
-                        </div>
-                    </div>
-                    <div class="dark-step">
-                        <span class="dark-step-number">2</span>
-                        <div class="dark-step-content">
-                            <h4>Click "New SSH Key"</h4>
-                        </div>
-                    </div>
-                    <div class="dark-step">
-                        <span class="dark-step-number">3</span>
-                        <div class="dark-step-content">
-                            <h4>Paste key, add title (e.g., "My Laptop")</h4>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- Test SSH Connection -->
-        <section class="slide" id="test-ssh" data-narration="Let's verify everything works. This ssh command attempts to authenticate with GitHub without actually logging in. If you see 'Hi' followed by your username, you're all set. The message about shell access just means you can't use GitHub as a remote server—you can only use it for Git operations, which is exactly what we want. If you see permission denied or other errors, double-check that you copied the entire public key and that it's added to the correct GitHub account.">
-            <div class="dark-container">
-                <h2>Test Your Connection</h2>
-                <p class="subtitle">Verify SSH is working</p>
-                <div class="dark-code">
-<span class="cmd">ssh</span> <span class="flag">-T</span> git@github.com
-                </div>
-                <div class="dark-two-column" style="margin-top:1.5rem;">
-                    <div class="dark-column pro" style="text-align:center;">
-                        <h3 style="color:#4ade80;">✓ Success</h3>
-                        <p style="color:#94a3b8;font-size:0.85rem;">"Hi username! You've successfully authenticated..."</p>
-                    </div>
-                    <div class="dark-column you" style="text-align:center;">
-                        <h3 style="color:#f87171;">✗ Permission Denied</h3>
-                        <p style="color:#94a3b8;font-size:0.85rem;">Re-check key was copied completely</p>
-                    </div>
-                </div>
-                <div class="dark-info">
-                    <p><strong>You're ready!</strong> Push and pull without passwords from now on.</p>
                 </div>
             </div>
         </section>
@@ -1352,23 +1074,6 @@
                     <tr><td><strong>git push</strong></td><td>Upload to GitHub</td></tr>
                     <tr><td><strong>git pull</strong></td><td>Download from GitHub</td></tr>
                 </table>
-            </div>
-        </section>
-
-        <!-- Recommended Video -->
-        <section class="slide" id="video-resource" data-narration="I highly recommend this video from freeCodeCamp. It's about an hour long and covers everything we discussed today, but with screen recordings showing exactly what to do. Watching someone else use Git helps cement the concepts. The instructor explains not just the commands but the thinking behind them. Bookmark this video—you'll probably return to it several times as you get comfortable with Git.">
-            <h1>Recommended Video</h1>
-            <p>For a comprehensive walkthrough of Git and GitHub, watch this excellent crash course:</p>
-            <div class="video-feature">
-                <a href="https://www.youtube.com/watch?v=RGOj5yH7evk" target="_blank" rel="noopener" class="video-link">
-                    <img src="https://img.youtube.com/vi/RGOj5yH7evk/maxresdefault.jpg" alt="Git and GitHub for Beginners - Crash Course video thumbnail" class="video-thumbnail">
-                    <span class="video-play-icon" aria-hidden="true"></span>
-                </a>
-                <h2>Git and GitHub for Beginners - Crash Course</h2>
-                <p class="video-duration">Duration: ~1 hour</p>
-            </div>
-            <div class="highlight-box">
-                <p><strong>Highly Recommended:</strong> This video covers everything from basic concepts to hands-on practice. Watch it to reinforce what you've learned and see Git in action!</p>
             </div>
         </section>
 
