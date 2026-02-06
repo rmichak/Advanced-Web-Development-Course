@@ -506,7 +506,7 @@
   <span class="key">"id"</span><span class="punctuation">:</span> <span class="number">1</span><span class="punctuation">,</span>
   <span class="key">"text"</span><span class="punctuation">:</span> <span class="string">"Learn REST APIs"</span><span class="punctuation">,</span>
   <span class="key">"completed"</span><span class="punctuation">:</span> <span class="boolean">false</span><span class="punctuation">,</span>
-  <span class="key">"createdAt"</span><span class="punctuation">:</span> <span class="string">"2024-01-15"</span>
+  <span class="key">"createdAt"</span><span class="punctuation">:</span> <span class="string">"2026-01-15"</span>
 <span class="punctuation">}</span></pre>
                         </div>
                     </div>
@@ -689,7 +689,8 @@
                 <h2><span class="step-number">2</span> Your First Server</h2>
                 <p class="subtitle">Create index.js with a basic Express server.</p>
                 <div class="code-block">
-<pre><span class="keyword">const</span> express = <span class="function">require</span>(<span class="string">'express'</span>);
+<pre><span class="comment">// Note: Using CommonJS require() syntax for Express projects</span>
+<span class="keyword">const</span> express = <span class="function">require</span>(<span class="string">'express'</span>);
 <span class="keyword">const</span> app = <span class="function">express</span>();
 <span class="keyword">const</span> PORT = <span class="number">3000</span>;
 
@@ -1261,7 +1262,7 @@ app.<span class="function">use</span>(<span class="function">cors</span>()); <sp
         </section>
 
         <!-- Slide 35: NextRequest & NextResponse -->
-        <section class="slide" id="next-request-response" data-narration="Next.js uses NextRequest and NextResponse from next/server. These are extensions of the standard web Request and Response APIs. To read JSON from the request body, use await request.json(). To get URL parameters in dynamic routes, the second argument to your handler contains params - access it with params.id. To send responses, use NextResponse.json() with your data and optional status. You can also create responses with other status codes or headers. The API is more explicit than Express - you return responses instead of calling res.json(). This functional style makes handlers easier to test.">
+        <section class="slide" id="next-request-response" data-narration="Next.js uses NextRequest and NextResponse from next/server. These are extensions of the standard web Request and Response APIs. To read JSON from the request body, use await request.json(). To get URL parameters in dynamic routes, the second argument to your handler contains params - await it and destructure: const { id } = await params. To send responses, use NextResponse.json() with your data and optional status. You can also create responses with other status codes or headers. The API is more explicit than Express - you return responses instead of calling res.json(). This functional style makes handlers easier to test.">
             <div class="dark-container">
                 <h2><span class="step-number">2</span> NextRequest & NextResponse</h2>
                 <p class="subtitle">Web-standard APIs for handling requests and responses.</p>
@@ -1273,7 +1274,7 @@ app.<span class="function">use</span>(<span class="function">cors</span>()); <sp
 
 <span class="comment">// Getting URL params (in [id]/route.js)</span>
 <span class="keyword">export async function</span> <span class="function">GET</span>(request, { params }) {
-  <span class="keyword">const</span> id = params.id;
+  <span class="keyword">const</span> { id } = <span class="keyword">await</span> params;
 }
 
 <span class="comment">// Sending responses</span>
@@ -1320,9 +1321,10 @@ app.<span class="function">use</span>(<span class="function">cors</span>()); <sp
                 <p class="subtitle">app/api/tasks/[id]/route.js - handle single task operations.</p>
                 <div class="code-block" style="font-size: 0.8rem;">
 <pre><span class="keyword">export async function</span> <span class="function">GET</span>(request, { params }) {
-  <span class="keyword">const</span> id = <span class="function">parseInt</span>(params.id);
+  <span class="keyword">const</span> { id } = <span class="keyword">await</span> params;
+  <span class="keyword">const</span> parsedId = <span class="function">parseInt</span>(id);
   <span class="keyword">const</span> tasks = <span class="keyword">await</span> <span class="function">readTasks</span>();
-  <span class="keyword">const</span> task = tasks.<span class="function">find</span>(t => t.id === id);
+  <span class="keyword">const</span> task = tasks.<span class="function">find</span>(t => t.id === parsedId);
   <span class="keyword">if</span> (!task) {
     <span class="keyword">return</span> NextResponse.<span class="function">json</span>({ error: <span class="string">'Not found'</span> }, { status: <span class="number">404</span> });
   }
@@ -1330,9 +1332,10 @@ app.<span class="function">use</span>(<span class="function">cors</span>()); <sp
 }
 
 <span class="keyword">export async function</span> <span class="function">DELETE</span>(request, { params }) {
-  <span class="keyword">const</span> id = <span class="function">parseInt</span>(params.id);
+  <span class="keyword">const</span> { id } = <span class="keyword">await</span> params;
+  <span class="keyword">const</span> parsedId = <span class="function">parseInt</span>(id);
   <span class="keyword">const</span> tasks = <span class="keyword">await</span> <span class="function">readTasks</span>();
-  <span class="keyword">const</span> filtered = tasks.<span class="function">filter</span>(t => t.id !== id);
+  <span class="keyword">const</span> filtered = tasks.<span class="function">filter</span>(t => t.id !== parsedId);
   <span class="keyword">if</span> (filtered.length === tasks.length) {
     <span class="keyword">return</span> NextResponse.<span class="function">json</span>({ error: <span class="string">'Not found'</span> }, { status: <span class="number">404</span> });
   }
@@ -1399,7 +1402,7 @@ app.<span class="function">use</span>(<span class="function">cors</span>()); <sp
                     <tr>
                         <td><strong style="color: #fff;">Params</strong></td>
                         <td><code>req.params.id</code></td>
-                        <td><code>{ params } → params.id</code></td>
+                        <td><code>{ params } → await params</code></td>
                     </tr>
                     <tr>
                         <td><strong style="color: #fff;">Body</strong></td>

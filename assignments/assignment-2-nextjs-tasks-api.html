@@ -278,28 +278,31 @@
 <span class="keyword">import</span> { readTasks, writeTasks } <span class="keyword">from</span> <span class="string">'@/lib/tasks'</span>;
 
 <span class="keyword">export async function</span> <span class="function">GET</span>(request, { params }) {
-  <span class="keyword">const</span> id = <span class="function">parseInt</span>(params.id);
+  <span class="keyword">const</span> { id } = <span class="keyword">await</span> params;
+  <span class="keyword">const</span> parsedId = <span class="function">parseInt</span>(id);
   <span class="keyword">const</span> tasks = <span class="keyword">await</span> <span class="function">readTasks</span>();
-  <span class="keyword">const</span> task = tasks.<span class="function">find</span>(t => t.id === id);
+  <span class="keyword">const</span> task = tasks.<span class="function">find</span>(t => t.id === parsedId);
   <span class="keyword">if</span> (!task) <span class="keyword">return</span> NextResponse.<span class="function">json</span>({ error: <span class="string">'Not found'</span> }, { status: <span class="number">404</span> });
   <span class="keyword">return</span> NextResponse.<span class="function">json</span>(task);
 }
 
 <span class="keyword">export async function</span> <span class="function">PUT</span>(request, { params }) {
-  <span class="keyword">const</span> id = <span class="function">parseInt</span>(params.id);
+  <span class="keyword">const</span> { id } = <span class="keyword">await</span> params;
+  <span class="keyword">const</span> parsedId = <span class="function">parseInt</span>(id);
   <span class="keyword">const</span> updates = <span class="keyword">await</span> request.<span class="function">json</span>();
   <span class="keyword">const</span> tasks = <span class="keyword">await</span> <span class="function">readTasks</span>();
-  <span class="keyword">const</span> index = tasks.<span class="function">findIndex</span>(t => t.id === id);
+  <span class="keyword">const</span> index = tasks.<span class="function">findIndex</span>(t => t.id === parsedId);
   <span class="keyword">if</span> (index === -<span class="number">1</span>) <span class="keyword">return</span> NextResponse.<span class="function">json</span>({ error: <span class="string">'Not found'</span> }, { status: <span class="number">404</span> });
-  tasks[index] = { ...tasks[index], ...updates, id };
+  tasks[index] = { ...tasks[index], ...updates, id: parsedId };
   <span class="keyword">await</span> <span class="function">writeTasks</span>(tasks);
   <span class="keyword">return</span> NextResponse.<span class="function">json</span>(tasks[index]);
 }
 
 <span class="keyword">export async function</span> <span class="function">DELETE</span>(request, { params }) {
-  <span class="keyword">const</span> id = <span class="function">parseInt</span>(params.id);
+  <span class="keyword">const</span> { id } = <span class="keyword">await</span> params;
+  <span class="keyword">const</span> parsedId = <span class="function">parseInt</span>(id);
   <span class="keyword">const</span> tasks = <span class="keyword">await</span> <span class="function">readTasks</span>();
-  <span class="keyword">const</span> filtered = tasks.<span class="function">filter</span>(t => t.id !== id);
+  <span class="keyword">const</span> filtered = tasks.<span class="function">filter</span>(t => t.id !== parsedId);
   <span class="keyword">if</span> (filtered.length === tasks.length) {
     <span class="keyword">return</span> NextResponse.<span class="function">json</span>({ error: <span class="string">'Not found'</span> }, { status: <span class="number">404</span> });
   }

@@ -213,7 +213,7 @@
         </section>
 
         <!-- Slide 5: Type Inference -->
-        <section class="slide" id="type-inference" data-narration="TypeScript is smart about inferring types. You don't need to annotate everything - let TypeScript figure it out when the type is obvious. When you initialize a variable, TypeScript infers its type from the value. const name = 'Alice' is automatically typed as string. This reduces verbosity while maintaining type safety. Best practice: annotate function parameters and return types explicitly, but let TypeScript infer local variables. This gives you the documentation benefits at function boundaries while keeping implementation code clean. Over-annotating makes code harder to read.">
+        <section class="slide" id="type-inference" data-narration="TypeScript is smart about inferring types. You don't need to annotate everything - let TypeScript figure it out when the type is obvious. When you initialize a variable with let, TypeScript infers its type from the value. let name = 'Alice' is automatically typed as string. With const, TypeScript is even smarter — it infers the narrower literal type, so const name = 'Alice' has type 'Alice', not just string. This is called literal narrowing. This reduces verbosity while maintaining type safety. Best practice: annotate function parameters and return types explicitly, but let TypeScript infer local variables. This gives you the documentation benefits at function boundaries while keeping implementation code clean. Over-annotating makes code harder to read.">
             <div class="dark-container">
                 <h2>Type Inference</h2>
                 <p class="subtitle">TypeScript automatically infers types from values - you don't need to annotate everything.</p>
@@ -255,7 +255,7 @@
 }
 
 <span class="comment">// Default parameters</span>
-<span class="keyword">function</span> <span class="function">greet</span>(name: <span class="function">string</span>, greeting = <span class="string">'Hello'</span>): <span class="function">string</span> {
+<span class="keyword">function</span> <span class="function">greetWithDefault</span>(name: <span class="function">string</span>, greeting = <span class="string">'Hello'</span>): <span class="function">string</span> {
   <span class="keyword">return</span> <span class="string">`${greeting}, ${name}`</span>;
 }</pre>
                 </div>
@@ -422,7 +422,10 @@
 <span class="keyword">type</span> <span class="function">UserWithoutEmail</span> = <span class="function">Omit</span>&lt;<span class="function">User</span>, <span class="string">'email'</span>&gt;;
 
 <span class="comment">// Readonly - make immutable</span>
-<span class="keyword">type</span> <span class="function">ReadonlyUser</span> = <span class="function">Readonly</span>&lt;<span class="function">User</span>&gt;;</pre>
+<span class="keyword">type</span> <span class="function">ReadonlyUser</span> = <span class="function">Readonly</span>&lt;<span class="function">User</span>&gt;;
+
+<span class="comment">// Record - create object type from keys and values</span>
+<span class="keyword">type</span> <span class="function">UserRoles</span> = <span class="function">Record</span>&lt;<span class="function">string</span>, <span class="string">'admin'</span> | <span class="string">'user'</span> | <span class="string">'guest'</span>&gt;;</pre>
                 </div>
             </div>
         </section>

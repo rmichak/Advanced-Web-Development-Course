@@ -333,7 +333,7 @@
         </section>
 
         <!-- Slide 8: Node.js Revolution -->
-        <section class="slide" id="nodejs" data-narration="In 2009, Node.js changed everything by bringing JavaScript to the server. Built on Chrome's V8 engine, it enabled full-stack JavaScript development and spawned a massive ecosystem. Ryan Dahl created Node.js to solve the 'C10K problem' - handling 10,000+ concurrent connections. Its event-driven, non-blocking architecture made it ideal for I/O-heavy applications like APIs and real-time apps. Node brought us npm, now the world's largest software registry with over 2.5 million packages. This enabled modern build tools like webpack, esbuild, and Vite. Node.js means you can use JavaScript for frontend, backend, CLI tools, desktop apps, and more. It's why 'full-stack JavaScript developer' is now a viable career path.">
+        <section class="slide" id="nodejs" data-narration="In 2009, Node.js changed everything by bringing JavaScript to the server. Built on Chrome's V8 engine, it enabled full-stack JavaScript development and spawned a massive ecosystem. Ryan Dahl created Node.js to solve the 'C10K problem' - handling 10,000+ concurrent connections. Its event-driven, non-blocking architecture made it ideal for I/O-heavy applications like APIs and real-time apps. Node brought us npm, now the world's largest software registry with over 3.5 million packages. This enabled modern build tools like webpack, esbuild, and Vite. Node.js means you can use JavaScript for frontend, backend, CLI tools, desktop apps, and more. It's why 'full-stack JavaScript developer' is now a viable career path.">
             <div class="dark-container">
                 <h2>Node.js: JavaScript Everywhere</h2>
                 <p class="subtitle">Node.js brought JavaScript to the server, enabling full-stack development with one language.</p>
@@ -391,7 +391,7 @@
         </section>
 
         <!-- Slide 10: Modern JS Stats -->
-        <section class="slide" id="js-stats" data-narration="Today, JavaScript is the most popular programming language in the world. It powers 98% of websites and has millions of npm packages. Understanding JavaScript is essential for web development. JavaScript has topped the Stack Overflow Developer Survey as the most-used language for over a decade. The npm registry hosts over 2.5 million packages, dwarfing every other package ecosystem. Every major tech company uses JavaScript extensively - from Google and Facebook to Netflix and Amazon. Even if you specialize in backend or mobile, you'll encounter JavaScript. The language's ubiquity means JavaScript skills are highly marketable and transferable. Learning JavaScript well opens doors across the entire software industry.">
+        <section class="slide" id="js-stats" data-narration="Today, JavaScript is the most popular programming language in the world. It powers 98% of websites and has millions of npm packages. Understanding JavaScript is essential for web development. JavaScript has topped the Stack Overflow Developer Survey as the most-used language for over a decade. The npm registry hosts over 3.5 million packages, dwarfing every other package ecosystem. Every major tech company uses JavaScript extensively - from Google and Facebook to Netflix and Amazon. Even if you specialize in backend or mobile, you'll encounter JavaScript. The language's ubiquity means JavaScript skills are highly marketable and transferable. Learning JavaScript well opens doors across the entire software industry.">
             <div class="dark-container">
                 <h2>JavaScript Today</h2>
                 <p class="subtitle">JavaScript is the world's most popular programming language with an unmatched ecosystem.</p>
@@ -405,7 +405,7 @@
                         <div class="stat-label">most popular language</div>
                     </div>
                     <div>
-                        <div class="big-number" style="font-size: 3rem;">2.5M+</div>
+                        <div class="big-number" style="font-size: 3rem;">3.5M+</div>
                         <div class="stat-label">npm packages</div>
                     </div>
                 </div>
@@ -1707,11 +1707,11 @@ npm start</pre>
     <span class="string">"lint"</span>: <span class="string">"eslint src/"</span>
   },
   <span class="string">"dependencies"</span>: {
-    <span class="string">"react"</span>: <span class="string">"^18.2.0"</span>
+    <span class="string">"react"</span>: <span class="string">"^19.0.0"</span>
   },
   <span class="string">"devDependencies"</span>: {
     <span class="string">"typescript"</span>: <span class="string">"^5.0.0"</span>,
-    <span class="string">"eslint"</span>: <span class="string">"^8.0.0"</span>
+    <span class="string">"eslint"</span>: <span class="string">"^9.0.0"</span>
   }
 }</pre>
                 </div>
@@ -1719,7 +1719,7 @@ npm start</pre>
         </section>
 
         <!-- Slide 79: ESLint -->
-        <section class="slide" id="eslint" data-narration="ESLint is a static analysis tool that finds problems in your JavaScript code before you even run it. It catches unused variables, undefined references, syntax errors, and common mistakes that lead to bugs. Beyond error detection, ESLint enforces coding standards - you can require semicolons, enforce naming conventions, or ban certain patterns your team considers problematic. The --init command walks you through creating a configuration file where you specify your rules. Running ESLint with the --fix flag automatically fixes many issues like adding missing semicolons or removing unused imports. Most teams integrate ESLint into their editor for real-time feedback and into their CI pipeline to block merging code that doesn't pass. The time invested in setting up ESLint pays off massively in prevented bugs and consistent code style across your team.">
+        <section class="slide" id="eslint" data-narration="ESLint is a static analysis tool that finds problems in your JavaScript code before you even run it. It catches unused variables, undefined references, syntax errors, and common mistakes that lead to bugs. Beyond error detection, ESLint enforces coding standards - you can require semicolons, enforce naming conventions, or ban certain patterns your team considers problematic. The init command walks you through creating a configuration file where you specify your rules. ESLint 9 introduced flat config as the default configuration format, using eslint.config.js instead of the older .eslintrc files. Flat config is simpler, more explicit, and uses standard JavaScript imports. Running ESLint with the --fix flag automatically fixes many issues like adding missing semicolons or removing unused imports. Most teams integrate ESLint into their editor for real-time feedback and into their CI pipeline to block merging code that doesn't pass. The time invested in setting up ESLint pays off massively in prevented bugs and consistent code style across your team.">
             <div class="dark-container">
                 <h2>ESLint</h2>
                 <p class="subtitle">Find and fix code problems</p>
@@ -1728,7 +1728,7 @@ npm start</pre>
 npm install -D eslint
 
 <span class="comment"># Initialize config</span>
-npx eslint --init
+npm init @eslint/config
 
 <span class="comment"># Run linting</span>
 npx eslint src/
@@ -1748,7 +1748,7 @@ npx eslint src/ --fix  <span class="comment"># auto-fix issues</span></pre>
         </section>
 
         <!-- Slide 80: Prettier -->
-        <section class="slide" id="prettier" data-narration="Prettier is an opinionated code formatter. It automatically formats your code for consistent style. Configure it once and forget about formatting debates.">
+        <section class="slide" id="prettier" data-narration="Prettier is an opinionated code formatter, and when we say opinionated, we mean it makes most formatting decisions for you. You don't get to argue about whether to use tabs or spaces, where to break long lines, or how to indent nested objects - Prettier decides, and honestly that's a good thing. It eliminates formatting debates entirely so your team can focus on actual code logic. Now, how does Prettier differ from ESLint? ESLint catches bugs and enforces code quality rules like no unused variables or no implicit globals. Prettier only handles formatting - indentation, spacing, line breaks, semicolons, quote style. They complement each other perfectly, and most projects use both together. The best workflow is enabling format-on-save in your editor - every time you hit save, Prettier automatically reformats your file. It's like having a tidy-up robot that runs instantly. To configure Prettier, create a .prettierrc file in your project root with your preferences for things like single vs double quotes, semicolons, tab width, and trailing commas. You can also add a .prettierignore file to skip generated files or build output. Once your team agrees on a Prettier config, commit it to the repo and formatting becomes completely automatic and consistent across everyone's machines.">
             <div class="dark-container">
                 <h2>Prettier</h2>
                 <p class="subtitle">Opinionated code formatter</p>
@@ -1976,7 +1976,7 @@ npm test</pre>
                         </a>
                     </li>
                     <li>
-                        <a href="https://developer.mozilla.org/en-US/docs/Learn_web_development/Getting_started/Your_first_website/Adding_interactivity" target="_blank" rel="noopener" class="resource-link">
+                        <a href="https://developer.mozilla.org/en-US/docs/Learn/Getting_started_with_the_web" target="_blank" rel="noopener" class="resource-link">
                             <span class="resource-icon">MDN</span>
                             <div class="resource-info">
                                 <h4>MDN: Adding Interactivity</h4>

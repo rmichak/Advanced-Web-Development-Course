@@ -228,7 +228,7 @@
         </section>
 
         <!-- Slide 6: React in the Wild -->
-        <section class="slide" id="react-in-wild" data-narration="React isn't just for small projects - it powers some of the world's most complex web applications. Facebook and Instagram are built with React, of course, since Meta created it. Netflix uses React for its TV interface and some web features. Airbnb rebuilt their frontend with React and has contributed many open-source React tools. Discord, the gaming chat platform, uses React for their web and desktop apps. Other major users include Uber, Twitter, Reddit, Dropbox, and thousands of startups. When you learn React, you're learning the same technology these companies use in production. This isn't just a teaching tool - it's industry-standard technology.">
+        <section class="slide" id="react-in-wild" data-narration="React isn't just for small projects - it powers some of the world's most complex web applications. Facebook and Instagram are built with React, of course, since Meta created it. Netflix uses React for its TV interface and some web features. Airbnb rebuilt their frontend with React and has contributed many open-source React tools. Discord, the gaming chat platform, uses React for their web and desktop apps. Other major users include Uber, X (formerly Twitter), Reddit, Dropbox, and thousands of startups. When you learn React, you're learning the same technology these companies use in production. This isn't just a teaching tool - it's industry-standard technology.">
             <div class="dark-container">
                 <h2>React in the Wild</h2>
                 <p class="subtitle">Major companies trust React for their production applications.</p>
@@ -250,19 +250,19 @@
                         <p>Web and desktop apps</p>
                     </div>
                 </div>
-                <p style="text-align: center; margin-top: 1.5rem; color: #94a3b8;">Also: Uber, Twitter, Reddit, Dropbox, Spotify, and thousands more</p>
+                <p style="text-align: center; margin-top: 1.5rem; color: #94a3b8;">Also: Uber, X, Reddit, Dropbox, Spotify, and thousands more</p>
             </div>
         </section>
 
         <!-- Slide 7: Setting Up React -->
-        <section class="slide" id="setup" data-narration="To start a new React project, the modern approach is to use Vite, a fast build tool that sets up everything you need. The command 'npm create vite@latest' creates a new project with React configured and ready to go. Vite offers near-instant server startup and hot module replacement, meaning changes appear in your browser almost immediately as you code. You might also hear about Create React App, which was the standard for years, but it's now considered slower and somewhat outdated. Vite is the recommended choice for new projects in 2024 and beyond. After running the create command, you'll choose React as your framework, then install dependencies with npm install and start the dev server.">
+        <section class="slide" id="setup" data-narration="To start a new React project, the modern approach is to use Vite, a fast build tool that sets up everything you need. The command 'npm create vite@latest' creates a new project with React configured and ready to go. Vite offers near-instant server startup and hot module replacement, meaning changes appear in your browser almost immediately as you code. You might also hear about Create React App, which was the standard for years, but it's now considered slower and somewhat outdated. Vite is the recommended choice for new projects today. After running the create command, you'll choose React as your framework, then install dependencies with npm install and start the dev server.">
             <div class="dark-container">
                 <h2>Setting Up React</h2>
                 <p class="subtitle">Use Vite for the fastest, modern React development experience.</p>
                 <div class="terminal-block">
                     <div><span class="prompt">$</span> <span class="command">npm create vite@latest my-react-app</span></div>
                     <div class="output" style="margin: 0.5rem 0;">✔ Select a framework: › React</div>
-                    <div class="output">✔ Select a variant: › JavaScript</div>
+                    <div class="output">✔ Select a variant: › TypeScript</div>
                     <div style="margin-top: 1rem;"><span class="prompt">$</span> <span class="command">cd my-react-app</span></div>
                     <div><span class="prompt">$</span> <span class="command">npm install</span></div>
                     <div><span class="prompt">$</span> <span class="command">npm run dev</span></div>
@@ -379,6 +379,7 @@
     <span class="tag">&lt;div&gt;</span>
       <span class="tag">&lt;Header /&gt;</span>
       <span class="tag">&lt;MainContent /&gt;</span>
+      <span class="comment">{/* Footer component defined similarly */}</span>
       <span class="tag">&lt;Footer /&gt;</span>
     <span class="tag">&lt;/div&gt;</span>
   );
