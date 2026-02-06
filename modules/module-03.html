@@ -333,7 +333,7 @@
         </section>
 
         <!-- Slide 8: Node.js Revolution -->
-        <section class="slide" id="nodejs" data-narration="In 2009, Node.js changed everything by bringing JavaScript to the server. Built on Chrome's V8 engine, it enabled full-stack JavaScript development and spawned a massive ecosystem. Ryan Dahl created Node.js to solve the 'C10K problem' - handling 10,000+ concurrent connections. Its event-driven, non-blocking architecture made it ideal for I/O-heavy applications like APIs and real-time apps. Node brought us npm, now the world's largest software registry with over 2 million packages. This enabled modern build tools like webpack, esbuild, and Vite. Node.js means you can use JavaScript for frontend, backend, CLI tools, desktop apps, and more. It's why 'full-stack JavaScript developer' is now a viable career path.">
+        <section class="slide" id="nodejs" data-narration="In 2009, Node.js changed everything by bringing JavaScript to the server. Built on Chrome's V8 engine, it enabled full-stack JavaScript development and spawned a massive ecosystem. Ryan Dahl created Node.js to solve the 'C10K problem' - handling 10,000+ concurrent connections. Its event-driven, non-blocking architecture made it ideal for I/O-heavy applications like APIs and real-time apps. Node brought us npm, now the world's largest software registry with over 2.5 million packages. This enabled modern build tools like webpack, esbuild, and Vite. Node.js means you can use JavaScript for frontend, backend, CLI tools, desktop apps, and more. It's why 'full-stack JavaScript developer' is now a viable career path.">
             <div class="dark-container">
                 <h2>Node.js: JavaScript Everywhere</h2>
                 <p class="subtitle">Node.js brought JavaScript to the server, enabling full-stack development with one language.</p>
@@ -391,7 +391,7 @@
         </section>
 
         <!-- Slide 10: Modern JS Stats -->
-        <section class="slide" id="js-stats" data-narration="Today, JavaScript is the most popular programming language in the world. It powers 98% of websites and has millions of npm packages. Understanding JavaScript is essential for web development. JavaScript has topped the Stack Overflow Developer Survey as the most-used language for over a decade. The npm registry hosts over 2 million packages, dwarfing every other package ecosystem. Every major tech company uses JavaScript extensively - from Google and Facebook to Netflix and Amazon. Even if you specialize in backend or mobile, you'll encounter JavaScript. The language's ubiquity means JavaScript skills are highly marketable and transferable. Learning JavaScript well opens doors across the entire software industry.">
+        <section class="slide" id="js-stats" data-narration="Today, JavaScript is the most popular programming language in the world. It powers 98% of websites and has millions of npm packages. Understanding JavaScript is essential for web development. JavaScript has topped the Stack Overflow Developer Survey as the most-used language for over a decade. The npm registry hosts over 2.5 million packages, dwarfing every other package ecosystem. Every major tech company uses JavaScript extensively - from Google and Facebook to Netflix and Amazon. Even if you specialize in backend or mobile, you'll encounter JavaScript. The language's ubiquity means JavaScript skills are highly marketable and transferable. Learning JavaScript well opens doors across the entire software industry.">
             <div class="dark-container">
                 <h2>JavaScript Today</h2>
                 <p class="subtitle">JavaScript is the world's most popular programming language with an unmatched ecosystem.</p>
@@ -405,7 +405,7 @@
                         <div class="stat-label">most popular language</div>
                     </div>
                     <div>
-                        <div class="big-number" style="font-size: 3rem;">2M+</div>
+                        <div class="big-number" style="font-size: 3rem;">2.5M+</div>
                         <div class="stat-label">npm packages</div>
                     </div>
                 </div>
@@ -950,7 +950,7 @@ person.email = <span class="string">'alice@example.com'</span>;</pre>
         </section>
 
         <!-- Slide 33: Control Flow -->
-        <section class="slide" id="control-flow" data-narration="Control flow determines which code runs. If statements execute code conditionally.">
+        <section class="slide" id="control-flow" data-narration="Control flow determines which code executes and when. The if statement is fundamental - it runs a block of code only when a condition evaluates to truthy. You can chain multiple conditions with else if, and provide a fallback with else for when nothing matches. The condition in parentheses gets converted to boolean, so understanding truthy and falsy values matters here. Always use curly braces even for single statements - it prevents bugs when you add more code later. The ternary operator provides a concise alternative for simple conditional assignments: condition ? valueIfTrue : valueIfFalse. Use if/else for complex logic with multiple statements, and ternary for simple value selection. Notice how the code example checks score ranges - this pattern is common for grading systems and categorization.">
             <div class="dark-container">
                 <h2>Control Flow: if/else</h2>
                 <div class="code-block" style="margin-top: 1rem;">
@@ -973,7 +973,7 @@ person.email = <span class="string">'alice@example.com'</span>;</pre>
         </section>
 
         <!-- Slide 34: Loops -->
-        <section class="slide" id="loops" data-narration="JavaScript has several loop constructs. Traditional for loops give full control, while for-of iterates values and for-in iterates keys.">
+        <section class="slide" id="loops" data-narration="JavaScript provides several ways to iterate, and knowing which to use makes your code cleaner. The traditional for loop gives you complete control with initialization, condition, and increment - perfect when you need the index or want non-sequential iteration. The for...of loop introduced in ES6 is ideal for iterating over array values, strings, Maps, Sets, and any iterable - it's cleaner when you just need each value without caring about the index. The for...in loop iterates over object keys (property names), not values - use it for objects, but be aware it includes inherited properties unless you check with hasOwnProperty. While loops are useful when you don't know how many iterations you need upfront. In practice, you'll often use array methods like forEach, map, and filter instead of explicit loops - they're more declarative and less error-prone. Choose the right tool for the job.">
             <div class="dark-container">
                 <h2>Loops</h2>
                 <div class="code-block" style="margin-top: 1rem;">
@@ -1043,7 +1043,7 @@ person.email = <span class="string">'alice@example.com'</span>;</pre>
         </section>
 
         <!-- Slide 37: Modifying Elements -->
-        <section class="slide" id="modifying-elements" data-narration="Once selected, you can modify elements. Change textContent for text, or use classList to manage CSS classes.">
+        <section class="slide" id="modifying-elements" data-narration="Once you've selected an element, you can modify it in several ways. Use textContent to change text safely - it treats everything as plain text, which prevents XSS security vulnerabilities. Avoid innerHTML unless you're sure the content is safe. For HTML attributes, use setAttribute and getAttribute - this works for data attributes, IDs, and any custom attributes. The classList API is your best friend for managing CSS classes - add(), remove(), and toggle() let you manipulate classes cleanly without string parsing. The toggle method is especially useful for things like showing and hiding elements or switching between themes. Direct style manipulation via element.style sets inline styles, but prefer classes when possible for better maintainability and separation of concerns. Remember that style properties use camelCase in JavaScript - backgroundColor, not background-color.">
             <div class="dark-container">
                 <h2>Modifying Elements</h2>
                 <div class="code-block" style="margin-top: 1rem;">
@@ -1090,7 +1090,7 @@ el.style.color = <span class="string">'blue'</span>;</pre>
         </section>
 
         <!-- Slide 39: Event Listeners -->
-        <section class="slide" id="event-listeners" data-narration="Use addEventListener to attach event handlers. This method allows multiple handlers per event.">
+        <section class="slide" id="event-listeners" data-narration="The addEventListener method is the modern way to attach event handlers, and you should use it over the older onclick property approach. Unlike setting onclick directly, addEventListener lets you attach multiple handlers to the same event - useful when different parts of your code need to respond to the same action. The callback function receives an event object with useful properties: target is the element that triggered the event, currentTarget is the element the listener is attached to, and type tells you the event name. Use event.preventDefault() to stop the browser's default behavior - this is essential for form submissions where you want to handle data with JavaScript instead of reloading the page. Arrow functions work great here since they inherit 'this' from the surrounding scope. You can also remove listeners with removeEventListener, but you need a reference to the same function - anonymous functions can't be removed later.">
             <div class="dark-container">
                 <h2>Event Listeners</h2>
                 <div class="code-block" style="margin-top: 1rem;">
@@ -1111,7 +1111,7 @@ form.<span class="function">addEventListener</span>(<span class="string">'submit
         </section>
 
         <!-- Slide 40: Error Handling -->
-        <section class="slide" id="error-handling" data-narration="Use try-catch to handle errors gracefully. The try block contains code that might fail, catch handles the error.">
+        <section class="slide" id="error-handling" data-narration="Error handling prevents your application from crashing when things go wrong. The try block wraps code that might throw an error - API calls, JSON parsing, file operations, or any operation that could fail. If an error occurs, execution immediately jumps to the catch block, which receives the error object with message and stack properties for debugging. The finally block always runs regardless of success or failure - use it for cleanup like closing connections or resetting state. You can throw custom errors with 'throw new Error(message)' to signal problems in your own code - this is great for validation. For async/await code, wrap your awaits in try-catch to handle rejected promises. Pro tip: don't catch errors you can't handle meaningfully - sometimes it's better to let them bubble up to a global error handler. During development, always log the full error; in production, show users a friendly message while logging details for debugging.">
             <div class="dark-container">
                 <h2>Error Handling</h2>
                 <div class="code-block" style="margin-top: 1rem;">
@@ -1134,7 +1134,7 @@ form.<span class="function">addEventListener</span>(<span class="string">'submit
         </section>
 
         <!-- Slide 41: Part 2 Summary -->
-        <section class="slide" id="part2-summary" data-narration="Part 2 covered JavaScript fundamentals: variables, types, arrays, objects, functions, DOM, and events. These are your daily tools.">
+        <section class="slide" id="part2-summary" data-narration="Part 2 covered JavaScript fundamentals - the building blocks you'll use every single day as a developer. Variables store your data with const, let, and var. The type system includes primitives and objects, with quirks like type coercion that you now know how to avoid. Arrays and objects organize your data, with powerful methods for manipulation. Functions are first-class citizens - you can pass them around, return them, and use arrow syntax for cleaner code. The DOM lets you select and modify HTML elements programmatically. Events make your pages interactive by responding to user actions. These concepts all connect: you declare variables, store data in arrays and objects, write functions to process them, update the DOM to display results, and use events to trigger the whole cycle. Practice these until they become second nature.">
             <div class="dark-container">
                 <h2>Part 2 Summary</h2>
                 <div class="dark-three-column" style="margin-top: 1.5rem;">
@@ -1169,13 +1169,13 @@ form.<span class="function">addEventListener</span>(<span class="string">'submit
         <!-- ========== PART 3: Advanced JavaScript (Slides 42-60) ========== -->
 
         <!-- Slide 42: Part 3 Title -->
-        <section class="slide title-slide" id="part3" data-narration="Part 3 covers advanced JavaScript concepts: scope, closures, the this keyword, asynchronous programming, classes, and modules. These separate beginners from professionals.">
+        <section class="slide title-slide" id="part3" data-narration="Part 3 covers advanced JavaScript concepts that separate junior developers from senior ones. We'll explore scope and closures for data privacy and function factories. The 'this' keyword is notoriously confusing - we'll demystify how it actually works based on how functions are called. Asynchronous programming with promises and async/await is essential for working with APIs and any operation that takes time. ES6 classes provide familiar object-oriented syntax while still using prototypes under the hood. Modules let you organize code across multiple files with import and export. These topics require more mental effort than Part 2, but mastering them dramatically improves your code quality and opens doors to more complex applications. Take your time with these - they're concepts you'll use throughout your entire career.">
             <h1>Part 3</h1>
             <p class="subtitle">Advanced JavaScript</p>
         </section>
 
         <!-- Slide 43: Scope -->
-        <section class="slide" id="scope" data-narration="Scope determines where variables are accessible. JavaScript has global scope, function scope, and block scope. Understanding scope prevents bugs.">
+        <section class="slide" id="scope" data-narration="Scope determines where variables are accessible in your code, and understanding it prevents countless bugs. Global scope means a variable is available everywhere - avoid this as it leads to naming conflicts and hard-to-track bugs. Function scope (what var uses) means the variable exists throughout the entire function, even before its declaration line due to hoisting. Block scope (what let and const use) limits the variable to the nearest curly braces - an if statement, loop, or standalone block. Look at the code example: const and let stay within their if block, while var leaks out to the whole function. The temporal dead zone is the period between entering a block and hitting the let or const declaration - accessing the variable there throws an error. This is actually helpful because it catches the common mistake of using a variable before initializing it. When debugging weird behavior, scope issues are often the culprit.">
             <div class="dark-container">
                 <h2>Scope</h2>
                 <p class="subtitle">Where variables are accessible</p>
@@ -1198,7 +1198,7 @@ form.<span class="function">addEventListener</span>(<span class="string">'submit
         </section>
 
         <!-- Slide 44: Closures -->
-        <section class="slide" id="closures" data-narration="A closure is a function that remembers variables from its outer scope even after that scope has finished executing. Closures enable powerful patterns like data privacy.">
+        <section class="slide" id="closures" data-narration="A closure is a function that remembers variables from its outer scope even after that outer function has finished executing. This sounds abstract, but look at the code example: createCounter returns an object with methods that still have access to the count variable, even though createCounter has already returned. The count variable is effectively private - there's no way to access it directly from outside, only through the methods provided. This pattern is incredibly useful for data privacy and encapsulation. Closures are created automatically whenever you define a function inside another function. You use closures constantly in JavaScript - every callback, every event handler that references outer variables, every function returned from another function. Understanding closures deeply is a mark of JavaScript mastery and opens up powerful patterns.">
             <div class="dark-container">
                 <h2>Closures</h2>
                 <p class="subtitle">Functions remember their birth scope</p>
@@ -1223,7 +1223,7 @@ counter.<span class="function">getCount</span>();   <span class="comment">// 2</
         </section>
 
         <!-- Slide 45: The this Keyword -->
-        <section class="slide" id="this-keyword" data-narration="The this keyword refers to the current execution context. Its value depends on how a function is called, not where it's defined. This is one of JavaScript's trickiest concepts.">
+        <section class="slide" id="this-keyword" data-narration="The 'this' keyword is one of JavaScript's trickiest concepts because its value depends on how a function is called, not where it's defined. When you call a method on an object like obj.greet(), 'this' refers to obj. But if you extract that method into a variable and call it standalone, 'this' becomes undefined in strict mode or the global object otherwise - the context is lost. Arrow functions behave differently - they don't have their own 'this' binding. Instead, they inherit 'this' from the enclosing scope, which is why greetArrow in the example doesn't work as expected when defined on an object. This behavior makes arrow functions perfect for callbacks where you want to preserve the outer 'this'. When 'this' isn't what you expect, check how the function is being called.">
             <div class="dark-container">
                 <h2>The <code>this</code> Keyword</h2>
                 <p class="subtitle">Context depends on how function is called</p>
@@ -1248,7 +1248,7 @@ obj.<span class="function">greetArrow</span>();  <span class="comment">// "Hi, I
         </section>
 
         <!-- Slide 46: Binding this -->
-        <section class="slide" id="binding-this" data-narration="You can explicitly set the this value using call, apply, or bind. Call and apply invoke immediately, while bind returns a new function with this permanently set.">
+        <section class="slide" id="binding-this" data-narration="When you need to control what 'this' refers to, JavaScript provides three methods: call, apply, and bind. Call invokes the function immediately with 'this' set to the first argument - additional arguments are passed individually. Apply does the same thing but takes arguments as an array - useful when you have arguments in array form already. The key difference with bind is that it doesn't invoke the function - instead, it returns a new function with 'this' permanently set. This is perfect for event handlers where you need to preserve context. In the example, boundGreet will always use person as 'this', no matter how it's called later. Modern JavaScript often uses arrow functions instead of bind for callbacks, but understanding these methods helps when working with older code or specific situations where bind is more appropriate.">
             <div class="dark-container">
                 <h2>Binding <code>this</code></h2>
                 <div class="code-block" style="margin-top: 1rem;">
@@ -1272,7 +1272,7 @@ greet.<span class="function">apply</span>(person, [<span class="string">'Hi'</sp
         </section>
 
         <!-- Slide 47: Promises -->
-        <section class="slide" id="promises" data-narration="Promises represent eventual completion or failure of async operations. They have three states: pending, fulfilled, or rejected. Use then for success and catch for errors.">
+        <section class="slide" id="promises" data-narration="Promises are JavaScript's way of handling asynchronous operations - things that take time like API calls, file reads, or timers. A promise represents a value that might not be available yet but will be eventually. Promises have three states: pending while the operation is in progress, fulfilled when it succeeds with a result, and rejected when it fails with an error. You create promises using the Promise constructor, which takes a function with resolve and reject callbacks. When the async operation succeeds, call resolve with the result; when it fails, call reject with the error. The then method handles success - it receives the resolved value. The catch method handles errors from anywhere in the promise chain. The finally method runs cleanup code regardless of success or failure. Promises can be chained - each then returns a new promise - which we'll see more with async/await.">
             <div class="dark-container">
                 <h2>Promises</h2>
                 <p class="subtitle">Handle asynchronous operations</p>
@@ -1295,7 +1295,7 @@ promise
         </section>
 
         <!-- Slide 48: async/await -->
-        <section class="slide" id="async-await" data-narration="Async/await is syntactic sugar for promises. It makes async code look synchronous and easier to read. Always use try-catch for error handling with await.">
+        <section class="slide" id="async-await" data-narration="Async/await is syntactic sugar that makes promise-based code look and behave more like synchronous code. Mark a function as async, and you can use await inside it to pause execution until a promise resolves. The code reads top to bottom like normal code, but it's actually non-blocking. In the fetchUser example, the function pauses at each await until the promise resolves, then continues with the result. Error handling with async/await uses familiar try-catch blocks instead of .catch() chains - wrap your awaits in try, and catch handles any rejected promises. Remember that async functions always return a promise, even if you return a plain value - JavaScript wraps it automatically. You can await multiple promises in parallel using Promise.all when they don't depend on each other. Async/await is now the standard way to write asynchronous JavaScript.">
             <div class="dark-container">
                 <h2>async/await</h2>
                 <p class="subtitle">Cleaner asynchronous code</p>
@@ -1318,7 +1318,7 @@ promise
         </section>
 
         <!-- Slide 49: Fetch API -->
-        <section class="slide" id="fetch-api" data-narration="The Fetch API is the modern way to make HTTP requests. It returns a promise and supports various HTTP methods, headers, and body content.">
+        <section class="slide" id="fetch-api" data-narration="The Fetch API is the modern replacement for XMLHttpRequest - it's cleaner, promise-based, and built into every browser. Call fetch with a URL to make a GET request - it returns a promise that resolves to a Response object. The response has methods like .json() to parse JSON data, .text() for plain text, and .blob() for binary data - these also return promises, so you await them too. For POST requests and other methods, pass an options object with method, headers, and body properties. The body for JSON data needs JSON.stringify to convert your object to a string. One gotcha: fetch only rejects on network errors, not HTTP errors like 404 or 500 - check response.ok or response.status to handle those. The Fetch API works great with async/await, making API calls clean and readable. You'll use fetch constantly when building data-driven applications.">
             <div class="dark-container">
                 <h2>Fetch API</h2>
                 <div class="code-block" style="margin-top: 1rem;">
@@ -1344,7 +1344,7 @@ promise
         </section>
 
         <!-- Slide 50: Classes -->
-        <section class="slide" id="classes" data-narration="ES6 classes provide a cleaner syntax for constructor functions and prototypes. They support inheritance, getters, setters, and static methods.">
+        <section class="slide" id="classes" data-narration="ES6 classes provide a cleaner syntax for object-oriented programming in JavaScript, though under the hood they still use prototypes. The class keyword defines a blueprint for creating objects. The constructor method runs when you create a new instance with the 'new' keyword - use it to initialize properties with 'this'. Methods defined in the class are added to the prototype, so all instances share them efficiently. Static methods belong to the class itself, not instances - call them as Person.create() rather than on an instance. Classes can also have getters and setters for computed properties. While JavaScript's class syntax looks similar to Java or C#, remember it's still prototype-based inheritance underneath. Classes make the code more familiar to developers coming from other languages and provide a clear structure for organizing related data and behavior together.">
             <div class="dark-container">
                 <h2>Classes</h2>
                 <p class="subtitle">ES6 syntactic sugar for prototypes</p>
@@ -1371,7 +1371,7 @@ alice.<span class="function">greet</span>();  <span class="comment">// "Hi, I'm 
         </section>
 
         <!-- Slide 51: Class Inheritance -->
-        <section class="slide" id="class-inheritance" data-narration="Classes can extend other classes using the extends keyword. Use super to call the parent constructor and methods.">
+        <section class="slide" id="class-inheritance" data-narration="Classes can inherit from other classes using the extends keyword, creating a parent-child relationship. In the example, Dog extends Animal - this means Dog gets all of Animal's properties and methods, plus can add its own. The super keyword is crucial: in the constructor, super(name) calls the parent's constructor to initialize inherited properties - you must call super before using 'this' in a child constructor. Methods can be overridden by defining a method with the same name in the child class - the Dog's speak method replaces Animal's. You can also call parent methods using super.methodName() if you want to extend rather than replace behavior. Inheritance creates an 'is-a' relationship: a Dog is an Animal. Use inheritance when objects truly share behavior; for just sharing code, consider composition instead. JavaScript only supports single inheritance - a class can only extend one parent.">
             <div class="dark-container">
                 <h2>Class Inheritance</h2>
                 <div class="code-block" style="margin-top: 1rem;">
@@ -1400,7 +1400,7 @@ alice.<span class="function">greet</span>();  <span class="comment">// "Hi, I'm 
         </section>
 
         <!-- Slide 52: ES Modules -->
-        <section class="slide" id="es-modules" data-narration="ES Modules let you split code into separate files. Use export to make things available and import to use them. This is the standard module system for JavaScript.">
+        <section class="slide" id="es-modules" data-narration="ES Modules are JavaScript's native module system for organizing code across multiple files. Use export to make variables, functions, or classes available to other files. Named exports like 'export const PI' or 'export function add' can have multiple per file - import them with curly braces. Default exports with 'export default' allow one main export per file - import without braces. You can rename imports with 'as' to avoid naming conflicts or improve clarity. Import everything from a module with 'import * as name'. Modules have their own scope - variables don't leak globally like script tags. Browsers support modules natively with type='module' on script tags, and bundlers like Vite and webpack process them for production. Modules are essential for any project beyond a single file - they let you separate concerns, reuse code, and manage dependencies clearly.">
             <div class="dark-container">
                 <h2>ES Modules</h2>
                 <p class="subtitle">Modern JavaScript module system</p>
@@ -1439,7 +1439,7 @@ alice.<span class="function">greet</span>();  <span class="comment">// "Hi, I'm 
         </section>
 
         <!-- Slide 53: Optional Chaining -->
-        <section class="slide" id="optional-chaining" data-narration="Optional chaining safely accesses nested properties. If any part is null or undefined, it returns undefined instead of throwing an error.">
+        <section class="slide" id="optional-chaining" data-narration="Optional chaining with the question-mark-dot operator safely accesses nested properties without crashing if something in the chain is null or undefined. Before optional chaining, you'd write verbose checks like 'user && user.address && user.address.zip' to avoid errors. Now you just write 'user?.address?.zip' - if user is nullish or address is nullish, it returns undefined instead of throwing an error. This works for method calls too: 'user.getEmail?.()' calls the method only if it exists. For array access, use 'arr?.[0]' to safely get the first element. Optional chaining is especially useful when working with API responses where data structure might vary, or when accessing properties that might not exist. Combine it with nullish coalescing for providing defaults: 'user?.address?.zip ?? \"No ZIP\"'. This ES2020 feature eliminates a huge amount of defensive coding.">
             <div class="dark-container">
                 <h2>Optional Chaining</h2>
                 <p class="subtitle">Safe property access</p>
@@ -1465,7 +1465,7 @@ arr?.[<span class="number">0</span>];            <span class="comment">// undefi
         </section>
 
         <!-- Slide 54: Nullish Coalescing -->
-        <section class="slide" id="nullish-coalescing" data-narration="The nullish coalescing operator provides a default value only when the left side is null or undefined, not for other falsy values like 0 or empty string.">
+        <section class="slide" id="nullish-coalescing" data-narration="The nullish coalescing operator with double question marks provides default values more precisely than the logical OR operator. The problem with OR is that it triggers on any falsy value - so 'count || 10' returns 10 even when count is legitimately 0. Nullish coalescing only triggers when the left side is null or undefined, preserving intentional falsy values. 'count ?? 10' correctly returns 0 if count is 0, but returns 10 if count is null or undefined. This is huge for settings and configuration where 0, false, or empty string might be valid values you want to keep. Combine nullish coalescing with optional chaining for safe property access with defaults: 'user?.settings?.theme ?? \"dark\"'. This ES2020 feature solves a long-standing pain point in JavaScript default value handling.">
             <div class="dark-container">
                 <h2>Nullish Coalescing</h2>
                 <p class="subtitle">Default values done right</p>
@@ -1487,7 +1487,7 @@ arr?.[<span class="number">0</span>];            <span class="comment">// undefi
         </section>
 
         <!-- Slide 55: Array Methods Deep Dive -->
-        <section class="slide" id="array-methods-advanced" data-narration="Let's look at some more advanced array methods. Find returns the first match, some tests if any element passes, every tests if all pass.">
+        <section class="slide" id="array-methods-advanced" data-narration="Let's explore more array methods that make working with data elegant. The find method returns the first element that passes your test - perfect for looking up a user by ID or finding a specific item. Unlike filter which returns all matches in an array, find stops at the first match and returns the element itself. The some method tests if ANY element passes your condition - great for validation questions like 'does any user have admin privileges?' It returns true immediately when it finds a match. The every method tests if ALL elements pass - useful for 'are all items in stock?' or 'did all validations succeed?' It returns false immediately when any element fails. The flatMap method combines map and flat - it maps each element to an array then flattens the result one level deep. These methods, combined with map, filter, and reduce from earlier, let you write expressive data transformations without manual loops. Chain them together for complex operations.">
             <div class="dark-container">
                 <h2>More Array Methods</h2>
                 <div class="code-block" style="margin-top: 1rem;">
@@ -1513,7 +1513,7 @@ users.<span class="function">every</span>(u => u.age > <span class="number">20</
         </section>
 
         <!-- Slide 56: Set and Map -->
-        <section class="slide" id="set-map" data-narration="Set stores unique values, automatically removing duplicates. Map is like an object but can use any value as keys and maintains insertion order.">
+        <section class="slide" id="set-map" data-narration="Set and Map are ES6 data structures that solve limitations of arrays and objects. Set stores unique values only - add duplicates and they're ignored. This makes deduplication trivial: spread an array into a Set and back to an array with '[...new Set(arr)]'. Sets have add, has, delete, and size - perfect for tracking unique items like selected IDs or visited pages. Map is like an object but more powerful: keys can be any value including objects and functions, not just strings. Maps maintain insertion order when iterating, have a size property, and perform better for frequent additions and deletions. Use 'set' and 'get' methods for Map instead of bracket notation. Choose Set when you need unique values without associated data; choose Map when you need key-value pairs with non-string keys or guaranteed order. Both are iterable with for...of loops.">
             <div class="dark-container">
                 <h2>Set and Map</h2>
                 <div class="dark-two-column" style="margin-top: 1rem;">
@@ -1553,7 +1553,7 @@ map.size;       <span class="comment">// 2</span>
         </section>
 
         <!-- Slide 57: Generators -->
-        <section class="slide" id="generators" data-narration="Generators are functions that can pause and resume execution. They use the function star syntax and yield keyword to produce values on demand.">
+        <section class="slide" id="generators" data-narration="Generators are special functions that can pause execution and resume later, producing values on demand. Define them with function* (function star) syntax, and use yield to produce values. When you call a generator, it doesn't run immediately - it returns an iterator object. Each call to .next() runs until the next yield, returning an object with the value and a done flag. When the generator finishes, done becomes true. This lazy evaluation is powerful - you can create infinite sequences without running out of memory, process large datasets piece by piece, or implement custom iteration logic. Generators work with for...of loops automatically, making them seamless to use. While you won't use generators daily, they're the foundation for async/await under the hood and useful for advanced patterns like state machines and coroutines.">
             <div class="dark-container">
                 <h2>Generators</h2>
                 <p class="subtitle">Pausable functions</p>
@@ -1579,7 +1579,7 @@ gen.<span class="function">next</span>();  <span class="comment">// { value: und
         </section>
 
         <!-- Slide 58: Proxy -->
-        <section class="slide" id="proxy" data-narration="Proxy lets you intercept and customize operations on objects. You can trap property access, assignment, function calls, and more.">
+        <section class="slide" id="proxy" data-narration="Proxy lets you intercept and customize fundamental operations on objects - it's like putting a wrapper around an object that can observe and modify behavior. Create a proxy with 'new Proxy(target, handler)' where target is the original object and handler defines traps for different operations. The get trap intercepts property access - useful for logging, validation, or returning default values for missing properties. The set trap intercepts assignment - perfect for validation, triggering updates, or tracking changes. Other traps handle delete, function calls, construction, and more. In the example, accessing or setting any property logs the action. Proxies power reactive frameworks like Vue 3 for automatically updating the UI when data changes. They're also useful for creating APIs with validation, implementing the observer pattern, or mocking objects in tests. Proxies are advanced but incredibly powerful for metaprogramming.">
             <div class="dark-container">
                 <h2>Proxy</h2>
                 <p class="subtitle">Intercept object operations</p>
@@ -1604,7 +1604,7 @@ proxy.age = <span class="number">30</span>;    <span class="comment">// logs "Se
         </section>
 
         <!-- Slide 59: Symbol -->
-        <section class="slide" id="symbol" data-narration="Symbols are unique primitive values. They're useful for creating non-colliding property keys, especially in libraries where you don't want to conflict with user code.">
+        <section class="slide" id="symbol" data-narration="Symbols are a primitive type that creates guaranteed unique identifiers. Every Symbol() call creates a new, unique value - even symbols with the same description are different. This uniqueness makes symbols perfect for object property keys where you need to avoid collisions. Library authors use symbols to add properties to user objects without risking name conflicts with user code. Symbol properties don't show up in Object.keys() or for...in loops, making them somewhat private. JavaScript also has built-in well-known symbols like Symbol.iterator that customize object behavior - implementing Symbol.iterator makes an object work with for...of loops. While you won't use symbols daily in application code, understanding them helps when you encounter them in libraries or need truly unique keys. They're another example of JavaScript providing low-level tools for advanced patterns.">
             <div class="dark-container">
                 <h2>Symbol</h2>
                 <p class="subtitle">Unique identifiers</p>
@@ -1628,7 +1628,7 @@ obj[ID]  <span class="comment">// 12345</span>
         </section>
 
         <!-- Slide 60: Part 3 Summary -->
-        <section class="slide" id="part3-summary" data-narration="Part 3 covered advanced JavaScript: scope and closures, the this keyword, async programming with promises and async/await, classes, modules, and modern features.">
+        <section class="slide" id="part3-summary" data-narration="Part 3 covered advanced JavaScript concepts that take time to fully master. Scope and closures enable data privacy and powerful patterns like function factories - remember that inner functions remember their outer scope even after it finishes. The 'this' keyword requires understanding execution context - it depends on how a function is called, not where it's defined. Async programming with promises and async/await makes handling network requests and time-based operations clean and readable. Classes provide familiar OOP syntax while JavaScript still uses prototypes under the hood. ES Modules let you organize code across files with import and export - essential for any real project. Modern features like optional chaining and nullish coalescing eliminate common boilerplate code. These concepts appear in every serious JavaScript codebase, so keep practicing them until they feel natural.">
             <div class="dark-container">
                 <h2>Part 3 Summary</h2>
                 <div class="dark-three-column" style="margin-top: 1.5rem;">
@@ -1669,7 +1669,7 @@ obj[ID]  <span class="comment">// 12345</span>
         </section>
 
         <!-- Slide 77: npm Basics -->
-        <section class="slide" id="npm-basics" data-narration="npm is the package manager for JavaScript. It manages dependencies, scripts, and project configuration through package.json.">
+        <section class="slide" id="npm-basics" data-narration="npm - Node Package Manager - is the backbone of JavaScript development. It manages your project's dependencies, scripts, and configuration through a file called package.json. Use 'npm init' to create a new project, which generates this configuration file. When you need external code, 'npm install packagename' downloads it and adds it to your dependencies. The dash-D flag installs dev dependencies - tools you need for development but not production, like testing frameworks. Running 'npm install' with no arguments reads package.json and installs everything your project needs - this is how teams share projects without including the huge node_modules folder. The scripts section lets you define commands like 'npm run build' or 'npm test' that execute whatever you configure. Think of npm as your project's command center for managing code and running tasks.">
             <div class="dark-container">
                 <h2>npm Basics</h2>
                 <p class="subtitle">Node Package Manager</p>
@@ -1693,7 +1693,7 @@ npm start</pre>
         </section>
 
         <!-- Slide 78: package.json -->
-        <section class="slide" id="package-json" data-narration="package.json is your project's manifest. It lists dependencies, scripts, and metadata. The scripts section defines commands you can run with npm run.">
+        <section class="slide" id="package-json" data-narration="package.json is your project's manifest file - it tells npm and other developers everything about your project. The name and version fields identify your package. Dependencies lists the packages your code needs to run in production, while devDependencies lists tools needed only for development like TypeScript, ESLint, and testing frameworks. The caret symbol in version numbers means 'compatible with' - npm will install newer minor versions but not major ones that might break things. The scripts section is incredibly powerful - you define custom commands that run with 'npm run scriptname'. Common scripts include dev for starting a development server, build for creating production bundles, test for running tests, and lint for checking code quality. When you clone a project, package.json tells you exactly what to install and how to run it.">
             <div class="dark-container">
                 <h2>package.json</h2>
                 <div class="code-block" style="margin-top: 1rem;">
@@ -1719,7 +1719,7 @@ npm start</pre>
         </section>
 
         <!-- Slide 79: ESLint -->
-        <section class="slide" id="eslint" data-narration="ESLint finds and fixes problems in your JavaScript code. It enforces coding standards and catches common errors before they become bugs.">
+        <section class="slide" id="eslint" data-narration="ESLint is a static analysis tool that finds problems in your JavaScript code before you even run it. It catches unused variables, undefined references, syntax errors, and common mistakes that lead to bugs. Beyond error detection, ESLint enforces coding standards - you can require semicolons, enforce naming conventions, or ban certain patterns your team considers problematic. The --init command walks you through creating a configuration file where you specify your rules. Running ESLint with the --fix flag automatically fixes many issues like adding missing semicolons or removing unused imports. Most teams integrate ESLint into their editor for real-time feedback and into their CI pipeline to block merging code that doesn't pass. The time invested in setting up ESLint pays off massively in prevented bugs and consistent code style across your team.">
             <div class="dark-container">
                 <h2>ESLint</h2>
                 <p class="subtitle">Find and fix code problems</p>
@@ -1772,7 +1772,7 @@ npx prettier --write src/
         </section>
 
         <!-- Slide 81: Debugging -->
-        <section class="slide" id="debugging" data-narration="Effective debugging is essential. Use browser DevTools, debugger statements, and console methods. Learn to set breakpoints and inspect variables.">
+        <section class="slide" id="debugging" data-narration="Effective debugging separates productive developers from frustrated ones. Browser DevTools - opened with F12 - are your best friend. The Sources tab lets you set breakpoints by clicking line numbers - execution pauses there so you can inspect variable values and step through code line by line. The Console tab lets you run JavaScript directly and see your console.log output. The Network tab shows all HTTP requests - essential for debugging API calls. In your code, the debugger statement acts like a breakpoint - execution pauses when it hits that line if DevTools is open. Instead of just console.log, try logging objects like console.log({ user, data }) to see variable names with their values. The console.trace() method shows you the call stack - how you got to this point in the code. Learning to debug efficiently will save you countless hours of frustration.">
             <div class="dark-container">
                 <h2>Debugging Techniques</h2>
                 <div class="dark-two-column" style="margin-top: 1rem;">
@@ -1803,7 +1803,7 @@ npx prettier --write src/
         </section>
 
         <!-- Slide 82: Testing with Jest -->
-        <section class="slide" id="jest-basics" data-narration="Jest is a popular testing framework. It provides test runners, assertions, and mocking out of the box. Write tests to ensure your code works correctly.">
+        <section class="slide" id="jest-basics" data-narration="Jest is a testing framework that makes writing tests straightforward and even enjoyable. Tests ensure your code works correctly and, more importantly, that it keeps working when you make changes. The describe function groups related tests together, while test or it defines individual test cases. Inside each test, you use expect with matchers to assert what should happen - expect(add(2, 3)).toBe(5) checks that your add function returns 5. When tests pass, you get a green checkmark; when they fail, Jest tells you exactly what went wrong and where. Jest also includes mocking capabilities for isolating code from its dependencies, and snapshot testing for UI components. Running 'npm test' executes all your test files. Start by testing your most critical functions first, then expand coverage over time. Tests are an investment that prevents regression bugs.">
             <div class="dark-container">
                 <h2>Testing with Jest</h2>
                 <div class="code-block" style="margin-top: 1rem;">
@@ -1827,7 +1827,7 @@ npm test</pre>
         </section>
 
         <!-- Slide 83: Jest Matchers -->
-        <section class="slide" id="jest-matchers" data-narration="Jest provides many matchers for different assertion types. Use toBe for primitives, toEqual for objects, and toThrow for errors.">
+        <section class="slide" id="jest-matchers" data-narration="Jest provides a rich set of matchers for different assertion types, and using the right one makes your tests clearer. Use toBe for primitive values like numbers and strings - it uses strict equality. For objects and arrays, use toEqual which does deep comparison of all properties. Truthiness matchers like toBeTruthy, toBeFalsy, toBeNull, and toBeUndefined check boolean contexts. Number matchers like toBeGreaterThan and toBeCloseTo handle numeric comparisons - toBeCloseTo is essential for floating-point math where 0.1 + 0.2 doesn't exactly equal 0.3. For arrays and strings, toContain checks membership while toMatch tests against regular expressions. The toThrow matcher verifies that a function throws an error - wrap the function call in an arrow function so Jest can catch the error. Choosing descriptive matchers makes test failures easier to understand.">
             <div class="dark-container">
                 <h2>Jest Matchers</h2>
                 <div class="code-block" style="margin-top: 1rem;">
@@ -1855,7 +1855,7 @@ npm test</pre>
         </section>
 
         <!-- Slide 84: Async Testing -->
-        <section class="slide" id="async-testing" data-narration="Testing async code requires special handling. Return promises, use async/await, or use Jest's done callback for asynchronous assertions.">
+        <section class="slide" id="async-testing" data-narration="Testing asynchronous code requires special handling because Jest needs to know when your async operations complete. The cleanest approach is making your test function async and using await - Jest automatically waits for the promise to resolve. If you're testing that a promise resolves to a specific value, the resolves matcher reads nicely: expect(fetchData()).resolves.toBe('data'). Similarly, rejects checks that a promise rejects: expect(failingFn()).rejects.toThrow(). Remember to return or await your promise - forgetting this is a common mistake that causes tests to pass incorrectly because Jest doesn't wait for the assertion. For callback-style async code, Jest provides a done parameter you call when the test finishes. When testing code that makes real API calls, you'll usually want to mock those calls for speed and reliability - we'll cover mocking in more advanced testing topics.">
             <div class="dark-container">
                 <h2>Testing Async Code</h2>
                 <div class="code-block" style="margin-top: 1rem;">
@@ -1878,7 +1878,7 @@ npm test</pre>
         </section>
 
         <!-- Part 4 Summary -->
-        <section class="slide" id="part4-summary" data-narration="Part 4 covered essential developer tools: npm for package management, ESLint and Prettier for code quality, debugging techniques, and Jest for testing.">
+        <section class="slide" id="part4-summary" data-narration="Part 4 covered the practical tools that professional JavaScript developers use daily. npm manages your packages and project scripts through package.json - it's the command center for your project. ESLint catches bugs and enforces code standards before they reach production. Prettier automatically formats your code so your team never argues about tabs versus spaces again. Browser DevTools and debugging techniques help you find and fix problems efficiently. Jest provides a complete testing solution with a great developer experience. These tools form the modern JavaScript development workflow: write code, lint it, format it, test it, build it, deploy it. Setting up this toolchain properly at the start of a project saves enormous time over its lifetime. Make these tools part of your daily practice.">
             <div class="dark-container">
                 <h2>Part 4 Summary</h2>
                 <div class="dark-three-column" style="margin-top: 1.5rem;">
