@@ -1,0 +1,1250 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Recording Studio | Advanced Web Development</title>
+    <style>
+        /* ========================================
+           CSS Variables / Theme
+           ======================================== */
+        :root {
+            --bg-primary: #0f172a;
+            --bg-secondary: #1e293b;
+            --bg-card: #334155;
+            --bg-hover: #475569;
+            --text-primary: #f1f5f9;
+            --text-secondary: #94a3b8;
+            --text-muted: #64748b;
+            --accent: #3b82f6;
+            --accent-hover: #2563eb;
+            --record-red: #ef4444;
+            --record-glow: rgba(239, 68, 68, 0.4);
+            --success: #22c55e;
+            --warning: #f59e0b;
+            --border: #334155;
+            --font-main: 'Segoe UI', -apple-system, BlinkMacSystemFont, sans-serif;
+            --font-mono: 'SF Mono', 'Consolas', 'Monaco', monospace;
+            --sidebar-width: 340px;
+            --transition: 0.2s ease;
+        }
+
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+        html, body {
+            height: 100%;
+            overflow: hidden;
+            font-family: var(--font-main);
+            background: var(--bg-primary);
+            color: var(--text-primary);
+        }
+
+        /* ========================================
+           Layout
+           ======================================== */
+        .app {
+            display: flex;
+            height: 100vh;
+        }
+
+        .sidebar {
+            width: var(--sidebar-width);
+            min-width: var(--sidebar-width);
+            background: var(--bg-secondary);
+            border-right: 1px solid var(--border);
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        .sidebar-header {
+            padding: 20px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .sidebar-header h1 {
+            font-size: 1.2rem;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .module-select {
+            width: 100%;
+            padding: 10px 12px;
+            background: var(--bg-card);
+            color: var(--text-primary);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            font-size: 0.95rem;
+            cursor: pointer;
+            appearance: none;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%2394a3b8' d='M6 8L1 3h10z'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 12px center;
+        }
+
+        .module-select:focus {
+            outline: 2px solid var(--accent);
+            outline-offset: 1px;
+        }
+
+        .progress-bar-container {
+            padding: 12px 20px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .progress-stats {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+            margin-bottom: 6px;
+        }
+
+        .progress-track {
+            height: 6px;
+            background: var(--bg-card);
+            border-radius: 3px;
+            overflow: hidden;
+            display: flex;
+        }
+
+        .progress-fill-recorded {
+            background: var(--success);
+            transition: width 0.3s ease;
+        }
+
+        .progress-fill-outdated {
+            background: var(--warning);
+            transition: width 0.3s ease;
+        }
+
+        .slide-list {
+            flex: 1;
+            overflow-y: auto;
+            padding: 8px 0;
+        }
+
+        .slide-list::-webkit-scrollbar { width: 6px; }
+        .slide-list::-webkit-scrollbar-track { background: transparent; }
+        .slide-list::-webkit-scrollbar-thumb { background: var(--bg-hover); border-radius: 3px; }
+
+        .slide-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px 20px;
+            cursor: pointer;
+            transition: background var(--transition);
+            border-left: 3px solid transparent;
+        }
+
+        .slide-item:hover { background: rgba(255,255,255,0.05); }
+
+        .slide-item.active {
+            background: rgba(59, 130, 246, 0.15);
+            border-left-color: var(--accent);
+        }
+
+        .slide-item-number {
+            min-width: 28px;
+            height: 28px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            font-size: 0.75rem;
+            font-weight: 700;
+            background: var(--bg-card);
+            color: var(--text-secondary);
+            flex-shrink: 0;
+        }
+
+        .slide-item.active .slide-item-number {
+            background: var(--accent);
+            color: #fff;
+        }
+
+        .slide-item-info {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .slide-item-title {
+            font-size: 0.85rem;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            color: var(--text-primary);
+        }
+
+        .slide-item-meta {
+            font-size: 0.7rem;
+            color: var(--text-muted);
+        }
+
+        .slide-item-status {
+            font-size: 0.85rem;
+            flex-shrink: 0;
+        }
+
+        /* ========================================
+           Main Panel
+           ======================================== */
+        .main-panel {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            min-width: 0;
+        }
+
+        .main-header {
+            padding: 20px 30px;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .main-header-left h2 {
+            font-size: 1.1rem;
+            margin-bottom: 4px;
+        }
+
+        .status-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            padding: 3px 10px;
+            border-radius: 12px;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+
+        .status-badge.current { background: rgba(34,197,94,0.15); color: var(--success); }
+        .status-badge.outdated { background: rgba(245,158,11,0.15); color: var(--warning); }
+        .status-badge.unverified { background: rgba(245,158,11,0.15); color: var(--warning); }
+        .status-badge.none { background: rgba(100,116,139,0.15); color: var(--text-muted); }
+
+        .main-header-nav {
+            display: flex;
+            gap: 8px;
+        }
+
+        .nav-btn {
+            padding: 8px 16px;
+            background: var(--bg-card);
+            color: var(--text-primary);
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.85rem;
+            transition: background var(--transition);
+        }
+
+        .nav-btn:hover { background: var(--bg-hover); }
+        .nav-btn:disabled { opacity: 0.4; cursor: not-allowed; }
+        .nav-btn:focus { outline: 2px solid var(--accent); outline-offset: 1px; }
+
+        /* ========================================
+           Teleprompter / Narration Text
+           ======================================== */
+        .teleprompter {
+            flex: 1;
+            overflow-y: auto;
+            padding: 30px 40px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .teleprompter::-webkit-scrollbar { width: 8px; }
+        .teleprompter::-webkit-scrollbar-track { background: transparent; }
+        .teleprompter::-webkit-scrollbar-thumb { background: var(--bg-hover); border-radius: 4px; }
+
+        .narration-text {
+            max-width: 700px;
+            width: 100%;
+            font-size: 1.35rem;
+            line-height: 1.9;
+            color: var(--text-primary);
+            letter-spacing: 0.01em;
+        }
+
+        .narration-text.recording {
+            font-size: 1.5rem;
+            line-height: 2;
+        }
+
+        .no-narration {
+            color: var(--text-muted);
+            font-style: italic;
+            font-size: 1.1rem;
+        }
+
+        /* ========================================
+           Recording Controls
+           ======================================== */
+        .controls-bar {
+            padding: 20px 30px;
+            border-top: 1px solid var(--border);
+            background: var(--bg-secondary);
+        }
+
+        .waveform-section {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            margin-bottom: 16px;
+        }
+
+        .waveform-canvas {
+            flex: 1;
+            height: 50px;
+            border-radius: 8px;
+            background: var(--bg-primary);
+        }
+
+        .timer {
+            font-family: var(--font-mono);
+            font-size: 1.3rem;
+            min-width: 70px;
+            text-align: center;
+            color: var(--text-secondary);
+        }
+
+        .timer.recording { color: var(--record-red); }
+        .timer.playing { color: var(--success); }
+
+        .buttons-row {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+        }
+
+        .btn {
+            padding: 12px 24px;
+            border: none;
+            border-radius: 8px;
+            font-size: 0.95rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all var(--transition);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .btn:focus { outline: 2px solid var(--accent); outline-offset: 2px; }
+        .btn:disabled { opacity: 0.4; cursor: not-allowed; }
+
+        .btn-record {
+            background: var(--record-red);
+            color: #fff;
+            min-width: 140px;
+            justify-content: center;
+        }
+
+        .btn-record:hover:not(:disabled) { background: #dc2626; }
+
+        .btn-record.recording {
+            animation: pulse-record 1.5s ease-in-out infinite;
+        }
+
+        @keyframes pulse-record {
+            0%, 100% { box-shadow: 0 0 0 0 var(--record-glow); }
+            50% { box-shadow: 0 0 0 12px rgba(239, 68, 68, 0); }
+        }
+
+        .btn-play {
+            background: var(--bg-card);
+            color: var(--text-primary);
+            min-width: 120px;
+            justify-content: center;
+        }
+
+        .btn-play:hover:not(:disabled) { background: var(--bg-hover); }
+
+        .btn-play.playing {
+            background: var(--success);
+            color: #fff;
+        }
+
+        .btn-next {
+            background: var(--accent);
+            color: #fff;
+            min-width: 140px;
+            justify-content: center;
+        }
+
+        .btn-next:hover:not(:disabled) { background: var(--accent-hover); }
+
+        .controls-hint {
+            text-align: center;
+            margin-top: 10px;
+            font-size: 0.75rem;
+            color: var(--text-muted);
+        }
+
+        .controls-hint kbd {
+            display: inline-block;
+            background: var(--bg-card);
+            padding: 1px 6px;
+            border-radius: 3px;
+            font-family: var(--font-mono);
+            font-size: 0.7rem;
+            border: 1px solid var(--border);
+            margin: 0 2px;
+        }
+
+        /* ========================================
+           Loading & Empty States
+           ======================================== */
+        .loading-screen, .empty-state {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-secondary);
+            gap: 12px;
+        }
+
+        .loading-screen .spinner {
+            width: 36px;
+            height: 36px;
+            border: 3px solid var(--border);
+            border-top-color: var(--accent);
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        .empty-state .icon { font-size: 3rem; margin-bottom: 8px; }
+        .empty-state h3 { font-size: 1.1rem; color: var(--text-primary); }
+        .empty-state p { max-width: 400px; text-align: center; line-height: 1.5; }
+
+        .error-banner {
+            background: rgba(239, 68, 68, 0.15);
+            border: 1px solid rgba(239, 68, 68, 0.3);
+            color: #fca5a5;
+            padding: 12px 20px;
+            border-radius: 8px;
+            margin: 20px;
+            font-size: 0.9rem;
+        }
+
+        .error-banner code {
+            background: rgba(0,0,0,0.3);
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-family: var(--font-mono);
+        }
+
+        /* ========================================
+           Toast Notifications
+           ======================================== */
+        .toast {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%) translateY(20px);
+            padding: 12px 24px;
+            border-radius: 8px;
+            font-size: 0.9rem;
+            font-weight: 500;
+            z-index: 10000;
+            opacity: 0;
+            transition: opacity 0.3s ease, transform 0.3s ease;
+            pointer-events: none;
+        }
+
+        .toast.visible {
+            opacity: 1;
+            transform: translateX(-50%) translateY(0);
+        }
+
+        .toast.success { background: var(--success); color: #fff; }
+        .toast.error { background: var(--record-red); color: #fff; }
+        .toast.info { background: var(--accent); color: #fff; }
+
+        /* ========================================
+           Responsive
+           ======================================== */
+        @media (max-width: 800px) {
+            :root { --sidebar-width: 260px; }
+            .teleprompter { padding: 20px; }
+            .narration-text { font-size: 1.1rem; }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            *, *::before, *::after {
+                animation-duration: 0.01ms !important;
+                transition-duration: 0.01ms !important;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="app" id="app">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <h1>🎙️ Recording Studio</h1>
+                <select class="module-select" id="moduleSelect" aria-label="Select module">
+                    <option value="">Loading modules...</option>
+                </select>
+            </div>
+            <div class="progress-bar-container" id="progressSection" style="display:none">
+                <div class="progress-stats">
+                    <span id="progressText">0 of 0 recorded</span>
+                    <span id="progressPercent">0%</span>
+                </div>
+                <div class="progress-track">
+                    <div class="progress-fill-recorded" id="progressRecorded" style="width:0"></div>
+                    <div class="progress-fill-outdated" id="progressOutdated" style="width:0"></div>
+                </div>
+            </div>
+            <div class="slide-list" id="slideList">
+                <div class="empty-state">
+                    <div class="icon">📚</div>
+                    <h3>Select a module</h3>
+                    <p>Choose a module from the dropdown to see its slides.</p>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Main Panel -->
+        <main class="main-panel" id="mainPanel">
+            <div class="empty-state" id="emptyState">
+                <div class="icon">🎙️</div>
+                <h3>Recording Studio</h3>
+                <p>Select a module and slide to begin recording narrations. Your recordings are saved as MP3 files and tracked for changes.</p>
+                <p style="margin-top:8px"><strong>Keyboard shortcuts:</strong><br>
+                    <kbd>R</kbd> Record/Stop &nbsp; <kbd>Space</kbd> Play/Pause &nbsp; <kbd>↑↓</kbd> Navigate slides &nbsp; <kbd>Enter</kbd> Next unrecorded
+                </p>
+            </div>
+
+            <!-- Active recording view (hidden until slide selected) -->
+            <div id="recordingView" style="display:none">
+                <div class="main-header">
+                    <div class="main-header-left">
+                        <h2 id="slideTitle">Slide 1</h2>
+                        <span class="status-badge none" id="statusBadge">Not recorded</span>
+                    </div>
+                    <div class="main-header-nav">
+                        <button class="nav-btn" id="btnPrev" aria-label="Previous slide">← Prev</button>
+                        <button class="nav-btn" id="btnNextNav" aria-label="Next slide">Next →</button>
+                    </div>
+                </div>
+
+                <div class="teleprompter" id="teleprompter">
+                    <div class="narration-text" id="narrationText"></div>
+                </div>
+
+                <div class="controls-bar">
+                    <div class="waveform-section">
+                        <canvas class="waveform-canvas" id="waveform" width="600" height="50"></canvas>
+                        <div class="timer" id="timer">0:00</div>
+                    </div>
+                    <div class="buttons-row">
+                        <button class="btn btn-record" id="btnRecord">🎤 Record</button>
+                        <button class="btn btn-play" id="btnPlay" disabled>▶ Play</button>
+                        <button class="btn btn-next" id="btnNext">⏭ Next Unrecorded</button>
+                    </div>
+                    <div class="controls-hint">
+                        <kbd>R</kbd> Record/Stop &nbsp;&nbsp; <kbd>Space</kbd> Play/Pause &nbsp;&nbsp;
+                        <kbd>↑</kbd><kbd>↓</kbd> Navigate &nbsp;&nbsp; <kbd>Enter</kbd> Next unrecorded
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Toast -->
+    <div class="toast" id="toast"></div>
+
+    <script>
+    class RecordingStudio {
+        constructor() {
+            this.modules = [];
+            this.slides = [];
+            this.currentModule = null;
+            this.currentSlideIndex = -1;
+            this.state = 'idle'; // idle, recording, saving, playing
+
+            // Audio recording
+            this.mediaRecorder = null;
+            this.audioChunks = [];
+            this.recordingStream = null;
+            this.recordStartTime = null;
+            this.timerInterval = null;
+
+            // Audio playback
+            this.audioElement = null;
+
+            // Waveform
+            this.audioContext = null;
+            this.analyser = null;
+            this.animationFrame = null;
+
+            // DOM refs
+            this.els = {
+                moduleSelect: document.getElementById('moduleSelect'),
+                progressSection: document.getElementById('progressSection'),
+                progressText: document.getElementById('progressText'),
+                progressPercent: document.getElementById('progressPercent'),
+                progressRecorded: document.getElementById('progressRecorded'),
+                progressOutdated: document.getElementById('progressOutdated'),
+                slideList: document.getElementById('slideList'),
+                mainPanel: document.getElementById('mainPanel'),
+                emptyState: document.getElementById('emptyState'),
+                recordingView: document.getElementById('recordingView'),
+                slideTitle: document.getElementById('slideTitle'),
+                statusBadge: document.getElementById('statusBadge'),
+                narrationText: document.getElementById('narrationText'),
+                teleprompter: document.getElementById('teleprompter'),
+                waveform: document.getElementById('waveform'),
+                timer: document.getElementById('timer'),
+                btnRecord: document.getElementById('btnRecord'),
+                btnPlay: document.getElementById('btnPlay'),
+                btnNext: document.getElementById('btnNext'),
+                btnPrev: document.getElementById('btnPrev'),
+                btnNextNav: document.getElementById('btnNextNav'),
+                toast: document.getElementById('toast'),
+            };
+
+            this.init();
+        }
+
+        async init() {
+            this.bindEvents();
+            await this.loadModules();
+        }
+
+        bindEvents() {
+            this.els.moduleSelect.addEventListener('change', () => this.onModuleChange());
+            this.els.btnRecord.addEventListener('click', () => this.toggleRecording());
+            this.els.btnPlay.addEventListener('click', () => this.togglePlayback());
+            this.els.btnNext.addEventListener('click', () => this.goToNextUnrecorded());
+            this.els.btnPrev.addEventListener('click', () => this.prevSlide());
+            this.els.btnNextNav.addEventListener('click', () => this.nextSlide());
+
+            document.addEventListener('keydown', (e) => this.handleKeydown(e));
+        }
+
+        handleKeydown(e) {
+            // Don't intercept when typing in inputs
+            if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA' || e.target.tagName === 'SELECT') return;
+            if (this.currentSlideIndex < 0) return;
+
+            switch (e.key) {
+                case 'r':
+                case 'R':
+                    e.preventDefault();
+                    this.toggleRecording();
+                    break;
+                case ' ':
+                    e.preventDefault();
+                    if (this.state === 'recording') return; // Don't interrupt recording
+                    this.togglePlayback();
+                    break;
+                case 'ArrowUp':
+                    e.preventDefault();
+                    this.prevSlide();
+                    break;
+                case 'ArrowDown':
+                    e.preventDefault();
+                    this.nextSlide();
+                    break;
+                case 'Enter':
+                    e.preventDefault();
+                    this.goToNextUnrecorded();
+                    break;
+                case 'Escape':
+                    if (this.state === 'recording') {
+                        e.preventDefault();
+                        this.cancelRecording();
+                    }
+                    break;
+            }
+        }
+
+        // ========================================
+        // Module Loading
+        // ========================================
+
+        async loadModules() {
+            try {
+                const res = await fetch('/api/modules');
+                if (!res.ok) throw new Error('Server not available');
+                const data = await res.json();
+                this.modules = data.modules;
+                this.renderModuleSelect();
+            } catch (err) {
+                this.els.moduleSelect.innerHTML = '<option value="">⚠ Dev server not running</option>';
+                this.els.slideList.innerHTML = `
+                    <div class="error-banner">
+                        <strong>Cannot connect to dev server.</strong><br>
+                        Start it with: <code>npm run dev</code>
+                    </div>`;
+            }
+        }
+
+        renderModuleSelect() {
+            let html = '<option value="">— Select Module —</option>';
+            for (const mod of this.modules) {
+                const pct = mod.slideCount > 0 ? Math.round((mod.recorded / mod.slideCount) * 100) : 0;
+                html += `<option value="${mod.name}">Module ${mod.number}: ${mod.title} (${mod.recorded}/${mod.slideCount})</option>`;
+            }
+            this.els.moduleSelect.innerHTML = html;
+        }
+
+        async onModuleChange() {
+            const moduleName = this.els.moduleSelect.value;
+            if (!moduleName) {
+                this.currentModule = null;
+                this.slides = [];
+                this.currentSlideIndex = -1;
+                this.els.progressSection.style.display = 'none';
+                this.els.slideList.innerHTML = `
+                    <div class="empty-state">
+                        <div class="icon">📚</div>
+                        <h3>Select a module</h3>
+                        <p>Choose a module from the dropdown to see its slides.</p>
+                    </div>`;
+                this.showEmptyState();
+                return;
+            }
+
+            this.els.slideList.innerHTML = `
+                <div class="loading-screen">
+                    <div class="spinner"></div>
+                    <span>Loading slides...</span>
+                </div>`;
+
+            try {
+                const res = await fetch(`/api/slides?module=${moduleName}`);
+                if (!res.ok) throw new Error('Failed to load slides');
+                const data = await res.json();
+                this.currentModule = moduleName;
+                this.slides = data.slides;
+                this.renderSlideList();
+                this.updateProgress();
+                this.els.progressSection.style.display = 'block';
+
+                // Auto-select first slide
+                if (this.slides.length > 0) {
+                    this.selectSlide(0);
+                }
+            } catch (err) {
+                this.els.slideList.innerHTML = `
+                    <div class="error-banner">Failed to load slides: ${err.message}</div>`;
+            }
+        }
+
+        // ========================================
+        // Slide List
+        // ========================================
+
+        renderSlideList() {
+            let html = '';
+            for (let i = 0; i < this.slides.length; i++) {
+                const slide = this.slides[i];
+                const active = i === this.currentSlideIndex ? ' active' : '';
+                const statusIcon = this.getStatusIcon(slide);
+                const truncTitle = slide.title.length > 30 ? slide.title.substring(0, 30) + '…' : slide.title;
+                const meta = slide.narration ? `${slide.narration.split(' ').length} words` : 'No narration';
+
+                html += `
+                    <div class="slide-item${active}" data-index="${i}" onclick="studio.selectSlide(${i})">
+                        <div class="slide-item-number">${slide.number}</div>
+                        <div class="slide-item-info">
+                            <div class="slide-item-title">${this.escapeHtml(truncTitle)}</div>
+                            <div class="slide-item-meta">${meta}</div>
+                        </div>
+                        <div class="slide-item-status">${statusIcon}</div>
+                    </div>`;
+            }
+            this.els.slideList.innerHTML = html;
+        }
+
+        getStatusIcon(slide) {
+            if (!slide.audio.exists || slide.audio.status === 'none') return '⬜';
+            if (slide.audio.status === 'current') return '✅';
+            if (slide.audio.status === 'outdated') return '⚠️';
+            if (slide.audio.status === 'unverified') return '❓';
+            return '⬜';
+        }
+
+        getStatusLabel(slide) {
+            if (!slide.audio.exists || slide.audio.status === 'none') return { text: 'Not recorded', class: 'none' };
+            if (slide.audio.status === 'current') return { text: '✅ Recorded', class: 'current' };
+            if (slide.audio.status === 'outdated') return { text: '⚠️ Text changed — re-record', class: 'outdated' };
+            if (slide.audio.status === 'unverified') return { text: '❓ Unverified', class: 'unverified' };
+            return { text: 'Not recorded', class: 'none' };
+        }
+
+        updateProgress() {
+            const total = this.slides.length;
+            const recorded = this.slides.filter(s => s.audio.exists && s.audio.status === 'current').length;
+            const outdated = this.slides.filter(s => s.audio.status === 'outdated' || s.audio.status === 'unverified').length;
+
+            this.els.progressText.textContent = `${recorded} of ${total} recorded`;
+            const pct = total > 0 ? Math.round((recorded / total) * 100) : 0;
+            this.els.progressPercent.textContent = `${pct}%`;
+            this.els.progressRecorded.style.width = `${(recorded / total) * 100}%`;
+            this.els.progressOutdated.style.width = `${(outdated / total) * 100}%`;
+        }
+
+        // ========================================
+        // Slide Selection
+        // ========================================
+
+        selectSlide(index) {
+            if (index < 0 || index >= this.slides.length) return;
+
+            // Stop any ongoing recording or playback
+            if (this.state === 'recording') this.cancelRecording();
+            if (this.state === 'playing') this.stopPlayback();
+
+            this.currentSlideIndex = index;
+            const slide = this.slides[index];
+
+            // Update sidebar active state
+            this.els.slideList.querySelectorAll('.slide-item').forEach((el, i) => {
+                el.classList.toggle('active', i === index);
+            });
+
+            // Scroll active item into view
+            const activeItem = this.els.slideList.querySelector('.slide-item.active');
+            if (activeItem) activeItem.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
+
+            // Show recording view
+            this.els.emptyState.style.display = 'none';
+            this.els.recordingView.style.display = 'flex';
+            this.els.recordingView.style.flexDirection = 'column';
+            this.els.recordingView.style.flex = '1';
+
+            // Update header
+            this.els.slideTitle.textContent = `Slide ${slide.number} of ${this.slides.length}: ${slide.title}`;
+            const status = this.getStatusLabel(slide);
+            this.els.statusBadge.textContent = status.text;
+            this.els.statusBadge.className = `status-badge ${status.class}`;
+
+            // Update narration text
+            if (slide.narration) {
+                this.els.narrationText.textContent = slide.narration;
+                this.els.narrationText.className = 'narration-text';
+            } else {
+                this.els.narrationText.textContent = 'No narration text for this slide.';
+                this.els.narrationText.className = 'narration-text no-narration';
+            }
+
+            // Scroll teleprompter to top
+            this.els.teleprompter.scrollTop = 0;
+
+            // Update button states
+            this.els.btnPlay.disabled = !slide.audio.exists;
+            this.els.btnPrev.disabled = index === 0;
+            this.els.btnNextNav.disabled = index === this.slides.length - 1;
+
+            // Reset timer and waveform
+            this.resetTimer();
+            this.clearWaveform();
+        }
+
+        showEmptyState() {
+            this.els.emptyState.style.display = 'flex';
+            this.els.recordingView.style.display = 'none';
+        }
+
+        prevSlide() {
+            if (this.currentSlideIndex > 0) this.selectSlide(this.currentSlideIndex - 1);
+        }
+
+        nextSlide() {
+            if (this.currentSlideIndex < this.slides.length - 1) this.selectSlide(this.currentSlideIndex + 1);
+        }
+
+        goToNextUnrecorded() {
+            // Find next slide that needs recording (starting from current position)
+            for (let i = this.currentSlideIndex + 1; i < this.slides.length; i++) {
+                const s = this.slides[i];
+                if (!s.audio.exists || s.audio.status === 'outdated' || s.audio.status === 'none') {
+                    this.selectSlide(i);
+                    return;
+                }
+            }
+            // Wrap around from the beginning
+            for (let i = 0; i < this.currentSlideIndex; i++) {
+                const s = this.slides[i];
+                if (!s.audio.exists || s.audio.status === 'outdated' || s.audio.status === 'none') {
+                    this.selectSlide(i);
+                    return;
+                }
+            }
+            this.showToast('All slides are recorded!', 'success');
+        }
+
+        // ========================================
+        // Recording
+        // ========================================
+
+        async toggleRecording() {
+            if (this.state === 'recording') {
+                this.stopRecording();
+            } else if (this.state === 'idle') {
+                await this.startRecording();
+            }
+        }
+
+        async startRecording() {
+            if (this.currentSlideIndex < 0) return;
+
+            // Stop any playback first
+            if (this.state === 'playing') this.stopPlayback();
+
+            try {
+                this.recordingStream = await navigator.mediaDevices.getUserMedia({ audio: true });
+                this.audioChunks = [];
+
+                // Setup MediaRecorder
+                this.mediaRecorder = new MediaRecorder(this.recordingStream, {
+                    mimeType: 'audio/webm;codecs=opus'
+                });
+
+                this.mediaRecorder.ondataavailable = (e) => {
+                    if (e.data.size > 0) this.audioChunks.push(e.data);
+                };
+
+                this.mediaRecorder.onstop = () => {
+                    const blob = new Blob(this.audioChunks, { type: 'audio/webm' });
+                    this.saveRecording(blob);
+                };
+
+                this.mediaRecorder.start();
+                this.state = 'recording';
+                this.recordStartTime = Date.now();
+
+                // Start waveform visualization
+                this.startWaveform(this.recordingStream);
+
+                // Start timer
+                this.startTimer();
+
+                // Update UI
+                this.els.btnRecord.textContent = '⏹ Stop';
+                this.els.btnRecord.classList.add('recording');
+                this.els.btnPlay.disabled = true;
+                this.els.narrationText.classList.add('recording');
+                this.els.timer.classList.add('recording');
+
+            } catch (err) {
+                if (err.name === 'NotAllowedError') {
+                    this.showToast('Microphone access required — check browser permissions', 'error');
+                } else {
+                    this.showToast('Failed to start recording: ' + err.message, 'error');
+                }
+            }
+        }
+
+        stopRecording() {
+            if (this.mediaRecorder && this.state === 'recording') {
+                this.mediaRecorder.stop();
+                this.recordingStream.getTracks().forEach(t => t.stop());
+                this.state = 'saving';
+                this.stopTimer();
+                this.stopWaveform();
+
+                this.els.btnRecord.textContent = '💾 Saving...';
+                this.els.btnRecord.classList.remove('recording');
+                this.els.btnRecord.disabled = true;
+                this.els.narrationText.classList.remove('recording');
+                this.els.timer.classList.remove('recording');
+            }
+        }
+
+        cancelRecording() {
+            if (this.mediaRecorder && this.state === 'recording') {
+                this.mediaRecorder.ondataavailable = null;
+                this.mediaRecorder.onstop = null;
+                this.mediaRecorder.stop();
+                this.recordingStream.getTracks().forEach(t => t.stop());
+                this.state = 'idle';
+                this.stopTimer();
+                this.stopWaveform();
+                this.resetRecordButton();
+                this.els.narrationText.classList.remove('recording');
+                this.els.timer.classList.remove('recording');
+                this.showToast('Recording cancelled', 'info');
+            }
+        }
+
+        async saveRecording(blob) {
+            const slide = this.slides[this.currentSlideIndex];
+            const textHash = slide.textHash || '';
+
+            try {
+                const res = await fetch(
+                    `/api/save-audio?module=${this.currentModule}&slide=${slide.number}&textHash=${textHash}`,
+                    {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'audio/webm' },
+                        body: blob
+                    }
+                );
+
+                if (!res.ok) {
+                    const err = await res.json();
+                    throw new Error(err.error || 'Server error');
+                }
+
+                // Update local slide data
+                slide.audio.exists = true;
+                slide.audio.status = 'current';
+                slide.audio.isCustom = true;
+                slide.audio.recordedAt = new Date().toISOString();
+
+                // Refresh UI
+                this.state = 'idle';
+                this.resetRecordButton();
+                this.renderSlideList();
+                this.updateProgress();
+                this.selectSlide(this.currentSlideIndex); // Refresh current view
+
+                this.showToast('Recording saved!', 'success');
+
+                // Auto-play the saved recording
+                setTimeout(() => this.startPlayback(), 300);
+
+            } catch (err) {
+                this.state = 'idle';
+                this.resetRecordButton();
+
+                if (err.message.includes('ffmpeg')) {
+                    this.showToast('ffmpeg not installed. Run: brew install ffmpeg', 'error');
+                } else if (err.message === 'Failed to fetch') {
+                    this.showToast('Dev server not running. Run: npm run dev', 'error');
+                } else {
+                    this.showToast('Save failed: ' + err.message, 'error');
+                }
+            }
+        }
+
+        resetRecordButton() {
+            this.els.btnRecord.textContent = '🎤 Record';
+            this.els.btnRecord.classList.remove('recording');
+            this.els.btnRecord.disabled = false;
+        }
+
+        // ========================================
+        // Playback
+        // ========================================
+
+        togglePlayback() {
+            if (this.state === 'playing') {
+                this.stopPlayback();
+            } else if (this.state === 'idle') {
+                this.startPlayback();
+            }
+        }
+
+        startPlayback() {
+            if (this.currentSlideIndex < 0) return;
+            const slide = this.slides[this.currentSlideIndex];
+            if (!slide.audio.exists) return;
+
+            // Add cache-busting to get the freshest version
+            this.audioElement = new Audio(`${slide.audio.path}?t=${Date.now()}`);
+
+            this.audioElement.onplay = () => {
+                this.state = 'playing';
+                this.els.btnPlay.textContent = '⏸ Pause';
+                this.els.btnPlay.classList.add('playing');
+                this.els.timer.classList.add('playing');
+                this.startPlaybackTimer();
+            };
+
+            this.audioElement.onended = () => {
+                this.stopPlayback();
+            };
+
+            this.audioElement.onerror = () => {
+                this.showToast('Could not play audio file', 'error');
+                this.stopPlayback();
+            };
+
+            this.audioElement.play();
+        }
+
+        stopPlayback() {
+            if (this.audioElement) {
+                this.audioElement.pause();
+                this.audioElement.currentTime = 0;
+                this.audioElement = null;
+            }
+            this.state = 'idle';
+            this.stopTimer();
+            this.els.btnPlay.textContent = '▶ Play';
+            this.els.btnPlay.classList.remove('playing');
+            this.els.timer.classList.remove('playing');
+        }
+
+        // ========================================
+        // Timer
+        // ========================================
+
+        startTimer() {
+            this.recordStartTime = Date.now();
+            this.timerInterval = setInterval(() => this.updateTimer(), 100);
+        }
+
+        startPlaybackTimer() {
+            this.timerInterval = setInterval(() => {
+                if (this.audioElement) {
+                    this.els.timer.textContent = this.formatTime(this.audioElement.currentTime);
+                }
+            }, 100);
+        }
+
+        stopTimer() {
+            if (this.timerInterval) {
+                clearInterval(this.timerInterval);
+                this.timerInterval = null;
+            }
+        }
+
+        resetTimer() {
+            this.stopTimer();
+            this.els.timer.textContent = '0:00';
+            this.els.timer.className = 'timer';
+        }
+
+        updateTimer() {
+            const elapsed = (Date.now() - this.recordStartTime) / 1000;
+            this.els.timer.textContent = this.formatTime(elapsed);
+        }
+
+        formatTime(seconds) {
+            const m = Math.floor(seconds / 60);
+            const s = Math.floor(seconds % 60);
+            return `${m}:${s.toString().padStart(2, '0')}`;
+        }
+
+        // ========================================
+        // Waveform Visualization
+        // ========================================
+
+        startWaveform(stream) {
+            try {
+                this.audioContext = new (window.AudioContext || window.webkitAudioContext)();
+                const source = this.audioContext.createMediaStreamSource(stream);
+                this.analyser = this.audioContext.createAnalyser();
+                this.analyser.fftSize = 256;
+                source.connect(this.analyser);
+                this.drawWaveform();
+            } catch (err) {
+                // Waveform is optional — fail silently
+            }
+        }
+
+        drawWaveform() {
+            if (!this.analyser) return;
+
+            const canvas = this.els.waveform;
+            const ctx = canvas.getContext('2d');
+            const width = canvas.width;
+            const height = canvas.height;
+            const bufferLength = this.analyser.frequencyBinCount;
+            const dataArray = new Uint8Array(bufferLength);
+
+            this.analyser.getByteFrequencyData(dataArray);
+
+            ctx.fillStyle = '#0f172a';
+            ctx.fillRect(0, 0, width, height);
+
+            const barCount = 60;
+            const barWidth = (width / barCount) - 2;
+            const step = Math.floor(bufferLength / barCount);
+
+            for (let i = 0; i < barCount; i++) {
+                const value = dataArray[i * step] / 255;
+                const barHeight = Math.max(2, value * height * 0.9);
+                const x = i * (barWidth + 2);
+                const y = (height - barHeight) / 2;
+
+                const hue = this.state === 'recording' ? 0 : 210; // Red when recording, blue otherwise
+                const lightness = 40 + value * 30;
+                ctx.fillStyle = `hsl(${hue}, 80%, ${lightness}%)`;
+                ctx.fillRect(x, y, barWidth, barHeight);
+            }
+
+            this.animationFrame = requestAnimationFrame(() => this.drawWaveform());
+        }
+
+        stopWaveform() {
+            if (this.animationFrame) {
+                cancelAnimationFrame(this.animationFrame);
+                this.animationFrame = null;
+            }
+            if (this.audioContext) {
+                this.audioContext.close().catch(() => {});
+                this.audioContext = null;
+                this.analyser = null;
+            }
+        }
+
+        clearWaveform() {
+            const canvas = this.els.waveform;
+            const ctx = canvas.getContext('2d');
+            ctx.fillStyle = '#0f172a';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+            // Draw flat line
+            ctx.strokeStyle = '#334155';
+            ctx.lineWidth = 1;
+            ctx.beginPath();
+            ctx.moveTo(0, canvas.height / 2);
+            ctx.lineTo(canvas.width, canvas.height / 2);
+            ctx.stroke();
+        }
+
+        // ========================================
+        // Toast Notifications
+        // ========================================
+
+        showToast(message, type = 'info') {
+            const toast = this.els.toast;
+            toast.textContent = message;
+            toast.className = `toast ${type}`;
+            requestAnimationFrame(() => toast.classList.add('visible'));
+
+            clearTimeout(this._toastTimer);
+            this._toastTimer = setTimeout(() => {
+                toast.classList.remove('visible');
+            }, 3000);
+        }
+
+        // ========================================
+        // Utilities
+        // ========================================
+
+        escapeHtml(text) {
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
+        }
+    }
+
+    // Initialize studio
+    const studio = new RecordingStudio();
+    </script>
+</body>
+</html>

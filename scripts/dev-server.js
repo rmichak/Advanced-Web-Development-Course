@@ -14,6 +14,7 @@
  */
 
 import express from 'express';
+import { load } from 'cheerio';
 import { config } from 'dotenv';
 import { createHash } from 'crypto';
 import { execFileSync } from 'child_process';
@@ -147,11 +148,12 @@ app.post('/api/save-audio', (req, res) => {
         // Clean up temp file
         unlinkSync(tempWebmPath);
 
-        // Update manifest to mark as custom recording
+        // Update manifest to mark as custom recording (with text hash for change detection)
         const manifest = loadManifest();
         manifest.generated[manifestKey] = {
             custom: true,
-            recordedAt: new Date().toISOString()
+            recordedAt: new Date().toISOString(),
+            textHash: req.query.textHash || null
         };
         saveManifest(manifest);
 
@@ -404,6 +406,151 @@ app.post('/api/generate-audio', async (req, res) => {
         res.status(500).json({
             error: 'Failed to generate audio: ' + error.message
         });
+    }
+});
+
+/**
+ * GET /api/modules
+ * Returns list of available modules with slide counts
+ */
+app.get('/api/modules', (req, res) => {
+    const modules = [];
+    for (let i = 1; i <= 14; i++) {
+        const paddedNum = String(i).padStart(2, '0');
+        const moduleName = `module-${paddedNum}`;
+        const modulePath = join(MODULES_DIR, `${moduleName}.html`);
+        if (existsSync(modulePath)) {
+            const html = readFileSync(modulePath, 'utf-8');
+            const $ = load(html);
+            const slideCount = $('section.slide, .slide').length;
+            if (slideCount <= 2) continue; // Skip placeholder modules
+
+            const titleSlide = $('.slide.title-slide').first();
+            const subtitle = titleSlide.find('.subtitle').text();
+            const h1 = titleSlide.find('h1').text();
+            const title = subtitle || h1 || `Module ${i}`;
+
+            // Count audio status
+            const manifest = loadManifest();
+            let recorded = 0;
+            for (let s = 1; s <= slideCount; s++) {
+                const key = `${moduleName}/slide-${String(s).padStart(2, '0')}.mp3`;
+                const audioPath = join(AUDIO_DIR, moduleName, `slide-${String(s).padStart(2, '0')}.mp3`);
+                if (existsSync(audioPath) && manifest.generated[key]) recorded++;
+            }
+
+            modules.push({
+                name: moduleName,
+                number: i,
+                title: title,
+                slideCount: slideCount,
+                recorded: recorded
+            });
+        }
+    }
+    res.json({ modules });
+});
+
+/**
+ * GET /api/slides
+ * Returns slide data with narration text and audio status for a module
+ * Query params: module (e.g., "module-01")
+ */
+app.get('/api/slides', (req, res) => {
+    const { module: moduleName } = req.query;
+
+    if (!moduleName) {
+        return res.status(400).json({ error: 'Missing module parameter' });
+    }
+    if (!/^module-\d{2}$/.test(moduleName)) {
+        return res.status(400).json({ error: 'Invalid module format. Expected: module-XX' });
+    }
+
+    const modulePath = join(MODULES_DIR, `${moduleName}.html`);
+    if (!existsSync(modulePath)) {
+        return res.status(404).json({ error: 'Module not found' });
+    }
+
+    try {
+        const html = readFileSync(modulePath, 'utf-8');
+        const $ = load(html);
+        const manifest = loadManifest();
+        const slides = [];
+
+        $('section.slide, .slide').each((index, element) => {
+            const slideNum = index + 1;
+            const paddedSlide = String(slideNum).padStart(2, '0');
+            const manifestKey = `${moduleName}/slide-${paddedSlide}.mp3`;
+            const audioPath = join(AUDIO_DIR, moduleName, `slide-${paddedSlide}.mp3`);
+
+            const narration = $(element).attr('data-narration') || '';
+            const titleEl = $(element).find('h1, h2').first();
+            const title = titleEl.text() || `Slide ${slideNum}`;
+            const isTitle = $(element).hasClass('title-slide');
+            const currentHash = narration ? hashText(narration) : null;
+
+            // Check manifest entry
+            const manifestEntry = manifest.generated[manifestKey];
+            const audioExists = existsSync(audioPath);
+
+            let audioStatus = 'none';
+            let isCustom = false;
+            let recordedAt = null;
+            let storedHash = null;
+
+            if (audioExists && manifestEntry) {
+                if (typeof manifestEntry === 'object') {
+                    isCustom = manifestEntry.custom || false;
+                    recordedAt = manifestEntry.recordedAt || null;
+                    storedHash = manifestEntry.textHash || null;
+                } else {
+                    // String = MD5 hash from ElevenLabs generation
+                    storedHash = manifestEntry;
+                }
+
+                if (!currentHash) {
+                    audioStatus = 'current'; // No narration text = nothing to compare
+                } else if (storedHash && currentHash === storedHash) {
+                    audioStatus = 'current';
+                } else if (storedHash) {
+                    audioStatus = 'outdated';
+                } else {
+                    audioStatus = 'unverified';
+                }
+            }
+
+            slides.push({
+                number: slideNum,
+                title: title.trim(),
+                isTitle: isTitle,
+                narration: narration,
+                textHash: currentHash,
+                audio: {
+                    exists: audioExists,
+                    status: audioStatus,
+                    isCustom: isCustom,
+                    recordedAt: recordedAt,
+                    path: `audio/${moduleName}/slide-${paddedSlide}.mp3`
+                }
+            });
+        });
+
+        const recorded = slides.filter(s => s.audio.exists && s.audio.status === 'current').length;
+        const outdated = slides.filter(s => s.audio.status === 'outdated' || s.audio.status === 'unverified').length;
+        const unrecorded = slides.filter(s => !s.audio.exists || s.audio.status === 'none').length;
+
+        res.json({
+            module: moduleName,
+            totalSlides: slides.length,
+            recorded,
+            outdated,
+            unrecorded,
+            slides
+        });
+
+    } catch (error) {
+        console.error('Error loading slides:', error.message);
+        res.status(500).json({ error: 'Failed to load slides: ' + error.message });
     }
 });
 
