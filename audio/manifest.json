@@ -66,7 +66,11 @@
     "module-02/slide-23.mp3": "f04d8a34c9ed3d196270eab83f7c99f8",
     "module-02/slide-24.mp3": "b9e73eab3a0a015f67be0c7334cfdf09",
     "module-02/slide-25.mp3": "13b34266a77872f82766f732165dfb11",
-    "module-03/slide-01.mp3": "71e548920065464f875921b3256ba708",
+    "module-03/slide-01.mp3": {
+      "custom": true,
+      "recordedAt": "2026-02-08T19:24:31.423Z",
+      "textHash": "6541cf81819bee730958c4364d578b5b6796aab32e6001434e2e85812f8a1ad8"
+    },
     "module-03/slide-02.mp3": "f5667ba5b4fe87146423edb5089cfb69",
     "module-03/slide-03.mp3": "17ebb5647c0abfc58c885dd3cca2d299",
     "module-03/slide-04.mp3": "d58f0946b8af3c8363038db15219d92e",
