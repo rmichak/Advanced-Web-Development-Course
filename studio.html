@@ -210,6 +210,48 @@
         .toast.error { background: var(--record-red); color: #fff; }
         .toast.info { background: var(--accent); color: #fff; }
 
+        /* ===== Edit Mode ===== */
+        .narration-wrapper {
+            position: relative; max-width: 700px; width: 100%;
+        }
+        .edit-btn {
+            position: absolute; top: -4px; right: -4px;
+            background: var(--bg-card); color: var(--text-secondary);
+            border: 1px solid var(--border); border-radius: 6px;
+            padding: 4px 8px; font-size: 0.85rem; cursor: pointer;
+            opacity: 0.6; transition: all var(--transition);
+            display: flex; align-items: center; gap: 4px; z-index: 2;
+        }
+        .edit-btn:hover { opacity: 1; background: var(--bg-hover); color: var(--text-primary); }
+        .edit-btn:focus { outline: 2px solid var(--accent); outline-offset: 1px; }
+        .edit-textarea {
+            width: 100%; min-height: 150px; padding: 16px;
+            background: var(--bg-secondary); color: var(--text-primary);
+            border: 2px solid var(--accent); border-radius: 8px;
+            font-family: var(--font-main); font-size: 1.35rem; line-height: 1.9;
+            resize: vertical; outline: none;
+        }
+        .edit-textarea:focus { border-color: var(--accent-hover); box-shadow: 0 0 0 3px rgba(59,130,246,0.2); }
+        .edit-actions {
+            display: flex; gap: 8px; margin-top: 12px; justify-content: flex-end;
+        }
+        .edit-actions .btn-save-text {
+            padding: 8px 20px; background: var(--success); color: #fff;
+            border: none; border-radius: 6px; font-size: 0.9rem; font-weight: 600;
+            cursor: pointer; display: flex; align-items: center; gap: 6px;
+        }
+        .edit-actions .btn-save-text:hover { background: #16a34a; }
+        .edit-actions .btn-save-text:disabled { opacity: 0.5; cursor: not-allowed; }
+        .edit-actions .btn-cancel-text {
+            padding: 8px 20px; background: var(--bg-card); color: var(--text-primary);
+            border: 1px solid var(--border); border-radius: 6px; font-size: 0.9rem;
+            cursor: pointer;
+        }
+        .edit-actions .btn-cancel-text:hover { background: var(--bg-hover); }
+        .edit-char-count {
+            font-size: 0.75rem; color: var(--text-muted); margin-top: 6px; text-align: right;
+        }
+
         @media (max-width: 800px) {
             :root { --sidebar-width: 260px; }
             .teleprompter { padding: 20px; }
@@ -270,7 +312,8 @@
                 <kbd>R</kbd> Record/Stop &nbsp;
                 <kbd>Space</kbd> Play/Pause &nbsp;
                 <kbd>↑↓</kbd> Navigate &nbsp;
-                <kbd>Enter</kbd> Next unrecorded
+                <kbd>Enter</kbd> Next unrecorded &nbsp;
+                <kbd>E</kbd> Edit text
             </p>
         </div>
         <div id="recView" style="display:none">
@@ -285,7 +328,18 @@
                 </div>
             </div>
             <div class="teleprompter" id="teleprompter">
-                <div class="narration-text" id="narrationText"></div>
+                <div class="narration-wrapper">
+                    <button class="edit-btn" id="btnEdit" title="Edit narration text (E)">✏️ Edit</button>
+                    <div class="narration-text" id="narrationText"></div>
+                    <div id="editContainer" style="display:none">
+                        <textarea class="edit-textarea" id="editTextarea" placeholder="Enter narration text…"></textarea>
+                        <div class="edit-char-count" id="editCharCount"></div>
+                        <div class="edit-actions">
+                            <button class="btn-cancel-text" id="btnCancelEdit">Cancel</button>
+                            <button class="btn-save-text" id="btnSaveEdit">💾 Save Text</button>
+                        </div>
+                    </div>
+                </div>
             </div>
             <div class="controls-bar">
                 <div class="waveform-row">
@@ -301,7 +355,8 @@
                     <kbd>R</kbd> Record/Stop &nbsp;&nbsp;
                     <kbd>Space</kbd> Play/Pause &nbsp;&nbsp;
                     <kbd>↑</kbd><kbd>↓</kbd> Navigate &nbsp;&nbsp;
-                    <kbd>Enter</kbd> Next unrecorded
+                    <kbd>Enter</kbd> Next unrecorded &nbsp;&nbsp;
+                    <kbd>E</kbd> Edit text
                 </div>
             </div>
         </div>
@@ -319,6 +374,7 @@ class RecordingStudio {
         this.currentModule = null;
         this.currentSlideIdx = -1;
         this.state = 'idle';
+        this.editing = false;
 
         // Recording
         this.recorder = null;
@@ -348,7 +404,8 @@ class RecordingStudio {
             'moduleSelect','progressSection','progressText','progressPct',
             'pBarOk','pBarWarn','slideList','emptyState','recView',
             'slideTitle','badge','narrationText','teleprompter',
-            'waveform','timer','btnRec','btnPlay','btnNext','btnPrev','btnNextNav','toast'
+            'waveform','timer','btnRec','btnPlay','btnNext','btnPrev','btnNextNav','toast',
+            'btnEdit','editContainer','editTextarea','editCharCount','btnSaveEdit','btnCancelEdit'
         ];
         ids.forEach(id => this.el[id] = document.getElementById(id));
     }
@@ -362,6 +419,10 @@ class RecordingStudio {
         this.el.btnNext.addEventListener('click', () => this.goNextUnrecorded());
         this.el.btnPrev.addEventListener('click', () => this.prevSlide());
         this.el.btnNextNav.addEventListener('click', () => this.nextSlide());
+        this.el.btnEdit.addEventListener('click', () => this.toggleEdit());
+        this.el.btnSaveEdit.addEventListener('click', () => this.saveEdit());
+        this.el.btnCancelEdit.addEventListener('click', () => this.cancelEdit());
+        this.el.editTextarea.addEventListener('input', () => this.updateCharCount());
         document.addEventListener('keydown', e => this.onKey(e));
     }
 
@@ -618,6 +679,7 @@ class RecordingStudio {
 
     selectSlide(idx) {
         if (idx < 0 || idx >= this.slides.length) return;
+        if (this.editing) this.cancelEdit();
         if (this.state === 'recording') this.cancelRec();
         if (this.state === 'playing') this.stopPlay();
 
@@ -951,11 +1013,20 @@ class RecordingStudio {
     // ==================== KEYBOARD ====================
 
     onKey(e) {
+        // Allow Escape to cancel edit even when in textarea
+        if (e.key === 'Escape' && this.editing) {
+            e.preventDefault(); this.cancelEdit(); return;
+        }
+        // Allow Ctrl/Cmd+Enter to save edit when in textarea
+        if ((e.key === 'Enter') && (e.ctrlKey || e.metaKey) && this.editing) {
+            e.preventDefault(); this.saveEdit(); return;
+        }
         if (['INPUT', 'TEXTAREA', 'SELECT'].includes(e.target.tagName)) return;
         if (this.currentSlideIdx < 0) return;
 
         switch (e.key) {
             case 'r': case 'R': e.preventDefault(); this.toggleRec(); break;
+            case 'e': case 'E': e.preventDefault(); this.toggleEdit(); break;
             case ' ':
                 e.preventDefault();
                 if (this.state !== 'recording' && this.state !== 'converting') this.togglePlay();
@@ -967,6 +1038,133 @@ class RecordingStudio {
                 if (this.state === 'recording') { e.preventDefault(); this.cancelRec(); }
                 break;
         }
+    }
+
+    // ==================== TEXT EDITING ====================
+
+    toggleEdit() {
+        if (this.editing) this.cancelEdit();
+        else this.enterEdit();
+    }
+
+    enterEdit() {
+        if (this.currentSlideIdx < 0) return;
+        if (this.state === 'recording' || this.state === 'converting') return;
+        if (this.state === 'playing') this.stopPlay();
+
+        const s = this.slides[this.currentSlideIdx];
+        this.editing = true;
+
+        // Hide narration display, show textarea
+        this.el.narrationText.style.display = 'none';
+        this.el.editContainer.style.display = 'block';
+        this.el.btnEdit.style.display = 'none';
+
+        // Populate textarea
+        this.el.editTextarea.value = s.narration || '';
+        this.autoSizeTextarea();
+        this.updateCharCount();
+        this.el.editTextarea.focus();
+
+        // Disable recording controls while editing
+        this.el.btnRec.disabled = true;
+    }
+
+    cancelEdit() {
+        if (!this.editing) return;
+        this.editing = false;
+
+        this.el.narrationText.style.display = '';
+        this.el.editContainer.style.display = 'none';
+        this.el.btnEdit.style.display = '';
+        this.el.btnRec.disabled = false;
+    }
+
+    async saveEdit() {
+        if (!this.editing || this.currentSlideIdx < 0) return;
+        const s = this.slides[this.currentSlideIdx];
+        const newText = this.el.editTextarea.value.trim();
+
+        // No change?
+        if (newText === (s.narration || '')) {
+            this.cancelEdit();
+            this.toast('No changes to save', 'info');
+            return;
+        }
+
+        // Disable buttons during save
+        this.el.btnSaveEdit.disabled = true;
+        this.el.btnSaveEdit.textContent = '☁️ Saving…';
+
+        try {
+            const res = await fetch('/api/save-text', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-Studio-Secret': this.secret,
+                },
+                body: JSON.stringify({
+                    module: this.currentModule,
+                    slide: s.number,
+                    narration: newText,
+                }),
+            });
+
+            if (!res.ok) {
+                const data = await res.json().catch(() => ({}));
+                throw new Error(data.error || `Server error ${res.status}`);
+            }
+
+            const data = await res.json();
+
+            // Update local state
+            s.narration = newText;
+
+            // Recompute SHA-256 hash
+            const newHash = await this.sha256(newText);
+            s._sha256 = newHash;
+
+            // If there's a recording, mark it outdated locally.
+            // The manifest's textHash (from recording time) won't match the
+            // new text's hash, so it'll show ⚠️ on next page load too.
+            if (s.audio.exists) {
+                s.audio.status = 'outdated';
+            }
+
+            // Exit edit mode
+            this.editing = false;
+            this.el.narrationText.style.display = '';
+            this.el.editContainer.style.display = 'none';
+            this.el.btnEdit.style.display = '';
+            this.el.btnRec.disabled = false;
+
+            // Refresh the display
+            this.renderSlideList();
+            this.updateProgress();
+            this.selectSlide(this.currentSlideIdx);
+
+            this.toast('✅ Narration text saved to GitHub!', 'success');
+
+        } catch (err) {
+            this.toast('Save failed: ' + err.message, 'error');
+        } finally {
+            this.el.btnSaveEdit.disabled = false;
+            this.el.btnSaveEdit.textContent = '💾 Save Text';
+        }
+    }
+
+    autoSizeTextarea() {
+        const ta = this.el.editTextarea;
+        ta.style.height = 'auto';
+        ta.style.height = Math.max(150, ta.scrollHeight + 4) + 'px';
+    }
+
+    updateCharCount() {
+        const text = this.el.editTextarea.value;
+        const words = text.trim() ? text.trim().split(/\s+/).length : 0;
+        const chars = text.length;
+        this.el.editCharCount.textContent = `${words} words · ${chars} characters`;
+        this.autoSizeTextarea();
     }
 
     // ==================== UTILS ====================
