@@ -690,7 +690,7 @@
         </section>
 
         <!-- Slide 22: Equality Operators -->
-        <section class="slide" id="equality" data-narration="Always use strict equality with triple equals. Double equals performs type coercion which leads to confusing behavior like empty string equaling zero. The double equals operator converts operands to the same type before comparing, following complex rules. This is why '5' == 5 is true (string becomes number), and 0 == false is true (false becomes 0). Triple equals compares both value AND type without any conversion. The only exception where == is acceptable: checking for null or undefined with 'x == null' catches both. ESLint and other linters will warn you about using loose equality. Make strict equality your default and your code will be more predictable.">
+        <section class="slide" id="equality" data-narration="Always use strict equality with triple equals. Double equals performs type coercion which leads to confusing behavior like empty string equaling zero. The double equals operator converts operands to the same type before comparing, following complex rules. This is why '5' == 5 is true (string becomes number), and 0 == false is true (false becomes 0). Triple equals compares both value AND type without any conversion.  ESLint and other linters will warn you about using loose equality. Make strict equality your default and your code will be more predictable.">
             <div class="dark-container">
                 <h2>Equality: == vs ===</h2>
                 <p class="subtitle">Always use strict equality (===) to avoid type coercion surprises.</p>
