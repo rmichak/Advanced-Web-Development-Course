@@ -482,7 +482,7 @@
         </section>
 
         <!-- Slide 14: Script Loading -->
-        <section class="slide" id="script-loading" data-narration="When including JavaScript in HTML, script placement matters. Scripts in the head block rendering, while scripts before closing body or with defer attribute load efficiently. By default, the browser stops parsing HTML when it encounters a script tag, downloads the script, executes it, then continues parsing. This blocking behavior can make pages feel slow. Placing scripts at the end of body ensures the DOM is ready before scripts run. The defer attribute tells the browser to download in parallel and execute after HTML parsing completes. The async attribute downloads in parallel but executes immediately when ready - useful for analytics scripts. For modern development, defer is usually the best choice.">
+        <section class="slide" id="script-loading" data-narration="When including JavaScript in HTML, script placement matters.  By default, the browser stops parsing HTML when it encounters a script tag, downloads the script, executes it, then continues parsing. This blocking behavior can make pages feel slow. Placing scripts at the end of body ensures the DOM is ready before scripts run. The defer attribute tells the browser to download in parallel and execute after HTML parsing completes. The async attribute downloads in parallel but executes immediately when ready - useful for analytics scripts. For modern development, defer is usually the best choice.">
             <div class="dark-container">
                 <h2>Script Loading Strategies</h2>
                 <p class="subtitle">Where and how you load scripts affects page performance significantly.</p>
