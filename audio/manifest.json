@@ -167,8 +167,9 @@
       "textHash": "690696140367cc235f5229b9547ab274d59b7a5b50f5d252a8d172e1f34b0257"
     },
     "module-03/slide-21.mp3": {
-      "textHash": "c599abcdebfb8573b05eedc4f8abb3df",
-      "textEditedAt": "2026-02-09T11:24:46.534Z"
+      "custom": true,
+      "recordedAt": "2026-02-09T11:25:14.482Z",
+      "textHash": "2cc65a7afae0244af32cee74ba716e315891b499f3254cef45943c0f954082bb"
     },
     "module-03/slide-22.mp3": "5e366004b13e07337b7a8d9ad4899b7d",
     "module-03/slide-23.mp3": "7ac3cbe1c3c184934af1253d7a24928f",
