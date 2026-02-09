@@ -106,7 +106,11 @@
       "recordedAt": "2026-02-09T10:53:45.749Z",
       "textHash": "f6833e58890913c5732d93d7525688e661fb6ef4573098b86a1874e2cd306480"
     },
-    "module-03/slide-09.mp3": "116b482081b1dc00997bc08950c24a37",
+    "module-03/slide-09.mp3": {
+      "custom": true,
+      "recordedAt": "2026-02-09T10:54:44.245Z",
+      "textHash": "af3ddeaae50531b4cfc1ee4a8db9b404846d2ae2e6f4b14295a33ed055abc9df"
+    },
     "module-03/slide-10.mp3": "b0de73a8d62b875da8f0b8bf84d24d01",
     "module-03/slide-11.mp3": "377e6727d498449b22684e58de06b0bf",
     "module-03/slide-12.mp3": "a9458493b5bcfac64b7dc5c2c639d668",
