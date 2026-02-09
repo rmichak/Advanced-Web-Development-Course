@@ -211,7 +211,11 @@
       "recordedAt": "2026-02-09T11:44:36.838Z",
       "textHash": "66defd7b6477274b1ddb2293664e468c2e5be81d50655438e1694aa91df90850"
     },
-    "module-03/slide-30.mp3": "43095ffaed4a53d9a86bd816bf64a61d",
+    "module-03/slide-30.mp3": {
+      "custom": true,
+      "recordedAt": "2026-02-09T11:45:35.601Z",
+      "textHash": "0dac6357ed4df3a329eb2e2619185f0b960abaa479af92b4663f78a813cb0310"
+    },
     "module-03/slide-31.mp3": "a4ef606fb3ef918d7658fa07d675f9d0",
     "module-03/slide-32.mp3": "9a1dbefd9a7af64c40ef6a8339683b06",
     "module-03/slide-33.mp3": "cab67f30ef03f64a9e68a7c69abddf12",
