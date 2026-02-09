@@ -181,7 +181,10 @@
       "recordedAt": "2026-02-09T11:32:10.808Z",
       "textHash": "bcec27837fbbf49768eb785fbd90e437babce301aaa0c6291cabf5de3566582e"
     },
-    "module-03/slide-24.mp3": "75ccc791532106dfe11a6919e5933f63",
+    "module-03/slide-24.mp3": {
+      "textHash": "75ccc791532106dfe11a6919e5933f63",
+      "textEditedAt": "2026-02-09T11:34:04.199Z"
+    },
     "module-03/slide-25.mp3": "cab97ed432f902aa495a14f4ce8a9ae4",
     "module-03/slide-26.mp3": "de8fb06b1f801cd25937fc1b58111d55",
     "module-03/slide-27.mp3": "ea5c8a1c9fd1a43d9ee84243655a82a1",
