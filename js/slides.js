@@ -835,7 +835,8 @@ class AccessibleSlidePresentation {
         if (!moduleName) return null;
 
         const slideNum = String(this.currentSlide + 1).padStart(2, '0');
-        return `../audio/${moduleName}/slide-${slideNum}.mp3`;
+        const cacheBust = Date.now();
+        return `../audio/${moduleName}/slide-${slideNum}.mp3?v=${cacheBust}`;
     }
 
     /**
