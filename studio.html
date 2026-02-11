@@ -84,8 +84,16 @@
         /* ===== Progress ===== */
         .progress-section { padding: 12px 20px; border-bottom: 1px solid var(--border); display: none; }
         .progress-stats { display: flex; justify-content: space-between; font-size: 0.8rem; color: var(--text-secondary); margin-bottom: 6px; }
+        .progress-breakdown { display: flex; gap: 12px; font-size: 0.7rem; color: var(--text-muted); margin-bottom: 6px; }
+        .progress-breakdown span { display: flex; align-items: center; gap: 3px; }
+        .progress-dot { width: 8px; height: 8px; border-radius: 50%; display: inline-block; }
+        .progress-dot.custom { background: var(--success); }
+        .progress-dot.ai { background: var(--accent); }
+        .progress-dot.outdated { background: var(--warning); }
+        .progress-dot.none { background: var(--bg-hover); }
         .progress-track { height: 6px; background: var(--bg-card); border-radius: 3px; overflow: hidden; display: flex; }
         .progress-fill-ok { background: var(--success); transition: width 0.3s; }
+        .progress-fill-ai { background: var(--accent); transition: width 0.3s; }
         .progress-fill-warn { background: var(--warning); transition: width 0.3s; }
 
         /* ===== Slide List ===== */
@@ -109,6 +117,13 @@
         .slide-info-title { font-size: 0.85rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
         .slide-info-meta { font-size: 0.7rem; color: var(--text-muted); }
         .slide-status { font-size: 0.85rem; flex-shrink: 0; }
+        .slide-audio-type {
+            font-size: 0.6rem; font-weight: 600; padding: 1px 5px;
+            border-radius: 4px; display: inline-block; margin-top: 2px;
+        }
+        .slide-audio-type.custom { background: rgba(34,197,94,0.2); color: var(--success); }
+        .slide-audio-type.ai { background: rgba(59,130,246,0.2); color: var(--accent); }
+        .slide-audio-type.outdated { background: rgba(245,158,11,0.2); color: var(--warning); }
 
         /* ===== Main Panel ===== */
         .main-panel { flex: 1; display: flex; flex-direction: column; min-width: 0; }
@@ -291,8 +306,15 @@
                 <span id="progressText">0 of 0</span>
                 <span id="progressPct">0%</span>
             </div>
+            <div class="progress-breakdown" id="progressBreakdown">
+                <span><span class="progress-dot custom"></span> <span id="countCustom">0</span> yours</span>
+                <span><span class="progress-dot ai"></span> <span id="countAI">0</span> AI</span>
+                <span><span class="progress-dot outdated"></span> <span id="countOutdated">0</span> outdated</span>
+                <span><span class="progress-dot none"></span> <span id="countNone">0</span> empty</span>
+            </div>
             <div class="progress-track">
                 <div class="progress-fill-ok" id="pBarOk" style="width:0"></div>
+                <div class="progress-fill-ai" id="pBarAI" style="width:0"></div>
                 <div class="progress-fill-warn" id="pBarWarn" style="width:0"></div>
             </div>
         </div>
@@ -556,7 +578,7 @@ class RecordingStudio {
         if (!entry) return { exists: false, status: 'none' };
 
         // Entry exists in manifest
-        const isCustom = typeof entry === 'object' && entry.custom;
+        const isCustom = typeof entry === 'object' && entry.custom === true;
         const recordedAt = typeof entry === 'object' ? entry.recordedAt : null;
         const storedHash = typeof entry === 'object' ? entry.textHash : (typeof entry === 'string' ? entry : null);
 
@@ -570,6 +592,13 @@ class RecordingStudio {
             status = 'current';
         } else if (storedHash && currentHash !== storedHash) {
             status = 'outdated';
+        }
+
+        // For AI-generated entries (plain hash string, no custom flag),
+        // we can't verify text match client-side (MD5 vs SHA-256).
+        // Mark as current — the async loadSlideHashes will re-evaluate.
+        if (!isCustom && typeof entry === 'string') {
+            status = 'current';
         }
 
         return { exists: true, status, isCustom, recordedAt, path: `audio/${key}` };
@@ -636,11 +665,12 @@ class RecordingStudio {
             const icon = this.statusIcon(s);
             const trunc = s.title.length > 30 ? s.title.substring(0, 30) + '…' : s.title;
             const words = s.narration ? s.narration.split(/\s+/).length + ' words' : 'No narration';
+            const audioType = this.audioTypeLabel(s);
             html += `<div class="slide-item${active}" data-i="${i}">
                 <div class="slide-num">${s.number}</div>
                 <div class="slide-info">
                     <div class="slide-info-title">${this.esc(trunc)}</div>
-                    <div class="slide-info-meta">${words}</div>
+                    <div class="slide-info-meta">${words}${audioType}</div>
                 </div>
                 <div class="slide-status">${icon}</div>
             </div>`;
@@ -651,28 +681,57 @@ class RecordingStudio {
         });
     }
 
+    audioTypeLabel(s) {
+        if (!s.audio.exists || s.audio.status === 'none') return '';
+        if (s.audio.status === 'outdated') {
+            const src = s.audio.isCustom ? 'yours' : 'AI';
+            return ` · <span class="slide-audio-type outdated">⚠️ ${src} · text changed</span>`;
+        }
+        if (s.audio.isCustom) return ` · <span class="slide-audio-type custom">🎤 yours</span>`;
+        return ` · <span class="slide-audio-type ai">🤖 AI</span>`;
+    }
+
     statusIcon(s) {
         if (!s.audio.exists || s.audio.status === 'none') return '⬜';
-        if (s.audio.status === 'current') return '✅';
         if (s.audio.status === 'outdated') return '⚠️';
+        if (s.audio.isCustom && s.audio.status === 'current') return '🎤';
+        if (s.audio.status === 'current') return '🤖';
         return '❓';
     }
 
     statusLabel(s) {
         if (!s.audio.exists || s.audio.status === 'none') return { text: 'Not recorded', cls: 'none' };
-        if (s.audio.status === 'current') return { text: '✅ Recorded', cls: 'ok' };
-        if (s.audio.status === 'outdated') return { text: '⚠️ Text changed — re-record', cls: 'warn' };
+        if (s.audio.status === 'outdated') {
+            const src = s.audio.isCustom ? 'your recording' : 'AI audio';
+            return { text: `⚠️ Text changed — ${src} needs update`, cls: 'warn' };
+        }
+        if (s.audio.isCustom) return { text: '🎤 Your recording', cls: 'ok' };
+        if (s.audio.status === 'current') return { text: '🤖 AI generated (ElevenLabs)', cls: 'ok' };
         return { text: '❓ Unverified', cls: 'warn' };
     }
 
     updateProgress() {
         const total = this.slides.length;
-        const ok = this.slides.filter(s => s.audio.exists && s.audio.status === 'current').length;
-        const warn = this.slides.filter(s => s.audio.status === 'outdated' || s.audio.status === 'unverified').length;
-        this.el.progressText.textContent = `${ok} of ${total} recorded`;
-        this.el.progressPct.textContent = total ? Math.round((ok / total) * 100) + '%' : '0%';
-        this.el.pBarOk.style.width = total ? (ok / total * 100) + '%' : '0';
-        this.el.pBarWarn.style.width = total ? (warn / total * 100) + '%' : '0';
+        const custom = this.slides.filter(s => s.audio.exists && s.audio.isCustom && s.audio.status === 'current').length;
+        const ai = this.slides.filter(s => s.audio.exists && !s.audio.isCustom && s.audio.status === 'current').length;
+        const outdated = this.slides.filter(s => s.audio.status === 'outdated').length;
+        const unverified = this.slides.filter(s => s.audio.status === 'unverified').length;
+        const none = this.slides.filter(s => !s.audio.exists || s.audio.status === 'none').length;
+        const recorded = custom + ai;
+
+        this.el.progressText.textContent = `${recorded} of ${total} recorded`;
+        this.el.progressPct.textContent = total ? Math.round((recorded / total) * 100) + '%' : '0%';
+
+        // Breakdown counts
+        document.getElementById('countCustom').textContent = custom;
+        document.getElementById('countAI').textContent = ai;
+        document.getElementById('countOutdated').textContent = outdated + unverified;
+        document.getElementById('countNone').textContent = none;
+
+        // Progress bar
+        this.el.pBarOk.style.width = total ? (custom / total * 100) + '%' : '0';
+        document.getElementById('pBarAI').style.width = total ? (ai / total * 100) + '%' : '0';
+        this.el.pBarWarn.style.width = total ? ((outdated + unverified) / total * 100) + '%' : '0';
     }
 
     // ==================== SLIDE SELECTION ====================
