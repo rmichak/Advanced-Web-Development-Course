@@ -120,12 +120,12 @@
 <body>
     <a href="#main-content" class="skip-link">Skip to main content</a>
 
-    <div class="presentation">
+    <div class="presentation" id="main-content">
 
         <!-- ========== Module Title ========== -->
 
         <!-- Slide 1: Title -->
-        <section class="slide title-slide" data-narration="Welcome to Module 7, Database Access. Up to this point you've built React frontends and connected them to external APIs, but all of your data has been temporary — it disappears the moment a user refreshes the page or closes the browser. That changes today. In this module we're going to connect your React applications to a real Postgres database using Supabase, so your data actually persists. Supabase gives us a full Postgres database with a JavaScript client library that feels almost as simple as the fetch calls you wrote in Module 6. By the end of this module you'll understand relational database fundamentals, know how to wire up CRUD operations from React, and deploy a database-backed app to Vercel. This is the skill that turns a demo into a real product.">
+        <section class="slide title-slide" id="title" data-narration="Welcome to Module 7, Database Access. Up to this point you've built React frontends and connected them to external APIs, but all of your data has been temporary — it disappears the moment a user refreshes the page or closes the browser. That changes today. In this module we're going to connect your React applications to a real Postgres database using Supabase, so your data actually persists. Supabase gives us a full Postgres database with a JavaScript client library that feels almost as simple as the fetch calls you wrote in Module 6. By the end of this module you'll understand relational database fundamentals, know how to wire up CRUD operations from React, and deploy a database-backed app to Vercel. This is the skill that turns a demo into a real product.">
             <h1>Module 7</h1>
             <p class="subtitle">Database Access</p>
             <p class="meta">Persisting Data with Supabase &amp; Postgres</p>
@@ -151,7 +151,7 @@
                 <div class="resource-grid" style="margin-top: 0;">
                     <a href="https://developer.mozilla.org/en-US/docs/Learn/Server-side/First_steps/Web_frameworks" target="_blank" rel="noopener" class="resource-card">
                         <div class="icon">📚</div>
-                        <h4>MDN: Server-Side &amp; Databases</h4>
+                        <h4>MDN: Server-Side Web Frameworks</h4>
                         <p>Vendor-neutral overview of how databases fit into web applications</p>
                     </a>
                 </div>
@@ -370,7 +370,7 @@
                         <span class="feature-icon">💰</span>
                         <div class="feature-text">
                             <strong>Generous Free Tier</strong>
-                            500 MB database, 50K monthly users, unlimited API requests
+                            500 MB database, 50K monthly users, no credit card required
                         </div>
                     </div>
                     <div class="feature-item">
@@ -858,7 +858,7 @@ VITE_SUPABASE_ANON_KEY=<span class="string">eyJhbGciOiJI...</span></pre>
                     </tr>
                     <tr>
                         <td><strong>Complex Queries</strong></td>
-                        <td>Limited (no raw joins)</td>
+                        <td>Basic joins via select, no arbitrary SQL</td>
                         <td>Full SQL power</td>
                     </tr>
                     <tr>
@@ -993,7 +993,7 @@ VITE_SUPABASE_ANON_KEY=<span class="string">eyJhbGciOiJI...</span></pre>
         </section>
 
         <!-- Slide 28: Module Complete -->
-        <section class="slide" id="module-complete" data-narration="Congratulations on completing Module 7! You've gone from a static React app to one backed by a real Postgres database. That's a massive leap. You now understand why databases exist, how SQL works at a fundamental level, and how to wire up Supabase to your React frontend for full CRUD operations. The pattern you learned — create a client, fetch data into state, insert on form submit, update and delete with filters — is the same pattern used in production applications everywhere. The specific tool might change, but the concepts are universal. Keep experimenting with your Supabase project. Try adding new columns, filtering queries, or even exploring Supabase's real-time subscriptions. In upcoming modules we'll continue building on this foundation. Great work getting this far — you're building real, deployable web applications now.">
+        <section class="slide" id="module-complete" data-narration="Congratulations on completing Module 7! You've gone from a static React app to one backed by a real Postgres database. That's a massive leap. You now understand why databases exist, how SQL works at a fundamental level, and how to wire up Supabase to your React frontend for full CRUD operations. The pattern you learned — create a client, fetch data into state, insert on form submit, update and delete with filters — is the same pattern used in production applications everywhere. The specific tool might change, but the concepts are universal. Keep experimenting with your Supabase project. Try adding new columns, filtering queries, or even exploring Supabase's real-time subscriptions. In Module 8, we'll add user authentication and security to protect your data and control who can access what. Great work getting this far — you're building real, deployable web applications now.">
             <div class="dark-container">
                 <h2>Module 7 Complete!</h2>
                 <p class="subtitle">You've connected your React app to a real database.</p>
