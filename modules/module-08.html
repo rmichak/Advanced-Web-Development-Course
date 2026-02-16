@@ -182,7 +182,7 @@
         </section>
 
         <!-- Slide 4: Why Authentication Matters -->
-        <section class="slide" id="why-auth-matters" data-narration="Let's start with the most basic question: why does authentication matter? First and most importantly, it protects user data. When someone creates an account on your app, they're trusting you with their information — their email, their content, potentially their payment details. Without authentication, anyone could access anyone else's data. Second, authentication enables personalization. Think about how Netflix shows you different recommendations than your roommate, or how your email inbox only shows your emails. That's authentication at work. Third, authentication is the foundation for authorization — controlling who can do what. A regular user can edit their own profile, but only an admin can delete other users' accounts. You can't enforce those rules if you don't know who the user is in the first place. In 2024, users expect authentication. An app without it feels unfinished and untrustworthy.">
+        <section class="slide" id="why-auth-matters" data-narration="Let's start with the most basic question: why does authentication matter? First and most importantly, it protects user data. When someone creates an account on your app, they're trusting you with their information — their email, their content, potentially their payment details. Without authentication, anyone could access anyone else's data. Second, authentication enables personalization. Think about how Netflix shows you different recommendations than your roommate, or how your email inbox only shows your emails. That's authentication at work. Third, authentication is the foundation for authorization — controlling who can do what. A regular user can edit their own profile, but only an admin can delete other users' accounts. You can't enforce those rules if you don't know who the user is in the first place. Today, users expect authentication. An app without it feels unfinished and untrustworthy.">
             <div class="dark-container">
                 <h2>Why Authentication Matters</h2>
                 <p class="subtitle">Authentication is the foundation of trust in web applications.</p>
@@ -292,8 +292,8 @@
                         <h4>Signature</h4>
                         <div class="code-block" style="margin-top: 0.5rem;">
 <pre>HMACSHA256(
-  base64(header) + "." +
-  base64(payload),
+  base64url(header) + "." +
+  base64url(payload),
   secret
 )</pre>
                         </div>
@@ -341,7 +341,7 @@
                         <td><strong style="color: #fff;">Passkeys</strong></td>
                         <td>Biometrics or device PIN (WebAuthn)</td>
                         <td>Most secure, phishing-resistant</td>
-                        <td>Newer, browser support growing</td>
+                        <td>Newer, user adoption still growing</td>
                     </tr>
                 </table>
                 <div class="dark-card info" style="margin-top: 1rem;">
@@ -583,7 +583,7 @@
         </section>
 
         <!-- Slide 16: Sign Out -->
-        <section class="slide" id="sign-out" data-narration="Signing out is the simplest auth operation — it's just one line. supabase.auth.signOut() clears the session from the browser and invalidates the refresh token on the server. After this call, the user is no longer authenticated and any Supabase queries that require authentication will fail. You'll typically wire this up to a 'Sign Out' button in your navigation or header. The method is async, so use await if you need to do something after sign-out completes — like redirecting to a login page. One important detail: signOut only clears the current session. If the user is logged in on multiple devices, those other sessions remain active until their tokens expire. That's normal behavior for JWT-based auth. In your UI, you should update the displayed state after sign-out — either by listening for auth state changes, which we'll cover next, or by manually resetting your component state.">
+        <section class="slide" id="sign-out" data-narration="Signing out is the simplest auth operation — it's just one line. supabase.auth.signOut() clears the session from the browser and invalidates the refresh token on the server. After this call, the user is no longer authenticated and any Supabase queries that require authentication will fail. You'll typically wire this up to a 'Sign Out' button in your navigation or header. The method is async, so use await if you need to do something after sign-out completes — like redirecting to a login page. One important detail: by default, signOut revokes all sessions across all devices by invalidating all refresh tokens. If you only want to sign out the current device, you can pass { scope: 'local' } as an option. In your UI, you should update the displayed state after sign-out — either by listening for auth state changes, which we'll cover next, or by manually resetting your component state.">
             <div class="dark-container">
                 <h2>Sign Out</h2>
                 <p class="subtitle">Clear the user session with <code>supabase.auth.signOut()</code></p>
@@ -840,7 +840,13 @@
 <span class="comment">-- 5. Policy: Users can only DELETE their own todos</span>
 <span class="keyword">CREATE POLICY</span> <span class="string">"Users delete own todos"</span>
 <span class="keyword">ON</span> todos <span class="keyword">FOR DELETE</span>
-<span class="keyword">USING</span> (auth.uid() = user_id);</pre>
+<span class="keyword">USING</span> (auth.uid() = user_id);
+
+<span class="comment">-- 6. Policy: Users can only UPDATE their own todos</span>
+<span class="keyword">CREATE POLICY</span> <span class="string">"Users update own todos"</span>
+<span class="keyword">ON</span> todos <span class="keyword">FOR UPDATE</span>
+<span class="keyword">USING</span> (auth.uid() = user_id)
+<span class="keyword">WITH CHECK</span> (auth.uid() = user_id);</pre>
                 </div>
                 <div class="dark-card info" style="margin-top: 1rem;">
                     <h4>auth.uid() = Magic 🔮</h4>
@@ -858,7 +864,7 @@
         </section>
 
         <!-- Slide 23: Common Web Vulnerabilities -->
-        <section class="slide" id="vulnerabilities" data-narration="Let's talk about the three most common web vulnerabilities you need to know about. First, Cross-Site Scripting, or XSS. This is when an attacker injects malicious JavaScript into your site that runs in other users' browsers. Imagine a comment section where someone posts a comment containing a script tag. If your app renders that comment without sanitizing it, the script runs and can steal cookies, redirect users, or modify the page. React actually protects you from most XSS by default because it escapes content in JSX. But if you use dangerouslySetInnerHTML — the name is a warning — you're bypassing that protection. Second, Cross-Site Request Forgery, or CSRF. This is when a malicious site tricks a user's browser into making requests to your site using their credentials. Since cookies are sent automatically with requests, an attacker's page could trigger actions on your site while the user is logged in. Supabase's token-based auth helps mitigate this because tokens aren't sent automatically like cookies. Third, SQL Injection is when an attacker inserts malicious SQL through user input. If you're building raw queries by concatenating strings, someone could type something like 'drop table users' into a form field. Supabase's client library uses parameterized queries, so you're protected as long as you use the API properly and don't write raw SQL with user input. These three are consistently in the OWASP Top 10, and they've caused some of the biggest data breaches in history.">
+        <section class="slide" id="vulnerabilities" data-narration="Let's talk about the three most common web vulnerabilities you need to know about. First, Cross-Site Scripting, or XSS. This is when an attacker injects malicious JavaScript into your site that runs in other users' browsers. Imagine a comment section where someone posts a comment containing a script tag. If your app renders that comment without sanitizing it, the script runs and can steal cookies, redirect users, or modify the page. React actually protects you from most XSS by default because it escapes content in JSX. But if you use dangerouslySetInnerHTML — the name is a warning — you're bypassing that protection. Second, Cross-Site Request Forgery, or CSRF. This is when a malicious site tricks a user's browser into making requests to your site using their credentials. Since cookies are sent automatically with requests, an attacker's page could trigger actions on your site while the user is logged in. Supabase's token-based auth helps mitigate this because tokens aren't sent automatically like cookies. Third, SQL Injection is when an attacker inserts malicious SQL through user input. If you're building raw queries by concatenating strings, someone could type something like 'drop table users' into a form field. Supabase's client library uses parameterized queries, so you're protected as long as you use the API properly and don't write raw SQL with user input. XSS and SQL Injection both fall under Injection, which has been in every version of the OWASP Top 10, most recently ranked A05 in the 2025 edition. CSRF is no longer a standalone Top 10 item — modern frameworks mitigate it well — but it remains an attack pattern you should understand. All three have contributed to major data breaches historically.">
             <div class="dark-container">
                 <h2>Common Web Vulnerabilities</h2>
                 <p class="subtitle">The three attacks every web developer must understand.</p>
@@ -1002,7 +1008,7 @@
         </section>
 
         <!-- Slide 27: Assignment — Add Auth to Your Todo App -->
-        <section class="slide" id="assignment1" data-narration="Your assignment is to add Supabase authentication to the database-powered Todo app you built in Module 7. This is worth 50 points total. Here are the requirements. First, implement sign-up, sign-in, and sign-out functionality using Supabase Auth. Users should be able to create an account, log in, and log out. Second, the todo list should be protected — it should only be visible when a user is logged in. If no one is logged in, show the auth form instead. Third, and this is the key part, each user should only see their own todos. You'll need to add a user_id column to your todos table, create RLS policies using auth.uid(), and make sure inserts automatically attach the user's ID. Fourth, deploy the finished app to Vercel with your environment variables properly configured. You'll need to add your Vercel URL to the Supabase redirect URLs. For your submission, provide three things: your GitHub repository URL, your live Vercel URL, and screenshots showing the sign-up form, the logged-in view with todos, and your Supabase dashboard showing registered users under Authentication, then Users. Use the code from this module as your guide — the Auth component, the conditional rendering pattern, and the RLS policies are all here in the slides. You've got this.">
+        <section class="slide" id="assignment1" data-narration="Your assignment is to add Supabase authentication to the database-powered Todo app you built in Module 7, Assignment 2. This is worth 50 points total. Here are the requirements. First, implement sign-up, sign-in, and sign-out functionality using Supabase Auth. Users should be able to create an account, log in, and log out. Second, the todo list should be protected — it should only be visible when a user is logged in. If no one is logged in, show the auth form instead. Third, and this is the key part, each user should only see their own todos. You'll need to add a user_id column to your todos table, create RLS policies using auth.uid(), and make sure inserts automatically attach the user's ID. Fourth, deploy the finished app to Vercel with your environment variables properly configured. You'll need to add your Vercel URL to the Supabase redirect URLs. For your submission, provide three things: your GitHub repository URL, your live Vercel URL, and screenshots showing the sign-up form, the logged-in view with todos, and your Supabase dashboard showing registered users under Authentication, then Users. Use the code from this module as your guide — the Auth component, the conditional rendering pattern, and the RLS policies are all here in the slides. You've got this.">
             <div class="dark-container">
                 <h2>Assignment: Add Auth to Your Todo App</h2>
                 <p class="subtitle">Extend your Module 7 Todo app with full authentication and per-user data.</p>
