@@ -1007,68 +1007,32 @@
             <p class="subtitle">Assignment</p>
         </section>
 
-        <!-- Slide 27: Assignment — Add Auth to Your Todo App -->
-        <section class="slide" id="assignment1" data-narration="Your assignment is to add Supabase authentication to the database-powered Todo app you built in Module 7, Assignment 2. This is worth 50 points total. Here are the requirements. First, implement sign-up, sign-in, and sign-out functionality using Supabase Auth. Users should be able to create an account, log in, and log out. Second, the todo list should be protected — it should only be visible when a user is logged in. If no one is logged in, show the auth form instead. Third, and this is the key part, each user should only see their own todos. You'll need to add a user_id column to your todos table, create RLS policies using auth.uid(), and make sure inserts automatically attach the user's ID. Fourth, deploy the finished app to Vercel with your environment variables properly configured. You'll need to add your Vercel URL to the Supabase redirect URLs. For your submission, provide three things: your GitHub repository URL, your live Vercel URL, and screenshots showing the sign-up form, the logged-in view with todos, and your Supabase dashboard showing registered users under Authentication, then Users. Use the code from this module as your guide — the Auth component, the conditional rendering pattern, and the RLS policies are all here in the slides. You've got this.">
-            <div class="dark-container">
-                <h2>Assignment: Add Auth to Your Todo App</h2>
-                <p class="subtitle">Extend your Module 7 Todo app with full authentication and per-user data.</p>
-                <div class="dark-two-column" style="margin-top: 1.5rem;">
-                    <div>
-                        <h3>Requirements</h3>
-                        <div class="feature-grid" style="grid-template-columns: 1fr; margin-top: 0.5rem;">
-                            <div class="feature-item">
-                                <span class="step-number">1</span>
-                                <div class="feature-text">
-                                    <strong>Sign Up / Sign In / Sign Out</strong>
-                                    Full auth flow using Supabase Auth with email &amp; password
-                                </div>
-                            </div>
-                            <div class="feature-item">
-                                <span class="step-number">2</span>
-                                <div class="feature-text">
-                                    <strong>Protected Todo List</strong>
-                                    Only visible when logged in. Show auth form when logged out.
-                                </div>
-                            </div>
-                            <div class="feature-item">
-                                <span class="step-number">3</span>
-                                <div class="feature-text">
-                                    <strong>Per-User Todos (RLS)</strong>
-                                    Add user_id column + RLS policies. Each user only sees their own todos.
-                                </div>
-                            </div>
-                            <div class="feature-item">
-                                <span class="step-number">4</span>
-                                <div class="feature-text">
-                                    <strong>Deploy to Vercel</strong>
-                                    Environment variables configured. Add Vercel URL to Supabase redirects.
-                                </div>
-                            </div>
-                        </div>
+        <!-- Slide 27: Assignment Link -->
+        <section class="slide" id="assignment1" data-narration="Your assignment is to add Supabase authentication to the database-powered Todo app you built in Module 7, Assignment 2. Click the link to open the full step-by-step assignment instructions. The walkthrough guides you through every step — from configuring Supabase Auth, to adding a user_id column and RLS policies, to building an Auth component, to deploying on Vercel. This assignment is worth 50 points.">
+            <div class="dark-container" style="text-align: center; display: flex; flex-direction: column; justify-content: center; height: 100%;">
+                <h2>Assignment: Authenticated Todo App</h2>
+                <p class="subtitle" style="margin-bottom: 2rem;">Add sign-up, sign-in, sign-out, and per-user data isolation to your Module 7 Todo app.</p>
+                <div style="margin: 2rem 0;">
+                    <a href="../assignments/assignment-5-auth-todo-app.html"
+                       style="display: inline-block; padding: 1rem 2rem; background: linear-gradient(135deg, #f59e0b, #d97706); color: #fff; text-decoration: none; border-radius: 8px; font-size: 1.25rem; font-weight: bold;">
+                        Open Assignment Instructions
+                    </a>
+                </div>
+                <div class="dark-three-column" style="margin-top: 2rem; max-width: 700px; margin-left: auto; margin-right: auto;">
+                    <div class="dark-card">
+                        <h4>Auth Flow</h4>
+                        <p>Sign up, sign in, sign out with Supabase Auth</p>
                     </div>
-                    <div>
-                        <h3>Submit</h3>
-                        <div class="dark-card" style="margin-bottom: 1rem;">
-                            <h4>📎 Deliverables</h4>
-                            <ul style="margin: 0.5rem 0 0; padding-left: 1.5rem;">
-                                <li>GitHub repository URL</li>
-                                <li>Live Vercel URL</li>
-                                <li>Screenshots:
-                                    <ul style="padding-left: 1rem; margin-top: 0.25rem;">
-                                        <li>Sign-up / sign-in form</li>
-                                        <li>Logged-in view with todos</li>
-                                        <li>Supabase Auth dashboard showing users</li>
-                                    </ul>
-                                </li>
-                            </ul>
-                        </div>
-                        <div class="dark-card info">
-                            <h4>💡 Hints</h4>
-                            <p>Use the Auth component from Slide 18. Use the RLS policies from Slide 21. Use conditional rendering from Slide 19.</p>
-                        </div>
+                    <div class="dark-card">
+                        <h4>Per-User Data</h4>
+                        <p>RLS policies so each user sees only their todos</p>
+                    </div>
+                    <div class="dark-card">
+                        <h4>Deploy</h4>
+                        <p>Live on Vercel with auth + database</p>
                     </div>
                 </div>
-                <div style="text-align: center; margin-top: 1.5rem;">
+                <div style="margin-top: 2rem;">
                     <p style="color: #f59e0b; font-size: 1.5rem; font-weight: bold;">50 Points</p>
                 </div>
             </div>

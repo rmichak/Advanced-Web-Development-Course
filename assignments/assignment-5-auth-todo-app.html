@@ -1,0 +1,974 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Module 8 — Assignment: Authenticated Todo App - IT431</title>
+    <link rel="stylesheet" href="../css/slides.css">
+    <style>
+        /* Assignment-specific dark theme styles — amber accent */
+        .dark-container {
+            background: linear-gradient(135deg, #1e1e2f 0%, #16213e 100%);
+            padding: 2rem;
+            border-radius: 12px;
+            color: #e4e4e7;
+            height: 100%;
+        }
+        .dark-container h2 {
+            color: #fbbf24;
+            border-bottom-color: #f59e0b;
+        }
+        .dark-container h3 {
+            color: #fcd34d;
+        }
+        .dark-container h4 {
+            color: #fde68a;
+        }
+        .dark-container p, .dark-container li {
+            color: #d1d5db;
+        }
+        .dark-container code:not(pre code) {
+            background: #374151;
+            color: #fbbf24;
+            padding: 0.15rem 0.4rem;
+            border-radius: 4px;
+        }
+        .dark-container pre {
+            background: #0d1117 !important;
+            border: 1px solid #30363d;
+        }
+        .step-number {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 36px;
+            height: 36px;
+            background: linear-gradient(135deg, #f59e0b, #d97706);
+            color: #fff;
+            border-radius: 50%;
+            font-weight: bold;
+            margin-right: 12px;
+        }
+        .dark-card {
+            background: rgba(255,255,255,0.05);
+            border-radius: 8px;
+            padding: 1rem;
+            margin: 0.5rem 0;
+        }
+        .dark-card.success { border-left: 4px solid #22c55e; }
+        .dark-card.warning { border-left: 4px solid #f59e0b; }
+        .dark-card.info { border-left: 4px solid #3b82f6; }
+        .dark-card.danger { border-left: 4px solid #ef4444; }
+        .terminal-block {
+            background: #0d1117;
+            border-radius: 8px;
+            padding: 1rem;
+            font-family: var(--font-code);
+            font-size: 0.9rem;
+        }
+        .terminal-block .prompt { color: #f59e0b; }
+        .terminal-block .command { color: #e4e4e7; }
+        .terminal-block .output { color: #6b7280; }
+        .code-block {
+            background: #0d1117;
+            border-radius: 8px;
+            padding: 1rem;
+            overflow-x: auto;
+        }
+        .code-block pre {
+            margin: 0 !important;
+            padding: 0 !important;
+            background: transparent !important;
+            border: none !important;
+        }
+        .dark-two-column {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.5rem;
+        }
+        .dark-three-column {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 1rem;
+        }
+        .feature-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+        }
+        .feature-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 0.75rem;
+            background: rgba(255,255,255,0.03);
+            padding: 1rem;
+            border-radius: 8px;
+        }
+        .feature-text {
+            flex: 1;
+        }
+        .feature-text strong {
+            color: #e4e4e7;
+            display: block;
+            margin-bottom: 0.25rem;
+        }
+        /* Syntax highlighting */
+        .keyword { color: #c678dd; }
+        .string { color: #98c379; }
+        .function { color: #61afef; }
+        .comment { color: #5c6370; font-style: italic; }
+        .tag { color: #e06c75; }
+        .attr { color: #d19a66; }
+        .number { color: #d19a66; }
+        /* SQL highlighting */
+        .sql-keyword { color: #c678dd; font-weight: bold; }
+        .sql-type { color: #61afef; }
+        .sql-value { color: #98c379; }
+        .sql-comment { color: #5c6370; font-style: italic; }
+    </style>
+</head>
+<body>
+    <a href="#main-content" class="skip-link">Skip to main content</a>
+
+    <div class="presentation" id="main-content">
+        <!-- Title Slide -->
+        <section class="slide title-slide" id="title" data-narration="Welcome to the Module 8 Assignment — Authenticated Todo App. In this assignment, you'll take the database-powered Todo app you built in Module 7 and add a complete authentication system using Supabase Auth. By the end, your app will support multiple users, each with their own private set of todos. You'll implement sign-up, sign-in, and sign-out, protect the todo list behind authentication, and use Row Level Security so each user only sees their own data. This is how real-world apps work — and it's a skill every web developer needs. This assignment is worth 50 points.">
+            <h1>Module 8 — Assignment</h1>
+            <p class="subtitle">Authenticated Todo App</p>
+            <p class="meta">Add multi-user authentication and per-user data to your Todo app</p>
+            <p class="meta" style="margin-top: 1rem; font-size: 1.3rem; color: #f59e0b;">50 Points</p>
+        </section>
+
+        <!-- Overview Slide -->
+        <section class="slide" id="overview" data-narration="Here's the big picture. In Module 7, you built a Todo app connected to Supabase. It works, but there's a problem: everyone shares the same list. Anyone who opens the app sees the same todos. That's not how real apps work. In this assignment, you'll add authentication so users create accounts and log in. When they're logged out, they see a sign-in form. When they're logged in, they see only their own todos. You'll use Row Level Security to enforce this at the database level — so even if someone tries to hack the frontend, the database won't hand over data that doesn't belong to them. You already have the Supabase project, the client library, and the environment variables set up from Module 7. We're building on top of that foundation.">
+            <div class="dark-container">
+                <h2>What You'll Build</h2>
+                <p class="subtitle">Your Module 7 Todo app — now with multi-user authentication</p>
+                <div class="dark-three-column" style="margin-top: 1.5rem;">
+                    <div class="dark-card">
+                        <h4>🔐 Authentication</h4>
+                        <p>Sign up, sign in, sign out — full auth flow with Supabase Auth</p>
+                    </div>
+                    <div class="dark-card">
+                        <h4>🛡️ Per-User Data</h4>
+                        <p>Row Level Security ensures each user only sees their own todos</p>
+                    </div>
+                    <div class="dark-card">
+                        <h4>🚀 Deployment</h4>
+                        <p>Deploy to Vercel with auth working in production</p>
+                    </div>
+                </div>
+                <div class="dark-card info" style="margin-top: 1.5rem;">
+                    <h4>Prerequisite</h4>
+                    <p>You must have completed the <strong>Module 7 Assignment 2</strong> (database-powered Todo app with Supabase). This builds directly on that project. You should already have a working React + Vite project with Supabase, a <code>todos</code> table, and CRUD operations.</p>
+                </div>
+                <div style="text-align: center; margin-top: 1rem;">
+                    <p style="color: #94a3b8;">Follow Steps 1–16 on the next slides</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Step 1: Configure Supabase Auth Settings -->
+        <section class="slide" id="step1" data-narration="Step 1 is verifying your Supabase Auth settings. The good news is that email and password authentication is enabled by default in every Supabase project, so you shouldn't need to change much. In the Supabase dashboard, click Authentication in the left sidebar, then click Providers. Confirm that Email is listed and enabled. Next, for easier testing during development, we'll disable email confirmation. Go to Authentication, then Providers, click on Email, and toggle off 'Confirm email.' This means new accounts are immediately active without needing to click a confirmation link — much faster for testing. Just remember you'd turn this back on for a real production app. Finally, check your URL Configuration under Authentication. Your Site URL should be set to http://localhost:5173 for local development. This tells Supabase where to redirect users after authentication events.">
+            <div class="dark-container">
+                <h2><span class="step-number">1</span> Configure Supabase Auth Settings</h2>
+                <p class="subtitle">Verify email auth is enabled and configure settings for development.</p>
+                <div class="feature-grid" style="margin-top: 1.5rem;">
+                    <div class="feature-item">
+                        <span class="step-number" style="width: 2rem; height: 2rem; font-size: 1rem;">1</span>
+                        <div class="feature-text">
+                            <strong>Verify Email Provider</strong>
+                            Authentication → Providers → Email should be <strong>enabled</strong> (it's on by default)
+                        </div>
+                    </div>
+                    <div class="feature-item">
+                        <span class="step-number" style="width: 2rem; height: 2rem; font-size: 1rem;">2</span>
+                        <div class="feature-text">
+                            <strong>Disable Email Confirmation (for dev)</strong>
+                            Authentication → Providers → Email → toggle off "Confirm email"
+                        </div>
+                    </div>
+                    <div class="feature-item">
+                        <span class="step-number" style="width: 2rem; height: 2rem; font-size: 1rem;">3</span>
+                        <div class="feature-text">
+                            <strong>Set Site URL</strong>
+                            Authentication → URL Configuration → Set Site URL to <code>http://localhost:5173</code>
+                        </div>
+                    </div>
+                    <div class="feature-item">
+                        <span class="step-number" style="width: 2rem; height: 2rem; font-size: 1rem;">4</span>
+                        <div class="feature-text">
+                            <strong>Supabase Client (already done)</strong>
+                            Your <code>src/lib/supabaseClient.js</code> from Module 7 is ready to go
+                        </div>
+                    </div>
+                </div>
+                <div class="dark-card warning" style="margin-top: 1rem;">
+                    <h4>⚠️ Dev Only: Email Confirmation Off</h4>
+                    <p>Disabling email confirmation makes testing faster — accounts work immediately. In a real production app, you'd keep confirmation on to verify email ownership.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Step 2: Add user_id Column to Todos Table -->
+        <section class="slide" id="step2" data-narration="Step 2 is updating your todos table to support per-user data. Right now, every todo in your table belongs to nobody — there's no way to tell which user created which todo. We need to add a user_id column that links each todo to the user who created it. Open the SQL Editor in your Supabase dashboard and run this ALTER TABLE statement. It adds a user_id column of type uuid that references the auth.users table — that's Supabase's built-in users table where all account data lives. The DEFAULT auth.uid() part is important: it tells the database to automatically fill in the current user's ID whenever a new todo is inserted. So your React code doesn't need to manually set user_id — the database handles it. The uuid type matches the format Supabase uses for user IDs, and the REFERENCES constraint ensures data integrity.">
+            <div class="dark-container">
+                <h2><span class="step-number">2</span> Add <code>user_id</code> Column to Todos Table</h2>
+                <p class="subtitle">Link each todo to the user who created it.</p>
+                <p style="margin-bottom: 1rem;">In Supabase dashboard → <strong>SQL Editor</strong> → paste and run:</p>
+                <div class="code-block">
+<pre><span class="sql-keyword">ALTER TABLE</span> <span class="sql-type">todos</span>
+<span class="sql-keyword">ADD COLUMN</span> user_id <span class="sql-type">uuid</span> <span class="sql-keyword">REFERENCES</span> auth.users(id)
+<span class="sql-keyword">DEFAULT</span> <span class="function">auth.uid</span>();</pre>
+                </div>
+                <div class="dark-two-column" style="margin-top: 1rem;">
+                    <div class="dark-card info">
+                        <h4>What This Does</h4>
+                        <ul style="margin: 0; padding-left: 1.2rem;">
+                            <li><code>user_id uuid</code> — stores the user's unique ID</li>
+                            <li><code>REFERENCES auth.users(id)</code> — links to Supabase's built-in users table</li>
+                            <li><code>DEFAULT auth.uid()</code> — auto-fills with the logged-in user's ID on insert</li>
+                        </ul>
+                    </div>
+                    <div class="dark-card success">
+                        <h4>Why DEFAULT auth.uid()?</h4>
+                        <p>Your React code won't need to manually set <code>user_id</code> when inserting todos. The database fills it in automatically from the authenticated session.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Step 3: Enable Row Level Security -->
+        <section class="slide" id="step3" data-narration="Step 3 is the security backbone of this assignment — enabling Row Level Security and creating policies. In Module 7, we disabled RLS to keep things simple. Now we're turning it on and writing policies that control exactly who can read, insert, update, and delete data. Run this SQL in the Supabase SQL Editor. First, we enable RLS on the todos table. Once RLS is on, by default nobody can access any data — that's the secure default. Then we create four policies: one for SELECT, one for INSERT, one for DELETE, and one for UPDATE. Each policy uses auth.uid() = user_id as the condition. This means Supabase checks the JWT token from the request, extracts the user ID, and only allows the operation if that user ID matches the user_id column on the row. The INSERT policy uses WITH CHECK instead of USING because it's validating new data being written, not existing rows. The UPDATE policy needs both USING and WITH CHECK — USING filters which rows can be updated, and WITH CHECK validates the new values.">
+            <div class="dark-container">
+                <h2><span class="step-number">3</span> Enable Row Level Security</h2>
+                <p class="subtitle">Create policies so each user only accesses their own todos.</p>
+                <p style="margin-bottom: 1rem;">Run this in the <strong>SQL Editor</strong> (all at once is fine):</p>
+                <div class="code-block" style="font-size: 0.85rem;">
+<pre><span class="sql-comment">-- Enable RLS on the todos table</span>
+<span class="sql-keyword">ALTER TABLE</span> <span class="sql-type">todos</span> <span class="sql-keyword">ENABLE ROW LEVEL SECURITY</span>;
+
+<span class="sql-comment">-- Users can only SELECT their own todos</span>
+<span class="sql-keyword">CREATE POLICY</span> <span class="sql-value">"Users read own todos"</span>
+<span class="sql-keyword">ON</span> <span class="sql-type">todos</span> <span class="sql-keyword">FOR SELECT</span>
+<span class="sql-keyword">USING</span> (<span class="function">auth.uid</span>() = user_id);
+
+<span class="sql-comment">-- Users can only INSERT their own todos</span>
+<span class="sql-keyword">CREATE POLICY</span> <span class="sql-value">"Users insert own todos"</span>
+<span class="sql-keyword">ON</span> <span class="sql-type">todos</span> <span class="sql-keyword">FOR INSERT</span>
+<span class="sql-keyword">WITH CHECK</span> (<span class="function">auth.uid</span>() = user_id);
+
+<span class="sql-comment">-- Users can only DELETE their own todos</span>
+<span class="sql-keyword">CREATE POLICY</span> <span class="sql-value">"Users delete own todos"</span>
+<span class="sql-keyword">ON</span> <span class="sql-type">todos</span> <span class="sql-keyword">FOR DELETE</span>
+<span class="sql-keyword">USING</span> (<span class="function">auth.uid</span>() = user_id);
+
+<span class="sql-comment">-- Users can only UPDATE their own todos</span>
+<span class="sql-keyword">CREATE POLICY</span> <span class="sql-value">"Users update own todos"</span>
+<span class="sql-keyword">ON</span> <span class="sql-type">todos</span> <span class="sql-keyword">FOR UPDATE</span>
+<span class="sql-keyword">USING</span> (<span class="function">auth.uid</span>() = user_id)
+<span class="sql-keyword">WITH CHECK</span> (<span class="function">auth.uid</span>() = user_id);</pre>
+                </div>
+                <div class="dark-card info" style="margin-top: 1rem;">
+                    <h4>How auth.uid() Works</h4>
+                    <p>Supabase extracts the user ID from the JWT in every request. Even if someone bypasses your React frontend, the <strong>database itself</strong> enforces that they only see their own data. That's defense in depth.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Step 4: Handle Existing Todos -->
+        <section class="slide" id="step4" data-narration="Step 4 is handling the existing todos from Module 7. Here's the situation: you probably have some todos in your database from when you built the Module 7 app. Those todos were created before we added the user_id column, so their user_id is null — they don't belong to anyone. Now that RLS is enabled, those orphaned todos become invisible. No user's auth.uid() will match a null user_id, so the SELECT policy won't return them. You have two options. Option A is to delete them — run the DELETE statement shown here and start fresh. This is the cleanest approach. Option B is to just leave them — they'll sit in the database but nobody will see them because of RLS. Either way works, but I recommend Option A so your table is clean. After deleting, check the Table Editor to verify the todos table is empty. Your fresh authenticated todos will start appearing once you sign up and add them in the later steps.">
+            <div class="dark-container">
+                <h2><span class="step-number">4</span> Handle Existing Todos</h2>
+                <p class="subtitle">Your Module 7 todos don't have a user_id — they need to go.</p>
+                <div class="dark-two-column" style="margin-top: 1.5rem;">
+                    <div class="dark-card success">
+                        <h4>Option A: Delete Them (Recommended)</h4>
+                        <p style="margin-bottom: 0.5rem;">Clean slate — start fresh with authenticated data.</p>
+                        <div class="code-block">
+<pre><span class="sql-comment">-- Remove old todos with no user_id</span>
+<span class="sql-keyword">DELETE FROM</span> <span class="sql-type">todos</span>
+<span class="sql-keyword">WHERE</span> user_id <span class="sql-keyword">IS NULL</span>;</pre>
+                        </div>
+                    </div>
+                    <div class="dark-card info">
+                        <h4>Option B: Leave Them</h4>
+                        <p>Old todos have <code>user_id = null</code>. With RLS on, no user's <code>auth.uid()</code> matches null — so they're invisible. They exist in the table but nobody can see them.</p>
+                    </div>
+                </div>
+                <div class="dark-card warning" style="margin-top: 1rem;">
+                    <h4>Why This Happens</h4>
+                    <p>Your Module 7 todos were created before <code>user_id</code> existed. Now that RLS requires <code>auth.uid() = user_id</code>, rows with <code>null</code> user_id match nobody. This is RLS working correctly — it's protecting data by default.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Step 5: Create the Auth Component -->
+        <section class="slide" id="step5" data-narration="Step 5 is creating the Auth component — a new React component that handles both sign-up and sign-in. Create a new file at src/Auth.jsx. This component manages five pieces of state: email and password for the form inputs, loading to disable the button while a request is in flight, error to display error messages, and isSignUp to toggle between sign-up and sign-in modes. The handleSubmit function prevents the default form submission, clears any previous error, sets loading to true, and then calls either signUp or signInWithPassword depending on which mode we're in. If there's an error — wrong password, email already taken, whatever — we display it. The JSX renders a form with email and password inputs, a submit button that shows loading state, error messages, and a toggle link at the bottom so users can switch between creating an account and signing into an existing one. This is the exact pattern from Module 8 slide 18 — a single component that handles both auth flows.">
+            <div class="dark-container">
+                <h2><span class="step-number">5</span> Create the Auth Component</h2>
+                <p class="subtitle">Create a new file: <code>src/Auth.jsx</code></p>
+                <div class="code-block" style="font-size: 0.8rem; max-height: 480px; overflow-y: auto;">
+<pre><span class="keyword">import</span> { useState } <span class="keyword">from</span> <span class="string">'react'</span>
+<span class="keyword">import</span> { supabase } <span class="keyword">from</span> <span class="string">'./lib/supabaseClient'</span>
+
+<span class="keyword">function</span> <span class="function">Auth</span>() {
+  <span class="keyword">const</span> [email, setEmail] = <span class="function">useState</span>(<span class="string">''</span>)
+  <span class="keyword">const</span> [password, setPassword] = <span class="function">useState</span>(<span class="string">''</span>)
+  <span class="keyword">const</span> [loading, setLoading] = <span class="function">useState</span>(<span class="keyword">false</span>)
+  <span class="keyword">const</span> [error, setError] = <span class="function">useState</span>(<span class="keyword">null</span>)
+  <span class="keyword">const</span> [isSignUp, setIsSignUp] = <span class="function">useState</span>(<span class="keyword">false</span>)
+
+  <span class="keyword">const</span> <span class="function">handleSubmit</span> = <span class="keyword">async</span> (e) => {
+    e.<span class="function">preventDefault</span>()
+    <span class="function">setLoading</span>(<span class="keyword">true</span>)
+    <span class="function">setError</span>(<span class="keyword">null</span>)
+
+    <span class="keyword">const</span> { error } = isSignUp
+      ? <span class="keyword">await</span> supabase.auth.<span class="function">signUp</span>({ email, password })
+      : <span class="keyword">await</span> supabase.auth.<span class="function">signInWithPassword</span>({ email, password })
+
+    <span class="keyword">if</span> (error) <span class="function">setError</span>(error.message)
+    <span class="function">setLoading</span>(<span class="keyword">false</span>)
+  }
+
+  <span class="keyword">return</span> (
+    <span class="tag">&lt;div</span> <span class="attr">className</span>=<span class="string">"auth-container"</span><span class="tag">&gt;</span>
+      <span class="tag">&lt;h2&gt;</span>{isSignUp ? <span class="string">'Create Account'</span> : <span class="string">'Sign In'</span>}<span class="tag">&lt;/h2&gt;</span>
+      {error &amp;&amp; <span class="tag">&lt;p</span> <span class="attr">className</span>=<span class="string">"error-message"</span><span class="tag">&gt;</span>{error}<span class="tag">&lt;/p&gt;</span>}
+      <span class="tag">&lt;form</span> <span class="attr">onSubmit</span>={handleSubmit}<span class="tag">&gt;</span>
+        <span class="tag">&lt;input</span>
+          <span class="attr">type</span>=<span class="string">"email"</span>
+          <span class="attr">placeholder</span>=<span class="string">"Email address"</span>
+          <span class="attr">value</span>={email}
+          <span class="attr">onChange</span>={(e) =&gt; <span class="function">setEmail</span>(e.target.value)}
+          <span class="attr">required</span>
+        <span class="tag">/&gt;</span>
+        <span class="tag">&lt;input</span>
+          <span class="attr">type</span>=<span class="string">"password"</span>
+          <span class="attr">placeholder</span>=<span class="string">"Password (min 6 characters)"</span>
+          <span class="attr">value</span>={password}
+          <span class="attr">onChange</span>={(e) =&gt; <span class="function">setPassword</span>(e.target.value)}
+          <span class="attr">required</span>
+        <span class="tag">/&gt;</span>
+        <span class="tag">&lt;button</span> <span class="attr">type</span>=<span class="string">"submit"</span> <span class="attr">disabled</span>={loading}<span class="tag">&gt;</span>
+          {loading ? <span class="string">'Loading...'</span> : isSignUp ? <span class="string">'Sign Up'</span> : <span class="string">'Sign In'</span>}
+        <span class="tag">&lt;/button&gt;</span>
+      <span class="tag">&lt;/form&gt;</span>
+      <span class="tag">&lt;p</span> <span class="attr">className</span>=<span class="string">"toggle-auth"</span> <span class="attr">onClick</span>={() =&gt; <span class="function">setIsSignUp</span>(!isSignUp)}<span class="tag">&gt;</span>
+        {isSignUp
+          ? <span class="string">'Already have an account? Sign In'</span>
+          : <span class="string">'Need an account? Sign Up'</span>}
+      <span class="tag">&lt;/p&gt;</span>
+    <span class="tag">&lt;/div&gt;</span>
+  )
+}
+
+<span class="keyword">export default</span> Auth</pre>
+                </div>
+                <div class="dark-card info" style="margin-top: 0.5rem;">
+                    <h4>Key Patterns</h4>
+                    <ul style="margin: 0; padding-left: 1.2rem;">
+                        <li><code>e.preventDefault()</code> — stops the form from refreshing the page</li>
+                        <li><code>disabled={loading}</code> — prevents double-clicks while request is in flight</li>
+                        <li><code>isSignUp</code> toggle — one component handles both sign-up and sign-in</li>
+                        <li>Error display — shows users what went wrong (bad password, duplicate email, etc.)</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- Step 6: Update App.jsx — Imports and State -->
+        <section class="slide" id="step6" data-narration="Step 6 is updating the top of your App.jsx to add auth-related imports and state. Open your App.jsx and update the imports. You still need useState and useEffect from React, and supabase from your client file. What's new is importing the Auth component you just created. For state, you keep your existing todos, inputValue, and loading states from Module 7. Now add two more: user, initialized to null, which tracks the currently logged-in user, and authLoading, initialized to true, which handles the brief moment at startup before we know if someone is logged in. The authLoading state prevents a flash of the login form when the page first loads — without it, users who are already signed in would briefly see the auth form before the session is restored.">
+            <div class="dark-container">
+                <h2><span class="step-number">6</span> Update App.jsx — Imports &amp; State</h2>
+                <p class="subtitle">Add auth-related imports and state variables.</p>
+                <p style="margin-bottom: 0.5rem;">Update the top of your <code>App.jsx</code>:</p>
+                <div class="code-block">
+<pre><span class="keyword">import</span> { useState, useEffect } <span class="keyword">from</span> <span class="string">'react'</span>
+<span class="keyword">import</span> { supabase } <span class="keyword">from</span> <span class="string">'./lib/supabaseClient'</span>
+<span class="keyword">import</span> Auth <span class="keyword">from</span> <span class="string">'./Auth'</span>
+<span class="keyword">import</span> <span class="string">'./App.css'</span>
+
+<span class="keyword">function</span> <span class="function">App</span>() {
+  <span class="keyword">const</span> [todos, setTodos] = <span class="function">useState</span>([])
+  <span class="keyword">const</span> [inputValue, setInputValue] = <span class="function">useState</span>(<span class="string">''</span>)
+  <span class="keyword">const</span> [loading, setLoading] = <span class="function">useState</span>(<span class="keyword">true</span>)
+  <span class="keyword">const</span> [user, setUser] = <span class="function">useState</span>(<span class="keyword">null</span>)
+  <span class="keyword">const</span> [authLoading, setAuthLoading] = <span class="function">useState</span>(<span class="keyword">true</span>)
+
+  <span class="comment">// ... auth listener, functions, and JSX will go below</span>
+}</pre>
+                </div>
+                <div class="dark-card info" style="margin-top: 1rem;">
+                    <h4>What Changed from Module 7?</h4>
+                    <ul style="margin: 0; padding-left: 1.2rem;">
+                        <li>Added <code>Auth</code> import — the login/signup component from Step 5</li>
+                        <li>Added <code>user</code> state — tracks who's logged in (<code>null</code> = nobody)</li>
+                        <li>Added <code>authLoading</code> state — prevents flash of login form on page load</li>
+                        <li>Keep <code>export default App</code> at the bottom of your file</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- Step 7: Add Auth State Listener -->
+        <section class="slide" id="step7" data-narration="Step 7 is adding the auth state listener — this is the most important piece of the authentication puzzle. Add a useEffect hook that sets up supabase.auth.onAuthStateChange. This listener fires whenever the auth state changes: when a user signs in, signs out, or when their token is refreshed. The callback receives an event string and a session object. We extract the user from the session — if there's a session, there's a user; if not, user is null. We also set authLoading to false because now we know the auth state. Here's the critical part: when a user signs in, we also want to fetch their todos. So we call fetchTodos inside the listener when there's a session. The return statement in the useEffect is the cleanup function — it calls subscription.unsubscribe() to remove the listener when the component unmounts. Without this cleanup, you'd have a memory leak. This is the exact pattern from Module 8 slide 17.">
+            <div class="dark-container">
+                <h2><span class="step-number">7</span> Add Auth State Listener</h2>
+                <p class="subtitle">Listen for sign-in, sign-out, and token refresh events.</p>
+                <p style="margin-bottom: 0.5rem;">Add this <code>useEffect</code> after your state declarations:</p>
+                <div class="code-block">
+<pre><span class="function">useEffect</span>(() => {
+  <span class="keyword">const</span> { data: { subscription } } =
+    supabase.auth.<span class="function">onAuthStateChange</span>((event, session) => {
+      <span class="function">setUser</span>(session?.user ?? <span class="keyword">null</span>)
+      <span class="function">setAuthLoading</span>(<span class="keyword">false</span>)
+
+      <span class="keyword">if</span> (session?.user) {
+        <span class="function">fetchTodos</span>()
+      } <span class="keyword">else</span> {
+        <span class="function">setTodos</span>([])
+      }
+    })
+
+  <span class="keyword">return</span> () => subscription.<span class="function">unsubscribe</span>()
+}, [])</pre>
+                </div>
+                <div class="dark-two-column" style="margin-top: 1rem;">
+                    <div class="dark-card info">
+                        <h4>When Does This Fire?</h4>
+                        <ul style="margin: 0; padding-left: 1.2rem;">
+                            <li><code>SIGNED_IN</code> — user signs in or session restores</li>
+                            <li><code>SIGNED_OUT</code> — user signs out</li>
+                            <li><code>TOKEN_REFRESHED</code> — JWT auto-renewed</li>
+                        </ul>
+                    </div>
+                    <div class="dark-card warning">
+                        <h4>⚠️ Don't Forget Cleanup!</h4>
+                        <p>The <code>return () =&gt; subscription.unsubscribe()</code> line prevents memory leaks. Always clean up listeners in useEffect.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Step 8: Keep Your fetchTodos Function -->
+        <section class="slide" id="step8" data-narration="Step 8 is about your fetchTodos function — and the good news is you barely need to change it. Your Module 7 fetchTodos function already works: it queries supabase, selects all rows from the todos table, and orders them by created_at. Here's what's different now: with RLS enabled, the database automatically filters the results based on the authenticated user's JWT. When you call supabase.from('todos').select('*'), Supabase checks the SELECT policy you created in Step 3. It only returns rows where user_id matches auth.uid() — the currently logged-in user. Your React code doesn't need to add any WHERE clause or filter — the database handles it. This is the beauty of Row Level Security: your frontend code stays clean and simple, while the database enforces security rules server-side. Keep your fetchTodos exactly as it was, or use this version if you need a reference.">
+            <div class="dark-container">
+                <h2><span class="step-number">8</span> Keep Your fetchTodos Function</h2>
+                <p class="subtitle">It works the same — RLS automatically filters by user.</p>
+                <p style="margin-bottom: 0.5rem;">Your Module 7 <code>fetchTodos</code> doesn't need changes:</p>
+                <div class="code-block">
+<pre><span class="keyword">async function</span> <span class="function">fetchTodos</span>() {
+  <span class="function">setLoading</span>(<span class="keyword">true</span>)
+  <span class="keyword">const</span> { data, error } = <span class="keyword">await</span> supabase
+    .<span class="function">from</span>(<span class="string">'todos'</span>)
+    .<span class="function">select</span>(<span class="string">'*'</span>)
+    .<span class="function">order</span>(<span class="string">'created_at'</span>, { <span class="attr">ascending</span>: <span class="keyword">true</span> })
+
+  <span class="keyword">if</span> (error) {
+    console.<span class="function">error</span>(<span class="string">'Error fetching todos:'</span>, error)
+  } <span class="keyword">else</span> {
+    <span class="function">setTodos</span>(data)
+  }
+  <span class="function">setLoading</span>(<span class="keyword">false</span>)
+}</pre>
+                </div>
+                <div class="dark-card success" style="margin-top: 1rem;">
+                    <h4>RLS Does the Heavy Lifting 🛡️</h4>
+                    <p>Your code says <code>select('*')</code>, but Supabase applies the RLS policy behind the scenes: <code>WHERE auth.uid() = user_id</code>. User A only gets User A's todos. No extra code needed in React.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Step 9: Add Sign-Out Function -->
+        <section class="slide" id="step9" data-narration="Step 9 is adding the sign-out function. This is straightforward — one function that calls supabase.auth.signOut(). When this runs, Supabase clears the session from the browser and invalidates the refresh token on the server. After sign-out, the onAuthStateChange listener from Step 7 automatically fires with a SIGNED_OUT event, which sets user to null and clears the todos array. So the UI updates itself — no manual state reset needed. We do include basic error handling in case the sign-out request fails for some reason, like a network issue. You'll wire this function up to a Sign Out button in the JSX in Step 11.">
+            <div class="dark-container">
+                <h2><span class="step-number">9</span> Add Sign-Out Function</h2>
+                <p class="subtitle">One line to clear the session — the auth listener handles the rest.</p>
+                <div class="code-block">
+<pre><span class="keyword">const</span> <span class="function">handleSignOut</span> = <span class="keyword">async</span> () => {
+  <span class="keyword">const</span> { error } = <span class="keyword">await</span> supabase.auth.<span class="function">signOut</span>()
+  <span class="keyword">if</span> (error) console.<span class="function">error</span>(<span class="string">'Error signing out:'</span>, error.message)
+}</pre>
+                </div>
+                <div class="dark-card info" style="margin-top: 1rem;">
+                    <h4>What Happens After signOut()?</h4>
+                    <ul style="margin: 0; padding-left: 1.2rem;">
+                        <li>JWT and refresh token are cleared from the browser</li>
+                        <li><code>onAuthStateChange</code> fires with <code>SIGNED_OUT</code> event</li>
+                        <li>Your listener sets <code>user</code> to <code>null</code> and clears <code>todos</code></li>
+                        <li>UI automatically switches back to the Auth form</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- Step 10: Update handleSubmit -->
+        <section class="slide" id="step10" data-narration="Step 10 is about your handleSubmit function for adding todos. Here's the great part: it barely changes from Module 7. You're still calling supabase.from('todos').insert() with the text value, and .select() to get the new row back. The only difference is what's happening behind the scenes. Remember in Step 2, we set DEFAULT auth.uid() on the user_id column. That means when you insert a new todo, the database automatically fills in the user_id with the currently authenticated user's ID. Your React code doesn't need to know or care about user_id — the database handles it. The insert call is the same, the error handling is the same, and the state update is the same. RLS also validates the insert with the WITH CHECK policy — if somehow an unauthenticated request tried to insert, it would be rejected.">
+            <div class="dark-container">
+                <h2><span class="step-number">10</span> Update handleSubmit</h2>
+                <p class="subtitle">The insert stays the same — the database auto-fills user_id.</p>
+                <div class="code-block">
+<pre><span class="keyword">const</span> <span class="function">handleSubmit</span> = <span class="keyword">async</span> (e) => {
+  e.<span class="function">preventDefault</span>()
+  <span class="keyword">if</span> (!inputValue.<span class="function">trim</span>()) <span class="keyword">return</span>
+
+  <span class="keyword">const</span> { data, error } = <span class="keyword">await</span> supabase
+    .<span class="function">from</span>(<span class="string">'todos'</span>)
+    .<span class="function">insert</span>({ <span class="attr">text</span>: inputValue.<span class="function">trim</span>() })
+    .<span class="function">select</span>()
+
+  <span class="keyword">if</span> (error) {
+    console.<span class="function">error</span>(<span class="string">'Error adding todo:'</span>, error)
+  } <span class="keyword">else</span> {
+    <span class="function">setTodos</span>([...todos, data[<span class="number">0</span>]])
+    <span class="function">setInputValue</span>(<span class="string">''</span>)
+  }
+}</pre>
+                </div>
+                <div class="dark-two-column" style="margin-top: 1rem;">
+                    <div class="dark-card success">
+                        <h4>No user_id Needed in Code ✨</h4>
+                        <p>You only pass <code>{ text: "..." }</code>. The <code>DEFAULT auth.uid()</code> on the column handles <code>user_id</code> automatically.</p>
+                    </div>
+                    <div class="dark-card info">
+                        <h4>Same as Module 7</h4>
+                        <p>The insert code is identical. RLS and column defaults do the security work — your React code stays clean.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Step 11: Update JSX with Conditional Rendering -->
+        <section class="slide" id="step11" data-narration="Step 11 is updating the JSX return statement with conditional rendering. This is where authentication becomes visible to the user. First, we check authLoading — if we're still determining the auth state on initial load, show a loading message. This prevents a flash of the login form when the page first loads and the session is being restored. Once authLoading is false, we check the user state. If user is null (not logged in), we render the Auth component — the sign-in and sign-up form from Step 5. If user exists (logged in), we render the todo app. The todo app now includes a header section that shows the user's email and a Sign Out button. Below that is the same form and todo list from Module 7. The key insight: the onAuthStateChange listener is what makes this reactive. When someone signs in, user gets set, and React re-renders to show the todo app. When they sign out, user becomes null, and React switches back to the Auth form. No page refresh needed.">
+            <div class="dark-container">
+                <h2><span class="step-number">11</span> Update JSX — Conditional Rendering</h2>
+                <p class="subtitle">Show the Auth form when logged out, the Todo app when logged in.</p>
+                <p style="margin-bottom: 0.5rem;">Replace your return statement with:</p>
+                <div class="code-block" style="font-size: 0.8rem; max-height: 440px; overflow-y: auto;">
+<pre><span class="keyword">if</span> (authLoading) {
+  <span class="keyword">return</span> <span class="tag">&lt;div</span> <span class="attr">className</span>=<span class="string">"app"</span><span class="tag">&gt;&lt;p&gt;</span>Loading...<span class="tag">&lt;/p&gt;&lt;/div&gt;</span>
+}
+
+<span class="keyword">if</span> (!user) {
+  <span class="keyword">return</span> (
+    <span class="tag">&lt;div</span> <span class="attr">className</span>=<span class="string">"app"</span><span class="tag">&gt;</span>
+      <span class="tag">&lt;h1&gt;</span>React Todo App<span class="tag">&lt;/h1&gt;</span>
+      <span class="tag">&lt;Auth /&gt;</span>
+    <span class="tag">&lt;/div&gt;</span>
+  )
+}
+
+<span class="keyword">return</span> (
+  <span class="tag">&lt;div</span> <span class="attr">className</span>=<span class="string">"app"</span><span class="tag">&gt;</span>
+    <span class="tag">&lt;div</span> <span class="attr">className</span>=<span class="string">"header"</span><span class="tag">&gt;</span>
+      <span class="tag">&lt;h1&gt;</span>React Todo App<span class="tag">&lt;/h1&gt;</span>
+      <span class="tag">&lt;div&gt;</span>
+        <span class="tag">&lt;span&gt;</span>{user.email}<span class="tag">&lt;/span&gt;</span>
+        <span class="tag">&lt;button</span> <span class="attr">onClick</span>={handleSignOut}<span class="tag">&gt;</span>Sign Out<span class="tag">&lt;/button&gt;</span>
+      <span class="tag">&lt;/div&gt;</span>
+    <span class="tag">&lt;/div&gt;</span>
+
+    <span class="tag">&lt;form</span> <span class="attr">className</span>=<span class="string">"todo-form"</span> <span class="attr">onSubmit</span>={handleSubmit}<span class="tag">&gt;</span>
+      <span class="tag">&lt;input</span>
+        <span class="attr">type</span>=<span class="string">"text"</span>
+        <span class="attr">placeholder</span>=<span class="string">"Add a new todo..."</span>
+        <span class="attr">value</span>={inputValue}
+        <span class="attr">onChange</span>={(e) =&gt; <span class="function">setInputValue</span>(e.target.value)}
+      <span class="tag">/&gt;</span>
+      <span class="tag">&lt;button</span> <span class="attr">type</span>=<span class="string">"submit"</span><span class="tag">&gt;</span>Add<span class="tag">&lt;/button&gt;</span>
+    <span class="tag">&lt;/form&gt;</span>
+
+    {loading ? (
+      <span class="tag">&lt;p&gt;</span>Loading todos...<span class="tag">&lt;/p&gt;</span>
+    ) : (
+      <span class="tag">&lt;ul</span> <span class="attr">className</span>=<span class="string">"todo-list"</span><span class="tag">&gt;</span>
+        {todos.<span class="function">map</span>(todo =&gt; (
+          <span class="tag">&lt;li</span> <span class="attr">key</span>={todo.id} <span class="attr">className</span>=<span class="string">"todo-item"</span><span class="tag">&gt;</span>
+            <span class="tag">&lt;span&gt;</span>{todo.text}<span class="tag">&lt;/span&gt;</span>
+            <span class="tag">&lt;button</span>
+              <span class="attr">className</span>=<span class="string">"delete-btn"</span>
+              <span class="attr">onClick</span>={() =&gt; <span class="function">deleteTodo</span>(todo.id)}
+            <span class="tag">&gt;</span>Delete<span class="tag">&lt;/button&gt;</span>
+          <span class="tag">&lt;/li&gt;</span>
+        ))}
+      <span class="tag">&lt;/ul&gt;</span>
+    )}
+  <span class="tag">&lt;/div&gt;</span>
+)</pre>
+                </div>
+                <div class="dark-card info" style="margin-top: 0.5rem;">
+                    <h4>Three Possible States</h4>
+                    <ul style="margin: 0; padding-left: 1.2rem;">
+                        <li><code>authLoading</code> true → "Loading..." (checking session)</li>
+                        <li><code>!user</code> → show Auth form (not logged in)</li>
+                        <li><code>user</code> exists → show todo app with sign-out button</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- Step 12: Complete App.jsx Reference -->
+        <section class="slide" id="step12" data-narration="Here's the complete App.jsx file with everything put together. If anything got confusing in the previous steps, you can replace your entire App.jsx with this code. It has all the imports at the top, including the Auth component. The five state variables — todos, inputValue, loading, user, and authLoading. The useEffect with onAuthStateChange that tracks auth state and fetches todos when a user signs in. The fetchTodos function that reads from the database, with RLS automatically filtering by user. The handleSubmit function for adding todos, where the database auto-fills user_id. The deleteTodo function for removing todos. The handleSignOut function that clears the session. And the complete JSX with conditional rendering — loading state, auth form, or todo app depending on the current state. Save this file and make sure your dev server is running.">
+            <div class="dark-container">
+                <h2><span class="step-number">12</span> Complete App.jsx</h2>
+                <p class="subtitle">Full file for reference. Copy this if anything went wrong.</p>
+                <div class="code-block" style="font-size: 0.7rem; max-height: 520px; overflow-y: auto;">
+<pre><span class="keyword">import</span> { useState, useEffect } <span class="keyword">from</span> <span class="string">'react'</span>
+<span class="keyword">import</span> { supabase } <span class="keyword">from</span> <span class="string">'./lib/supabaseClient'</span>
+<span class="keyword">import</span> Auth <span class="keyword">from</span> <span class="string">'./Auth'</span>
+<span class="keyword">import</span> <span class="string">'./App.css'</span>
+
+<span class="keyword">function</span> <span class="function">App</span>() {
+  <span class="keyword">const</span> [todos, setTodos] = <span class="function">useState</span>([])
+  <span class="keyword">const</span> [inputValue, setInputValue] = <span class="function">useState</span>(<span class="string">''</span>)
+  <span class="keyword">const</span> [loading, setLoading] = <span class="function">useState</span>(<span class="keyword">true</span>)
+  <span class="keyword">const</span> [user, setUser] = <span class="function">useState</span>(<span class="keyword">null</span>)
+  <span class="keyword">const</span> [authLoading, setAuthLoading] = <span class="function">useState</span>(<span class="keyword">true</span>)
+
+  <span class="function">useEffect</span>(() =&gt; {
+    <span class="keyword">const</span> { data: { subscription } } =
+      supabase.auth.<span class="function">onAuthStateChange</span>((event, session) =&gt; {
+        <span class="function">setUser</span>(session?.user ?? <span class="keyword">null</span>)
+        <span class="function">setAuthLoading</span>(<span class="keyword">false</span>)
+
+        <span class="keyword">if</span> (session?.user) {
+          <span class="function">fetchTodos</span>()
+        } <span class="keyword">else</span> {
+          <span class="function">setTodos</span>([])
+        }
+      })
+
+    <span class="keyword">return</span> () =&gt; subscription.<span class="function">unsubscribe</span>()
+  }, [])
+
+  <span class="keyword">async function</span> <span class="function">fetchTodos</span>() {
+    <span class="function">setLoading</span>(<span class="keyword">true</span>)
+    <span class="keyword">const</span> { data, error } = <span class="keyword">await</span> supabase
+      .<span class="function">from</span>(<span class="string">'todos'</span>)
+      .<span class="function">select</span>(<span class="string">'*'</span>)
+      .<span class="function">order</span>(<span class="string">'created_at'</span>, { <span class="attr">ascending</span>: <span class="keyword">true</span> })
+
+    <span class="keyword">if</span> (error) {
+      console.<span class="function">error</span>(<span class="string">'Error fetching todos:'</span>, error)
+    } <span class="keyword">else</span> {
+      <span class="function">setTodos</span>(data)
+    }
+    <span class="function">setLoading</span>(<span class="keyword">false</span>)
+  }
+
+  <span class="keyword">const</span> <span class="function">handleSubmit</span> = <span class="keyword">async</span> (e) =&gt; {
+    e.<span class="function">preventDefault</span>()
+    <span class="keyword">if</span> (!inputValue.<span class="function">trim</span>()) <span class="keyword">return</span>
+
+    <span class="keyword">const</span> { data, error } = <span class="keyword">await</span> supabase
+      .<span class="function">from</span>(<span class="string">'todos'</span>)
+      .<span class="function">insert</span>({ <span class="attr">text</span>: inputValue.<span class="function">trim</span>() })
+      .<span class="function">select</span>()
+
+    <span class="keyword">if</span> (error) {
+      console.<span class="function">error</span>(<span class="string">'Error adding todo:'</span>, error)
+    } <span class="keyword">else</span> {
+      <span class="function">setTodos</span>([...todos, data[<span class="number">0</span>]])
+      <span class="function">setInputValue</span>(<span class="string">''</span>)
+    }
+  }
+
+  <span class="keyword">const</span> <span class="function">deleteTodo</span> = <span class="keyword">async</span> (id) =&gt; {
+    <span class="keyword">const</span> { error } = <span class="keyword">await</span> supabase
+      .<span class="function">from</span>(<span class="string">'todos'</span>)
+      .<span class="function">delete</span>()
+      .<span class="function">eq</span>(<span class="string">'id'</span>, id)
+
+    <span class="keyword">if</span> (error) {
+      console.<span class="function">error</span>(<span class="string">'Error deleting todo:'</span>, error)
+    } <span class="keyword">else</span> {
+      <span class="function">setTodos</span>(todos.<span class="function">filter</span>(todo =&gt; todo.id !== id))
+    }
+  }
+
+  <span class="keyword">const</span> <span class="function">handleSignOut</span> = <span class="keyword">async</span> () =&gt; {
+    <span class="keyword">const</span> { error } = <span class="keyword">await</span> supabase.auth.<span class="function">signOut</span>()
+    <span class="keyword">if</span> (error) console.<span class="function">error</span>(<span class="string">'Error signing out:'</span>, error.message)
+  }
+
+  <span class="keyword">if</span> (authLoading) {
+    <span class="keyword">return</span> <span class="tag">&lt;div</span> <span class="attr">className</span>=<span class="string">"app"</span><span class="tag">&gt;&lt;p&gt;</span>Loading...<span class="tag">&lt;/p&gt;&lt;/div&gt;</span>
+  }
+
+  <span class="keyword">if</span> (!user) {
+    <span class="keyword">return</span> (
+      <span class="tag">&lt;div</span> <span class="attr">className</span>=<span class="string">"app"</span><span class="tag">&gt;</span>
+        <span class="tag">&lt;h1&gt;</span>React Todo App<span class="tag">&lt;/h1&gt;</span>
+        <span class="tag">&lt;Auth /&gt;</span>
+      <span class="tag">&lt;/div&gt;</span>
+    )
+  }
+
+  <span class="keyword">return</span> (
+    <span class="tag">&lt;div</span> <span class="attr">className</span>=<span class="string">"app"</span><span class="tag">&gt;</span>
+      <span class="tag">&lt;div</span> <span class="attr">className</span>=<span class="string">"header"</span><span class="tag">&gt;</span>
+        <span class="tag">&lt;h1&gt;</span>React Todo App<span class="tag">&lt;/h1&gt;</span>
+        <span class="tag">&lt;div&gt;</span>
+          <span class="tag">&lt;span&gt;</span>{user.email}<span class="tag">&lt;/span&gt;</span>
+          <span class="tag">&lt;button</span> <span class="attr">onClick</span>={handleSignOut}<span class="tag">&gt;</span>Sign Out<span class="tag">&lt;/button&gt;</span>
+        <span class="tag">&lt;/div&gt;</span>
+      <span class="tag">&lt;/div&gt;</span>
+
+      <span class="tag">&lt;form</span> <span class="attr">className</span>=<span class="string">"todo-form"</span> <span class="attr">onSubmit</span>={handleSubmit}<span class="tag">&gt;</span>
+        <span class="tag">&lt;input</span>
+          <span class="attr">type</span>=<span class="string">"text"</span>
+          <span class="attr">placeholder</span>=<span class="string">"Add a new todo..."</span>
+          <span class="attr">value</span>={inputValue}
+          <span class="attr">onChange</span>={(e) =&gt; <span class="function">setInputValue</span>(e.target.value)}
+        <span class="tag">/&gt;</span>
+        <span class="tag">&lt;button</span> <span class="attr">type</span>=<span class="string">"submit"</span><span class="tag">&gt;</span>Add<span class="tag">&lt;/button&gt;</span>
+      <span class="tag">&lt;/form&gt;</span>
+
+      {loading ? (
+        <span class="tag">&lt;p&gt;</span>Loading todos...<span class="tag">&lt;/p&gt;</span>
+      ) : (
+        <span class="tag">&lt;ul</span> <span class="attr">className</span>=<span class="string">"todo-list"</span><span class="tag">&gt;</span>
+          {todos.<span class="function">map</span>(todo =&gt; (
+            <span class="tag">&lt;li</span> <span class="attr">key</span>={todo.id} <span class="attr">className</span>=<span class="string">"todo-item"</span><span class="tag">&gt;</span>
+              <span class="tag">&lt;span&gt;</span>{todo.text}<span class="tag">&lt;/span&gt;</span>
+              <span class="tag">&lt;button</span>
+                <span class="attr">className</span>=<span class="string">"delete-btn"</span>
+                <span class="attr">onClick</span>={() =&gt; <span class="function">deleteTodo</span>(todo.id)}
+              <span class="tag">&gt;</span>Delete<span class="tag">&lt;/button&gt;</span>
+            <span class="tag">&lt;/li&gt;</span>
+          ))}
+        <span class="tag">&lt;/ul&gt;</span>
+      )}
+    <span class="tag">&lt;/div&gt;</span>
+  )
+}
+
+<span class="keyword">export default</span> App</pre>
+                </div>
+            </div>
+        </section>
+
+        <!-- Step 13: Complete Auth.jsx Reference -->
+        <section class="slide" id="step13" data-narration="Here's the complete Auth.jsx file for reference. This is the same code from Step 5, all in one place. If you had any issues or want to double-check your work, copy this entire file to src/Auth.jsx. The component handles five state variables: email, password, loading, error, and isSignUp. The handleSubmit function conditionally calls either signUp or signInWithPassword based on the toggle state. The JSX renders a clean form with email and password inputs, a submit button that shows loading state, error messages when something goes wrong, and a toggle link to switch between sign-up and sign-in modes. Make sure the import path says './lib/supabaseClient' — not './supabaseClient'. That lib folder is important for keeping your project organized.">
+            <div class="dark-container">
+                <h2><span class="step-number">13</span> Complete Auth.jsx</h2>
+                <p class="subtitle">Full file for reference: <code>src/Auth.jsx</code></p>
+                <div class="code-block" style="font-size: 0.75rem; max-height: 500px; overflow-y: auto;">
+<pre><span class="keyword">import</span> { useState } <span class="keyword">from</span> <span class="string">'react'</span>
+<span class="keyword">import</span> { supabase } <span class="keyword">from</span> <span class="string">'./lib/supabaseClient'</span>
+
+<span class="keyword">function</span> <span class="function">Auth</span>() {
+  <span class="keyword">const</span> [email, setEmail] = <span class="function">useState</span>(<span class="string">''</span>)
+  <span class="keyword">const</span> [password, setPassword] = <span class="function">useState</span>(<span class="string">''</span>)
+  <span class="keyword">const</span> [loading, setLoading] = <span class="function">useState</span>(<span class="keyword">false</span>)
+  <span class="keyword">const</span> [error, setError] = <span class="function">useState</span>(<span class="keyword">null</span>)
+  <span class="keyword">const</span> [isSignUp, setIsSignUp] = <span class="function">useState</span>(<span class="keyword">false</span>)
+
+  <span class="keyword">const</span> <span class="function">handleSubmit</span> = <span class="keyword">async</span> (e) =&gt; {
+    e.<span class="function">preventDefault</span>()
+    <span class="function">setLoading</span>(<span class="keyword">true</span>)
+    <span class="function">setError</span>(<span class="keyword">null</span>)
+
+    <span class="keyword">const</span> { error } = isSignUp
+      ? <span class="keyword">await</span> supabase.auth.<span class="function">signUp</span>({ email, password })
+      : <span class="keyword">await</span> supabase.auth.<span class="function">signInWithPassword</span>({ email, password })
+
+    <span class="keyword">if</span> (error) <span class="function">setError</span>(error.message)
+    <span class="function">setLoading</span>(<span class="keyword">false</span>)
+  }
+
+  <span class="keyword">return</span> (
+    <span class="tag">&lt;div</span> <span class="attr">className</span>=<span class="string">"auth-container"</span><span class="tag">&gt;</span>
+      <span class="tag">&lt;h2&gt;</span>{isSignUp ? <span class="string">'Create Account'</span> : <span class="string">'Sign In'</span>}<span class="tag">&lt;/h2&gt;</span>
+      {error &amp;&amp; <span class="tag">&lt;p</span> <span class="attr">className</span>=<span class="string">"error-message"</span><span class="tag">&gt;</span>{error}<span class="tag">&lt;/p&gt;</span>}
+      <span class="tag">&lt;form</span> <span class="attr">onSubmit</span>={handleSubmit}<span class="tag">&gt;</span>
+        <span class="tag">&lt;input</span>
+          <span class="attr">type</span>=<span class="string">"email"</span>
+          <span class="attr">placeholder</span>=<span class="string">"Email address"</span>
+          <span class="attr">value</span>={email}
+          <span class="attr">onChange</span>={(e) =&gt; <span class="function">setEmail</span>(e.target.value)}
+          <span class="attr">required</span>
+        <span class="tag">/&gt;</span>
+        <span class="tag">&lt;input</span>
+          <span class="attr">type</span>=<span class="string">"password"</span>
+          <span class="attr">placeholder</span>=<span class="string">"Password (min 6 characters)"</span>
+          <span class="attr">value</span>={password}
+          <span class="attr">onChange</span>={(e) =&gt; <span class="function">setPassword</span>(e.target.value)}
+          <span class="attr">required</span>
+        <span class="tag">/&gt;</span>
+        <span class="tag">&lt;button</span> <span class="attr">type</span>=<span class="string">"submit"</span> <span class="attr">disabled</span>={loading}<span class="tag">&gt;</span>
+          {loading ? <span class="string">'Loading...'</span> : isSignUp ? <span class="string">'Sign Up'</span> : <span class="string">'Sign In'</span>}
+        <span class="tag">&lt;/button&gt;</span>
+      <span class="tag">&lt;/form&gt;</span>
+      <span class="tag">&lt;p</span> <span class="attr">className</span>=<span class="string">"toggle-auth"</span> <span class="attr">onClick</span>={() =&gt; <span class="function">setIsSignUp</span>(!isSignUp)}<span class="tag">&gt;</span>
+        {isSignUp
+          ? <span class="string">'Already have an account? Sign In'</span>
+          : <span class="string">'Need an account? Sign Up'</span>}
+      <span class="tag">&lt;/p&gt;</span>
+    <span class="tag">&lt;/div&gt;</span>
+  )
+}
+
+<span class="keyword">export default</span> Auth</pre>
+                </div>
+                <div class="dark-card warning" style="margin-top: 0.5rem;">
+                    <h4>⚠️ Import Path Matters</h4>
+                    <p>Make sure it's <code>'./lib/supabaseClient'</code> — with the <code>lib</code> folder. This matches the file location from Module 7: <code>src/lib/supabaseClient.js</code></p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Step 14: Test Locally -->
+        <section class="slide" id="step14" data-narration="Step 14 is testing your app locally — this is where you'll see everything come together. Start your dev server with npm run dev and open localhost 5173 in your browser. You should see the sign-in form. First, switch to sign-up mode by clicking 'Need an account? Sign Up.' Enter an email and password (at least 6 characters) and click Sign Up. Since we disabled email confirmation in Step 1, the account activates immediately. The UI should switch to the todo app. Add a few todos and verify they appear. Now go to your Supabase dashboard and check two things: under Authentication, then Users, you should see your new user account. Under Table Editor, your todos should have the user_id column filled in with that user's UUID. Now sign out and create a second account with a different email. Add different todos. Sign out and sign back in as the first user — you should only see the first user's todos. That's RLS working. The two users have completely isolated data.">
+            <div class="dark-container">
+                <h2><span class="step-number">14</span> Test Locally</h2>
+                <p class="subtitle">Verify authentication and per-user data isolation.</p>
+                <div class="terminal-block" style="margin-bottom: 1rem;">
+                    <div><span class="prompt">$</span> <span class="command">npm run dev</span></div>
+                    <div class="output" style="margin-top: 0.5rem;">➜  Local: http://localhost:5173/</div>
+                </div>
+                <div class="feature-grid">
+                    <div class="feature-item">
+                        <span class="step-number" style="width: 2rem; height: 2rem; font-size: 1rem;">1</span>
+                        <div class="feature-text">
+                            <strong>Create Account #1</strong>
+                            Sign up with an email and password. UI should switch to the todo app.
+                        </div>
+                    </div>
+                    <div class="feature-item">
+                        <span class="step-number" style="width: 2rem; height: 2rem; font-size: 1rem;">2</span>
+                        <div class="feature-text">
+                            <strong>Add Todos &amp; Verify</strong>
+                            Add some todos. Check Supabase Table Editor — <code>user_id</code> should be filled in.
+                        </div>
+                    </div>
+                    <div class="feature-item">
+                        <span class="step-number" style="width: 2rem; height: 2rem; font-size: 1rem;">3</span>
+                        <div class="feature-text">
+                            <strong>Sign Out &amp; Create Account #2</strong>
+                            Create a second account with a different email. Add different todos.
+                        </div>
+                    </div>
+                    <div class="feature-item">
+                        <span class="step-number" style="width: 2rem; height: 2rem; font-size: 1rem;">4</span>
+                        <div class="feature-text">
+                            <strong>Verify Data Isolation</strong>
+                            Sign back in as User #1 — you should only see User #1's todos. 🎉
+                        </div>
+                    </div>
+                </div>
+                <div class="dark-two-column" style="margin-top: 1rem;">
+                    <div class="dark-card success">
+                        <h4>The Magic Moment ✨</h4>
+                        <p>Two users, each with their own private todos. The database enforces it — not your React code.</p>
+                    </div>
+                    <div class="dark-card info">
+                        <h4>Check the Dashboard</h4>
+                        <p>Supabase → Authentication → Users should show both accounts you created.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Step 15: Deploy to Vercel -->
+        <section class="slide" id="step15" data-narration="Step 15 is deploying your authenticated app to Vercel. First, commit and push your code to GitHub. Your .env.local file is already in gitignore from Module 7, so your credentials won't be pushed. The environment variables in Vercel should already be set from your Module 7 deployment — VITE_SUPABASE_URL and VITE_SUPABASE_ANON_KEY. If they're not, add them now under Settings, then Environment Variables. Here's the crucial step that's new for auth: you need to add your Vercel URL to Supabase's redirect URLs. Go to your Supabase dashboard, click Authentication, then URL Configuration. Add your Vercel URL — something like https://your-app.vercel.app — to the Redirect URLs list. Without this, authentication redirects will fail in production because Supabase only allows redirects to URLs you've explicitly approved. After adding the redirect URL, redeploy your app on Vercel. Go to the Deployments tab, click the three dots on the latest deployment, and select Redeploy. Test the live URL: create an account, add todos, sign out, sign back in, and verify everything works just like it did locally.">
+            <div class="dark-container">
+                <h2><span class="step-number">15</span> Deploy to Vercel</h2>
+                <p class="subtitle">Push to GitHub and configure Supabase redirect URLs.</p>
+                <p style="margin-bottom: 0.5rem;"><strong>Push to GitHub:</strong></p>
+                <div class="terminal-block" style="margin-bottom: 1rem;">
+                    <div><span class="prompt">$</span> <span class="command">git add .</span></div>
+                    <div><span class="prompt">$</span> <span class="command">git commit -m "Add authentication and per-user data"</span></div>
+                    <div><span class="prompt">$</span> <span class="command">git push origin main</span></div>
+                </div>
+                <p style="margin-bottom: 0.5rem;"><strong>Add Vercel URL to Supabase Redirect URLs:</strong></p>
+                <div class="feature-grid">
+                    <div class="feature-item">
+                        <span class="step-number" style="width: 2rem; height: 2rem; font-size: 1rem;">1</span>
+                        <div class="feature-text">
+                            <strong>Supabase → Authentication → URL Configuration</strong>
+                            Find the Redirect URLs section
+                        </div>
+                    </div>
+                    <div class="feature-item">
+                        <span class="step-number" style="width: 2rem; height: 2rem; font-size: 1rem;">2</span>
+                        <div class="feature-text">
+                            <strong>Add Your Vercel URL</strong>
+                            <code>https://your-app.vercel.app</code>
+                        </div>
+                    </div>
+                    <div class="feature-item">
+                        <span class="step-number" style="width: 2rem; height: 2rem; font-size: 1rem;">3</span>
+                        <div class="feature-text">
+                            <strong>Verify Env Variables in Vercel</strong>
+                            Should be set from Module 7 — check Settings → Environment Variables
+                        </div>
+                    </div>
+                    <div class="feature-item">
+                        <span class="step-number" style="width: 2rem; height: 2rem; font-size: 1rem;">4</span>
+                        <div class="feature-text">
+                            <strong>Redeploy</strong>
+                            Deployments → ⋯ → Redeploy to pick up new code
+                        </div>
+                    </div>
+                </div>
+                <div class="dark-card warning" style="margin-top: 1rem;">
+                    <h4>⚠️ Redirect URL is Required</h4>
+                    <p>Supabase only allows auth redirects to URLs in your approved list. Without adding your Vercel URL, sign-up and sign-in will fail in production.</p>
+                </div>
+                <div class="dark-card info" style="margin-top: 0.5rem;">
+                    <h4>Test Your Live App</h4>
+                    <p>Open your Vercel URL in an incognito window. Create an account, add todos, sign out, sign back in — verify everything works.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Step 16: Deliverables -->
+        <section class="slide" id="deliverables" data-narration="Here's what to submit for this assignment. You need three things. First, your GitHub repository URL with all the source code — this should include your App.jsx with auth logic, your Auth.jsx component, and your supabaseClient.js in the lib folder. Second, your live Vercel URL where the authenticated app is running. Third, screenshots that prove everything works: a screenshot of your sign-up or sign-in form, a screenshot of the logged-in view showing your todos with the user's email and sign-out button visible, and a screenshot of the Supabase Authentication dashboard showing the Users tab with at least one registered user. Submit all three to Canvas. This assignment is worth 50 points total. The rubric breaks down like this: 15 points for sign-up, sign-in, and sign-out working correctly. 10 points for protected routes — showing the auth form when logged out and the todo app when logged in. 15 points for per-user data isolation with RLS — each user only sees their own todos. 5 points for Vercel deployment with auth working in production. And 5 points for code quality — error handling, loading states, and clean readable code.">
+            <div class="dark-container">
+                <h2><span class="step-number">16</span> Deliverables</h2>
+                <p class="subtitle">Submit all items to Canvas for full credit.</p>
+                <div class="dark-three-column" style="margin-top: 1.5rem;">
+                    <div class="dark-card">
+                        <h4>📁 GitHub Repository URL</h4>
+                        <p>Link to your repo with App.jsx, Auth.jsx, and supabaseClient.js</p>
+                        <p style="margin-top: 0.5rem; color: #f59e0b;">github.com/you/react-todo-db</p>
+                    </div>
+                    <div class="dark-card">
+                        <h4>🌐 Vercel Deployment URL</h4>
+                        <p>Link to your live, working app with authentication</p>
+                        <p style="margin-top: 0.5rem; color: #f59e0b;">your-project.vercel.app</p>
+                    </div>
+                    <div class="dark-card">
+                        <h4>📸 Screenshots (3)</h4>
+                        <ul style="margin: 0.5rem 0 0; padding-left: 1.2rem;">
+                            <li>Sign-up / sign-in form</li>
+                            <li>Logged-in view with todos</li>
+                            <li>Supabase Auth → Users dashboard</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="dark-card" style="margin-top: 1.5rem;">
+                    <h4>📋 Grading Rubric</h4>
+                    <ul style="margin: 0.5rem 0 0; padding-left: 1.2rem;">
+                        <li><strong>Sign-up / sign-in / sign-out working:</strong> 15 pts</li>
+                        <li><strong>Protected routes</strong> (auth form when logged out, todos when logged in): 10 pts</li>
+                        <li><strong>Per-user data isolation with RLS:</strong> 15 pts</li>
+                        <li><strong>Vercel deployment with auth working:</strong> 5 pts</li>
+                        <li><strong>Code quality</strong> (error handling, loading states, clean code): 5 pts</li>
+                    </ul>
+                    <p style="margin-top: 0.5rem; color: #f59e0b; font-weight: bold;">Total: 50 Points</p>
+                </div>
+                <div class="dark-card warning" style="margin-top: 0.5rem;">
+                    <h4>Before Submitting</h4>
+                    <p>Test with <strong>two different accounts</strong> to verify data isolation. Sign in as User A, add todos. Sign out, sign in as User B — they should NOT see User A's todos. That's the most important thing this assignment tests.</p>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <script src="../js/slides.js"></script>
+</body>
+</html>
