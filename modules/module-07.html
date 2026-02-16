@@ -3,27 +3,1057 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Module 7 - Advanced Web Development">
-    <title>Module 7: Topic TBD | Advanced Web Development</title>
+    <meta name="description" content="Module 7 - Database Access: Connecting Your React App to Supabase (Postgres)">
+    <title>Module 7: Database Access | Advanced Web Development</title>
     <link rel="stylesheet" href="../css/slides.css">
+    <style>
+        /* Dark theme components — Emerald Green accent for Database module */
+        .dark-container {
+            background: linear-gradient(135deg, #1a2332 0%, #2d3748 100%);
+            border-radius: 12px;
+            padding: 2rem;
+            border-left: 4px solid;
+            border-image: linear-gradient(180deg, #10b981, #06b6d4, #3b82f6) 1;
+        }
+        .dark-container h2 { color: #fff; margin: 0 0 0.5rem 0; font-size: 1.8rem; }
+        .dark-container .subtitle { color: #94a3b8; margin-bottom: 1.5rem; }
+        .dark-container h3 { color: #10b981; margin-top: 1rem; }
+        .dark-container ul { color: #94a3b8; }
+        .dark-container li { margin-bottom: 0.5rem; }
+        .dark-container strong { color: #fff; }
+        .dark-container p { color: #94a3b8; }
+        .dark-container code { background: #2d3a4d; color: #10b981; padding: 0.2rem 0.4rem; border-radius: 4px; }
+
+        .dark-two-column { display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; }
+        .dark-three-column { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 1.5rem; }
+        .dark-four-column { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1rem; }
+
+        .dark-card {
+            background: #2d3a4d;
+            border-radius: 8px;
+            padding: 1rem;
+            border-left: 3px solid #10b981;
+        }
+        .dark-card h4 { color: #fff; margin: 0 0 0.5rem 0; }
+        .dark-card p { color: #94a3b8; font-size: 0.9rem; margin: 0; }
+        .dark-card.warning { border-left-color: #facc15; }
+        .dark-card.danger { border-left-color: #f87171; }
+        .dark-card.info { border-left-color: #22d3ee; }
+
+        .dark-table { width: 100%; border-collapse: collapse; margin: 1rem 0; }
+        .dark-table th { background: #3d4a5d; color: #fff; padding: 0.75rem 1rem; text-align: left; }
+        .dark-table td { background: #2d3a4d; color: #94a3b8; padding: 0.75rem 1rem; border-bottom: 1px solid #3d4a5d; }
+        .dark-table code { background: #1a2332; color: #10b981; padding: 0.2rem 0.4rem; border-radius: 4px; }
+
+        .big-number { font-size: 4rem; font-weight: bold; color: #10b981; line-height: 1; }
+        .stat-label { color: #94a3b8; font-size: 1.1rem; margin-top: 0.5rem; }
+
+        .code-block { background: #1a2332; border-radius: 8px; padding: 1rem; overflow-x: auto; }
+        .code-block pre { margin: 0; color: #e2e8f0; font-family: 'Monaco', 'Menlo', monospace; font-size: 0.9rem; line-height: 1.5; }
+        .code-block .comment { color: #6b7280; }
+        .code-block .keyword { color: #c084fc; }
+        .code-block .string { color: #4ade80; }
+        .code-block .function { color: #60a5fa; }
+        .code-block .number { color: #f472b6; }
+        .code-block .tag { color: #10b981; }
+        .code-block .attr { color: #facc15; }
+
+        .feature-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1rem; }
+        .feature-item { display: flex; align-items: flex-start; gap: 0.75rem; }
+        .feature-icon { color: #10b981; font-size: 1.25rem; }
+        .feature-text { color: #94a3b8; }
+        .feature-text strong { color: #fff; display: block; margin-bottom: 0.25rem; }
+
+        .step-number {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 2.5rem;
+            height: 2.5rem;
+            background: linear-gradient(135deg, #10b981, #3b82f6);
+            color: #1a2332;
+            font-weight: bold;
+            font-size: 1.2rem;
+            border-radius: 50%;
+            margin-right: 1rem;
+            flex-shrink: 0;
+        }
+
+        .terminal-block {
+            background: #0d1117;
+            border-radius: 8px;
+            padding: 1rem;
+            font-family: 'Monaco', 'Menlo', monospace;
+            color: #c9d1d9;
+            margin: 1rem 0;
+        }
+        .terminal-block .prompt { color: #7ee787; }
+        .terminal-block .command { color: #fff; }
+        .terminal-block .output { color: #8b949e; }
+
+        /* Resource card styles */
+        .resource-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin-top: 1.5rem; }
+        .resource-card {
+            background: #2d3a4d;
+            border-radius: 12px;
+            padding: 1.5rem;
+            text-decoration: none;
+            transition: transform 0.2s, box-shadow 0.2s;
+            border: 1px solid #3d4a5d;
+        }
+        .resource-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+        }
+        .resource-card h4 { color: #fff; margin: 0 0 0.5rem 0; }
+        .resource-card p { color: #94a3b8; margin: 0; font-size: 0.9rem; }
+        .resource-card .icon { font-size: 2rem; margin-bottom: 0.5rem; }
+
+        @media (max-width: 900px) {
+            .dark-two-column, .dark-three-column { grid-template-columns: 1fr; }
+            .dark-four-column { grid-template-columns: repeat(2, 1fr); }
+            .feature-grid { grid-template-columns: 1fr; }
+            .resource-grid { grid-template-columns: 1fr; }
+        }
+    </style>
 </head>
 <body>
+    <a href="#main-content" class="skip-link">Skip to main content</a>
+
     <div class="presentation">
-        <!-- Title Slide -->
-        <section class="slide title-slide">
+
+        <!-- ========== Module Title ========== -->
+
+        <!-- Slide 1: Title -->
+        <section class="slide title-slide" data-narration="Welcome to Module 7, Database Access. Up to this point you've built React frontends and connected them to external APIs, but all of your data has been temporary — it disappears the moment a user refreshes the page or closes the browser. That changes today. In this module we're going to connect your React applications to a real Postgres database using Supabase, so your data actually persists. Supabase gives us a full Postgres database with a JavaScript client library that feels almost as simple as the fetch calls you wrote in Module 6. By the end of this module you'll understand relational database fundamentals, know how to wire up CRUD operations from React, and deploy a database-backed app to Vercel. This is the skill that turns a demo into a real product.">
             <h1>Module 7</h1>
-            <p class="subtitle">Topic TBD</p>
-            <p class="meta">Advanced Web Development</p>
+            <p class="subtitle">Database Access</p>
+            <p class="meta">Persisting Data with Supabase &amp; Postgres</p>
         </section>
 
-        <!-- Placeholder Content -->
-        <section class="slide">
-            <h1>Coming Soon</h1>
-            <p>Content for this module is being developed.</p>
-            <div class="info-box">
-                <p>Check back soon for updates to this module.</p>
+        <!-- Slide 2: Recommended Resources -->
+        <section class="slide" id="resources" data-narration="Before we jump in, here are two resources you'll want bookmarked throughout this module. First is the official Supabase documentation — it's genuinely well-written with interactive examples and copy-paste code snippets for their JavaScript client. You'll reference it constantly when building your assignment. Second is the MDN Web Docs guide on server-side website programming and databases. It gives a solid, vendor-neutral overview of how databases fit into web applications. Between the two of these and the slides in this module you'll have everything you need. I especially recommend the Supabase quickstart guide for React — it walks you through a working project in about fifteen minutes.">
+            <div class="dark-container">
+                <h2>Recommended Resources</h2>
+                <p class="subtitle">Two essential references for database-driven web development.</p>
+                <div class="resource-grid">
+                    <a href="https://supabase.com/docs" target="_blank" rel="noopener" class="resource-card">
+                        <div class="icon">🟢</div>
+                        <h4>Supabase Documentation</h4>
+                        <p>Official docs with JavaScript client reference, quickstart guides, and interactive examples</p>
+                    </a>
+                    <a href="https://developer.mozilla.org/en-US/docs/Learn/Server-side/First_steps/Web_frameworks" target="_blank" rel="noopener" class="resource-card">
+                        <div class="icon">📚</div>
+                        <h4>MDN: Server-Side &amp; Databases</h4>
+                        <p>Vendor-neutral overview of how databases fit into web applications</p>
+                    </a>
+                </div>
             </div>
         </section>
+
+        <!-- ========== PART 1: Database Fundamentals ========== -->
+
+        <!-- Slide 3: Part 1 Title -->
+        <section class="slide title-slide" id="part1" data-narration="Part 1 covers database fundamentals — the concepts you need to understand before you write a single line of database code. We'll talk about why databases exist in the first place, the difference between SQL and NoSQL, basic SQL syntax, and then introduce Supabase as the platform we'll use for the rest of this module. Even if you've had a database course before, this section is worth paying attention to because we're going to frame everything in the context of web development and how your React frontend will interact with the database. Think of this as building the mental model you need before we start wiring things together in Part 2.">
+            <h1>Part 1</h1>
+            <p class="subtitle">Database Fundamentals</p>
+        </section>
+
+        <!-- Slide 4: Why Databases? -->
+        <section class="slide" id="why-databases" data-narration="Let's start with the fundamental question — why do we need databases at all? Think about the Todo app you built in Module 5. You stored todos in React state, which means they lived in the browser's memory. Refresh the page and they're gone. That's fine for a demo, but a real application needs data that survives page refreshes, server restarts, and even hardware failures. Databases give us persistence — data written to a database stays there until you explicitly delete it. They also give us concurrent access, meaning hundreds or thousands of users can read and write data at the same time without corrupting it. And they give us powerful querying — instead of looping through arrays in JavaScript, you can ask the database to filter, sort, join, and aggregate data for you. In short, a database is what turns a client-side toy into a real web application.">
+            <div class="dark-container">
+                <h2>Why Databases?</h2>
+                <p class="subtitle">Static files and browser state aren't enough for real applications.</p>
+                <div class="dark-two-column" style="margin-top: 1.5rem;">
+                    <div>
+                        <div class="dark-card danger" style="margin-bottom: 1rem;">
+                            <h4>Without a Database</h4>
+                            <p>Data lives in React state or localStorage — gone on refresh, single-user only, no querying power</p>
+                        </div>
+                    </div>
+                    <div>
+                        <div class="dark-card" style="margin-bottom: 1rem;">
+                            <h4>With a Database</h4>
+                            <p>Data persists permanently, multiple users can access simultaneously, powerful filtering &amp; sorting</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="dark-three-column" style="margin-top: 1rem;">
+                    <div class="dark-card">
+                        <h4>💾 Persistence</h4>
+                        <p>Data survives refreshes, restarts, and crashes</p>
+                    </div>
+                    <div class="dark-card">
+                        <h4>👥 Concurrency</h4>
+                        <p>Thousands of users reading and writing at once</p>
+                    </div>
+                    <div class="dark-card">
+                        <h4>🔍 Querying</h4>
+                        <p>Filter, sort, join, and aggregate data efficiently</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Slide 5: Types of Databases -->
+        <section class="slide" id="db-types" data-narration="There are two major families of databases you'll encounter: SQL and NoSQL. SQL databases — also called relational databases — store data in structured tables with rows and columns, kind of like a spreadsheet. They enforce a schema, meaning you define the shape of your data up front. Examples include PostgreSQL, MySQL, and SQLite. NoSQL databases are more flexible — they store data as documents, key-value pairs, or graphs without requiring a fixed schema. MongoDB is the most well-known NoSQL database. So when do you use which? SQL databases are the default choice for most web applications because structured data with relationships — users who have posts that have comments — maps perfectly to tables. NoSQL shines when your data shape varies a lot or you need extreme horizontal scalability. For this course we're using PostgreSQL through Supabase, which is the gold standard for web application databases.">
+            <div class="dark-container">
+                <h2>Types of Databases</h2>
+                <p class="subtitle">SQL (relational) vs NoSQL (non-relational) — different tools for different jobs.</p>
+                <table class="dark-table">
+                    <tr>
+                        <th></th>
+                        <th>SQL (Relational)</th>
+                        <th>NoSQL (Non-Relational)</th>
+                    </tr>
+                    <tr>
+                        <td><strong>Structure</strong></td>
+                        <td>Tables with rows &amp; columns</td>
+                        <td>Documents, key-value, graphs</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Schema</strong></td>
+                        <td>Fixed — defined up front</td>
+                        <td>Flexible — varies per record</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Relationships</strong></td>
+                        <td>Built-in (foreign keys, joins)</td>
+                        <td>Manual / embedded</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Examples</strong></td>
+                        <td><code>PostgreSQL</code>, <code>MySQL</code>, <code>SQLite</code></td>
+                        <td><code>MongoDB</code>, <code>Redis</code>, <code>DynamoDB</code></td>
+                    </tr>
+                    <tr>
+                        <td><strong>Best For</strong></td>
+                        <td>Structured data, relationships</td>
+                        <td>Flexible schemas, scale-out</td>
+                    </tr>
+                </table>
+                <div class="dark-card" style="margin-top: 1rem;">
+                    <h4>Our Choice: PostgreSQL via Supabase</h4>
+                    <p>The industry standard for web apps — powerful, reliable, and free to start</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Slide 6: SQL Basics -->
+        <section class="slide" id="sql-basics" data-narration="Even though Supabase gives us a JavaScript client that abstracts away most raw SQL, you need to understand the four fundamental SQL operations because they map directly to everything you'll do in your app. SELECT reads data — it's how you fetch todos to display. INSERT creates new records — that's adding a new todo. UPDATE modifies existing records — like marking a todo as complete. DELETE removes records — removing a todo from the list. These four operations are collectively called CRUD: Create, Read, Update, Delete. Every database-driven application is fundamentally just CRUD operations with a nice user interface on top. The SQL syntax shown here is what you'd type directly into a database console. In Part 2 we'll see how Supabase translates these into JavaScript method calls.">
+            <div class="dark-container">
+                <h2>SQL Basics — CRUD</h2>
+                <p class="subtitle">Four operations that power every database-driven application.</p>
+                <div class="dark-two-column" style="margin-top: 1rem;">
+                    <div>
+                        <h3>Read</h3>
+                        <div class="code-block">
+<pre><span class="keyword">SELECT</span> * <span class="keyword">FROM</span> todos
+<span class="keyword">WHERE</span> completed = <span class="keyword">false</span>
+<span class="keyword">ORDER BY</span> created_at <span class="keyword">DESC</span>;</pre>
+                        </div>
+                        <h3 style="margin-top: 1rem;">Create</h3>
+                        <div class="code-block">
+<pre><span class="keyword">INSERT INTO</span> todos (text, completed)
+<span class="keyword">VALUES</span> (<span class="string">'Buy groceries'</span>, <span class="keyword">false</span>);</pre>
+                        </div>
+                    </div>
+                    <div>
+                        <h3>Update</h3>
+                        <div class="code-block">
+<pre><span class="keyword">UPDATE</span> todos
+<span class="keyword">SET</span> completed = <span class="keyword">true</span>
+<span class="keyword">WHERE</span> id = <span class="number">1</span>;</pre>
+                        </div>
+                        <h3 style="margin-top: 1rem;">Delete</h3>
+                        <div class="code-block">
+<pre><span class="keyword">DELETE FROM</span> todos
+<span class="keyword">WHERE</span> id = <span class="number">1</span>;</pre>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Slide 7: Tables and Relationships -->
+        <section class="slide" id="tables-relationships" data-narration="In a relational database, data lives in tables. Each table has columns that define the shape of the data — like id, text, and completed for a todos table — and rows that hold the actual records. Every table should have a primary key, which is a column that uniquely identifies each row. Usually this is an auto-incrementing integer or a UUID. When tables need to reference each other, you use foreign keys. For example, if you had a users table and a todos table, each todo could have a user_id column that points back to the user who created it. This is called a one-to-many relationship: one user has many todos. Understanding this structure is critical because it determines how you design your database and how you query data. For this module our todo app uses a single table, but in real applications you'll have many tables linked by foreign keys.">
+            <div class="dark-container">
+                <h2>Tables and Relationships</h2>
+                <p class="subtitle">Tables hold data in rows and columns — keys link them together.</p>
+                <div class="dark-two-column" style="margin-top: 1rem;">
+                    <div>
+                        <h3>todos table</h3>
+                        <table class="dark-table">
+                            <tr>
+                                <th>id</th>
+                                <th>text</th>
+                                <th>completed</th>
+                                <th>user_id</th>
+                            </tr>
+                            <tr>
+                                <td><code>1</code></td>
+                                <td>Buy groceries</td>
+                                <td>false</td>
+                                <td><code>42</code></td>
+                            </tr>
+                            <tr>
+                                <td><code>2</code></td>
+                                <td>Finish homework</td>
+                                <td>true</td>
+                                <td><code>42</code></td>
+                            </tr>
+                        </table>
+                    </div>
+                    <div>
+                        <h3>Key Concepts</h3>
+                        <div class="dark-card" style="margin-bottom: 0.75rem;">
+                            <h4>🔑 Primary Key</h4>
+                            <p>Uniquely identifies each row (e.g., <code>id</code>)</p>
+                        </div>
+                        <div class="dark-card" style="margin-bottom: 0.75rem;">
+                            <h4>🔗 Foreign Key</h4>
+                            <p>References a row in another table (e.g., <code>user_id</code> → users)</p>
+                        </div>
+                        <div class="dark-card">
+                            <h4>1️⃣ → 🔢 One-to-Many</h4>
+                            <p>One user has many todos</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Slide 8: What is Supabase? -->
+        <section class="slide" id="what-is-supabase" data-narration="Supabase is an open-source platform that gives you a full Postgres database along with a bunch of extras you'd normally have to build yourself. At its core it's a managed Postgres instance — you get a real, production-grade relational database without having to install or configure anything. On top of that you get auto-generated REST and GraphQL APIs, so you can query your database from JavaScript without writing any server-side code. It also includes real-time subscriptions, authentication, file storage, and edge functions. Think of it as Firebase but built on Postgres instead of a proprietary NoSQL database. The key thing for us is that Supabase provides a JavaScript client library that makes database operations feel as simple as calling a function. You won't be writing raw SQL in your React code — you'll use a clean, chainable API.">
+            <div class="dark-container">
+                <h2>What is Supabase?</h2>
+                <p class="subtitle">An open-source platform built on Postgres — database, auth, storage, and APIs in one place.</p>
+                <div class="dark-four-column" style="margin-top: 1.5rem; text-align: center;">
+                    <div class="dark-card">
+                        <h4>🐘 Postgres</h4>
+                        <p>Full relational database, no setup needed</p>
+                    </div>
+                    <div class="dark-card">
+                        <h4>⚡ Real-time</h4>
+                        <p>Subscribe to database changes live</p>
+                    </div>
+                    <div class="dark-card">
+                        <h4>🔐 Auth</h4>
+                        <p>User sign-up, login, OAuth providers</p>
+                    </div>
+                    <div class="dark-card">
+                        <h4>📦 Storage</h4>
+                        <p>File uploads and media hosting</p>
+                    </div>
+                </div>
+                <div class="dark-card info" style="margin-top: 1.5rem;">
+                    <h4>Think: Firebase, but Open Source &amp; Postgres</h4>
+                    <p>Supabase replaces Firebase with industry-standard tooling. No vendor lock-in — your data is in Postgres and you can export it anytime.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Slide 9: Why Supabase for This Course? -->
+        <section class="slide" id="why-supabase" data-narration="You might wonder why we're using Supabase specifically instead of setting up our own Postgres server or using a different service. There are several practical reasons. First, the free tier is genuinely generous — you get a full Postgres database, 500 megabytes of storage, and 50,000 monthly active users at no cost. Second, it works seamlessly with Vercel, which you're already using for deployment. Third, the JavaScript client library is excellent — it's well-documented, type-safe, and has a clean chainable API that's easy to learn. Fourth, the Supabase dashboard gives you a visual table editor and SQL editor built right in, so you can inspect and manage your data without any extra tools. And finally, it's real Postgres under the hood, so the skills you learn transfer directly to any Postgres environment you encounter in your career. It's not a toy database — it's the real thing with a nice wrapper.">
+            <div class="dark-container">
+                <h2>Why Supabase for This Course?</h2>
+                <p class="subtitle">Practical reasons we chose Supabase over other database solutions.</p>
+                <div class="feature-grid" style="margin-top: 1.5rem;">
+                    <div class="feature-item">
+                        <span class="feature-icon">💰</span>
+                        <div class="feature-text">
+                            <strong>Generous Free Tier</strong>
+                            500 MB database, 50K monthly users, unlimited API requests
+                        </div>
+                    </div>
+                    <div class="feature-item">
+                        <span class="feature-icon">🚀</span>
+                        <div class="feature-text">
+                            <strong>Works with Vercel</strong>
+                            Deploy your frontend and connect to Supabase seamlessly
+                        </div>
+                    </div>
+                    <div class="feature-item">
+                        <span class="feature-icon">📖</span>
+                        <div class="feature-text">
+                            <strong>Excellent JS Client</strong>
+                            Clean, chainable API — feels like writing normal JavaScript
+                        </div>
+                    </div>
+                    <div class="feature-item">
+                        <span class="feature-icon">🖥️</span>
+                        <div class="feature-text">
+                            <strong>Built-in Dashboard</strong>
+                            Visual table editor, SQL editor, API docs — no extra tools needed
+                        </div>
+                    </div>
+                    <div class="feature-item">
+                        <span class="feature-icon">🐘</span>
+                        <div class="feature-text">
+                            <strong>Real Postgres</strong>
+                            Skills transfer to any Postgres environment in your career
+                        </div>
+                    </div>
+                    <div class="feature-item">
+                        <span class="feature-icon">🔓</span>
+                        <div class="feature-text">
+                            <strong>Open Source</strong>
+                            No vendor lock-in — export your data anytime
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Slide 10: Setting Up Supabase -->
+        <section class="slide" id="setup-supabase" data-narration="Setting up Supabase takes about two minutes. Go to supabase.com and sign up with your GitHub account — since you already have one from earlier modules, this is a single click. Once logged in, click 'New Project' and give it a name like 'todo-app'. Choose a strong database password and save it somewhere — you probably won't need it for this course, but don't lose it. Select the region closest to you for the best performance. After a minute or so your project will be ready. The two pieces of information you'll need from here are your Project URL and your anon key — both are on the project settings page under API. The URL is the endpoint your app talks to, and the anon key is a public key that identifies your project. We'll use both of these in Part 2 when we connect our React app. Don't worry about the other settings for now — the defaults are fine.">
+            <div class="dark-container">
+                <h2>Setting Up Supabase</h2>
+                <p class="subtitle">Create a project in under two minutes — all you need is a GitHub account.</p>
+                <div class="feature-grid" style="margin-top: 1.5rem;">
+                    <div class="feature-item">
+                        <span class="step-number">1</span>
+                        <div class="feature-text">
+                            <strong>Sign Up</strong>
+                            Go to <a href="https://supabase.com" target="_blank" style="color: #10b981;">supabase.com</a> → Sign in with GitHub
+                        </div>
+                    </div>
+                    <div class="feature-item">
+                        <span class="step-number">2</span>
+                        <div class="feature-text">
+                            <strong>New Project</strong>
+                            Click "New Project" → name it (e.g., <code>todo-app</code>)
+                        </div>
+                    </div>
+                    <div class="feature-item">
+                        <span class="step-number">3</span>
+                        <div class="feature-text">
+                            <strong>Set Password &amp; Region</strong>
+                            Choose a strong database password, select the nearest region
+                        </div>
+                    </div>
+                    <div class="feature-item">
+                        <span class="step-number">4</span>
+                        <div class="feature-text">
+                            <strong>Get Your Keys</strong>
+                            Settings → API → copy <code>Project URL</code> and <code>anon key</code>
+                        </div>
+                    </div>
+                </div>
+                <div class="dark-card warning" style="margin-top: 1.5rem;">
+                    <h4>Save Your Keys!</h4>
+                    <p>You'll need the <strong>Project URL</strong> and <strong>anon key</strong> in Part 2. Find them under Project Settings → API.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Slide 11: Supabase Dashboard Tour -->
+        <section class="slide" id="dashboard-tour" data-narration="Once your project is created, take a minute to explore the Supabase dashboard — it's one of the best features of the platform. The Table Editor is a spreadsheet-like view where you can create tables, add columns, and manually insert or edit rows. It's perfect for quickly setting up your schema and adding test data. The SQL Editor lets you write and run raw SQL queries directly in the browser — great for when you need to do something the visual editor doesn't support. The API Docs section is automatically generated based on your tables and shows you the exact JavaScript code to query each table. Seriously, it writes the code for you. There's also an Authentication section for managing users and a Storage section for files, but we won't need those for this module. Spend five minutes clicking around — you'll be surprised how much you can do without writing any code.">
+            <div class="dark-container">
+                <h2>Supabase Dashboard Tour</h2>
+                <p class="subtitle">A powerful web interface for managing your database — no terminal required.</p>
+                <div class="dark-three-column" style="margin-top: 1.5rem;">
+                    <div class="dark-card">
+                        <h4>📊 Table Editor</h4>
+                        <p>Create tables, add columns, edit data visually — like a spreadsheet for your database</p>
+                    </div>
+                    <div class="dark-card">
+                        <h4>💻 SQL Editor</h4>
+                        <p>Write and run raw SQL queries in the browser. Great for complex operations</p>
+                    </div>
+                    <div class="dark-card">
+                        <h4>📄 API Docs</h4>
+                        <p>Auto-generated JavaScript code for every table. Copy-paste into your app</p>
+                    </div>
+                </div>
+                <div class="dark-card info" style="margin-top: 1.5rem;">
+                    <h4>Pro Tip: Use the API Docs</h4>
+                    <p>Click any table in the API docs and Supabase generates the exact JavaScript code to query it. It writes your code for you — take advantage of it.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Slide 12: Part 1 Summary -->
+        <section class="slide" id="part1-summary" data-narration="Let's recap Part 1 before we start coding. Databases give us persistence, concurrency, and querying power that browser state simply can't provide. SQL databases like Postgres organize data into tables with rows and columns, linked by primary and foreign keys. The four core SQL operations — SELECT, INSERT, UPDATE, DELETE — map to CRUD, which is the backbone of every web app. Supabase wraps Postgres with a JavaScript client library, a visual dashboard, and auto-generated APIs, making it easy to use from a React frontend. You've created a Supabase project and know where to find your Project URL and anon key. In Part 2 we'll install the Supabase client, connect it to a React app, and perform each of those CRUD operations from JavaScript. The theory is done — now we build.">
+            <div class="dark-container">
+                <h2>Part 1 Summary</h2>
+                <p class="subtitle">Key concepts from Database Fundamentals.</p>
+                <div class="feature-grid" style="margin-top: 1.5rem;">
+                    <div class="feature-item">
+                        <span class="feature-icon">✓</span>
+                        <div class="feature-text">
+                            <strong>Databases Provide Persistence</strong>
+                            Data survives refreshes, crashes, and multiple users
+                        </div>
+                    </div>
+                    <div class="feature-item">
+                        <span class="feature-icon">✓</span>
+                        <div class="feature-text">
+                            <strong>SQL = Tables + Relationships</strong>
+                            Rows, columns, primary keys, foreign keys
+                        </div>
+                    </div>
+                    <div class="feature-item">
+                        <span class="feature-icon">✓</span>
+                        <div class="feature-text">
+                            <strong>CRUD Operations</strong>
+                            SELECT, INSERT, UPDATE, DELETE — the backbone of every app
+                        </div>
+                    </div>
+                    <div class="feature-item">
+                        <span class="feature-icon">✓</span>
+                        <div class="feature-text">
+                            <strong>Supabase = Postgres Made Easy</strong>
+                            JS client, visual dashboard, auto-generated APIs, free tier
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ========== PART 2: Connecting Your App ========== -->
+
+        <!-- Slide 13: Part 2 Title -->
+        <section class="slide title-slide" id="part2" data-narration="Part 2 is where we get hands-on. We're going to install the Supabase JavaScript client, create a connection to our database, and walk through each CRUD operation with real React code. By the end of this section you'll know how to fetch data from Supabase and display it in a component, insert new records, update existing ones, and delete them. We'll also cover environment variables, error handling, and Row Level Security — three things that separate a learning exercise from a real application. If you followed along with Module 5 and Module 6, the patterns here will feel familiar. We're essentially replacing the fetch calls from Module 6 with Supabase client methods.">
+            <h1>Part 2</h1>
+            <p class="subtitle">Connecting to Supabase</p>
+        </section>
+
+        <!-- Slide 14: Installing the Supabase Client -->
+        <section class="slide" id="install-client" data-narration="The first step is installing the Supabase JavaScript client library. Open your terminal in your React project directory and run npm install @supabase/supabase-js. That's it — one package, no other dependencies needed. This library handles all the communication between your React app and your Supabase database. It makes HTTP requests to the auto-generated REST API under the hood, but you never have to think about that. The current version is v2, which is what we'll be using throughout this module. If you see tutorials online using createClient from just 'supabase', that's the old v1 API — make sure you're looking at v2 documentation. After installation, you'll see it listed in your package.json under dependencies. That's the only setup on the npm side.">
+            <div class="dark-container">
+                <h2>Installing the Supabase Client</h2>
+                <p class="subtitle">One package gives you full access to your Supabase database from JavaScript.</p>
+                <div class="terminal-block">
+                    <div><span class="prompt">$</span> <span class="command">npm install @supabase/supabase-js</span></div>
+                    <div class="output" style="margin-top: 0.5rem;">added 7 packages in 3s</div>
+                </div>
+                <div class="dark-two-column" style="margin-top: 1.5rem;">
+                    <div class="dark-card">
+                        <h4>What It Does</h4>
+                        <p>Handles all communication between your React app and Supabase — queries, inserts, updates, deletes</p>
+                    </div>
+                    <div class="dark-card warning">
+                        <h4>Version Matters</h4>
+                        <p>We're using <strong>v2</strong> (<code>@supabase/supabase-js</code>). Old v1 tutorials have different syntax — use the current docs</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Slide 15: Creating the Client -->
+        <section class="slide" id="create-client" data-narration="Once the package is installed, you need to create a Supabase client instance. This is the object you'll use for every database operation in your app. Create a new file called supabaseClient.js — I usually put it in a src/lib folder to keep things organized. Import createClient from the Supabase library, then call it with your Project URL and anon key. The function returns a client object that's ready to use. Notice we're exporting it so any component in our app can import and use the same client instance. You only create this once — every component shares the same connection. The URL tells the client where your database lives, and the anon key authenticates your app. In the next slide we'll talk about why you should never hardcode these values directly in your source code.">
+            <div class="dark-container">
+                <h2>Creating the Client</h2>
+                <p class="subtitle">One client instance, shared across your entire app.</p>
+                <div class="code-block">
+<pre><span class="comment">// src/lib/supabaseClient.js</span>
+<span class="keyword">import</span> { <span class="function">createClient</span> } <span class="keyword">from</span> <span class="string">'@supabase/supabase-js'</span>;
+
+<span class="keyword">const</span> supabaseUrl = <span class="string">'https://your-project-id.supabase.co'</span>;
+<span class="keyword">const</span> supabaseAnonKey = <span class="string">'your-anon-key-here'</span>;
+
+<span class="keyword">export const</span> supabase = <span class="function">createClient</span>(supabaseUrl, supabaseAnonKey);</pre>
+                </div>
+                <div class="dark-card info" style="margin-top: 1rem;">
+                    <h4>Where to Find Your Keys</h4>
+                    <p>Supabase Dashboard → Settings → API → <code>Project URL</code> and <code>anon public</code> key</p>
+                </div>
+                <div class="dark-card warning" style="margin-top: 0.75rem;">
+                    <h4>Don't Hardcode Keys!</h4>
+                    <p>The example above works but is bad practice. Next slide: how to use environment variables instead.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Slide 16: Environment Variables -->
+        <section class="slide" id="env-vars" data-narration="Hardcoding your Supabase URL and key directly in source code is a security and maintenance problem. If you push that code to GitHub, anyone can see your keys. And if you ever change projects, you'd have to find and update every file. The solution is environment variables. Create a file called .env.local in your project root and put your keys there. Since we're using Vite, the variable names must start with VITE_ — that's how Vite knows which variables to expose to the browser. In your code, you access them with import.meta.env.VITE_SUPABASE_URL instead of hardcoding the string. Make sure .env.local is listed in your .gitignore file so it never gets committed to GitHub. When you deploy to Vercel, you'll add these same variables in the Vercel dashboard under Environment Variables. This way your keys stay out of your code, out of version control, and are easy to change per environment.">
+            <div class="dark-container">
+                <h2>Environment Variables</h2>
+                <p class="subtitle">Keep your keys out of source code — use .env.local with Vite.</p>
+                <div class="dark-two-column" style="margin-top: 1rem;">
+                    <div>
+                        <h3>1. Create .env.local</h3>
+                        <div class="code-block">
+<pre><span class="comment"># .env.local (project root)</span>
+VITE_SUPABASE_URL=<span class="string">https://abc123.supabase.co</span>
+VITE_SUPABASE_ANON_KEY=<span class="string">eyJhbGciOiJI...</span></pre>
+                        </div>
+                    </div>
+                    <div>
+                        <h3>2. Use in Code</h3>
+                        <div class="code-block">
+<pre><span class="comment">// src/lib/supabaseClient.js</span>
+<span class="keyword">import</span> { <span class="function">createClient</span> } <span class="keyword">from</span> <span class="string">'@supabase/supabase-js'</span>;
+
+<span class="keyword">const</span> supabaseUrl = <span class="keyword">import</span>.meta.env.VITE_SUPABASE_URL;
+<span class="keyword">const</span> supabaseAnonKey = <span class="keyword">import</span>.meta.env.VITE_SUPABASE_ANON_KEY;
+
+<span class="keyword">export const</span> supabase = <span class="function">createClient</span>(
+  supabaseUrl,
+  supabaseAnonKey
+);</pre>
+                        </div>
+                    </div>
+                </div>
+                <div class="dark-two-column" style="margin-top: 1rem;">
+                    <div class="dark-card danger">
+                        <h4>Must be in .gitignore</h4>
+                        <p><code>.env.local</code> should NEVER be committed to GitHub</p>
+                    </div>
+                    <div class="dark-card info">
+                        <h4>Vite Prefix Required</h4>
+                        <p>Variables must start with <code>VITE_</code> or Vite won't expose them</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Slide 17: Fetching Data -->
+        <section class="slide" id="fetch-data" data-narration="Now for the fun part — actually reading data from your database. Here's a complete React component that fetches todos from Supabase and displays them. The pattern should look familiar from Module 6 where we fetched from REST APIs. We use useState to hold our todos array and useEffect to fetch data when the component mounts. Inside the useEffect, we define an async function called fetchTodos. The key line is supabase.from('todos').select('*') — this is equivalent to the SQL query SELECT * FROM todos. The Supabase client returns an object with data and error properties. If there's no error, we set the data into state. If there is an error, we log it. The .order method sorts results by created_at descending so the newest todos appear first. Notice how readable this is compared to writing raw SQL or constructing HTTP requests — the Supabase client gives us a clean, chainable API that mirrors the SQL operations we learned in Part 1.">
+            <div class="dark-container">
+                <h2>Fetching Data (Read)</h2>
+                <p class="subtitle">Use <code>select()</code> to read data — the equivalent of SQL SELECT.</p>
+                <div class="code-block">
+<pre><span class="keyword">import</span> { useState, useEffect } <span class="keyword">from</span> <span class="string">'react'</span>;
+<span class="keyword">import</span> { supabase } <span class="keyword">from</span> <span class="string">'./lib/supabaseClient'</span>;
+
+<span class="keyword">function</span> <span class="function">TodoList</span>() {
+  <span class="keyword">const</span> [todos, setTodos] = <span class="function">useState</span>([]);
+
+  <span class="function">useEffect</span>(() => {
+    <span class="keyword">async function</span> <span class="function">fetchTodos</span>() {
+      <span class="keyword">const</span> { data, error } = <span class="keyword">await</span> supabase
+        .<span class="function">from</span>(<span class="string">'todos'</span>)
+        .<span class="function">select</span>(<span class="string">'*'</span>)
+        .<span class="function">order</span>(<span class="string">'created_at'</span>, { ascending: <span class="keyword">false</span> });
+
+      <span class="keyword">if</span> (error) <span class="function">console.error</span>(<span class="string">'Error:'</span>, error);
+      <span class="keyword">else</span> <span class="function">setTodos</span>(data);
+    }
+    <span class="function">fetchTodos</span>();
+  }, []);
+
+  <span class="keyword">return</span> (
+    <span class="tag">&lt;ul&gt;</span>
+      {todos.<span class="function">map</span>(todo => (
+        <span class="tag">&lt;li</span> <span class="attr">key</span>={todo.id}<span class="tag">&gt;</span>{todo.text}<span class="tag">&lt;/li&gt;</span>
+      ))}
+    <span class="tag">&lt;/ul&gt;</span>
+  );
+}</pre>
+                </div>
+            </div>
+        </section>
+
+        <!-- Slide 18: Inserting Data -->
+        <section class="slide" id="insert-data" data-narration="Inserting data is how your users create new records. The Supabase method is .insert(), which takes an object matching your table columns. In this example we have a form with a text input. When the user submits the form, we call supabase.from('todos').insert() with the text from the input. The .select() chained after insert tells Supabase to return the newly created record — without it, you'd just get a success status but no data. This is important because we want to add the new todo to our local state array so it appears on screen immediately. If the insert succeeds, we spread the existing todos and add the new one at the beginning. We also clear the input field so the form is ready for the next entry. Notice the error check — always verify the insert succeeded before updating your UI. If the database rejects the insert for any reason, you want to handle that gracefully.">
+            <div class="dark-container">
+                <h2>Inserting Data (Create)</h2>
+                <p class="subtitle">Use <code>insert()</code> to add new records — equivalent of SQL INSERT.</p>
+                <div class="code-block">
+<pre><span class="keyword">const</span> [newText, setNewText] = <span class="function">useState</span>(<span class="string">''</span>);
+
+<span class="keyword">async function</span> <span class="function">addTodo</span>(e) {
+  e.<span class="function">preventDefault</span>();
+  <span class="keyword">if</span> (!newText.trim()) <span class="keyword">return</span>;
+
+  <span class="keyword">const</span> { data, error } = <span class="keyword">await</span> supabase
+    .<span class="function">from</span>(<span class="string">'todos'</span>)
+    .<span class="function">insert</span>({ text: newText })
+    .<span class="function">select</span>();  <span class="comment">// returns the new record</span>
+
+  <span class="keyword">if</span> (error) {
+    <span class="function">console.error</span>(<span class="string">'Insert failed:'</span>, error);
+  } <span class="keyword">else</span> {
+    <span class="function">setTodos</span>([data[<span class="number">0</span>], ...todos]);
+    <span class="function">setNewText</span>(<span class="string">''</span>);
+  }
+}</pre>
+                </div>
+                <div class="dark-card info" style="margin-top: 1rem;">
+                    <h4>Why .select() after .insert()?</h4>
+                    <p>Without <code>.select()</code>, Supabase returns no data — just a status. Chain <code>.select()</code> to get the newly created record back (including its auto-generated <code>id</code>).</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Slide 19: Updating Data -->
+        <section class="slide" id="update-data" data-narration="Updating data is how you modify existing records — like marking a todo as complete. The pattern is supabase.from('todos').update() with an object containing the fields you want to change, followed by a filter to specify which row to update. The .eq() method is the equivalent of SQL's WHERE clause — it stands for 'equals' and ensures you only update the specific row you intend to. This is critical — without the .eq() filter, you'd update every row in the table. In our todo example, the toggleTodo function receives a todo object, flips its completed boolean, and sends the update to Supabase. If it succeeds, we update the local state to reflect the change. You can chain multiple filters if needed, like .eq('id', id).eq('user_id', userId) to be even more specific. Always filter your updates precisely.">
+            <div class="dark-container">
+                <h2>Updating Data (Update)</h2>
+                <p class="subtitle">Use <code>update()</code> with <code>.eq()</code> to modify specific records — equivalent of SQL UPDATE WHERE.</p>
+                <div class="code-block">
+<pre><span class="keyword">async function</span> <span class="function">toggleTodo</span>(todo) {
+  <span class="keyword">const</span> { error } = <span class="keyword">await</span> supabase
+    .<span class="function">from</span>(<span class="string">'todos'</span>)
+    .<span class="function">update</span>({ completed: !todo.completed })
+    .<span class="function">eq</span>(<span class="string">'id'</span>, todo.id);
+
+  <span class="keyword">if</span> (error) {
+    <span class="function">console.error</span>(<span class="string">'Update failed:'</span>, error);
+  } <span class="keyword">else</span> {
+    <span class="function">setTodos</span>(todos.<span class="function">map</span>(t =>
+      t.id === todo.id
+        ? { ...t, completed: !t.completed }
+        : t
+    ));
+  }
+}</pre>
+                </div>
+                <div class="dark-card danger" style="margin-top: 1rem;">
+                    <h4>Always Use .eq() with update()</h4>
+                    <p>Without a filter, <code>.update()</code> would modify <strong>every row</strong> in the table. Always specify which record to update.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Slide 20: Deleting Data -->
+        <section class="slide" id="delete-data" data-narration="Deleting data removes records from your database permanently. The pattern follows the same structure — supabase.from('todos').delete() with an .eq() filter to target the specific row. Just like with update, the filter is essential. Without it you'd delete every row in the table, and unlike a UI undo button, there's no easy way to recover deleted database records. In our todo app, the deleteTodo function takes an id, sends the delete request, and if successful, filters the deleted item out of local state. One thing to note — Supabase's delete doesn't return the deleted record by default. You can chain .select() if you need it, but usually you already have the id and don't need the full record back. For your assignments, this is the simplest of the four CRUD operations — but it's also the most dangerous if you forget the filter. Always double-check your WHERE clause.">
+            <div class="dark-container">
+                <h2>Deleting Data (Delete)</h2>
+                <p class="subtitle">Use <code>delete()</code> with <code>.eq()</code> to remove specific records — equivalent of SQL DELETE WHERE.</p>
+                <div class="code-block">
+<pre><span class="keyword">async function</span> <span class="function">deleteTodo</span>(id) {
+  <span class="keyword">const</span> { error } = <span class="keyword">await</span> supabase
+    .<span class="function">from</span>(<span class="string">'todos'</span>)
+    .<span class="function">delete</span>()
+    .<span class="function">eq</span>(<span class="string">'id'</span>, id);
+
+  <span class="keyword">if</span> (error) {
+    <span class="function">console.error</span>(<span class="string">'Delete failed:'</span>, error);
+  } <span class="keyword">else</span> {
+    <span class="function">setTodos</span>(todos.<span class="function">filter</span>(t => t.id !== id));
+  }
+}</pre>
+                </div>
+                <div class="dark-two-column" style="margin-top: 1rem;">
+                    <div class="dark-card danger">
+                        <h4>⚠️ Deletes Are Permanent</h4>
+                        <p>No undo button. Always filter with <code>.eq()</code> — never delete without a WHERE clause.</p>
+                    </div>
+                    <div class="dark-card info">
+                        <h4>Updating State</h4>
+                        <p>Use <code>.filter()</code> to remove the deleted item from local state immediately.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Slide 21: Error Handling -->
+        <section class="slide" id="error-handling" data-narration="Error handling is something beginners often skip but it's essential for a professional application. Every Supabase operation returns an object with both a data property and an error property. If something goes wrong — network issue, invalid data, permission denied — the error property will be populated with details. You should always check for errors before using the data. In a real application you'd also show the user a friendly error message instead of just logging to the console. The pattern shown here uses a simple error state variable and displays a message when something fails. You might also want to handle loading states — show a spinner while data is being fetched. The three states to track are: loading (request in progress), error (request failed), and success (data ready). This pattern is so common in React that you'll see it in virtually every production codebase.">
+            <div class="dark-container">
+                <h2>Error Handling</h2>
+                <p class="subtitle">Always check for errors — show users helpful messages, not blank screens.</p>
+                <div class="code-block">
+<pre><span class="keyword">const</span> [todos, setTodos] = <span class="function">useState</span>([]);
+<span class="keyword">const</span> [loading, setLoading] = <span class="function">useState</span>(<span class="keyword">true</span>);
+<span class="keyword">const</span> [error, setError] = <span class="function">useState</span>(<span class="keyword">null</span>);
+
+<span class="function">useEffect</span>(() => {
+  <span class="keyword">async function</span> <span class="function">fetchTodos</span>() {
+    <span class="function">setLoading</span>(<span class="keyword">true</span>);
+    <span class="keyword">const</span> { data, error } = <span class="keyword">await</span> supabase
+      .<span class="function">from</span>(<span class="string">'todos'</span>).<span class="function">select</span>(<span class="string">'*'</span>);
+
+    <span class="keyword">if</span> (error) {
+      <span class="function">setError</span>(error.message);
+    } <span class="keyword">else</span> {
+      <span class="function">setTodos</span>(data);
+    }
+    <span class="function">setLoading</span>(<span class="keyword">false</span>);
+  }
+  <span class="function">fetchTodos</span>();
+}, []);
+
+<span class="keyword">if</span> (loading) <span class="keyword">return</span> <span class="tag">&lt;p&gt;</span>Loading...<span class="tag">&lt;/p&gt;</span>;
+<span class="keyword">if</span> (error) <span class="keyword">return</span> <span class="tag">&lt;p</span> <span class="attr">style</span>={{ color: <span class="string">'red'</span> }}<span class="tag">&gt;</span>Error: {error}<span class="tag">&lt;/p&gt;</span>;</pre>
+                </div>
+                <div class="dark-three-column" style="margin-top: 1rem;">
+                    <div class="dark-card">
+                        <h4>⏳ Loading</h4>
+                        <p>Show spinner while request is in progress</p>
+                    </div>
+                    <div class="dark-card danger">
+                        <h4>❌ Error</h4>
+                        <p>Display friendly message if request fails</p>
+                    </div>
+                    <div class="dark-card">
+                        <h4>✅ Success</h4>
+                        <p>Render data once it arrives</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Slide 22: Row Level Security -->
+        <section class="slide" id="rls" data-narration="Row Level Security, or RLS, is a Postgres feature that Supabase enables by default on new tables. It controls who can read, insert, update, or delete rows based on policies you define. When RLS is enabled and no policies exist, nobody can access the data at all — not even your anon key. This is actually a security feature, not a bug. For learning purposes in this course, you have two options. The simpler option is to disable RLS on your todos table while you're developing — this lets any request through. The more production-appropriate option is to create a policy that allows public access. Both options are shown here. I'd recommend starting with RLS disabled so you don't get blocked by permission errors while learning. Once you're comfortable with the basics, you can enable RLS and write proper policies. In a real app with user authentication, RLS is how you ensure users can only see their own data.">
+            <div class="dark-container">
+                <h2>Row Level Security (RLS)</h2>
+                <p class="subtitle">Postgres-level access control — enabled by default on Supabase tables.</p>
+                <div class="dark-two-column" style="margin-top: 1rem;">
+                    <div>
+                        <h3>Option A: Disable for Learning</h3>
+                        <div class="code-block">
+<pre><span class="comment">-- In Supabase SQL Editor</span>
+<span class="keyword">ALTER TABLE</span> todos
+  <span class="keyword">DISABLE</span> ROW LEVEL SECURITY;</pre>
+                        </div>
+                        <div class="dark-card warning" style="margin-top: 0.75rem;">
+                            <h4>Simple but Not Secure</h4>
+                            <p>Fine for learning and development. Never do this in production.</p>
+                        </div>
+                    </div>
+                    <div>
+                        <h3>Option B: Add a Public Policy</h3>
+                        <div class="code-block">
+<pre><span class="comment">-- Allow all operations for everyone</span>
+<span class="keyword">CREATE POLICY</span> <span class="string">"Allow public access"</span>
+  <span class="keyword">ON</span> todos
+  <span class="keyword">FOR ALL</span>
+  <span class="keyword">USING</span> (<span class="keyword">true</span>)
+  <span class="keyword">WITH CHECK</span> (<span class="keyword">true</span>);</pre>
+                        </div>
+                        <div class="dark-card" style="margin-top: 0.75rem;">
+                            <h4>More Explicit</h4>
+                            <p>RLS stays enabled, but the policy allows all access. Better practice.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Slide 23: Supabase Client vs Direct SQL -->
+        <section class="slide" id="client-vs-sql" data-narration="At this point you might wonder when to use the Supabase JavaScript client versus writing raw SQL. The short answer is: use the JavaScript client for almost everything. It handles authentication, type safety, and error formatting automatically. It also keeps your database logic close to your React components, which makes the code easier to follow. However, there are situations where raw SQL is better. Complex queries with multiple joins, database migrations, creating tables, and writing RLS policies are all easier in SQL. The Supabase SQL Editor in the dashboard is perfect for those tasks. Think of it this way — use the JavaScript client for your application's runtime CRUD operations, and use the SQL editor for setup, maintenance, and complex one-off queries. You don't have to choose one or the other. Most real projects use both. The table here summarizes the tradeoffs.">
+            <div class="dark-container">
+                <h2>Supabase Client vs Direct SQL</h2>
+                <p class="subtitle">Use the JS client for app logic, SQL for setup and complex queries.</p>
+                <table class="dark-table">
+                    <tr>
+                        <th></th>
+                        <th>JavaScript Client</th>
+                        <th>Raw SQL (Dashboard)</th>
+                    </tr>
+                    <tr>
+                        <td><strong>Best For</strong></td>
+                        <td>CRUD from React components</td>
+                        <td>Table creation, migrations, complex joins</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Auth</strong></td>
+                        <td>Handled automatically</td>
+                        <td>Not applicable (admin context)</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Error Handling</strong></td>
+                        <td>Structured { data, error }</td>
+                        <td>Raw Postgres errors</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Complex Queries</strong></td>
+                        <td>Limited (no raw joins)</td>
+                        <td>Full SQL power</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Where to Use</strong></td>
+                        <td>Your React code</td>
+                        <td>Supabase Dashboard SQL Editor</td>
+                    </tr>
+                </table>
+                <div class="dark-card info" style="margin-top: 1rem;">
+                    <h4>In Practice</h4>
+                    <p>Most projects use both: JS client for runtime CRUD, SQL editor for setup and maintenance.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Slide 24: Part 2 Summary -->
+        <section class="slide" id="part2-summary" data-narration="Let's wrap up Part 2. You now know the full workflow for connecting a React app to Supabase. Install the client with npm install @supabase/supabase-js. Create a client instance with createClient using your URL and anon key from environment variables. Fetch data with .from().select(), insert with .from().insert(), update with .from().update().eq(), and delete with .from().delete().eq(). Always check for errors in the response and handle loading states for a good user experience. Row Level Security controls who can access your data — disable it for learning, but understand it exists for production. And use the JavaScript client for your app code while keeping the SQL editor handy for setup tasks. You have all the building blocks now. In Part 3 you'll put them all together to build a database-powered Todo app.">
+            <div class="dark-container">
+                <h2>Part 2 Summary</h2>
+                <p class="subtitle">Key concepts from Connecting to Supabase.</p>
+                <div class="feature-grid" style="margin-top: 1.5rem;">
+                    <div class="feature-item">
+                        <span class="feature-icon">✓</span>
+                        <div class="feature-text">
+                            <strong>Install &amp; Create Client</strong>
+                            npm install, createClient(url, anonKey), one shared instance
+                        </div>
+                    </div>
+                    <div class="feature-item">
+                        <span class="feature-icon">✓</span>
+                        <div class="feature-text">
+                            <strong>Environment Variables</strong>
+                            .env.local with VITE_ prefix, never commit keys to GitHub
+                        </div>
+                    </div>
+                    <div class="feature-item">
+                        <span class="feature-icon">✓</span>
+                        <div class="feature-text">
+                            <strong>Full CRUD</strong>
+                            select() → insert() → update().eq() → delete().eq()
+                        </div>
+                    </div>
+                    <div class="feature-item">
+                        <span class="feature-icon">✓</span>
+                        <div class="feature-text">
+                            <strong>Error Handling &amp; RLS</strong>
+                            Always check { data, error }, understand Row Level Security
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ========== PART 3: Assignment ========== -->
+
+        <!-- Slide 25: Part 3 Title -->
+        <section class="slide title-slide" id="part3" data-narration="Part 3 is your assignment section. You have two assignments for this module worth a combined 50 points. Assignment 1 is a quick-start exercise to get you comfortable with the Supabase dashboard and confirm your project is set up correctly. Assignment 2 is the main project — you'll take the Todo app concept from Module 5 and upgrade it to use a real database with Supabase. By the end you'll have a deployed, database-backed React application that persists data between sessions. These assignments build on each other, so start with Assignment 1 to make sure your Supabase project works before tackling the full app.">
+            <h1>Part 3</h1>
+            <p class="subtitle">Assignment</p>
+        </section>
+
+        <!-- Slide 26: Assignment 1 -->
+        <section class="slide" id="assignment1" data-narration="Assignment 1 is worth 20 points and is designed to get you up and running with Supabase. Follow the official Supabase React quickstart tutorial — I've linked it below. The tutorial walks you through creating a project, setting up a table, and connecting from a React app. It's well-written and should take you about 15 to 20 minutes. Once you've completed the tutorial and have data showing in your Supabase dashboard, take a screenshot of the Table Editor showing your data. Also grab your Supabase project URL from the settings page. Submit both to Canvas — the screenshot proves you set up the project, and the URL lets me verify it exists. This assignment is intentionally straightforward. Its purpose is to make sure you have a working Supabase project before you build the bigger todo app in Assignment 2.">
+            <div class="dark-container">
+                <h2>Assignment 1: Supabase Quick Start</h2>
+                <p class="subtitle">Set up your Supabase project and verify it works — 20 points.</p>
+                <div class="feature-grid" style="margin-top: 1.5rem;">
+                    <div class="feature-item">
+                        <span class="step-number">1</span>
+                        <div class="feature-text">
+                            <strong>Follow the Quickstart</strong>
+                            Complete the <a href="https://supabase.com/docs/guides/getting-started/quickstarts/reactjs" target="_blank" style="color: #10b981;">Supabase React Quickstart Tutorial</a>
+                        </div>
+                    </div>
+                    <div class="feature-item">
+                        <span class="step-number">2</span>
+                        <div class="feature-text">
+                            <strong>Add Data to Your Table</strong>
+                            Insert at least 3 rows using the Table Editor or your app
+                        </div>
+                    </div>
+                    <div class="feature-item">
+                        <span class="step-number">3</span>
+                        <div class="feature-text">
+                            <strong>Screenshot the Dashboard</strong>
+                            Capture the Table Editor showing your data (at least 3 rows visible)
+                        </div>
+                    </div>
+                    <div class="feature-item">
+                        <span class="step-number">4</span>
+                        <div class="feature-text">
+                            <strong>Submit to Canvas</strong>
+                            Upload your screenshot + your Supabase project URL
+                        </div>
+                    </div>
+                </div>
+                <div style="text-align: center; margin-top: 1.5rem;">
+                    <p style="color: #10b981; font-size: 1.25rem; font-weight: bold;">20 Points</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Slide 27: Assignment 2 -->
+        <section class="slide" id="assignment2" data-narration="Assignment 2 is the main event — 30 points. You're going to upgrade your Module 5 Todo app to use Supabase instead of local React state. Instead of todos disappearing on refresh, they'll persist in a real Postgres database. Here's what you need to do. First, create a Supabase project if you haven't already and create a todos table with three columns: id as an auto-incrementing integer primary key, text as a text column, and created_at as a timestamp with a default of now(). Second, connect your React app to Supabase using the client library and environment variables as we covered in Part 2. Third, implement the CRUD operations — fetch todos on load, insert new todos, and delete todos. Display them in a list just like your Module 5 app. Fourth, deploy everything to Vercel with your environment variables configured. Submit three things: your GitHub repo URL, your live Vercel URL, and a screenshot of your Supabase dashboard showing the todos table with data. The grading rubric is on the next slide.">
+            <div class="dark-container">
+                <h2>Assignment 2: Database-Powered Todo App</h2>
+                <p class="subtitle">Upgrade your Module 5 Todo app to persist data with Supabase — 30 points.</p>
+                <div class="feature-grid" style="margin-top: 1.5rem;">
+                    <div class="feature-item">
+                        <span class="step-number">1</span>
+                        <div class="feature-text">
+                            <strong>Create the Table</strong>
+                            In Supabase SQL Editor, create a <code>todos</code> table with <code>id</code> (int8, primary key), <code>text</code> (text), <code>created_at</code> (timestamptz, default now())
+                        </div>
+                    </div>
+                    <div class="feature-item">
+                        <span class="step-number">2</span>
+                        <div class="feature-text">
+                            <strong>Connect from React</strong>
+                            Install <code>@supabase/supabase-js</code>, create client with env vars, disable RLS or add public policy
+                        </div>
+                    </div>
+                    <div class="feature-item">
+                        <span class="step-number">3</span>
+                        <div class="feature-text">
+                            <strong>Implement CRUD</strong>
+                            Fetch todos on load, add new todos, delete todos — all persisted in the database
+                        </div>
+                    </div>
+                    <div class="feature-item">
+                        <span class="step-number">4</span>
+                        <div class="feature-text">
+                            <strong>Deploy to Vercel</strong>
+                            Add <code>VITE_SUPABASE_URL</code> and <code>VITE_SUPABASE_ANON_KEY</code> as Vercel environment variables
+                        </div>
+                    </div>
+                </div>
+
+                <h3 style="margin-top: 1.5rem;">SQL to Create Your Table</h3>
+                <div class="code-block">
+<pre><span class="keyword">CREATE TABLE</span> todos (
+  id bigint <span class="keyword">GENERATED</span> <span class="keyword">ALWAYS AS</span> IDENTITY <span class="keyword">PRIMARY KEY</span>,
+  text text <span class="keyword">NOT NULL</span>,
+  created_at timestamptz <span class="keyword">DEFAULT</span> <span class="function">now</span>()
+);
+
+<span class="comment">-- Disable RLS for learning (or add a public policy)</span>
+<span class="keyword">ALTER TABLE</span> todos <span class="keyword">DISABLE</span> ROW LEVEL SECURITY;</pre>
+                </div>
+
+                <h3 style="margin-top: 1.5rem;">Submit</h3>
+                <div class="dark-three-column" style="margin-top: 0.75rem;">
+                    <div class="dark-card">
+                        <h4>📂 GitHub URL</h4>
+                        <p>Link to your repository</p>
+                    </div>
+                    <div class="dark-card">
+                        <h4>🌐 Vercel URL</h4>
+                        <p>Link to your live deployed app</p>
+                    </div>
+                    <div class="dark-card">
+                        <h4>📸 Dashboard Screenshot</h4>
+                        <p>Supabase Table Editor showing your todos data</p>
+                    </div>
+                </div>
+                <div style="text-align: center; margin-top: 1.5rem;">
+                    <p style="color: #10b981; font-size: 1.25rem; font-weight: bold;">30 Points</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Slide 28: Module Complete -->
+        <section class="slide" id="module-complete" data-narration="Congratulations on completing Module 7! You've gone from a static React app to one backed by a real Postgres database. That's a massive leap. You now understand why databases exist, how SQL works at a fundamental level, and how to wire up Supabase to your React frontend for full CRUD operations. The pattern you learned — create a client, fetch data into state, insert on form submit, update and delete with filters — is the same pattern used in production applications everywhere. The specific tool might change, but the concepts are universal. Keep experimenting with your Supabase project. Try adding new columns, filtering queries, or even exploring Supabase's real-time subscriptions. In upcoming modules we'll continue building on this foundation. Great work getting this far — you're building real, deployable web applications now.">
+            <div class="dark-container">
+                <h2>Module 7 Complete!</h2>
+                <p class="subtitle">You've connected your React app to a real database.</p>
+                <div class="dark-two-column" style="margin-top: 1.5rem;">
+                    <div class="dark-card">
+                        <h4>What You Learned</h4>
+                        <ul style="margin: 0; padding-left: 1.5rem;">
+                            <li>Database fundamentals (SQL, tables, keys)</li>
+                            <li>Supabase setup and dashboard</li>
+                            <li>Installing and creating the JS client</li>
+                            <li>Environment variables with Vite</li>
+                            <li>Full CRUD: select, insert, update, delete</li>
+                            <li>Error handling and Row Level Security</li>
+                        </ul>
+                    </div>
+                    <div class="dark-card">
+                        <h4>Keep Exploring!</h4>
+                        <p>Try extending your Todo app with:</p>
+                        <ul style="margin: 0.5rem 0 0; padding-left: 1.5rem;">
+                            <li>Mark todos as complete (update)</li>
+                            <li>Filter by completed status</li>
+                            <li>Real-time subscriptions</li>
+                            <li>User authentication</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
     </div>
 
     <script src="../js/slides.js"></script>
