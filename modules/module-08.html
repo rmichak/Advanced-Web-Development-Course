@@ -351,7 +351,278 @@
             </div>
         </section>
 
-        <!-- Slide 9: What is Supabase Auth? -->
+        <!-- Slide 9: Authentication Providers -->
+        <section class="slide" id="auth-providers" data-narration="Now that we've covered the different auth strategies, let's zoom out and look at who actually provides these services. When you build authentication into an app, you have a choice about how much you want to handle yourself versus how much you delegate. First-party or self-hosted means you manage everything from scratch — the sign-up forms, password hashing, session management, account recovery flows, regulatory compliance, all of it. You have full control, but you're also responsible for every security vulnerability. Most startups and small teams don't go this route anymore because the risk is too high. Third-party auth services — sometimes called Backend-as-a-Service or BaaS — are what we're using with Supabase Auth. Services like Firebase Auth, Auth0, Clerk, and AWS Cognito handle the hard parts for you: secure password storage, token management, multi-factor authentication, email verification. You just call their API. Then there are external identity providers — Google, GitHub, Apple, Microsoft — where users authenticate with their existing accounts via OAuth or OpenID Connect. You never see their password at all, which massively reduces your liability. Finally, enterprise identity systems like SAML, LDAP, and Active Directory are what large corporations use for Single Sign-On across dozens of internal applications. You probably won't build these yourself, but you should know they exist. In practice, most modern apps use a combination: a BaaS like Supabase that connects to external providers like Google and GitHub.">
+            <div class="dark-container">
+                <h2>Authentication Providers</h2>
+                <p class="subtitle">The landscape of who handles authentication — and how much you manage yourself.</p>
+                <table class="dark-table" style="margin-top: 1.5rem;">
+                    <thead>
+                        <tr>
+                            <th>Category</th>
+                            <th>Examples</th>
+                            <th>You Handle</th>
+                            <th>Best For</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong style="color: #fff;">🏠 First-Party / Self-Hosted</strong></td>
+                            <td>Custom email/password, phone/SMS OTP</td>
+                            <td>Everything — hashing, recovery, compliance</td>
+                            <td>Full control, regulatory requirements</td>
+                        </tr>
+                        <tr>
+                            <td><strong style="color: #fff;">☁️ Auth Services (BaaS)</strong></td>
+                            <td>Supabase Auth, Firebase Auth, Auth0, Clerk, AWS Cognito</td>
+                            <td>Just API calls — they handle tokens, passwords, MFA</td>
+                            <td>Most apps — fast, secure, low effort</td>
+                        </tr>
+                        <tr>
+                            <td><strong style="color: #fff;">🌐 External Identity Providers</strong></td>
+                            <td>Google, GitHub, Apple, Microsoft, Facebook</td>
+                            <td>Nothing — users log in with their existing account</td>
+                            <td>Convenience, no passwords to store</td>
+                        </tr>
+                        <tr>
+                            <td><strong style="color: #fff;">🏢 Enterprise Identity</strong></td>
+                            <td>SAML, LDAP, Active Directory, Okta</td>
+                            <td>Integration config — provider manages users</td>
+                            <td>Corporate/government SSO</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <div class="dark-card info" style="margin-top: 1.5rem;">
+                    <h4>Most Modern Apps Combine These</h4>
+                    <p>A BaaS like Supabase Auth handles the core logic, then connects to external providers (Google, GitHub) via OAuth. You get the best of both worlds — minimal code, maximum flexibility.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Slide 10: How OAuth 2.0 Works -->
+        <section class="slide" id="oauth-flow" data-narration="Let's demystify what actually happens when a user clicks 'Sign in with Google.' This is the OAuth 2.0 Authorization Code Grant — the most common and most secure OAuth flow for web applications. Step one: your app redirects the user to Google's authorization server. The redirect URL includes your client ID — a public identifier for your app — and the scopes you're requesting, like 'read their email address.' Step two: the user logs in on Google's page, not yours. This is critical — your app never sees or touches their Google password. Google asks the user to approve the permissions you requested. Step three: Google redirects back to your app's callback URL with a short-lived authorization code in the URL. Step four: your server takes that code and exchanges it for tokens in a server-to-server request. This exchange also includes your client secret, which proves your server is who it claims to be. The client secret never goes to the browser. Step five: now your app has an access token to call Google's APIs and get the user's profile information. You also get a refresh token to get new access tokens when they expire. The beauty of this flow is separation of concerns — Google handles the actual authentication, and your app just receives a verified identity. OpenID Connect, or OIDC, is a thin layer on top of OAuth 2.0 that standardizes the identity part. OAuth itself is about authorization — accessing resources — while OIDC adds the 'who is this person' identity layer. When Supabase handles OAuth for you, it manages all five of these steps automatically.">
+            <div class="dark-container">
+                <h2>How OAuth 2.0 Works</h2>
+                <p class="subtitle">What happens when a user clicks "Sign in with Google" — the Authorization Code Grant flow.</p>
+                <div style="margin-top: 1.5rem;">
+                    <div style="display: flex; align-items: flex-start; gap: 1rem; margin-bottom: 1rem;">
+                        <span class="step-number">1</span>
+                        <div class="dark-card" style="flex: 1;">
+                            <h4>Your App → Google</h4>
+                            <p>Redirect user to Google's auth server with your <code>client_id</code> and requested <code>scopes</code> (e.g., email, profile)</p>
+                        </div>
+                    </div>
+                    <div style="display: flex; align-items: flex-start; gap: 1rem; margin-bottom: 1rem;">
+                        <span class="step-number">2</span>
+                        <div class="dark-card" style="flex: 1;">
+                            <h4>User Logs In on Google's Page</h4>
+                            <p>User enters credentials on <strong>Google's site</strong> (not yours!) and approves permissions. Your app never sees their password.</p>
+                        </div>
+                    </div>
+                    <div style="display: flex; align-items: flex-start; gap: 1rem; margin-bottom: 1rem;">
+                        <span class="step-number">3</span>
+                        <div class="dark-card" style="flex: 1;">
+                            <h4>Google → Your App (Authorization Code)</h4>
+                            <p>Google redirects back to your <code>redirect_uri</code> with a short-lived authorization code in the URL</p>
+                        </div>
+                    </div>
+                    <div style="display: flex; align-items: flex-start; gap: 1rem; margin-bottom: 1rem;">
+                        <span class="step-number">4</span>
+                        <div class="dark-card" style="flex: 1;">
+                            <h4>Your Server → Google (Token Exchange)</h4>
+                            <p>Server-to-server request: exchange the code + <code>client_secret</code> for access &amp; refresh tokens. Secret never goes to browser.</p>
+                        </div>
+                    </div>
+                    <div style="display: flex; align-items: flex-start; gap: 1rem;">
+                        <span class="step-number">5</span>
+                        <div class="dark-card" style="flex: 1;">
+                            <h4>Access User Info via API</h4>
+                            <p>Use the access token to call Google's API and get user profile (name, email, avatar). User is now authenticated.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="dark-two-column" style="margin-top: 1.5rem;">
+                    <div class="dark-card info">
+                        <h4>OpenID Connect (OIDC)</h4>
+                        <p>An identity layer on top of OAuth 2.0. OAuth = "what can I access?" OIDC adds "who am I?" — standardizes user identity with an ID token.</p>
+                    </div>
+                    <div class="dark-card" style="border-left-color: #8b5cf6;">
+                        <h4>Supabase Handles All 5 Steps</h4>
+                        <p>When you call <code>signInWithOAuth()</code>, Supabase manages the entire flow — redirects, code exchange, token storage. You write one line of code.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Slide 11: SSL/TLS & HTTPS -->
+        <section class="slide" id="ssl-tls" data-narration="Before we talk about how passwords and tokens are protected at rest, we need to talk about how they're protected in transit. When your browser communicates with a server, that data travels across networks — WiFi routers, ISPs, backbone infrastructure. Without encryption, anyone along that path can read it. That's where TLS comes in. Transport Layer Security — TLS — encrypts data between the browser and the server. You might hear people say SSL, but SSL is actually the old, deprecated predecessor. SSL 3.0 was officially deprecated in 2015 due to serious vulnerabilities. What we actually use today is TLS, specifically versions 1.2 and 1.3. TLS 1.3, finalized in 2018, is faster and more secure. Here's how the TLS handshake works in simplified terms: your browser connects to a server. The server sends its TLS certificate. The browser verifies the certificate was issued by a trusted Certificate Authority — like Let's Encrypt or DigiCert — and that it matches the domain. Then they negotiate an encryption method and establish an encrypted tunnel. All subsequent data flows through that tunnel. HTTPS is simply HTTP plus TLS. When you see the padlock icon in your browser's address bar, that means the connection is encrypted with TLS. Here's why this matters for authentication: if you send a password over plain HTTP, it travels across the network in clear text. Anyone on the same WiFi network with a packet sniffer like Wireshark can read it. With HTTPS, that's impossible — the data is encrypted. The good news is that modern hosting platforms like Vercel, Netlify, and Cloudflare Pages give you HTTPS automatically through Let's Encrypt certificates. There's absolutely no excuse to serve an app over plain HTTP in 2025. One more thing to know: HSTS, or HTTP Strict Transport Security, is a header your server sends that tells browsers to always use HTTPS for your domain, even if someone types http. It prevents downgrade attacks.">
+            <div class="dark-container">
+                <h2>SSL/TLS &amp; HTTPS</h2>
+                <p class="subtitle">How data is encrypted in transit between the browser and server.</p>
+                <div class="dark-two-column" style="margin-top: 1.5rem;">
+                    <div>
+                        <div class="dark-card" style="margin-bottom: 1rem;">
+                            <h4>🔐 What is TLS?</h4>
+                            <p><strong>Transport Layer Security</strong> — encrypts all data between browser and server. SSL is the old name (deprecated 2015). We use TLS 1.2 and 1.3 today.</p>
+                        </div>
+                        <div class="dark-card" style="margin-bottom: 1rem;">
+                            <h4>📜 Certificates &amp; CAs</h4>
+                            <p>Issued by <strong>Certificate Authorities</strong> (Let's Encrypt, DigiCert). Proves the server is who it claims to be. That padlock icon in your browser? That's a valid TLS certificate.</p>
+                        </div>
+                        <div class="dark-card">
+                            <h4>🛡️ HSTS</h4>
+                            <p><strong>HTTP Strict Transport Security</strong> — a header that tells browsers "always use HTTPS for this domain." Prevents downgrade attacks.</p>
+                        </div>
+                    </div>
+                    <div>
+                        <h3>The TLS Handshake (Simplified)</h3>
+                        <div class="flow-diagram" style="flex-direction: column; align-items: stretch;">
+                            <div class="flow-step" style="text-align: left;">🌐 Browser connects to server</div>
+                            <span class="flow-arrow" style="text-align: center;">↓</span>
+                            <div class="flow-step" style="text-align: left;">📜 Server sends its TLS certificate</div>
+                            <span class="flow-arrow" style="text-align: center;">↓</span>
+                            <div class="flow-step" style="text-align: left;">✅ Browser verifies certificate with CA</div>
+                            <span class="flow-arrow" style="text-align: center;">↓</span>
+                            <div class="flow-step" style="text-align: left;">🤝 They agree on encryption method</div>
+                            <span class="flow-arrow" style="text-align: center;">↓</span>
+                            <div class="flow-step" style="text-align: left; border-color: #f59e0b;">🔒 Encrypted tunnel established</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="dark-two-column" style="margin-top: 1.5rem;">
+                    <div class="dark-card danger">
+                        <h4>⚠️ Without HTTPS</h4>
+                        <p>Passwords, tokens, and API keys travel in <strong>plain text</strong>. Anyone on the same WiFi with Wireshark can read everything.</p>
+                    </div>
+                    <div class="dark-card" style="border-left-color: #4ade80;">
+                        <h4>✅ Good News</h4>
+                        <p>Vercel, Netlify, and Cloudflare Pages give you HTTPS automatically via Let's Encrypt. Free, automated, zero config.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Slide 12: Encryption Fundamentals -->
+        <section class="slide" id="encryption-fundamentals" data-narration="Now let's talk about the building blocks of cryptography that power everything we've been discussing — TLS, JWTs, password storage, all of it. There are four concepts you need to understand, and more importantly, you need to understand how they differ from each other. Symmetric encryption uses the same key to encrypt and decrypt. AES-256 is the most common example. It's fast, which is why it's used for encrypting large amounts of data — like the actual data flowing through a TLS tunnel after the handshake, or encrypting files at rest. The problem is the key-sharing problem: if both sides need the same key, how do you get the key to the other side securely? Asymmetric encryption solves this. It uses a key pair — a public key and a private key. Anyone can encrypt data with the public key, but only the holder of the private key can decrypt it. RSA and Elliptic Curve Cryptography, or ECC, are common examples. This is slower than symmetric encryption, so it's typically used for the TLS handshake — to securely exchange a symmetric key — and for signing JWTs to prove they haven't been tampered with. Hashing is fundamentally different from encryption because it's a one-way function. You put data in, you get a fixed-length output — called a digest or hash — and there's no way to reverse it back to the original input. SHA-256 and bcrypt are common examples. Hashing is used for passwords and for verifying data integrity. Now here's the critical distinction that trips people up: encoding is NOT encryption. Base64, which JWT payloads use, is just a format conversion. It's completely reversible by anyone without any key. If you Base64-decode a JWT payload, you can read all the claims in plain text. That's by design — JWTs are not meant to hide data, they're meant to prove the data hasn't been tampered with, via the signature. Never put sensitive information in a JWT payload thinking it's protected — it's not.">
+            <div class="dark-container">
+                <h2>Encryption Fundamentals</h2>
+                <p class="subtitle">The four building blocks every developer needs to understand.</p>
+                <table class="dark-table" style="margin-top: 1.5rem;">
+                    <thead>
+                        <tr>
+                            <th>Type</th>
+                            <th>How It Works</th>
+                            <th>Reversible?</th>
+                            <th>Examples</th>
+                            <th>Used For</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong style="color: #fff;">🔑 Symmetric Encryption</strong></td>
+                            <td>Same key encrypts and decrypts</td>
+                            <td style="color: #4ade80;">Yes (with key)</td>
+                            <td><code>AES-256</code></td>
+                            <td>Data at rest, TLS tunnel (after handshake)</td>
+                        </tr>
+                        <tr>
+                            <td><strong style="color: #fff;">🔐 Asymmetric Encryption</strong></td>
+                            <td>Public key encrypts, private key decrypts</td>
+                            <td style="color: #4ade80;">Yes (with private key)</td>
+                            <td><code>RSA</code>, <code>ECC</code></td>
+                            <td>TLS handshake, JWT signing, key exchange</td>
+                        </tr>
+                        <tr>
+                            <td><strong style="color: #fff;">#️⃣ Hashing</strong></td>
+                            <td>One-way function → fixed-length output</td>
+                            <td style="color: #f87171;">No — irreversible</td>
+                            <td><code>SHA-256</code>, <code>bcrypt</code></td>
+                            <td>Passwords, data integrity checks</td>
+                        </tr>
+                        <tr>
+                            <td><strong style="color: #fff;">📝 Encoding</strong></td>
+                            <td>Format conversion — no key involved</td>
+                            <td style="color: #facc15;">Yes (by anyone)</td>
+                            <td><code>Base64</code>, <code>URL encoding</code></td>
+                            <td>JWT payloads, data transport format</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <div class="dark-two-column" style="margin-top: 1.5rem;">
+                    <div class="dark-card danger">
+                        <h4>⚠️ Encoding ≠ Encryption</h4>
+                        <p>Base64 (used in JWT payloads) is <strong>not secure</strong>. Anyone can decode it — no key needed. Never put secrets in a JWT thinking they're hidden.</p>
+                    </div>
+                    <div class="dark-card danger">
+                        <h4>⚠️ Hashing ≠ Encryption</h4>
+                        <p>Encryption is reversible (with the key). Hashing is <strong>not</strong>. That's why passwords are hashed — even if the database is stolen, passwords can't be recovered.</p>
+                    </div>
+                </div>
+                <div class="dark-card info" style="margin-top: 1rem;">
+                    <h4>How They Work Together in TLS</h4>
+                    <p><strong>Asymmetric</strong> encryption secures the handshake (key exchange) → then <strong>symmetric</strong> encryption (AES) handles the fast data transfer. Best of both worlds.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Slide 13: How Passwords Are Actually Stored -->
+        <section class="slide" id="password-storage" data-narration="Let's talk about one of the most misunderstood topics in web development — how passwords should actually be stored. Rule number one, and this is non-negotiable: never store plaintext passwords. Not in a database, not in a text file, not in a spreadsheet, not anywhere. If your database gets breached and passwords are in plaintext, every single user account is instantly compromised. Instead, passwords are hashed. When a user signs up, you run their password through a hashing algorithm like bcrypt or Argon2. The result — the hash — is what gets stored in the database. When the user logs in later, you hash their input and compare the two hashes. If they match, the password is correct. Since hashing is one-way, even if an attacker steals your entire database, they can't reverse the hashes back into passwords. But there's a catch — attackers can use rainbow tables, which are massive pre-computed dictionaries mapping common passwords to their hashes. If your user's password is 'password123,' and the attacker has a rainbow table, they'll find the matching hash instantly. That's where salting comes in. A salt is a random string added to each password before hashing. Even if two users have the exact same password, their salts are different, so their hashes are different. This makes rainbow tables useless. So what does Supabase do? Supabase uses bcrypt with automatic salting under the hood. When you call signUp, Supabase hashes and salts the password before storing it. You never touch the raw password — it's handled entirely by the auth service. Beyond passwords, you also need to think about where you store API keys and secrets. Environment variables — like a .env.local file in your project — are the standard. Never commit secrets to source code or push them to GitHub. For production, use a dedicated secrets manager like AWS Secrets Manager or HashiCorp Vault. For tokens in the browser, you have options: localStorage is simple but vulnerable to XSS attacks. HttpOnly cookies are better because JavaScript can't access them. In-memory storage is the most secure but tokens are lost on page refresh. Supabase uses localStorage by default — it's a reasonable trade-off for most applications.">
+            <div class="dark-container">
+                <h2>How Passwords Are Actually Stored</h2>
+                <p class="subtitle">Best practices for credential storage — the #1 thing to never get wrong.</p>
+                <div class="dark-card danger" style="margin-top: 1.5rem; margin-bottom: 1.5rem;">
+                    <h4>🚫 NEVER Store Plaintext Passwords</h4>
+                    <p>Not in a database. Not in a text file. Not anywhere. If your database is breached and passwords are in plaintext, every account is instantly compromised. <strong>Period.</strong></p>
+                </div>
+                <div class="dark-three-column">
+                    <div class="dark-card">
+                        <h4>#️⃣ Hashing</h4>
+                        <p>Run password through <code>bcrypt</code> or <code>Argon2</code> → store the hash. On login, hash the input and compare hashes. One-way — can't be reversed.</p>
+                    </div>
+                    <div class="dark-card">
+                        <h4>🧂 Salting</h4>
+                        <p>Add a random string (salt) to each password before hashing. Same password → different hashes. Defeats <strong>rainbow table attacks</strong> (pre-computed hash lookups).</p>
+                    </div>
+                    <div class="dark-card" style="border-left-color: #8b5cf6;">
+                        <h4>⚡ What Supabase Does</h4>
+                        <p>Uses <code>bcrypt</code> with automatic salting. You call <code>signUp()</code> and it handles everything. You never touch the raw password.</p>
+                    </div>
+                </div>
+                <h3 style="margin-top: 1.5rem;">Storing Secrets &amp; Tokens</h3>
+                <table class="dark-table">
+                    <thead>
+                        <tr>
+                            <th>What</th>
+                            <th>Where to Store</th>
+                            <th>Why</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong style="color: #fff;">API Keys &amp; Secrets</strong></td>
+                            <td>Environment variables (<code>.env.local</code>)</td>
+                            <td>Never in source code or git — use <code>.gitignore</code></td>
+                        </tr>
+                        <tr>
+                            <td><strong style="color: #fff;">Production Secrets</strong></td>
+                            <td>Secrets manager (AWS Secrets Manager, HashiCorp Vault)</td>
+                            <td>Encrypted, audited, access-controlled</td>
+                        </tr>
+                        <tr>
+                            <td><strong style="color: #fff;">Tokens (Browser)</strong></td>
+                            <td><code>localStorage</code> (simple), <code>httpOnly cookies</code> (better), in-memory (most secure)</td>
+                            <td>Supabase uses localStorage by default — reasonable trade-off</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <div class="dark-card info" style="margin-top: 1rem;">
+                    <h4>💡 Personal Security Tip</h4>
+                    <p>Use a credential manager like <strong>1Password</strong> or <strong>Bitwarden</strong> for your own passwords. Never reuse passwords across sites. This isn't just advice for users — it's critical for developers managing dozens of API keys and service accounts.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Slide 14: What is Supabase Auth? -->
         <section class="slide" id="what-is-supabase-auth" data-narration="Supabase Auth is the built-in authentication system that comes with every Supabase project. You've already been using Supabase for your database in Module 7 — now we're going to use it for authentication too. That's one of the biggest advantages of Supabase: it's an all-in-one platform. You don't need to set up a separate auth service like Auth0 or Firebase Auth. It's already there, ready to go, in the same project where your database lives. Supabase Auth supports email and password sign-up, OAuth providers like Google, GitHub, and Apple, magic link emails, and even phone-based OTP. On the free tier, you get up to 50,000 monthly active users, which is more than enough for any class project or even a small production app. Under the hood, Supabase Auth uses the GoTrue server, an open-source auth API. It handles password hashing, token generation, email verification, and session management. You just call the JavaScript methods and Supabase handles the rest. The real magic is how auth integrates with your database through Row Level Security — but we'll get to that in Part 2.">
             <div class="dark-container">
                 <h2>What is Supabase Auth?</h2>
@@ -461,7 +732,7 @@
         </section>
 
         <!-- Slide 12: Part 1 Summary -->
-        <section class="slide" id="part1-summary" data-narration="Let's recap Part 1. Authentication verifies who a user is, while authorization controls what they can do — these are separate concerns. On the web, auth works through cookies, sessions, or tokens — Supabase uses JWT-based tokens. JWTs have three parts: header, payload, and signature. They're encoded, not encrypted, so never put secrets in them. There are multiple auth strategies: email and password, OAuth, magic links, and passkeys — each with trade-offs. Supabase Auth is built into your existing Supabase project and handles the hard parts like password hashing and token management. The auth flow is straightforward: user submits credentials, Supabase verifies them, returns a JWT, and your client stores it automatically. With these fundamentals in place, we're ready to actually implement authentication in React. That's what Part 2 is all about — writing the actual code.">
+        <section class="slide" id="part1-summary" data-narration="Let's recap Part 1. Authentication verifies who a user is, while authorization controls what they can do — these are separate concerns. On the web, auth works through cookies, sessions, or tokens — Supabase uses JWT-based tokens. JWTs have three parts: header, payload, and signature. They're encoded, not encrypted, so never put secrets in them. There are multiple auth strategies — email and password, OAuth, magic links, and passkeys — and multiple provider categories from self-hosted to BaaS to enterprise identity. You now understand how OAuth 2.0 works under the hood with the Authorization Code Grant flow. You know how TLS encrypts data in transit, the difference between symmetric and asymmetric encryption, hashing versus encoding, and why passwords must always be hashed and salted — never stored in plaintext. Supabase Auth handles all of this for you, built right into your existing project. With these fundamentals in place, we're ready to actually implement authentication in React. That's what Part 2 is all about — writing the actual code.">
             <div class="dark-container">
                 <h2>Part 1 Summary</h2>
                 <p class="subtitle">Key concepts from Authentication Fundamentals.</p>
