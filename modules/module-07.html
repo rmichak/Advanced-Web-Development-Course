@@ -132,16 +132,23 @@
         </section>
 
         <!-- Slide 2: Recommended Resources -->
-        <section class="slide" id="resources" data-narration="Before we jump in, here are two resources you'll want bookmarked throughout this module. First is the official Supabase documentation — it's genuinely well-written with interactive examples and copy-paste code snippets for their JavaScript client. You'll reference it constantly when building your assignment. Second is the MDN Web Docs guide on server-side website programming and databases. It gives a solid, vendor-neutral overview of how databases fit into web applications. Between the two of these and the slides in this module you'll have everything you need. I especially recommend the Supabase quickstart guide for React — it walks you through a working project in about fifteen minutes.">
+        <section class="slide" id="resources" data-narration="Before we jump in, here are three resources you'll want bookmarked throughout this module. First and most importantly, LinkedIn Learning has an excellent Supabase Essential Training course that's free through your university library. It walks you through building application backends using Supabase step by step with video instruction. I highly recommend watching it alongside this module. Second is the official Supabase documentation — it's genuinely well-written with interactive examples and copy-paste code snippets for their JavaScript client. You'll reference it constantly when building your assignment. Third is the MDN Web Docs guide on server-side website programming and databases. It gives a solid, vendor-neutral overview of how databases fit into web applications. Between these three resources and the slides in this module you'll have everything you need.">
             <div class="dark-container">
                 <h2>Recommended Resources</h2>
-                <p class="subtitle">Two essential references for database-driven web development.</p>
+                <p class="subtitle">Three essential references for database-driven web development.</p>
                 <div class="resource-grid">
+                    <a href="https://www.linkedin.com/learning/supabase-essential-training/developing-application-backends-using-supabase?u=42290089" target="_blank" rel="noopener" class="resource-card">
+                        <div class="icon">🎬</div>
+                        <h4>LinkedIn Learning</h4>
+                        <p>Supabase Essential Training — comprehensive video course, free through universities</p>
+                    </a>
                     <a href="https://supabase.com/docs" target="_blank" rel="noopener" class="resource-card">
                         <div class="icon">🟢</div>
                         <h4>Supabase Documentation</h4>
                         <p>Official docs with JavaScript client reference, quickstart guides, and interactive examples</p>
                     </a>
+                </div>
+                <div class="resource-grid" style="margin-top: 0;">
                     <a href="https://developer.mozilla.org/en-US/docs/Learn/Server-side/First_steps/Web_frameworks" target="_blank" rel="noopener" class="resource-card">
                         <div class="icon">📚</div>
                         <h4>MDN: Server-Side &amp; Databases</h4>
@@ -954,71 +961,33 @@ VITE_SUPABASE_ANON_KEY=<span class="string">eyJhbGciOiJI...</span></pre>
             </div>
         </section>
 
-        <!-- Slide 27: Assignment 2 -->
-        <section class="slide" id="assignment2" data-narration="Assignment 2 is the main event — 30 points. You're going to upgrade your Module 5 Todo app to use Supabase instead of local React state. Instead of todos disappearing on refresh, they'll persist in a real Postgres database. Here's what you need to do. First, create a Supabase project if you haven't already and create a todos table with three columns: id as an auto-incrementing integer primary key, text as a text column, and created_at as a timestamp with a default of now(). Second, connect your React app to Supabase using the client library and environment variables as we covered in Part 2. Third, implement the CRUD operations — fetch todos on load, insert new todos, and delete todos. Display them in a list just like your Module 5 app. Fourth, deploy everything to Vercel with your environment variables configured. Submit three things: your GitHub repo URL, your live Vercel URL, and a screenshot of your Supabase dashboard showing the todos table with data. The grading rubric is on the next slide.">
-            <div class="dark-container">
+        <!-- Slide 27: Assignment 2 Link -->
+        <section class="slide" id="assignment2" data-narration="Assignment 2 is the main event — 30 points. You're going to upgrade your Module 5 Todo app to use Supabase instead of local React state. Instead of todos disappearing on refresh, they'll persist in a real Postgres database. Click the link to open the full step-by-step assignment instructions. The walkthrough guides you through every step with exact code — from creating your Supabase project to deploying to Vercel. This assignment is worth 30 points.">
+            <div class="dark-container" style="text-align: center; display: flex; flex-direction: column; justify-content: center; height: 100%;">
                 <h2>Assignment 2: Database-Powered Todo App</h2>
-                <p class="subtitle">Upgrade your Module 5 Todo app to persist data with Supabase — 30 points.</p>
-                <div class="feature-grid" style="margin-top: 1.5rem;">
-                    <div class="feature-item">
-                        <span class="step-number">1</span>
-                        <div class="feature-text">
-                            <strong>Create the Table</strong>
-                            In Supabase SQL Editor, create a <code>todos</code> table with <code>id</code> (int8, primary key), <code>text</code> (text), <code>created_at</code> (timestamptz, default now())
-                        </div>
-                    </div>
-                    <div class="feature-item">
-                        <span class="step-number">2</span>
-                        <div class="feature-text">
-                            <strong>Connect from React</strong>
-                            Install <code>@supabase/supabase-js</code>, create client with env vars, disable RLS or add public policy
-                        </div>
-                    </div>
-                    <div class="feature-item">
-                        <span class="step-number">3</span>
-                        <div class="feature-text">
-                            <strong>Implement CRUD</strong>
-                            Fetch todos on load, add new todos, delete todos — all persisted in the database
-                        </div>
-                    </div>
-                    <div class="feature-item">
-                        <span class="step-number">4</span>
-                        <div class="feature-text">
-                            <strong>Deploy to Vercel</strong>
-                            Add <code>VITE_SUPABASE_URL</code> and <code>VITE_SUPABASE_ANON_KEY</code> as Vercel environment variables
-                        </div>
-                    </div>
+                <p class="subtitle" style="margin-bottom: 2rem;">Upgrade your Module 5 Todo app to persist data with Supabase — every todo saved to a real database.</p>
+                <div style="margin: 2rem 0;">
+                    <a href="../assignments/assignment-4-supabase-todo-app.html"
+                       style="display: inline-block; padding: 1rem 2rem; background: linear-gradient(135deg, #10b981, #06b6d4); color: #fff; text-decoration: none; border-radius: 8px; font-size: 1.25rem; font-weight: bold;">
+                        Open Assignment Instructions
+                    </a>
                 </div>
-
-                <h3 style="margin-top: 1.5rem;">SQL to Create Your Table</h3>
-                <div class="code-block">
-<pre><span class="keyword">CREATE TABLE</span> todos (
-  id bigint <span class="keyword">GENERATED</span> <span class="keyword">ALWAYS AS</span> IDENTITY <span class="keyword">PRIMARY KEY</span>,
-  text text <span class="keyword">NOT NULL</span>,
-  created_at timestamptz <span class="keyword">DEFAULT</span> <span class="function">now</span>()
-);
-
-<span class="comment">-- Disable RLS for learning (or add a public policy)</span>
-<span class="keyword">ALTER TABLE</span> todos <span class="keyword">DISABLE</span> ROW LEVEL SECURITY;</pre>
-                </div>
-
-                <h3 style="margin-top: 1.5rem;">Submit</h3>
-                <div class="dark-three-column" style="margin-top: 0.75rem;">
+                <div class="dark-three-column" style="margin-top: 2rem; max-width: 700px; margin-left: auto; margin-right: auto;">
                     <div class="dark-card">
-                        <h4>📂 GitHub URL</h4>
-                        <p>Link to your repository</p>
+                        <h4>Features</h4>
+                        <p>Add, display, delete — persisted in Postgres</p>
                     </div>
                     <div class="dark-card">
-                        <h4>🌐 Vercel URL</h4>
-                        <p>Link to your live deployed app</p>
+                        <h4>Skills</h4>
+                        <p>Supabase client, CRUD, env vars</p>
                     </div>
                     <div class="dark-card">
-                        <h4>📸 Dashboard Screenshot</h4>
-                        <p>Supabase Table Editor showing your todos data</p>
+                        <h4>Deploy</h4>
+                        <p>Live on Vercel with database</p>
                     </div>
                 </div>
-                <div style="text-align: center; margin-top: 1.5rem;">
-                    <p style="color: #10b981; font-size: 1.25rem; font-weight: bold;">30 Points</p>
+                <div style="margin-top: 2rem;">
+                    <p style="color: #10b981; font-size: 1.5rem; font-weight: bold;">30 Points</p>
                 </div>
             </div>
         </section>
