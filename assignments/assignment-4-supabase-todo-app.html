@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Assignment 2: Database-Powered Todo App - IT431</title>
+    <title>Module 7 — Assignment 2: Database-Powered Todo App - IT431</title>
     <link rel="stylesheet" href="../css/slides.css">
     <style>
         /* Assignment-specific dark theme styles */
@@ -129,8 +129,8 @@
 <body>
     <div class="presentation">
         <!-- Title Slide -->
-        <section class="slide title-slide" id="title" data-narration="Welcome to Assignment 2 for Module 7 - Database-Powered Todo App. In this assignment, you'll upgrade the React Todo app you built in Module 5 by connecting it to Supabase, a cloud database service. Instead of losing your todos every time you refresh the page, they'll persist in a real Postgres database. This is a critical skill for building real-world applications. This assignment is worth 30 points.">
-            <h1>Assignment 2</h1>
+        <section class="slide title-slide" id="title" data-narration="Welcome to Module 7 Assignment 2 - Database-Powered Todo App. In this assignment, you'll upgrade the React Todo app you built in Module 5 by connecting it to Supabase, a cloud database service. Instead of losing your todos every time you refresh the page, they'll persist in a real Postgres database. This is a critical skill for building real-world applications. This assignment is worth 30 points.">
+            <h1>Module 7 — Assignment 2</h1>
             <p class="subtitle">Database-Powered Todo App</p>
             <p class="meta">Upgrade your Todo app with Supabase for persistent data storage</p>
             <p class="meta" style="margin-top: 1rem; font-size: 1.3rem; color: #10b981;">30 Points</p>
@@ -160,7 +160,7 @@
                     <p>You should have completed the Module 5 React Todo App assignment. This builds directly on that project.</p>
                 </div>
                 <div style="text-align: center; margin-top: 1rem;">
-                    <p style="color: #94a3b8;">Follow Steps 1-14 on the next slides</p>
+                    <p style="color: #94a3b8;">Follow Steps 1-15 on the next slides</p>
                 </div>
             </div>
         </section>
@@ -235,6 +235,10 @@
                         <h4>Verify It Worked</h4>
                         <p>Click <strong>Table Editor</strong> in the sidebar. You should see the <code>todos</code> table with 0 rows.</p>
                     </div>
+                </div>
+                <div class="dark-card warning" style="margin-top: 0.5rem;">
+                    <h4>⚠️ About Row Level Security</h4>
+                    <p>We're disabling RLS for this learning exercise. In a production app, you'd use proper RLS policies to control who can read and write data. You'll learn more about this in <strong>Module 8</strong>.</p>
                 </div>
             </div>
         </section>
@@ -344,11 +348,11 @@
         </section>
 
         <!-- Step 7: Create the Supabase Client -->
-        <section class="slide" id="step7" data-narration="Step 7 is creating the Supabase client file. This is a small utility file that sets up the connection to your Supabase project. Inside your src folder, create a new file called supabaseClient.js. This file imports createClient from the Supabase library, reads your URL and anon key from the environment variables using import.meta.env (that's how Vite exposes environment variables), and creates a Supabase client instance. We export this client so any component in your app can import it and talk to the database. This is a one-time setup — you create this file once and import from it wherever you need database access.">
+        <section class="slide" id="step7" data-narration="Step 7 is creating the Supabase client file. This is a small utility file that sets up the connection to your Supabase project. Inside your src folder, create a lib folder, then create a file called supabaseClient.js inside it. So the path is src/lib/supabaseClient.js. This keeps your utility files organized separately from your components. The file imports createClient from the Supabase library, reads your URL and anon key from the environment variables using import.meta.env (that's how Vite exposes environment variables), and creates a Supabase client instance. We export this client so any component in your app can import it and talk to the database. This is a one-time setup — you create this file once and import from it wherever you need database access.">
             <div class="dark-container">
                 <h2><span class="step-number">7</span> Create the Supabase Client</h2>
                 <p class="subtitle">Set up the connection to your Supabase database.</p>
-                <p style="margin-bottom: 0.5rem;">Create a new file: <code>src/supabaseClient.js</code></p>
+                <p style="margin-bottom: 0.5rem;">Create a new file: <code>src/lib/supabaseClient.js</code></p>
                 <div class="code-block">
 <pre><span class="keyword">import</span> { <span class="function">createClient</span> } <span class="keyword">from</span> <span class="string">'@supabase/supabase-js'</span>
 
@@ -372,7 +376,7 @@
                 <p style="margin-bottom: 0.5rem;">Update the top of your <code>App.jsx</code>:</p>
                 <div class="code-block">
 <pre><span class="keyword">import</span> { useState, useEffect } <span class="keyword">from</span> <span class="string">'react'</span>
-<span class="keyword">import</span> { supabase } <span class="keyword">from</span> <span class="string">'./supabaseClient'</span>
+<span class="keyword">import</span> { supabase } <span class="keyword">from</span> <span class="string">'./lib/supabaseClient'</span>
 <span class="keyword">import</span> <span class="string">'./App.css'</span>
 
 <span class="keyword">function</span> <span class="function">App</span>() {
@@ -389,6 +393,7 @@
                         <li>Added <code>useEffect</code> import — for fetching data on load</li>
                         <li>Added <code>supabase</code> import — our database connection</li>
                         <li>Added <code>loading</code> state — shows "Loading..." while fetching</li>
+                        <li>Keep <code>export default App</code> at the bottom of your file</li>
                     </ul>
                 </div>
             </div>
@@ -428,7 +433,7 @@
         </section>
 
         <!-- Step 10: Add Todo Function -->
-        <section class="slide" id="step10" data-narration="Step 10 is updating the handleSubmit function to save todos to the database instead of just local state. Replace your Module 5 handleSubmit with this new async version. It still prevents default form submission and checks for empty input. The key difference is the Supabase insert call. We use supabase dot from 'todos' dot insert to add a new row. We pass an array with one object containing the text property. The dot select at the end tells Supabase to return the newly created row, including the auto-generated id and created_at values. If the insert succeeds, we spread the existing todos and append the new one from data bracket zero — that's the returned row from the database. Then we clear the input. If there's an error, we log it. The todo is now saved in the database permanently.">
+        <section class="slide" id="step10" data-narration="Step 10 is updating the handleSubmit function to save todos to the database instead of just local state. Replace your Module 5 handleSubmit with this new async version. It still prevents default form submission and checks for empty input. The key difference is the Supabase insert call. We use supabase dot from 'todos' dot insert to add a new row. We pass an object with the text property set to the trimmed input value. The dot select at the end tells Supabase to return the newly created row, including the auto-generated id and created_at values. If the insert succeeds, we spread the existing todos and append the new one from data bracket zero — that's the returned row from the database. Then we clear the input. If there's an error, we log it. The todo is now saved in the database permanently.">
             <div class="dark-container">
                 <h2><span class="step-number">10</span> Add Todo Function</h2>
                 <p class="subtitle">Replace the old handleSubmit to save todos to Supabase.</p>
@@ -439,7 +444,7 @@
 
   <span class="keyword">const</span> { data, error } = <span class="keyword">await</span> supabase
     .<span class="function">from</span>(<span class="string">'todos'</span>)
-    .<span class="function">insert</span>([{ <span class="attr">text</span>: inputValue.<span class="function">trim</span>() }])
+    .<span class="function">insert</span>({ <span class="attr">text</span>: inputValue.<span class="function">trim</span>() })
     .<span class="function">select</span>()
 
   <span class="keyword">if</span> (error) {
@@ -543,7 +548,7 @@
                 <p class="subtitle">Here's the full file for reference. Copy this if needed.</p>
                 <div class="code-block" style="font-size: 0.75rem; max-height: 500px; overflow-y: auto;">
 <pre><span class="keyword">import</span> { useState, useEffect } <span class="keyword">from</span> <span class="string">'react'</span>
-<span class="keyword">import</span> { supabase } <span class="keyword">from</span> <span class="string">'./supabaseClient'</span>
+<span class="keyword">import</span> { supabase } <span class="keyword">from</span> <span class="string">'./lib/supabaseClient'</span>
 <span class="keyword">import</span> <span class="string">'./App.css'</span>
 
 <span class="keyword">function</span> <span class="function">App</span>() {
@@ -576,7 +581,7 @@
 
     <span class="keyword">const</span> { data, error } = <span class="keyword">await</span> supabase
       .<span class="function">from</span>(<span class="string">'todos'</span>)
-      .<span class="function">insert</span>([{ <span class="attr">text</span>: inputValue.<span class="function">trim</span>() }])
+      .<span class="function">insert</span>({ <span class="attr">text</span>: inputValue.<span class="function">trim</span>() })
       .<span class="function">select</span>()
 
     <span class="keyword">if</span> (error) {
@@ -728,7 +733,12 @@
                         </div>
                     </div>
                 </div>
-                <div class="dark-card warning" style="margin-top: 1rem;">
+                <div class="dark-card info" style="margin-top: 1rem;">
+                    <h4>Copied from Module 5?</h4>
+                    <p>If you used Option A in Step 4, create a new GitHub repo called <code>react-todo-db</code> and update your remote:<br>
+                    <code>git remote set-url origin https://github.com/yourusername/react-todo-db.git</code></p>
+                </div>
+                <div class="dark-card warning" style="margin-top: 0.5rem;">
                     <h4>Must Redeploy!</h4>
                     <p>Environment variables are baked in at build time. After adding them, you must redeploy for them to take effect.</p>
                 </div>
@@ -757,10 +767,17 @@
                         <p style="margin-top: 0.5rem; color: #10b981;">Proves database connection works</p>
                     </div>
                 </div>
-                <div style="text-align: center; margin-top: 1.5rem;">
-                    <p style="color: #10b981; font-size: 1.25rem; font-weight: bold;">30 Points</p>
+                <div class="dark-card" style="margin-top: 1.5rem;">
+                    <h4>📋 Grading Rubric</h4>
+                    <ul style="margin: 0.5rem 0 0; padding-left: 1.2rem;">
+                        <li><strong>GitHub repo with working code:</strong> 10 pts</li>
+                        <li><strong>Vercel deployment with persistence:</strong> 10 pts</li>
+                        <li><strong>Supabase screenshot showing data:</strong> 5 pts</li>
+                        <li><strong>Code quality</strong> (env vars, error handling, clean code): 5 pts</li>
+                    </ul>
+                    <p style="margin-top: 0.5rem; color: #10b981; font-weight: bold;">Total: 30 Points</p>
                 </div>
-                <div class="dark-card warning" style="margin-top: 1rem;">
+                <div class="dark-card warning" style="margin-top: 0.5rem;">
                     <h4>Before Submitting</h4>
                     <p>Test your Vercel URL in incognito mode. Add a todo, refresh the page, and confirm it's still there. That's the whole point of this assignment!</p>
                 </div>
