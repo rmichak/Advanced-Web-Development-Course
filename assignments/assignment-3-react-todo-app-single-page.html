@@ -1,0 +1,1099 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Module 5 — Assignment 2: React Todo App - IT431</title>
+    <style>
+        /* === Reset & Base === */
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+        html {
+            scroll-behavior: smooth;
+            font-size: 16px;
+        }
+
+        body {
+            background: #0f1117;
+            color: #d1d5db;
+            font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, sans-serif;
+            line-height: 1.7;
+            min-height: 100vh;
+        }
+
+        /* === Sticky Header === */
+        .site-header {
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            background: linear-gradient(135deg, #1e1e2f 0%, #16213e 100%);
+            border-bottom: 2px solid #667eea;
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            backdrop-filter: blur(12px);
+        }
+        .site-header h1 {
+            color: #fff;
+            font-size: 1.35rem;
+            font-weight: 700;
+        }
+        .site-header .subtitle {
+            color: #a5b4fc;
+            font-size: 0.9rem;
+            margin-top: 0.1rem;
+        }
+        .header-badge {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: #fff;
+            font-weight: 700;
+            font-size: 1rem;
+            padding: 0.4rem 1.1rem;
+            border-radius: 20px;
+            white-space: nowrap;
+        }
+
+        /* === Main Content === */
+        .content {
+            max-width: 860px;
+            margin: 0 auto;
+            padding: 2rem 1.5rem 4rem;
+        }
+
+        /* === Overview Section === */
+        .overview {
+            background: linear-gradient(135deg, #1e1e2f 0%, #16213e 100%);
+            border-radius: 12px;
+            padding: 2rem;
+            margin-bottom: 2.5rem;
+            border: 1px solid #2a2f45;
+        }
+        .overview h2 {
+            color: #a5b4fc;
+            font-size: 1.5rem;
+            margin-bottom: 0.35rem;
+        }
+        .overview .lead {
+            color: #94a3b8;
+            font-size: 1rem;
+            margin-bottom: 1.5rem;
+        }
+        .overview-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1rem;
+        }
+
+        /* === Step Sections === */
+        .step-section {
+            background: linear-gradient(135deg, #1e1e2f 0%, #16213e 100%);
+            border-radius: 12px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            border: 1px solid #2a2f45;
+            position: relative;
+        }
+        .step-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, #667eea, #764ba2);
+            border-radius: 12px 12px 0 0;
+        }
+
+        .step-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 0.35rem;
+        }
+        .step-number {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: #fff;
+            border-radius: 50%;
+            font-weight: 700;
+            font-size: 1.1rem;
+            margin-right: 14px;
+            flex-shrink: 0;
+        }
+        .step-section h2 {
+            color: #e4e4e7;
+            font-size: 1.4rem;
+            font-weight: 700;
+        }
+        .step-section h3 {
+            color: #c4b5fd;
+            font-size: 1.1rem;
+            margin-top: 1.25rem;
+            margin-bottom: 0.5rem;
+        }
+        .step-section h4 {
+            color: #93c5fd;
+            font-size: 1rem;
+            margin-bottom: 0.3rem;
+        }
+        .step-subtitle {
+            color: #94a3b8;
+            font-size: 0.95rem;
+            margin-bottom: 1.25rem;
+        }
+        .step-section p, .step-section li {
+            color: #d1d5db;
+        }
+        .step-section ul, .step-section ol {
+            padding-left: 1.5rem;
+            margin-bottom: 1rem;
+        }
+        .step-section li {
+            margin-bottom: 0.35rem;
+        }
+
+        /* === Inline Code === */
+        code:not(pre code) {
+            background: #374151;
+            color: #fbbf24;
+            padding: 0.15rem 0.45rem;
+            border-radius: 4px;
+            font-size: 0.9em;
+            font-family: 'Fira Code', 'Cascadia Code', 'Consolas', monospace;
+        }
+
+        /* === Code Blocks === */
+        .code-block {
+            background: #0d1117;
+            border: 1px solid #30363d;
+            border-radius: 8px;
+            padding: 1.15rem 1.25rem;
+            overflow-x: auto;
+            margin: 0.75rem 0;
+        }
+        .code-block pre {
+            margin: 0;
+            padding: 0;
+            background: transparent;
+            border: none;
+            font-family: 'Fira Code', 'Cascadia Code', 'Consolas', monospace;
+            font-size: 0.88rem;
+            line-height: 1.6;
+            color: #e4e4e7;
+            white-space: pre;
+        }
+
+        /* === Terminal Blocks === */
+        .terminal-block {
+            background: #0d1117;
+            border: 1px solid #30363d;
+            border-radius: 8px;
+            padding: 1.15rem 1.25rem;
+            font-family: 'Fira Code', 'Cascadia Code', 'Consolas', monospace;
+            font-size: 0.88rem;
+            line-height: 1.8;
+            margin: 0.75rem 0;
+        }
+        .terminal-block .prompt { color: #22c55e; }
+        .terminal-block .command { color: #e4e4e7; }
+        .terminal-block .output { color: #6b7280; }
+
+        /* === Syntax Highlighting === */
+        .keyword  { color: #c678dd; }
+        .string   { color: #98c379; }
+        .function { color: #61afef; }
+        .comment  { color: #5c6370; font-style: italic; }
+        .tag      { color: #e06c75; }
+        .attr     { color: #d19a66; }
+        .number   { color: #d19a66; }
+
+        /* === Cards === */
+        .dark-card {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 8px;
+            padding: 1rem 1.15rem;
+            margin: 0.65rem 0;
+        }
+        .dark-card h4 {
+            color: #93c5fd;
+            margin-bottom: 0.3rem;
+            font-size: 0.95rem;
+        }
+        .dark-card p {
+            color: #d1d5db;
+            margin: 0;
+            font-size: 0.92rem;
+        }
+        .dark-card.success { border-left: 4px solid #22c55e; }
+        .dark-card.warning { border-left: 4px solid #f59e0b; }
+        .dark-card.warning h4 { color: #f59e0b; }
+        .dark-card.info    { border-left: 4px solid #3b82f6; }
+
+        /* === Grid Layouts === */
+        .grid-2 {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+        }
+        .grid-3 {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1rem;
+        }
+        .grid-4 {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+        }
+
+        /* === Feature Items (sub-steps) === */
+        .feature-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 0.75rem;
+            background: rgba(255, 255, 255, 0.03);
+            padding: 1rem;
+            border-radius: 8px;
+        }
+        .feature-item .mini-number {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 28px;
+            height: 28px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: #fff;
+            border-radius: 50%;
+            font-weight: 700;
+            font-size: 0.85rem;
+            flex-shrink: 0;
+        }
+        .feature-text {
+            flex: 1;
+        }
+        .feature-text strong {
+            color: #e4e4e7;
+            display: block;
+            margin-bottom: 0.2rem;
+        }
+        .feature-text p, .feature-text span {
+            color: #94a3b8;
+            font-size: 0.9rem;
+        }
+
+        /* === Deliverables Section === */
+        .deliverables {
+            background: linear-gradient(135deg, #1a1a3e 0%, #162040 100%);
+            border-radius: 12px;
+            padding: 2rem;
+            margin-top: 2.5rem;
+            border: 1px solid #2a2f45;
+            position: relative;
+        }
+        .deliverables::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, #22c55e, #3b82f6);
+            border-radius: 12px 12px 0 0;
+        }
+        .deliverables h2 {
+            color: #e4e4e7;
+            font-size: 1.5rem;
+            margin-bottom: 0.35rem;
+        }
+        .deliverables .subtitle {
+            color: #94a3b8;
+            margin-bottom: 1.5rem;
+        }
+        .deliverables .points {
+            text-align: center;
+            color: #61dafb;
+            font-size: 1.35rem;
+            font-weight: 700;
+            margin-top: 1.5rem;
+        }
+        .url-example {
+            color: #61dafb;
+            margin-top: 0.5rem;
+            font-size: 0.9rem;
+        }
+
+        /* === Responsive === */
+        @media (max-width: 700px) {
+            .site-header {
+                flex-direction: column;
+                gap: 0.5rem;
+                text-align: center;
+                padding: 0.8rem 1rem;
+            }
+            .content {
+                padding: 1.25rem 1rem 3rem;
+            }
+            .overview-grid, .grid-3 {
+                grid-template-columns: 1fr;
+            }
+            .grid-2, .grid-4 {
+                grid-template-columns: 1fr;
+            }
+            .step-section {
+                padding: 1.35rem;
+            }
+            .step-section h2 {
+                font-size: 1.2rem;
+            }
+            .code-block pre, .terminal-block {
+                font-size: 0.8rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<!-- ========== STICKY HEADER ========== -->
+<header class="site-header">
+    <div>
+        <h1>Module 5 — Assignment 2: React Todo App</h1>
+        <div class="subtitle">Build and deploy your first React + TypeScript application with add, display, and delete functionality</div>
+    </div>
+    <span class="header-badge">50 Points</span>
+</header>
+
+<main class="content">
+
+    <!-- ========== OVERVIEW ========== -->
+    <section class="overview">
+        <h2>What You'll Build</h2>
+        <p class="lead">A complete Todo app with React + TypeScript, deployed to Vercel</p>
+        <div class="overview-grid">
+            <div class="dark-card">
+                <h4>Features</h4>
+                <p>Add, display, and delete todos</p>
+            </div>
+            <div class="dark-card">
+                <h4>Skills Applied</h4>
+                <p>Components, TypeScript interfaces, state, events, lists</p>
+            </div>
+            <div class="dark-card">
+                <h4>Deployment</h4>
+                <p>Live on Vercel with a shareable URL</p>
+            </div>
+        </div>
+        <div class="dark-card info" style="margin-top: 1rem;">
+            <h4>Why TypeScript?</h4>
+            <p>You learned TypeScript in Module 4 — now you'll use it in a real React project. TypeScript catches bugs before you run your code and gives you autocomplete in VS Code. Every modern React codebase uses TypeScript, so this is what you'll see on the job.</p>
+        </div>
+    </section>
+
+    <!-- ========== STEP 1 ========== -->
+    <section class="step-section" id="step1">
+        <div class="step-header">
+            <span class="step-number">1</span>
+            <h2>Create React + TypeScript Project</h2>
+        </div>
+        <p class="step-subtitle">Use Vite to scaffold a new React project with TypeScript configured out of the box.</p>
+
+        <p style="margin-bottom: 0.75rem;">Open your terminal (Terminal app on Mac, or the built-in terminal in VS Code via <code>Ctrl+`</code>). Navigate to the folder where you keep your projects, then run:</p>
+
+        <div class="terminal-block">
+            <div><span class="prompt">$</span> <span class="command">npm create vite@latest react-todo</span></div>
+            <div class="output" style="margin: 0.5rem 0;">✔ Select a framework: › React</div>
+            <div class="output">✔ Select a variant: › <strong style="color: #fbbf24;">TypeScript</strong></div>
+        </div>
+
+        <p style="margin: 1rem 0 0.75rem;">Vite creates a new folder called <code>react-todo</code> with all the project files. Now install the dependencies and start the development server:</p>
+
+        <div class="terminal-block">
+            <div><span class="prompt">$</span> <span class="command">cd react-todo</span></div>
+            <div><span class="prompt">$</span> <span class="command">npm install</span></div>
+            <div class="output" style="margin: 0.25rem 0;">added 200+ packages in 15s</div>
+            <div style="margin-top: 0.5rem;"><span class="prompt">$</span> <span class="command">npm run dev</span></div>
+            <div class="output" style="margin-top: 0.5rem;">  VITE v6.x.x  ready in 300ms</div>
+            <div class="output">  ➜  Local:   http://localhost:5173/</div>
+        </div>
+
+        <div class="dark-card info" style="margin-top: 1rem;">
+            <h4>Expected Result</h4>
+            <p>Open <code>http://localhost:5173</code> in your browser. You should see the Vite + React welcome page with a spinning logo and a counter button. <strong>Keep this terminal running</strong> — it's your development server. Every time you save a file, the browser updates automatically.</p>
+        </div>
+
+        <div class="dark-card warning" style="margin-top: 0.5rem;">
+            <h4>Common Issue</h4>
+            <p>If you see "command not found: npm", you need to install Node.js first. Download it from <strong>nodejs.org</strong> (LTS version) and restart your terminal.</p>
+        </div>
+    </section>
+
+    <!-- ========== STEP 2 ========== -->
+    <section class="step-section" id="step2">
+        <div class="step-header">
+            <span class="step-number">2</span>
+            <h2>Open the Project in VS Code</h2>
+        </div>
+        <p class="step-subtitle">Open your project folder in VS Code and explore the file structure Vite created.</p>
+
+        <p style="margin-bottom: 0.75rem;">If VS Code isn't already open, you can launch it from the terminal:</p>
+
+        <div class="terminal-block">
+            <div><span class="prompt">$</span> <span class="command">code .</span></div>
+        </div>
+
+        <p style="margin: 1rem 0 0.75rem;">In the VS Code Explorer panel (left sidebar), you'll see this structure:</p>
+
+        <div class="code-block">
+<pre>react-todo/
+├── node_modules/       <span class="comment">← installed packages (don't touch)</span>
+├── public/             <span class="comment">← static files</span>
+├── src/
+│   ├── assets/         <span class="comment">← images (we'll delete this)</span>
+│   ├── App.css         <span class="comment">← styles for App component</span>
+│   ├── App.tsx         <span class="comment">← main App component (TypeScript!)</span>
+│   ├── index.css       <span class="comment">← global styles</span>
+│   ├── main.tsx        <span class="comment">← entry point (don't touch)</span>
+│   └── vite-env.d.ts   <span class="comment">← Vite type declarations (don't touch)</span>
+├── index.html          <span class="comment">← HTML shell</span>
+├── package.json        <span class="comment">← project config &amp; dependencies</span>
+├── tsconfig.json       <span class="comment">← TypeScript configuration</span>
+└── vite.config.ts      <span class="comment">← Vite build configuration</span></pre>
+        </div>
+
+        <div class="dark-card info" style="margin-top: 1rem;">
+            <h4>Notice the .tsx Extension</h4>
+            <p>React + TypeScript files use <code>.tsx</code> instead of <code>.jsx</code>. The "t" stands for TypeScript. This tells both VS Code and the compiler that the file contains TypeScript code with JSX markup. You'll see <code>.ts</code> for pure TypeScript files (no JSX) and <code>.tsx</code> for components.</p>
+        </div>
+    </section>
+
+    <!-- ========== STEP 3 ========== -->
+    <section class="step-section" id="step3">
+        <div class="step-header">
+            <span class="step-number">3</span>
+            <h2>Clean Up Starter Files</h2>
+        </div>
+        <p class="step-subtitle">Remove Vite's default content so we have a clean starting point.</p>
+
+        <p style="margin-bottom: 0.75rem;">Do the following in the <code>src</code> folder:</p>
+        <ol style="margin-bottom: 1rem;">
+            <li><strong>Delete the <code>assets</code> folder</strong> — right-click it in VS Code Explorer and select "Delete"</li>
+            <li><strong>Open <code>App.css</code></strong> — select all the text (<code>Ctrl+A</code> / <code>Cmd+A</code>) and delete it. Keep the file, just make it empty.</li>
+            <li><strong>Open <code>index.css</code></strong> — same thing: select all and delete. This removes Vite's default dark theme styling.</li>
+            <li><strong>Open <code>App.tsx</code></strong> — select all and replace the entire contents with the code below:</li>
+        </ol>
+
+        <div class="code-block">
+<pre><span class="comment">// src/App.tsx</span>
+<span class="keyword">import</span> <span class="string">'./App.css'</span>
+
+<span class="keyword">function</span> <span class="function">App</span>() {
+  <span class="keyword">return</span> (
+    <span class="tag">&lt;div</span> <span class="attr">className</span>=<span class="string">"app"</span><span class="tag">&gt;</span>
+      <span class="tag">&lt;h1&gt;</span>React Todo App<span class="tag">&lt;/h1&gt;</span>
+    <span class="tag">&lt;/div&gt;</span>
+  )
+}
+
+<span class="keyword">export default</span> App</pre>
+        </div>
+
+        <p style="margin-top: 1rem;"><strong>Save the file</strong> (<code>Ctrl+S</code> / <code>Cmd+S</code>). Check your browser — it should now show just "React Todo App" on a plain white page. If you see errors in the terminal, double-check that you copied the code exactly.</p>
+
+        <div class="dark-card warning" style="margin-top: 0.75rem;">
+            <h4>Don't Touch main.tsx</h4>
+            <p>Leave <code>main.tsx</code> alone — it's the entry point that loads your App component into the HTML page. You only need to edit <code>App.tsx</code> and <code>App.css</code> for this assignment.</p>
+        </div>
+    </section>
+
+    <!-- ========== STEP 4 ========== -->
+    <section class="step-section" id="step4">
+        <div class="step-header">
+            <span class="step-number">4</span>
+            <h2>Define a TypeScript Interface for Todos</h2>
+        </div>
+        <p class="step-subtitle">Before adding state, define the shape of a Todo object using a TypeScript interface. This is where TypeScript really shines — it tells your editor (and you) exactly what data each todo contains.</p>
+
+        <p style="margin-bottom: 0.75rem;">Add this <strong>above</strong> your <code>App</code> function in <code>App.tsx</code>:</p>
+
+        <div class="code-block">
+<pre><span class="comment">// src/App.tsx</span>
+<span class="keyword">import</span> { useState } <span class="keyword">from</span> <span class="string">'react'</span>
+<span class="keyword">import</span> <span class="string">'./App.css'</span>
+
+<span class="comment">// Define what a Todo looks like</span>
+<span class="keyword">interface</span> <span class="function">Todo</span> {
+  id: <span class="attr">number</span>
+  text: <span class="attr">string</span>
+}</pre>
+        </div>
+
+        <p style="margin: 1rem 0 0.75rem;">Now add state inside the <code>App</code> function, <strong>before</strong> the <code>return</code>. Notice the TypeScript type annotations on <code>useState</code>:</p>
+
+        <div class="code-block">
+<pre><span class="keyword">function</span> <span class="function">App</span>() {
+  <span class="comment">// State for the list of todos — typed as an array of Todo objects</span>
+  <span class="keyword">const</span> [todos, setTodos] = <span class="function">useState</span>&lt;<span class="function">Todo</span>[]&gt;([])
+
+  <span class="comment">// State for the input field — TypeScript infers this as string</span>
+  <span class="keyword">const</span> [inputValue, setInputValue] = <span class="function">useState</span>(<span class="string">''</span>)
+
+  <span class="keyword">return</span> (
+    <span class="tag">&lt;div</span> <span class="attr">className</span>=<span class="string">"app"</span><span class="tag">&gt;</span>
+      <span class="tag">&lt;h1&gt;</span>React Todo App<span class="tag">&lt;/h1&gt;</span>
+    <span class="tag">&lt;/div&gt;</span>
+  )
+}</pre>
+        </div>
+
+        <div class="dark-card info" style="margin-top: 1rem;">
+            <h4>What's Happening Here?</h4>
+            <p><code>useState&lt;Todo[]&gt;([])</code> tells TypeScript: "this state is an array of <code>Todo</code> objects, starting empty." Now if you try to add an object that's missing <code>id</code> or <code>text</code>, TypeScript will show a red squiggly line <em>before</em> you even run the code. For <code>inputValue</code>, TypeScript automatically infers the type as <code>string</code> from the initial value <code>''</code>, so we don't need to write <code>useState&lt;string&gt;</code> explicitly.</p>
+        </div>
+    </section>
+
+    <!-- ========== STEP 5 ========== -->
+    <section class="step-section" id="step5">
+        <div class="step-header">
+            <span class="step-number">5</span>
+            <h2>Build the Form and Input</h2>
+        </div>
+        <p class="step-subtitle">Add an input field and button to the JSX, and connect the input to state so React controls its value.</p>
+
+        <p style="margin-bottom: 0.75rem;">Replace the contents of your <code>return</code> statement with this JSX. This adds a form with a text input and an "Add" button, plus an empty list where todos will appear:</p>
+
+        <div class="code-block">
+<pre>  <span class="keyword">return</span> (
+    <span class="tag">&lt;div</span> <span class="attr">className</span>=<span class="string">"app"</span><span class="tag">&gt;</span>
+      <span class="tag">&lt;h1&gt;</span>React Todo App<span class="tag">&lt;/h1&gt;</span>
+
+      <span class="tag">&lt;form</span> <span class="attr">className</span>=<span class="string">"todo-form"</span><span class="tag">&gt;</span>
+        <span class="tag">&lt;input</span>
+          <span class="attr">type</span>=<span class="string">"text"</span>
+          <span class="attr">placeholder</span>=<span class="string">"Add a new todo..."</span>
+          <span class="attr">value</span>={inputValue}
+          <span class="attr">onChange</span>={(e) =&gt; <span class="function">setInputValue</span>(e.target.value)}
+        <span class="tag">/&gt;</span>
+        <span class="tag">&lt;button</span> <span class="attr">type</span>=<span class="string">"submit"</span><span class="tag">&gt;</span>Add<span class="tag">&lt;/button&gt;</span>
+      <span class="tag">&lt;/form&gt;</span>
+
+      <span class="tag">&lt;ul</span> <span class="attr">className</span>=<span class="string">"todo-list"</span><span class="tag">&gt;</span>
+        <span class="comment">{/* Todos will appear here */}</span>
+      <span class="tag">&lt;/ul&gt;</span>
+    <span class="tag">&lt;/div&gt;</span>
+  )</pre>
+        </div>
+
+        <p style="margin-top: 1rem;">Save and check your browser. You should see the heading, a text input, and an "Add" button. Try typing in the input — the text should appear as you type.</p>
+
+        <div class="dark-card info" style="margin-top: 0.75rem;">
+            <h4>Controlled Component</h4>
+            <p><code>value={inputValue}</code> makes React the "source of truth" for what's in the input. <code>onChange</code> fires on every keystroke and calls <code>setInputValue</code> to update state, which re-renders the input with the new value. This two-way binding is called a <strong>controlled component</strong> — React controls the input, not the browser's default behavior.</p>
+        </div>
+
+        <div class="dark-card info" style="margin-top: 0.5rem;">
+            <h4>TypeScript Knows the Event Type</h4>
+            <p>Hover over <code>e</code> in VS Code — TypeScript infers it as <code>React.ChangeEvent&lt;HTMLInputElement&gt;</code> automatically. That's why <code>e.target.value</code> works without any type annotations. TypeScript knows it's an input element change event.</p>
+        </div>
+    </section>
+
+    <!-- ========== STEP 6 ========== -->
+    <section class="step-section" id="step6">
+        <div class="step-header">
+            <span class="step-number">6</span>
+            <h2>Add the Submit Handler</h2>
+        </div>
+        <p class="step-subtitle">Create a function that runs when the form is submitted. It creates a new todo and adds it to the list.</p>
+
+        <p style="margin-bottom: 0.75rem;">Add this function inside your <code>App</code> component, <strong>after</strong> the two <code>useState</code> lines and <strong>before</strong> the <code>return</code>:</p>
+
+        <div class="code-block">
+<pre>  <span class="keyword">const</span> <span class="function">handleSubmit</span> = (e: <span class="function">React.FormEvent</span>) =&gt; {
+    e.<span class="function">preventDefault</span>()  <span class="comment">// Stop the browser from refreshing the page</span>
+
+    <span class="comment">// Don't add empty todos</span>
+    <span class="keyword">if</span> (!inputValue.<span class="function">trim</span>()) <span class="keyword">return</span>
+
+    <span class="comment">// Create a new todo object that matches our Todo interface</span>
+    <span class="keyword">const</span> newTodo: <span class="function">Todo</span> = {
+      id: Date.<span class="function">now</span>(),       <span class="comment">// Unique ID using current timestamp</span>
+      text: inputValue.<span class="function">trim</span>()  <span class="comment">// Remove extra whitespace</span>
+    }
+
+    <span class="comment">// Add the new todo to the existing array (spread operator creates a copy)</span>
+    <span class="function">setTodos</span>([...todos, newTodo])
+
+    <span class="comment">// Clear the input field</span>
+    <span class="function">setInputValue</span>(<span class="string">''</span>)
+  }</pre>
+        </div>
+
+        <p style="margin: 1rem 0 0.75rem;">Now connect this function to the form. Update the opening <code>&lt;form&gt;</code> tag to include <code>onSubmit</code>:</p>
+
+        <div class="code-block">
+<pre>      <span class="tag">&lt;form</span> <span class="attr">className</span>=<span class="string">"todo-form"</span> <span class="attr">onSubmit</span>={handleSubmit}<span class="tag">&gt;</span></pre>
+        </div>
+
+        <p style="margin-top: 1rem;">Save and test. Type something in the input and press Enter or click Add. The input should clear — but you won't see the todo yet because we haven't built the list display. That's next.</p>
+
+        <div class="dark-card info" style="margin-top: 0.75rem;">
+            <h4>TypeScript Event Type</h4>
+            <p>Notice <code>(e: React.FormEvent)</code> — this tells TypeScript the parameter is a form event, which is why <code>e.preventDefault()</code> works without errors. Without this type annotation, TypeScript would complain because it wouldn't know what <code>e</code> is.</p>
+        </div>
+
+        <div class="dark-card info" style="margin-top: 0.5rem;">
+            <h4>Why e.preventDefault()?</h4>
+            <p>When an HTML form is submitted, the browser's default behavior is to refresh the entire page. In a React app, we don't want that — we want to handle the submission with JavaScript and update the UI without a page reload. <code>preventDefault()</code> stops the browser's default behavior.</p>
+        </div>
+
+        <div class="dark-card info" style="margin-top: 0.5rem;">
+            <h4>The Spread Operator</h4>
+            <p><code>[...todos, newTodo]</code> creates a <strong>new array</strong> that contains all existing todos plus the new one at the end. We never modify the original array directly — that's a core React rule. Always create new arrays/objects when updating state.</p>
+        </div>
+    </section>
+
+    <!-- ========== STEP 7 ========== -->
+    <section class="step-section" id="step7">
+        <div class="step-header">
+            <span class="step-number">7</span>
+            <h2>Display the Todo List</h2>
+        </div>
+        <p class="step-subtitle">Use JavaScript's map() function to loop through the todos array and render each one as a list item.</p>
+
+        <p style="margin-bottom: 0.75rem;">Replace the comment <code>{/* Todos will appear here */}</code> inside the <code>&lt;ul&gt;</code> with this code:</p>
+
+        <div class="code-block">
+<pre>      <span class="tag">&lt;ul</span> <span class="attr">className</span>=<span class="string">"todo-list"</span><span class="tag">&gt;</span>
+        {todos.<span class="function">map</span>((todo) =&gt; (
+          <span class="tag">&lt;li</span> <span class="attr">key</span>={todo.id} <span class="attr">className</span>=<span class="string">"todo-item"</span><span class="tag">&gt;</span>
+            <span class="tag">&lt;span&gt;</span>{todo.text}<span class="tag">&lt;/span&gt;</span>
+            <span class="tag">&lt;button</span> <span class="attr">className</span>=<span class="string">"delete-btn"</span><span class="tag">&gt;</span>
+              Delete
+            <span class="tag">&lt;/button&gt;</span>
+          <span class="tag">&lt;/li&gt;</span>
+        ))}
+      <span class="tag">&lt;/ul&gt;</span></pre>
+        </div>
+
+        <p style="margin-top: 1rem;"><strong>Save and test.</strong> Type a todo and press Enter. You should see it appear in the list below the input! Add a few more — each one stacks below the previous. The Delete button is visible but doesn't work yet.</p>
+
+        <div class="dark-card info" style="margin-top: 0.75rem;">
+            <h4>How map() Works Here</h4>
+            <p><code>todos.map()</code> loops through the array and returns a new array of JSX elements — one <code>&lt;li&gt;</code> for each todo. React renders all of them inside the <code>&lt;ul&gt;</code>. The curly braces <code>{}</code> around <code>todos.map()</code> tell JSX "this is JavaScript code, evaluate it."</p>
+        </div>
+
+        <div class="dark-card warning" style="margin-top: 0.5rem;">
+            <h4>The key Prop is Required</h4>
+            <p>Every item in a mapped list needs a unique <code>key</code> prop. React uses keys to efficiently track which items changed, were added, or removed. We use <code>todo.id</code> (the timestamp) as our key. If you forget the key, React will show a warning in the browser console.</p>
+        </div>
+
+        <div class="dark-card info" style="margin-top: 0.5rem;">
+            <h4>TypeScript Autocomplete</h4>
+            <p>Try typing <code>todo.</code> inside the map callback — VS Code will show you <code>id</code> and <code>text</code> as autocomplete options. That's your <code>Todo</code> interface at work. TypeScript knows the exact shape of each item in the array.</p>
+        </div>
+    </section>
+
+    <!-- ========== STEP 8 ========== -->
+    <section class="step-section" id="step8">
+        <div class="step-header">
+            <span class="step-number">8</span>
+            <h2>Add Delete Functionality</h2>
+        </div>
+        <p class="step-subtitle">Create a function that removes a todo by its ID, then connect it to the Delete button.</p>
+
+        <p style="margin-bottom: 0.75rem;">Add this function in your App component, right after <code>handleSubmit</code>:</p>
+
+        <div class="code-block">
+<pre>  <span class="keyword">const</span> <span class="function">deleteTodo</span> = (id: <span class="attr">number</span>) =&gt; {
+    <span class="function">setTodos</span>(todos.<span class="function">filter</span>((todo) =&gt; todo.id !== id))
+  }</pre>
+        </div>
+
+        <p style="margin: 1rem 0 0.75rem;">Now update the Delete button in your list to call this function. Change the button to:</p>
+
+        <div class="code-block">
+<pre>            <span class="tag">&lt;button</span>
+              <span class="attr">className</span>=<span class="string">"delete-btn"</span>
+              <span class="attr">onClick</span>={() =&gt; <span class="function">deleteTodo</span>(todo.id)}
+            <span class="tag">&gt;</span>
+              Delete
+            <span class="tag">&lt;/button&gt;</span></pre>
+        </div>
+
+        <p style="margin-top: 1rem;"><strong>Save and test.</strong> Add a few todos, then click Delete on one. It should disappear. Try deleting all of them.</p>
+
+        <div class="dark-card info" style="margin-top: 0.75rem;">
+            <h4>How filter() Works</h4>
+            <p><code>filter()</code> creates a <strong>new array</strong> containing only the items that pass a test. <code>todo.id !== id</code> returns <code>true</code> for every todo <em>except</em> the one we want to delete. So the result is a new array with that todo removed. We pass this new array to <code>setTodos</code>, and React re-renders the list.</p>
+        </div>
+
+        <div class="dark-card info" style="margin-top: 0.5rem;">
+            <h4>Why an Arrow Function in onClick?</h4>
+            <p><code>onClick={() =&gt; deleteTodo(todo.id)}</code> wraps the call in an arrow function so it only runs when clicked. If you wrote <code>onClick={deleteTodo(todo.id)}</code> without the arrow function, it would run immediately on render — not what we want. The arrow function creates a "wrapper" that waits for the click.</p>
+        </div>
+
+        <div class="dark-card info" style="margin-top: 0.5rem;">
+            <h4>TypeScript Parameter Type</h4>
+            <p>Notice <code>(id: number)</code> in the function signature. This ensures you can only pass a number to <code>deleteTodo</code>. If you accidentally passed a string, TypeScript would catch it at compile time with a red underline.</p>
+        </div>
+    </section>
+
+    <!-- ========== STEP 9 ========== -->
+    <section class="step-section" id="step9">
+        <div class="step-header">
+            <span class="step-number">9</span>
+            <h2>Add Styling</h2>
+        </div>
+        <p class="step-subtitle">Add CSS to App.css to make the app look presentable. This is basic styling — feel free to customize it!</p>
+
+        <p style="margin-bottom: 0.75rem;">Open <code>src/App.css</code> (which should be empty from Step 3) and paste this entire CSS:</p>
+
+        <div class="code-block">
+<pre><span class="comment">/* src/App.css */</span>
+
+.<span class="function">app</span> {
+  <span class="attr">max-width</span>: <span class="number">500px</span>;
+  <span class="attr">margin</span>: <span class="number">2rem</span> auto;
+  <span class="attr">padding</span>: <span class="number">0 1rem</span>;
+  <span class="attr">font-family</span>: <span class="string">'Segoe UI'</span>, Arial, sans-serif;
+}
+
+<span class="function">h1</span> {
+  <span class="attr">text-align</span>: center;
+  <span class="attr">margin-bottom</span>: <span class="number">1.5rem</span>;
+  <span class="attr">color</span>: <span class="string">#333</span>;
+}
+
+.<span class="function">todo-form</span> {
+  <span class="attr">display</span>: flex;
+  <span class="attr">gap</span>: <span class="number">0.5rem</span>;
+  <span class="attr">margin-bottom</span>: <span class="number">1.5rem</span>;
+}
+
+.<span class="function">todo-form</span> <span class="function">input</span> {
+  <span class="attr">flex</span>: <span class="number">1</span>;
+  <span class="attr">padding</span>: <span class="number">0.6rem 0.8rem</span>;
+  <span class="attr">font-size</span>: <span class="number">1rem</span>;
+  <span class="attr">border</span>: <span class="number">2px</span> solid <span class="string">#ddd</span>;
+  <span class="attr">border-radius</span>: <span class="number">6px</span>;
+  <span class="attr">outline</span>: none;
+}
+
+.<span class="function">todo-form</span> <span class="function">input</span>:<span class="attr">focus</span> {
+  <span class="attr">border-color</span>: <span class="string">#4a90d9</span>;
+}
+
+.<span class="function">todo-form</span> <span class="function">button</span> {
+  <span class="attr">padding</span>: <span class="number">0.6rem 1.2rem</span>;
+  <span class="attr">background</span>: <span class="string">#4a90d9</span>;
+  <span class="attr">color</span>: white;
+  <span class="attr">border</span>: none;
+  <span class="attr">border-radius</span>: <span class="number">6px</span>;
+  <span class="attr">font-size</span>: <span class="number">1rem</span>;
+  <span class="attr">cursor</span>: pointer;
+}
+
+.<span class="function">todo-form</span> <span class="function">button</span>:<span class="attr">hover</span> {
+  <span class="attr">background</span>: <span class="string">#357abd</span>;
+}
+
+.<span class="function">todo-list</span> {
+  <span class="attr">list-style</span>: none;
+  <span class="attr">padding</span>: <span class="number">0</span>;
+}
+
+.<span class="function">todo-item</span> {
+  <span class="attr">display</span>: flex;
+  <span class="attr">justify-content</span>: space-between;
+  <span class="attr">align-items</span>: center;
+  <span class="attr">padding</span>: <span class="number">0.75rem 1rem</span>;
+  <span class="attr">border</span>: <span class="number">1px</span> solid <span class="string">#e0e0e0</span>;
+  <span class="attr">border-radius</span>: <span class="number">6px</span>;
+  <span class="attr">margin-bottom</span>: <span class="number">0.5rem</span>;
+  <span class="attr">background</span>: <span class="string">#fafafa</span>;
+}
+
+.<span class="function">delete-btn</span> {
+  <span class="attr">background</span>: <span class="string">#e74c3c</span>;
+  <span class="attr">color</span>: white;
+  <span class="attr">border</span>: none;
+  <span class="attr">padding</span>: <span class="number">0.35rem 0.75rem</span>;
+  <span class="attr">border-radius</span>: <span class="number">4px</span>;
+  <span class="attr">cursor</span>: pointer;
+  <span class="attr">font-size</span>: <span class="number">0.85rem</span>;
+}
+
+.<span class="function">delete-btn</span>:<span class="attr">hover</span> {
+  <span class="attr">background</span>: <span class="string">#c0392b</span>;
+}</pre>
+        </div>
+
+        <p style="margin-top: 1rem;"><strong>Save both files and check your browser.</strong> The app should now look clean and centered with styled inputs, buttons, and todo items. Try the full flow: type a todo, press Enter, see it appear styled in the list, click Delete to remove it.</p>
+
+        <div class="dark-card info" style="margin-top: 0.75rem;">
+            <h4>Customize It!</h4>
+            <p>This is minimal styling to get you started. Want to make it your own? Try changing colors, adding rounded corners, using a different font, or adding a background color to the page. CSS changes show up instantly thanks to Vite's hot reload.</p>
+        </div>
+    </section>
+
+    <!-- ========== CHECKPOINT ========== -->
+    <section class="step-section" id="checkpoint" style="border-left: 4px solid #22c55e;">
+        <div class="step-header">
+            <span class="step-number" style="background: linear-gradient(135deg, #22c55e, #16a34a);">✓</span>
+            <h2>Checkpoint: Complete App.tsx</h2>
+        </div>
+        <p class="step-subtitle">Before deploying, make sure your <code>App.tsx</code> matches this. If your app isn't working, replace your entire file with this code:</p>
+
+        <div class="code-block">
+<pre><span class="comment">// src/App.tsx</span>
+<span class="keyword">import</span> { useState } <span class="keyword">from</span> <span class="string">'react'</span>
+<span class="keyword">import</span> <span class="string">'./App.css'</span>
+
+<span class="keyword">interface</span> <span class="function">Todo</span> {
+  id: <span class="attr">number</span>
+  text: <span class="attr">string</span>
+}
+
+<span class="keyword">function</span> <span class="function">App</span>() {
+  <span class="keyword">const</span> [todos, setTodos] = <span class="function">useState</span>&lt;<span class="function">Todo</span>[]&gt;([])
+  <span class="keyword">const</span> [inputValue, setInputValue] = <span class="function">useState</span>(<span class="string">''</span>)
+
+  <span class="keyword">const</span> <span class="function">handleSubmit</span> = (e: <span class="function">React.FormEvent</span>) =&gt; {
+    e.<span class="function">preventDefault</span>()
+    <span class="keyword">if</span> (!inputValue.<span class="function">trim</span>()) <span class="keyword">return</span>
+
+    <span class="keyword">const</span> newTodo: <span class="function">Todo</span> = {
+      id: Date.<span class="function">now</span>(),
+      text: inputValue.<span class="function">trim</span>()
+    }
+
+    <span class="function">setTodos</span>([...todos, newTodo])
+    <span class="function">setInputValue</span>(<span class="string">''</span>)
+  }
+
+  <span class="keyword">const</span> <span class="function">deleteTodo</span> = (id: <span class="attr">number</span>) =&gt; {
+    <span class="function">setTodos</span>(todos.<span class="function">filter</span>((todo) =&gt; todo.id !== id))
+  }
+
+  <span class="keyword">return</span> (
+    <span class="tag">&lt;div</span> <span class="attr">className</span>=<span class="string">"app"</span><span class="tag">&gt;</span>
+      <span class="tag">&lt;h1&gt;</span>React Todo App<span class="tag">&lt;/h1&gt;</span>
+
+      <span class="tag">&lt;form</span> <span class="attr">className</span>=<span class="string">"todo-form"</span> <span class="attr">onSubmit</span>={handleSubmit}<span class="tag">&gt;</span>
+        <span class="tag">&lt;input</span>
+          <span class="attr">type</span>=<span class="string">"text"</span>
+          <span class="attr">placeholder</span>=<span class="string">"Add a new todo..."</span>
+          <span class="attr">value</span>={inputValue}
+          <span class="attr">onChange</span>={(e) =&gt; <span class="function">setInputValue</span>(e.target.value)}
+        <span class="tag">/&gt;</span>
+        <span class="tag">&lt;button</span> <span class="attr">type</span>=<span class="string">"submit"</span><span class="tag">&gt;</span>Add<span class="tag">&lt;/button&gt;</span>
+      <span class="tag">&lt;/form&gt;</span>
+
+      <span class="tag">&lt;ul</span> <span class="attr">className</span>=<span class="string">"todo-list"</span><span class="tag">&gt;</span>
+        {todos.<span class="function">map</span>((todo) =&gt; (
+          <span class="tag">&lt;li</span> <span class="attr">key</span>={todo.id} <span class="attr">className</span>=<span class="string">"todo-item"</span><span class="tag">&gt;</span>
+            <span class="tag">&lt;span&gt;</span>{todo.text}<span class="tag">&lt;/span&gt;</span>
+            <span class="tag">&lt;button</span>
+              <span class="attr">className</span>=<span class="string">"delete-btn"</span>
+              <span class="attr">onClick</span>={() =&gt; <span class="function">deleteTodo</span>(todo.id)}
+            <span class="tag">&gt;</span>
+              Delete
+            <span class="tag">&lt;/button&gt;</span>
+          <span class="tag">&lt;/li&gt;</span>
+        ))}
+      <span class="tag">&lt;/ul&gt;</span>
+    <span class="tag">&lt;/div&gt;</span>
+  )
+}
+
+<span class="keyword">export default</span> App</pre>
+        </div>
+
+        <div class="dark-card success">
+            <h4>Test Before Moving On</h4>
+            <p>Make sure all three features work: <strong>(1)</strong> Type a todo and press Enter — it appears in the list. <strong>(2)</strong> The input clears after adding. <strong>(3)</strong> Click Delete on a todo — it disappears. If all three work, you're ready to deploy!</p>
+        </div>
+    </section>
+
+    <!-- ========== STEP 10 ========== -->
+    <section class="step-section" id="step10">
+        <div class="step-header">
+            <span class="step-number">10</span>
+            <h2>Deploy to Vercel</h2>
+        </div>
+        <p class="step-subtitle">Push your code to GitHub and deploy it live to the internet.</p>
+
+        <!-- 10a: What is Vercel? -->
+        <h3>What is Vercel?</h3>
+        <p style="margin-bottom: 1rem;">A cloud platform for deploying frontend apps — free, fast, and automatic.</p>
+
+        <div class="grid-3" style="margin-bottom: 1.5rem;">
+            <div class="dark-card">
+                <h4>Free Hosting</h4>
+                <p>Deploy unlimited personal projects at no cost with generous limits</p>
+            </div>
+            <div class="dark-card">
+                <h4>Auto Deploy</h4>
+                <p>Push to GitHub and Vercel automatically rebuilds your site</p>
+            </div>
+            <div class="dark-card">
+                <h4>Global CDN</h4>
+                <p>Your app loads fast worldwide from edge servers</p>
+            </div>
+        </div>
+
+        <div class="dark-card info" style="margin-bottom: 1.75rem;">
+            <h4>Why Vercel for React?</h4>
+            <p>Vercel auto-detects React/Vite projects and configures optimal build settings. Zero configuration needed!</p>
+        </div>
+
+        <!-- 10b: Push to GitHub -->
+        <h3>Push to GitHub First</h3>
+        <p style="margin-bottom: 1rem;">Your code must be on GitHub before Vercel can deploy it. Create a new repo on GitHub named <code>react-todo</code>, then run:</p>
+
+        <div class="terminal-block" style="margin-bottom: 0.75rem;">
+            <div><span class="prompt">$</span> <span class="command">git init</span></div>
+            <div><span class="prompt">$</span> <span class="command">git add .</span></div>
+            <div><span class="prompt">$</span> <span class="command">git commit -m "Initial commit - React Todo App"</span></div>
+            <div><span class="prompt">$</span> <span class="command">git branch -M main</span></div>
+            <div><span class="prompt">$</span> <span class="command">git remote add origin https://github.com/yourusername/react-todo.git</span></div>
+            <div><span class="prompt">$</span> <span class="command">git push -u origin main</span></div>
+        </div>
+
+        <div class="dark-card warning" style="margin-bottom: 1.75rem;">
+            <h4>Replace yourusername</h4>
+            <p>Use your actual GitHub username in the remote URL above!</p>
+        </div>
+
+        <!-- 10c: Create Vercel Account -->
+        <h3>Create Vercel Account</h3>
+        <p style="margin-bottom: 1rem;">Sign up for free using your GitHub account for easy integration.</p>
+
+        <div class="grid-4" style="margin-bottom: 1.75rem;">
+            <div class="feature-item">
+                <span class="mini-number">1</span>
+                <div class="feature-text">
+                    <strong>Go to vercel.com</strong>
+                    <span>Click "Sign Up" in the top right corner</span>
+                </div>
+            </div>
+            <div class="feature-item">
+                <span class="mini-number">2</span>
+                <div class="feature-text">
+                    <strong>Continue with GitHub</strong>
+                    <span>Choose GitHub as your sign-in method</span>
+                </div>
+            </div>
+            <div class="feature-item">
+                <span class="mini-number">3</span>
+                <div class="feature-text">
+                    <strong>Authorize Vercel</strong>
+                    <span>Allow Vercel to access your GitHub repos</span>
+                </div>
+            </div>
+            <div class="feature-item">
+                <span class="mini-number">4</span>
+                <div class="feature-text">
+                    <strong>Select Hobby Plan</strong>
+                    <span>Choose the free tier — perfect for learning!</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- 10d: Import and Deploy -->
+        <h3>Import and Deploy</h3>
+        <p style="margin-bottom: 1rem;">Connect your GitHub repo and deploy with one click.</p>
+
+        <div class="grid-4" style="margin-bottom: 0.75rem;">
+            <div class="feature-item">
+                <span class="mini-number">1</span>
+                <div class="feature-text">
+                    <strong>Add New Project</strong>
+                    <span>Click "Add New" → "Project" from dashboard</span>
+                </div>
+            </div>
+            <div class="feature-item">
+                <span class="mini-number">2</span>
+                <div class="feature-text">
+                    <strong>Import react-todo</strong>
+                    <span>Find your repo and click "Import"</span>
+                </div>
+            </div>
+            <div class="feature-item">
+                <span class="mini-number">3</span>
+                <div class="feature-text">
+                    <strong>Keep Default Settings</strong>
+                    <span>Vercel auto-detects Vite — no changes needed!</span>
+                </div>
+            </div>
+            <div class="feature-item">
+                <span class="mini-number">4</span>
+                <div class="feature-text">
+                    <strong>Click Deploy</strong>
+                    <span>Wait 30–60 seconds for build to complete</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="dark-card info" style="margin-bottom: 1.75rem;">
+            <h4>Build Settings (Auto-Detected)</h4>
+            <p>Framework: Vite &nbsp;|&nbsp; Build Command: <code>npm run build</code> &nbsp;|&nbsp; Output: <code>dist</code></p>
+        </div>
+
+        <!-- 10e: Your App is Live -->
+        <h3>Your App is Live!</h3>
+        <p style="margin-bottom: 1rem;">Deployment complete — your Todo app is now on the internet.</p>
+
+        <div class="grid-2">
+            <div class="dark-card" style="text-align: center;">
+                <h4 style="color: #4ade80;">Deployment Successful</h4>
+                <p style="font-size: 1.3rem; color: #61dafb; margin: 0.75rem 0;">react-todo-xxx.vercel.app</p>
+                <p>Click "Visit" to see your live app!</p>
+            </div>
+            <div class="dark-card">
+                <h4>What to Do Now</h4>
+                <ul style="margin: 0; padding-left: 1.5rem;">
+                    <li>Click your URL to test the app</li>
+                    <li>Add and delete some todos</li>
+                    <li>Copy the URL for submission</li>
+                    <li>Share with friends!</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="dark-card warning" style="margin-top: 0.75rem;">
+            <h4>Save Your URL!</h4>
+            <p>Copy your Vercel URL now — you need it for the assignment submission.</p>
+        </div>
+    </section>
+
+    <!-- ========== DELIVERABLES ========== -->
+    <section class="deliverables" id="deliverables">
+        <h2>Deliverables</h2>
+        <p class="subtitle">Submit both links to Canvas for full credit.</p>
+
+        <div class="grid-2">
+            <div class="dark-card">
+                <h4>GitHub Repository URL</h4>
+                <p>Link to your react-todo repo with all source code</p>
+                <p class="url-example">github.com/yourusername/react-todo</p>
+            </div>
+            <div class="dark-card">
+                <h4>Vercel Deployment URL</h4>
+                <p>Link to your live, working Todo app</p>
+                <p class="url-example">your-project.vercel.app</p>
+            </div>
+        </div>
+
+        <div class="points">50 Points</div>
+
+        <div class="dark-card warning" style="margin-top: 1rem;">
+            <h4>Before Submitting</h4>
+            <p>Test your Vercel URL in incognito mode to make sure it works for others!</p>
+        </div>
+    </section>
+
+</main>
+
+</body>
+</html>
