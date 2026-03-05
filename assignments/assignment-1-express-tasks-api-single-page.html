@@ -1,0 +1,1001 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Module 6 — Assignment 1: Express.js Tasks API - IT431</title>
+    <style>
+        /* === Reset & Base === */
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+        html {
+            scroll-behavior: smooth;
+            font-size: 16px;
+        }
+
+        body {
+            background: #0f1117;
+            color: #d1d5db;
+            font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, sans-serif;
+            line-height: 1.7;
+            min-height: 100vh;
+        }
+
+        /* === Sticky Header === */
+        .site-header {
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            background: linear-gradient(135deg, #1e1e2f 0%, #16213e 100%);
+            border-bottom: 2px solid #667eea;
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            backdrop-filter: blur(12px);
+        }
+        .site-header h1 {
+            color: #fff;
+            font-size: 1.35rem;
+            font-weight: 700;
+        }
+        .site-header .subtitle {
+            color: #a5b4fc;
+            font-size: 0.9rem;
+            margin-top: 0.1rem;
+        }
+        .header-badge {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: #fff;
+            font-weight: 700;
+            font-size: 1rem;
+            padding: 0.4rem 1.1rem;
+            border-radius: 20px;
+            white-space: nowrap;
+        }
+
+        /* === Main Content === */
+        .content {
+            max-width: 860px;
+            margin: 0 auto;
+            padding: 2rem 1.5rem 4rem;
+        }
+
+        /* === Overview Section === */
+        .overview {
+            background: linear-gradient(135deg, #1e1e2f 0%, #16213e 100%);
+            border-radius: 12px;
+            padding: 2rem;
+            margin-bottom: 2.5rem;
+            border: 1px solid #2a2f45;
+        }
+        .overview h2 {
+            color: #a5b4fc;
+            font-size: 1.5rem;
+            margin-bottom: 0.35rem;
+        }
+        .overview .lead {
+            color: #94a3b8;
+            font-size: 1rem;
+            margin-bottom: 1.5rem;
+        }
+        .overview-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1rem;
+        }
+
+        /* === Step Sections === */
+        .step-section {
+            background: linear-gradient(135deg, #1e1e2f 0%, #16213e 100%);
+            border-radius: 12px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            border: 1px solid #2a2f45;
+            position: relative;
+        }
+        .step-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, #667eea, #764ba2);
+            border-radius: 12px 12px 0 0;
+        }
+
+        .step-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 0.35rem;
+        }
+        .step-number {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: #fff;
+            border-radius: 50%;
+            font-weight: 700;
+            font-size: 1.1rem;
+            margin-right: 14px;
+            flex-shrink: 0;
+        }
+        .step-section h2 {
+            color: #e4e4e7;
+            font-size: 1.4rem;
+            font-weight: 700;
+        }
+        .step-section h3 {
+            color: #c4b5fd;
+            font-size: 1.1rem;
+            margin-top: 1.25rem;
+            margin-bottom: 0.5rem;
+        }
+        .step-section h4 {
+            color: #93c5fd;
+            font-size: 1rem;
+            margin-bottom: 0.3rem;
+        }
+        .step-subtitle {
+            color: #94a3b8;
+            font-size: 0.95rem;
+            margin-bottom: 1.25rem;
+        }
+        .step-section p, .step-section li {
+            color: #d1d5db;
+        }
+        .step-section ul, .step-section ol {
+            padding-left: 1.5rem;
+            margin-bottom: 1rem;
+        }
+        .step-section li {
+            margin-bottom: 0.35rem;
+        }
+
+        /* === Inline Code === */
+        code:not(pre code) {
+            background: #374151;
+            color: #fbbf24;
+            padding: 0.15rem 0.45rem;
+            border-radius: 4px;
+            font-size: 0.9em;
+            font-family: 'Fira Code', 'Cascadia Code', 'Consolas', monospace;
+        }
+
+        /* === Code Blocks === */
+        .code-block {
+            background: #0d1117;
+            border: 1px solid #30363d;
+            border-radius: 8px;
+            padding: 1.15rem 1.25rem;
+            overflow-x: auto;
+            margin: 0.75rem 0;
+        }
+        .code-block pre {
+            margin: 0;
+            padding: 0;
+            background: transparent;
+            border: none;
+            font-family: 'Fira Code', 'Cascadia Code', 'Consolas', monospace;
+            font-size: 0.88rem;
+            line-height: 1.6;
+            color: #e4e4e7;
+            white-space: pre;
+        }
+
+        /* === Terminal Blocks === */
+        .terminal-block {
+            background: #0d1117;
+            border: 1px solid #30363d;
+            border-radius: 8px;
+            padding: 1.15rem 1.25rem;
+            font-family: 'Fira Code', 'Cascadia Code', 'Consolas', monospace;
+            font-size: 0.88rem;
+            line-height: 1.8;
+            margin: 0.75rem 0;
+        }
+        .terminal-block .prompt { color: #22c55e; }
+        .terminal-block .command { color: #e4e4e7; }
+        .terminal-block .output { color: #6b7280; }
+
+        /* === Syntax Highlighting === */
+        .keyword  { color: #c678dd; }
+        .string   { color: #98c379; }
+        .function { color: #61afef; }
+        .comment  { color: #5c6370; font-style: italic; }
+        .tag      { color: #e06c75; }
+        .attr     { color: #d19a66; }
+        .number   { color: #d19a66; }
+
+        /* === Cards === */
+        .dark-card {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 8px;
+            padding: 1rem 1.15rem;
+            margin: 0.65rem 0;
+        }
+        .dark-card h4 {
+            color: #93c5fd;
+            margin-bottom: 0.3rem;
+            font-size: 0.95rem;
+        }
+        .dark-card p {
+            color: #d1d5db;
+            margin: 0;
+            font-size: 0.92rem;
+        }
+        .dark-card.success { border-left: 4px solid #22c55e; }
+        .dark-card.warning { border-left: 4px solid #f59e0b; }
+        .dark-card.warning h4 { color: #f59e0b; }
+        .dark-card.info    { border-left: 4px solid #3b82f6; }
+
+        /* === Method Pills === */
+        .method-pill {
+            display: inline-block;
+            padding: 2px 10px;
+            border-radius: 4px;
+            font-size: 0.8rem;
+            font-weight: 700;
+            font-family: 'Fira Code', 'Cascadia Code', 'Consolas', monospace;
+            margin-right: 6px;
+            vertical-align: middle;
+        }
+        .method-pill.get    { background: #22c55e; color: #fff; }
+        .method-pill.post   { background: #f59e0b; color: #fff; }
+        .method-pill.put    { background: #3b82f6; color: #fff; }
+        .method-pill.delete { background: #ef4444; color: #fff; }
+
+        .status-badge {
+            display: inline-block;
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-size: 0.8rem;
+            font-weight: 700;
+        }
+        .status-badge.s200 { background: #22c55e; color: #fff; }
+        .status-badge.s201 { background: #f59e0b; color: #fff; }
+        .status-badge.s204 { background: #3b82f6; color: #fff; }
+        .status-badge.s400 { background: #ef4444; color: #fff; }
+        .status-badge.s404 { background: #ef4444; color: #fff; }
+
+        /* === Grid Layouts === */
+        .grid-2 {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+        }
+        .grid-3 {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1rem;
+        }
+
+        /* === Test Table === */
+        .test-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 0.75rem 0;
+        }
+        .test-table th {
+            background: rgba(255,255,255,0.08);
+            color: #e4e4e7;
+            padding: 0.6rem 1rem;
+            text-align: left;
+            font-size: 0.9rem;
+        }
+        .test-table td {
+            padding: 0.6rem 1rem;
+            border-bottom: 1px solid #2a2f45;
+            font-size: 0.9rem;
+        }
+
+        /* === Deliverables Section === */
+        .deliverables {
+            background: linear-gradient(135deg, #1a1a3e 0%, #162040 100%);
+            border-radius: 12px;
+            padding: 2rem;
+            margin-top: 2.5rem;
+            border: 1px solid #2a2f45;
+            position: relative;
+        }
+        .deliverables::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, #22c55e, #3b82f6);
+            border-radius: 12px 12px 0 0;
+        }
+        .deliverables h2 {
+            color: #e4e4e7;
+            font-size: 1.5rem;
+            margin-bottom: 0.35rem;
+        }
+        .deliverables .subtitle {
+            color: #94a3b8;
+            margin-bottom: 1.5rem;
+        }
+        .deliverables .points {
+            text-align: center;
+            color: #61dafb;
+            font-size: 1.35rem;
+            font-weight: 700;
+            margin-top: 1.5rem;
+        }
+        .url-example {
+            color: #61dafb;
+            margin-top: 0.5rem;
+            font-size: 0.9rem;
+        }
+
+        /* === Responsive === */
+        @media (max-width: 700px) {
+            .site-header {
+                flex-direction: column;
+                gap: 0.5rem;
+                text-align: center;
+                padding: 0.8rem 1rem;
+            }
+            .content {
+                padding: 1.25rem 1rem 3rem;
+            }
+            .overview-grid, .grid-3 {
+                grid-template-columns: 1fr;
+            }
+            .grid-2 {
+                grid-template-columns: 1fr;
+            }
+            .step-section {
+                padding: 1.35rem;
+            }
+            .step-section h2 {
+                font-size: 1.2rem;
+            }
+            .code-block pre, .terminal-block {
+                font-size: 0.8rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<!-- ========== STICKY HEADER ========== -->
+<header class="site-header">
+    <div>
+        <h1>Module 6 — Assignment 1: Express.js Tasks API</h1>
+        <div class="subtitle">Build a complete CRUD API with Express.js and test it with Postman</div>
+    </div>
+    <span class="header-badge">50 Points</span>
+</header>
+
+<main class="content">
+
+    <!-- ========== OVERVIEW ========== -->
+    <section class="overview">
+        <h2>What You'll Build</h2>
+        <p class="lead">A RESTful Tasks API using Express.js with JSON file storage, tested with Postman</p>
+        <div class="overview-grid">
+            <div class="dark-card">
+                <h4>5 Endpoints</h4>
+                <p>GET all, GET one, POST, PUT, DELETE — full CRUD (Create, Read, Update, Delete)</p>
+            </div>
+            <div class="dark-card">
+                <h4>JSON File Storage</h4>
+                <p>Read and write tasks to a local JSON file</p>
+            </div>
+            <div class="dark-card">
+                <h4>Postman Testing</h4>
+                <p>Test every endpoint and export your collection</p>
+            </div>
+        </div>
+        <div class="dark-card info" style="margin-top: 1rem;">
+            <h4>What You'll Learn</h4>
+            <p>This is your first backend project. You'll build an API (Application Programming Interface) — a program that listens for HTTP requests and sends back JSON data. This is how every web and mobile app talks to its server. The patterns you learn here work the same way in other Node.js frameworks like NestJS, Hono, and Fastify.</p>
+        </div>
+    </section>
+
+    <!-- ========== STEP 1 ========== -->
+    <section class="step-section" id="step1">
+        <div class="step-header">
+            <span class="step-number">1</span>
+            <h2>Create Your Project</h2>
+        </div>
+        <p class="step-subtitle">Set up a new Node.js project folder and install dependencies.</p>
+
+        <p style="margin-bottom: 0.75rem;">Open your terminal and create a new project folder. Run <code>npm init -y</code> to create a <code>package.json</code> with default settings:</p>
+
+        <div class="terminal-block">
+            <div><span class="prompt">$</span> <span class="command">mkdir express-tasks-api</span></div>
+            <div><span class="prompt">$</span> <span class="command">cd express-tasks-api</span></div>
+            <div><span class="prompt">$</span> <span class="command">npm init -y</span></div>
+            <div class="output" style="margin-top: 0.5rem;">Wrote to /your/path/express-tasks-api/package.json</div>
+        </div>
+
+        <p style="margin: 1rem 0 0.75rem;">Now install your dependencies. <strong>Express</strong> is the web framework that handles routing and requests. <strong>cors</strong> (Cross-Origin Resource Sharing) lets other websites or apps make requests to your API — without it, browsers will block those requests for security reasons. <strong>nodemon</strong> auto-restarts the server when you save changes:</p>
+
+        <div class="terminal-block">
+            <div><span class="prompt">$</span> <span class="command">npm install express cors</span></div>
+            <div><span class="prompt">$</span> <span class="command">npm install nodemon --save-dev</span></div>
+        </div>
+
+        <p style="margin: 1rem 0 0.75rem;">Open <code>package.json</code> and update the <code>"scripts"</code> section so you can start the server with <code>npm run dev</code>:</p>
+
+        <div class="code-block">
+<pre><span class="string">"scripts"</span>: {
+  <span class="string">"dev"</span>: <span class="string">"nodemon index.js"</span>,
+  <span class="string">"start"</span>: <span class="string">"node index.js"</span>
+}</pre>
+        </div>
+
+        <div class="dark-card info" style="margin-top: 1rem;">
+            <h4>Why nodemon?</h4>
+            <p>Without nodemon, you'd have to stop and restart the server every time you change your code. Nodemon watches your files and restarts automatically — it's a huge time saver during development.</p>
+        </div>
+    </section>
+
+    <!-- ========== STEP 2 ========== -->
+    <section class="step-section" id="step2">
+        <div class="step-header">
+            <span class="step-number">2</span>
+            <h2>Create the Data File</h2>
+        </div>
+        <p class="step-subtitle">Create a JSON file to store your tasks. This acts as a simple database.</p>
+
+        <p style="margin-bottom: 0.75rem;">Create a file called <code>tasks.json</code> in your project root with an empty array:</p>
+
+        <div class="code-block">
+<pre><span class="comment">// tasks.json</span>
+[]</pre>
+        </div>
+
+        <p style="margin-top: 1rem;">Your folder should now look like this:</p>
+
+        <div class="code-block">
+<pre>express-tasks-api/
+├── node_modules/
+├── package.json
+├── package-lock.json
+├── tasks.json          <span class="comment">← your data file (empty array)</span>
+└── index.js            <span class="comment">← create this next</span></pre>
+        </div>
+    </section>
+
+    <!-- ========== STEP 3 ========== -->
+    <section class="step-section" id="step3">
+        <div class="step-header">
+            <span class="step-number">3</span>
+            <h2>Set Up the Server</h2>
+        </div>
+        <p class="step-subtitle">Create index.js with Express, middleware, and helper functions for reading/writing data.</p>
+
+        <p style="margin-bottom: 0.75rem;"><strong>Middleware</strong> is code that runs between receiving a request and sending a response — think of it as a processing step that every request passes through before reaching your routes. Create <code>index.js</code> and add the imports, middleware, and two helper functions that read and write to <code>tasks.json</code>:</p>
+
+        <div class="code-block">
+<pre><span class="comment">// index.js</span>
+<span class="keyword">const</span> express = <span class="function">require</span>(<span class="string">'express'</span>);
+<span class="keyword">const</span> cors = <span class="function">require</span>(<span class="string">'cors'</span>);
+<span class="keyword">const</span> fs = <span class="function">require</span>(<span class="string">'fs'</span>).promises;
+<span class="keyword">const</span> path = <span class="function">require</span>(<span class="string">'path'</span>);
+
+<span class="keyword">const</span> app = <span class="function">express</span>();
+<span class="keyword">const</span> PORT = <span class="number">3000</span>;
+<span class="keyword">const</span> DATA_FILE = path.<span class="function">join</span>(__dirname, <span class="string">'tasks.json'</span>);
+
+<span class="comment">// Middleware — these run on EVERY request before your routes</span>
+app.<span class="function">use</span>(<span class="function">cors</span>());            <span class="comment">// Allow requests from other origins</span>
+app.<span class="function">use</span>(express.<span class="function">json</span>());   <span class="comment">// Parse JSON request bodies</span>
+
+<span class="comment">// Helper: Read all tasks from the JSON file</span>
+<span class="keyword">async function</span> <span class="function">readTasks</span>() {
+  <span class="keyword">try</span> {
+    <span class="keyword">const</span> data = <span class="keyword">await</span> fs.<span class="function">readFile</span>(DATA_FILE, <span class="string">'utf8'</span>);
+    <span class="keyword">return</span> JSON.<span class="function">parse</span>(data);
+  } <span class="keyword">catch</span> {
+    <span class="keyword">return</span> [];  <span class="comment">// If file doesn't exist, return empty array</span>
+  }
+}
+
+<span class="comment">// Helper: Write tasks array to the JSON file</span>
+<span class="keyword">async function</span> <span class="function">writeTasks</span>(tasks) {
+  <span class="keyword">await</span> fs.<span class="function">writeFile</span>(DATA_FILE, JSON.<span class="function">stringify</span>(tasks, <span class="keyword">null</span>, <span class="number">2</span>));
+}</pre>
+        </div>
+
+        <div class="dark-card info" style="margin-top: 1rem;">
+            <h4>CommonJS vs ES Modules</h4>
+            <p>Express projects use <code>require()</code> (CommonJS syntax). This is different from the <code>import</code> syntax you'll see in Next.js. Both do the same thing — load modules — just with different syntax. Express defaults to CommonJS because it predates ES modules in Node.js.</p>
+        </div>
+
+        <div class="dark-card warning" style="margin-top: 0.5rem;">
+            <h4>Middleware Order Matters</h4>
+            <p><code>app.use(express.json())</code> must come <strong>before</strong> your routes. Without it, <code>req.body</code> will be <code>undefined</code> when you try to read JSON from POST and PUT requests.</p>
+        </div>
+    </section>
+
+    <!-- ========== STEP 4 ========== -->
+    <section class="step-section" id="step4">
+        <div class="step-header">
+            <span class="step-number">4</span>
+            <h2>Add GET Routes</h2>
+        </div>
+        <p class="step-subtitle">Create two GET endpoints — one to retrieve all tasks, one to retrieve a single task by ID.</p>
+
+        <p style="margin-bottom: 0.75rem;">Add these routes after your helper functions in <code>index.js</code>:</p>
+
+        <div class="code-block">
+<pre><span class="comment">// GET /tasks — Return all tasks</span>
+app.<span class="function">get</span>(<span class="string">'/tasks'</span>, <span class="keyword">async</span> (req, res) => {
+  <span class="keyword">try</span> {
+    <span class="keyword">const</span> tasks = <span class="keyword">await</span> <span class="function">readTasks</span>();
+    res.<span class="function">json</span>(tasks);
+  } <span class="keyword">catch</span> (error) {
+    res.<span class="function">status</span>(<span class="number">500</span>).<span class="function">json</span>({ error: <span class="string">'Failed to read tasks'</span> });
+  }
+});
+
+<span class="comment">// GET /tasks/:id — Return a single task by ID</span>
+app.<span class="function">get</span>(<span class="string">'/tasks/:id'</span>, <span class="keyword">async</span> (req, res) => {
+  <span class="keyword">try</span> {
+    <span class="keyword">const</span> id = <span class="function">parseInt</span>(req.params.id);
+    <span class="keyword">const</span> tasks = <span class="keyword">await</span> <span class="function">readTasks</span>();
+    <span class="keyword">const</span> task = tasks.<span class="function">find</span>(t => t.id === id);
+
+    <span class="keyword">if</span> (!task) {
+      <span class="keyword">return</span> res.<span class="function">status</span>(<span class="number">404</span>).<span class="function">json</span>({ error: <span class="string">'Task not found'</span> });
+    }
+
+    res.<span class="function">json</span>(task);
+  } <span class="keyword">catch</span> (error) {
+    res.<span class="function">status</span>(<span class="number">500</span>).<span class="function">json</span>({ error: <span class="string">'Failed to read task'</span> });
+  }
+});</pre>
+        </div>
+
+        <div class="dark-card info" style="margin-top: 1rem;">
+            <h4>URL Parameters</h4>
+            <p>The <code>:id</code> in <code>/tasks/:id</code> is a URL parameter. Express captures whatever value appears in that position and puts it in <code>req.params.id</code>. So a request to <code>/tasks/123</code> gives you <code>req.params.id = "123"</code>. Note it's always a string, which is why we use <code>parseInt()</code> to convert it to a number.</p>
+        </div>
+
+        <div class="dark-card info" style="margin-top: 0.5rem;">
+            <h4>Always Handle 404</h4>
+            <p>If a client asks for a task that doesn't exist, return <code>404 Not Found</code> — not <code>200 OK</code> with <code>null</code>. Proper status codes make your API predictable and easier to debug.</p>
+        </div>
+    </section>
+
+    <!-- ========== STEP 5 ========== -->
+    <section class="step-section" id="step5">
+        <div class="step-header">
+            <span class="step-number">5</span>
+            <h2>Add POST Route</h2>
+        </div>
+        <p class="step-subtitle">Create an endpoint that accepts JSON data and creates a new task.</p>
+
+        <div class="code-block">
+<pre><span class="comment">// POST /tasks — Create a new task</span>
+app.<span class="function">post</span>(<span class="string">'/tasks'</span>, <span class="keyword">async</span> (req, res) => {
+  <span class="keyword">try</span> {
+    <span class="keyword">const</span> { text } = req.body;
+
+    <span class="comment">// Validate: text is required</span>
+    <span class="keyword">if</span> (!text) {
+      <span class="keyword">return</span> res.<span class="function">status</span>(<span class="number">400</span>).<span class="function">json</span>({ error: <span class="string">'Text is required'</span> });
+    }
+
+    <span class="keyword">const</span> newTask = {
+      id: Date.<span class="function">now</span>(),                         <span class="comment">// Unique ID from timestamp</span>
+      text,
+      completed: <span class="keyword">false</span>,
+      createdAt: <span class="keyword">new</span> <span class="function">Date</span>().<span class="function">toISOString</span>()     <span class="comment">// ISO format timestamp</span>
+    };
+
+    <span class="keyword">const</span> tasks = <span class="keyword">await</span> <span class="function">readTasks</span>();
+    tasks.<span class="function">push</span>(newTask);
+    <span class="keyword">await</span> <span class="function">writeTasks</span>(tasks);
+
+    res.<span class="function">status</span>(<span class="number">201</span>).<span class="function">json</span>(newTask);            <span class="comment">// 201 = Created</span>
+  } <span class="keyword">catch</span> (error) {
+    res.<span class="function">status</span>(<span class="number">500</span>).<span class="function">json</span>({ error: <span class="string">'Failed to create task'</span> });
+  }
+});</pre>
+        </div>
+
+        <div class="dark-card info" style="margin-top: 1rem;">
+            <h4>Why 201 Instead of 200?</h4>
+            <p><code>201 Created</code> tells the client that a new resource was successfully created. It's more specific than a generic <code>200 OK</code>. We also return the created task (with its new <code>id</code>) so the client knows exactly what was stored.</p>
+        </div>
+
+        <div class="dark-card info" style="margin-top: 0.5rem;">
+            <h4>Input Validation</h4>
+            <p>Always validate incoming data. If someone sends a request without <code>text</code>, we return <code>400 Bad Request</code> instead of creating an empty task. This prevents bad data from getting into your storage.</p>
+        </div>
+    </section>
+
+    <!-- ========== STEP 6 ========== -->
+    <section class="step-section" id="step6">
+        <div class="step-header">
+            <span class="step-number">6</span>
+            <h2>Add PUT and DELETE Routes</h2>
+        </div>
+        <p class="step-subtitle">Add the last two CRUD operations — updating existing tasks and removing them.</p>
+
+        <div class="code-block">
+<pre><span class="comment">// PUT /tasks/:id — Update an existing task</span>
+app.<span class="function">put</span>(<span class="string">'/tasks/:id'</span>, <span class="keyword">async</span> (req, res) => {
+  <span class="keyword">try</span> {
+    <span class="keyword">const</span> id = <span class="function">parseInt</span>(req.params.id);
+    <span class="keyword">const</span> tasks = <span class="keyword">await</span> <span class="function">readTasks</span>();
+    <span class="keyword">const</span> index = tasks.<span class="function">findIndex</span>(t => t.id === id);
+
+    <span class="keyword">if</span> (index === -<span class="number">1</span>) {
+      <span class="keyword">return</span> res.<span class="function">status</span>(<span class="number">404</span>).<span class="function">json</span>({ error: <span class="string">'Task not found'</span> });
+    }
+
+    <span class="comment">// Merge existing task with updates, preserve original id</span>
+    tasks[index] = { ...tasks[index], ...req.body, id };
+    <span class="keyword">await</span> <span class="function">writeTasks</span>(tasks);
+
+    res.<span class="function">json</span>(tasks[index]);
+  } <span class="keyword">catch</span> (error) {
+    res.<span class="function">status</span>(<span class="number">500</span>).<span class="function">json</span>({ error: <span class="string">'Failed to update task'</span> });
+  }
+});
+
+<span class="comment">// DELETE /tasks/:id — Remove a task</span>
+app.<span class="function">delete</span>(<span class="string">'/tasks/:id'</span>, <span class="keyword">async</span> (req, res) => {
+  <span class="keyword">try</span> {
+    <span class="keyword">const</span> id = <span class="function">parseInt</span>(req.params.id);
+    <span class="keyword">const</span> tasks = <span class="keyword">await</span> <span class="function">readTasks</span>();
+    <span class="keyword">const</span> filtered = tasks.<span class="function">filter</span>(t => t.id !== id);
+
+    <span class="keyword">if</span> (filtered.length === tasks.length) {
+      <span class="keyword">return</span> res.<span class="function">status</span>(<span class="number">404</span>).<span class="function">json</span>({ error: <span class="string">'Task not found'</span> });
+    }
+
+    <span class="keyword">await</span> <span class="function">writeTasks</span>(filtered);
+    res.<span class="function">sendStatus</span>(<span class="number">204</span>);   <span class="comment">// 204 = No Content (success, no body)</span>
+  } <span class="keyword">catch</span> (error) {
+    res.<span class="function">status</span>(<span class="number">500</span>).<span class="function">json</span>({ error: <span class="string">'Failed to delete task'</span> });
+  }
+});</pre>
+        </div>
+
+        <div class="dark-card info" style="margin-top: 1rem;">
+            <h4>The Spread Operator for Updates</h4>
+            <p><code>{ ...tasks[index], ...req.body, id }</code> merges the existing task with whatever fields the client sends. The <code>id</code> at the end ensures the ID can't be overwritten. This lets clients send partial updates — just <code>{"completed": true}</code> without resending the entire task.</p>
+        </div>
+
+        <div class="dark-card info" style="margin-top: 0.5rem;">
+            <h4>204 No Content</h4>
+            <p>DELETE returns <code>204</code> with no response body. This is standard REST practice — the task is gone, there's nothing to return. The absence of a body confirms the deletion succeeded.</p>
+        </div>
+    </section>
+
+    <!-- ========== STEP 7 ========== -->
+    <section class="step-section" id="step7">
+        <div class="step-header">
+            <span class="step-number">7</span>
+            <h2>Start the Server</h2>
+        </div>
+        <p class="step-subtitle">Add the listener at the bottom of index.js and start the development server.</p>
+
+        <p style="margin-bottom: 0.75rem;">Add this as the last line in <code>index.js</code>:</p>
+
+        <div class="code-block">
+<pre><span class="comment">// Start the server</span>
+app.<span class="function">listen</span>(PORT, () => {
+  console.<span class="function">log</span>(<span class="string">`Server running on http://localhost:</span>${PORT}<span class="string">`</span>);
+});</pre>
+        </div>
+
+        <p style="margin: 1rem 0 0.75rem;">Now start the server:</p>
+
+        <div class="terminal-block">
+            <div><span class="prompt">$</span> <span class="command">npm run dev</span></div>
+            <div class="output" style="margin-top: 0.5rem;">[nodemon] starting `node index.js`</div>
+            <div class="output">Server running on http://localhost:3000</div>
+        </div>
+
+        <div class="grid-2" style="margin-top: 1rem;">
+            <div class="dark-card success">
+                <h4>Success</h4>
+                <p>You see "Server running on http://localhost:3000" — your API is live!</p>
+            </div>
+            <div class="dark-card warning">
+                <h4>If You Get Errors</h4>
+                <p>Check for typos, missing commas, or unclosed brackets. Nodemon will show the exact line number.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- ========== CHECKPOINT ========== -->
+    <section class="step-section" id="checkpoint" style="border-left: 4px solid #22c55e;">
+        <div class="step-header">
+            <span class="step-number" style="background: linear-gradient(135deg, #22c55e, #16a34a);">✓</span>
+            <h2>Checkpoint: Complete index.js</h2>
+        </div>
+        <p class="step-subtitle">If your server isn't starting, replace your entire <code>index.js</code> with this complete file:</p>
+
+        <div class="code-block">
+<pre><span class="keyword">const</span> express = <span class="function">require</span>(<span class="string">'express'</span>);
+<span class="keyword">const</span> cors = <span class="function">require</span>(<span class="string">'cors'</span>);
+<span class="keyword">const</span> fs = <span class="function">require</span>(<span class="string">'fs'</span>).promises;
+<span class="keyword">const</span> path = <span class="function">require</span>(<span class="string">'path'</span>);
+
+<span class="keyword">const</span> app = <span class="function">express</span>();
+<span class="keyword">const</span> PORT = <span class="number">3000</span>;
+<span class="keyword">const</span> DATA_FILE = path.<span class="function">join</span>(__dirname, <span class="string">'tasks.json'</span>);
+
+app.<span class="function">use</span>(<span class="function">cors</span>());
+app.<span class="function">use</span>(express.<span class="function">json</span>());
+
+<span class="keyword">async function</span> <span class="function">readTasks</span>() {
+  <span class="keyword">try</span> {
+    <span class="keyword">const</span> data = <span class="keyword">await</span> fs.<span class="function">readFile</span>(DATA_FILE, <span class="string">'utf8'</span>);
+    <span class="keyword">return</span> JSON.<span class="function">parse</span>(data);
+  } <span class="keyword">catch</span> { <span class="keyword">return</span> []; }
+}
+
+<span class="keyword">async function</span> <span class="function">writeTasks</span>(tasks) {
+  <span class="keyword">await</span> fs.<span class="function">writeFile</span>(DATA_FILE, JSON.<span class="function">stringify</span>(tasks, <span class="keyword">null</span>, <span class="number">2</span>));
+}
+
+<span class="comment">// GET all tasks</span>
+app.<span class="function">get</span>(<span class="string">'/tasks'</span>, <span class="keyword">async</span> (req, res) => {
+  <span class="keyword">try</span> {
+    <span class="keyword">const</span> tasks = <span class="keyword">await</span> <span class="function">readTasks</span>();
+    res.<span class="function">json</span>(tasks);
+  } <span class="keyword">catch</span> (error) {
+    res.<span class="function">status</span>(<span class="number">500</span>).<span class="function">json</span>({ error: <span class="string">'Failed to read tasks'</span> });
+  }
+});
+
+<span class="comment">// GET single task</span>
+app.<span class="function">get</span>(<span class="string">'/tasks/:id'</span>, <span class="keyword">async</span> (req, res) => {
+  <span class="keyword">try</span> {
+    <span class="keyword">const</span> id = <span class="function">parseInt</span>(req.params.id);
+    <span class="keyword">const</span> tasks = <span class="keyword">await</span> <span class="function">readTasks</span>();
+    <span class="keyword">const</span> task = tasks.<span class="function">find</span>(t => t.id === id);
+    <span class="keyword">if</span> (!task) <span class="keyword">return</span> res.<span class="function">status</span>(<span class="number">404</span>).<span class="function">json</span>({ error: <span class="string">'Task not found'</span> });
+    res.<span class="function">json</span>(task);
+  } <span class="keyword">catch</span> (error) {
+    res.<span class="function">status</span>(<span class="number">500</span>).<span class="function">json</span>({ error: <span class="string">'Failed to read task'</span> });
+  }
+});
+
+<span class="comment">// POST new task</span>
+app.<span class="function">post</span>(<span class="string">'/tasks'</span>, <span class="keyword">async</span> (req, res) => {
+  <span class="keyword">try</span> {
+    <span class="keyword">const</span> { text } = req.body;
+    <span class="keyword">if</span> (!text) <span class="keyword">return</span> res.<span class="function">status</span>(<span class="number">400</span>).<span class="function">json</span>({ error: <span class="string">'Text is required'</span> });
+    <span class="keyword">const</span> newTask = {
+      id: Date.<span class="function">now</span>(), text, completed: <span class="keyword">false</span>,
+      createdAt: <span class="keyword">new</span> <span class="function">Date</span>().<span class="function">toISOString</span>()
+    };
+    <span class="keyword">const</span> tasks = <span class="keyword">await</span> <span class="function">readTasks</span>();
+    tasks.<span class="function">push</span>(newTask);
+    <span class="keyword">await</span> <span class="function">writeTasks</span>(tasks);
+    res.<span class="function">status</span>(<span class="number">201</span>).<span class="function">json</span>(newTask);
+  } <span class="keyword">catch</span> (error) {
+    res.<span class="function">status</span>(<span class="number">500</span>).<span class="function">json</span>({ error: <span class="string">'Failed to create task'</span> });
+  }
+});
+
+<span class="comment">// PUT update task</span>
+app.<span class="function">put</span>(<span class="string">'/tasks/:id'</span>, <span class="keyword">async</span> (req, res) => {
+  <span class="keyword">try</span> {
+    <span class="keyword">const</span> id = <span class="function">parseInt</span>(req.params.id);
+    <span class="keyword">const</span> tasks = <span class="keyword">await</span> <span class="function">readTasks</span>();
+    <span class="keyword">const</span> index = tasks.<span class="function">findIndex</span>(t => t.id === id);
+    <span class="keyword">if</span> (index === -<span class="number">1</span>) <span class="keyword">return</span> res.<span class="function">status</span>(<span class="number">404</span>).<span class="function">json</span>({ error: <span class="string">'Task not found'</span> });
+    tasks[index] = { ...tasks[index], ...req.body, id };
+    <span class="keyword">await</span> <span class="function">writeTasks</span>(tasks);
+    res.<span class="function">json</span>(tasks[index]);
+  } <span class="keyword">catch</span> (error) {
+    res.<span class="function">status</span>(<span class="number">500</span>).<span class="function">json</span>({ error: <span class="string">'Failed to update task'</span> });
+  }
+});
+
+<span class="comment">// DELETE task</span>
+app.<span class="function">delete</span>(<span class="string">'/tasks/:id'</span>, <span class="keyword">async</span> (req, res) => {
+  <span class="keyword">try</span> {
+    <span class="keyword">const</span> id = <span class="function">parseInt</span>(req.params.id);
+    <span class="keyword">const</span> tasks = <span class="keyword">await</span> <span class="function">readTasks</span>();
+    <span class="keyword">const</span> filtered = tasks.<span class="function">filter</span>(t => t.id !== id);
+    <span class="keyword">if</span> (filtered.length === tasks.length) {
+      <span class="keyword">return</span> res.<span class="function">status</span>(<span class="number">404</span>).<span class="function">json</span>({ error: <span class="string">'Task not found'</span> });
+    }
+    <span class="keyword">await</span> <span class="function">writeTasks</span>(filtered);
+    res.<span class="function">sendStatus</span>(<span class="number">204</span>);
+  } <span class="keyword">catch</span> (error) {
+    res.<span class="function">status</span>(<span class="number">500</span>).<span class="function">json</span>({ error: <span class="string">'Failed to delete task'</span> });
+  }
+});
+
+app.<span class="function">listen</span>(PORT, () => console.<span class="function">log</span>(<span class="string">`Server running on http://localhost:</span>${PORT}<span class="string">`</span>));</pre>
+        </div>
+
+        <div class="dark-card success">
+            <h4>Verify Before Moving On</h4>
+            <p>Run <code>npm run dev</code> — you should see "Server running on http://localhost:3000" with no errors. If it starts cleanly, your API code is correct and you're ready to test with Postman.</p>
+        </div>
+    </section>
+
+    <!-- ========== STEP 8 ========== -->
+    <section class="step-section" id="step8">
+        <div class="step-header">
+            <span class="step-number">8</span>
+            <h2>Test with Postman</h2>
+        </div>
+        <p class="step-subtitle">Open Postman and test every endpoint. Create a collection to organize your requests.</p>
+
+        <h3>Set Up Your Collection</h3>
+        <ol style="margin-bottom: 1.25rem;">
+            <li>Open <strong>Postman</strong> (download from <a href="https://www.postman.com" style="color: #61dafb;">postman.com</a> if you haven't)</li>
+            <li>Click <strong>Collections</strong> in the left sidebar → click <strong>+</strong></li>
+            <li>Name it: <code>Express Tasks API</code></li>
+        </ol>
+
+        <h3>Test Each Endpoint</h3>
+        <p style="margin-bottom: 0.75rem;">Work through these in order. Save each request to your collection after testing it.</p>
+
+        <h4 style="margin-top: 1.25rem;">1. Create a Task</h4>
+        <p style="margin-bottom: 0.5rem;">Set method to <span class="method-pill post">POST</span>, URL to <code>http://localhost:3000/tasks</code>. Go to <strong>Body</strong> tab → select <strong>raw</strong> → choose <strong>JSON</strong> from the dropdown:</p>
+        <div class="code-block">
+<pre>{
+  "text": "Learn REST APIs"
+}</pre>
+        </div>
+        <p style="margin-top: 0.5rem;">Click <strong>Send</strong>. Expected: <span class="status-badge s201">201</span> with the created task (including its <code>id</code>). <strong>Copy the id value</strong> — you'll need it for the next tests. Create 2-3 more tasks so you have data to work with.</p>
+
+        <h4 style="margin-top: 1.25rem;">2. Get All Tasks</h4>
+        <p><span class="method-pill get">GET</span> <code>http://localhost:3000/tasks</code> — no body needed. Expected: <span class="status-badge s200">200</span> with an array of all your tasks.</p>
+
+        <h4 style="margin-top: 1.25rem;">3. Get Single Task</h4>
+        <p><span class="method-pill get">GET</span> <code>http://localhost:3000/tasks/YOUR_TASK_ID</code> — replace <code>YOUR_TASK_ID</code> with an actual id from step 1. Expected: <span class="status-badge s200">200</span> with that one task. Also try a fake ID like <code>9999999</code> to verify you get <span class="status-badge s404">404</span>.</p>
+
+        <h4 style="margin-top: 1.25rem;">4. Update a Task</h4>
+        <p><span class="method-pill put">PUT</span> <code>http://localhost:3000/tasks/YOUR_TASK_ID</code> with this body:</p>
+        <div class="code-block">
+<pre>{
+  "completed": true
+}</pre>
+        </div>
+        <p style="margin-top: 0.5rem;">Expected: <span class="status-badge s200">200</span> with the updated task showing <code>"completed": true</code>.</p>
+
+        <h4 style="margin-top: 1.25rem;">5. Delete a Task</h4>
+        <p><span class="method-pill delete">DELETE</span> <code>http://localhost:3000/tasks/YOUR_TASK_ID</code> — no body. Expected: <span class="status-badge s204">204</span> with no response body. Run GET all tasks again to confirm it's gone.</p>
+
+        <div class="dark-card warning" style="margin-top: 1.25rem;">
+            <h4>Save Each Request!</h4>
+            <p>After testing each endpoint, click <strong>Save</strong> (Ctrl+S) and add it to your "Express Tasks API" collection. You need to export this collection for submission.</p>
+        </div>
+    </section>
+
+    <!-- ========== STEP 9 ========== -->
+    <section class="step-section" id="step9">
+        <div class="step-header">
+            <span class="step-number">9</span>
+            <h2>Capture Screenshots</h2>
+        </div>
+        <p class="step-subtitle">Take a screenshot of each successful Postman test.</p>
+
+        <p style="margin-bottom: 0.75rem;">Each screenshot must clearly show:</p>
+        <ul>
+            <li>The <strong>HTTP method</strong> (GET, POST, PUT, DELETE)</li>
+            <li>The <strong>URL</strong> being tested</li>
+            <li>The <strong>status code</strong> (200, 201, 204, etc.)</li>
+            <li>The <strong>response body</strong> (if applicable)</li>
+        </ul>
+
+        <table class="test-table" style="margin-top: 1rem;">
+            <thead>
+                <tr>
+                    <th>Screenshot</th>
+                    <th>What to Show</th>
+                    <th>Expected Status</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>1. POST create</td>
+                    <td>Creating a task with JSON body</td>
+                    <td><span class="status-badge s201">201</span> Created</td>
+                </tr>
+                <tr>
+                    <td>2. GET all</td>
+                    <td>Retrieving all tasks (array)</td>
+                    <td><span class="status-badge s200">200</span> OK</td>
+                </tr>
+                <tr>
+                    <td>3. GET single</td>
+                    <td>Retrieving one task by ID</td>
+                    <td><span class="status-badge s200">200</span> OK</td>
+                </tr>
+                <tr>
+                    <td>4. PUT update</td>
+                    <td>Updating completed to true</td>
+                    <td><span class="status-badge s200">200</span> OK</td>
+                </tr>
+                <tr>
+                    <td>5. DELETE</td>
+                    <td>Deleting a task by ID</td>
+                    <td><span class="status-badge s204">204</span> No Content</td>
+                </tr>
+            </tbody>
+        </table>
+    </section>
+
+    <!-- ========== STEP 10 ========== -->
+    <section class="step-section" id="step10">
+        <div class="step-header">
+            <span class="step-number">10</span>
+            <h2>Export Collection & Push to GitHub</h2>
+        </div>
+        <p class="step-subtitle">Package your Postman collection and push your code for submission.</p>
+
+        <h3>Export Postman Collection</h3>
+        <ol style="margin-bottom: 1.25rem;">
+            <li>Right-click your <strong>Express Tasks API</strong> collection name</li>
+            <li>Select <strong>Export</strong></li>
+            <li>Choose <strong>Collection v2.1</strong></li>
+            <li>Save as <code>express-tasks-api.json</code></li>
+        </ol>
+
+        <h3>Push to GitHub</h3>
+        <p style="margin-bottom: 0.75rem;">Create a new repository on GitHub named <code>express-tasks-api</code>, then run:</p>
+
+        <div class="terminal-block">
+            <div><span class="prompt">$</span> <span class="command">git init</span></div>
+            <div><span class="prompt">$</span> <span class="command">echo "node_modules" > .gitignore</span></div>
+            <div><span class="prompt">$</span> <span class="command">git add .</span></div>
+            <div><span class="prompt">$</span> <span class="command">git commit -m "Express Tasks API"</span></div>
+            <div><span class="prompt">$</span> <span class="command">git branch -M main</span></div>
+            <div><span class="prompt">$</span> <span class="command">git remote add origin https://github.com/yourusername/express-tasks-api.git</span></div>
+            <div><span class="prompt">$</span> <span class="command">git push -u origin main</span></div>
+        </div>
+
+        <div class="dark-card warning" style="margin-top: 1rem;">
+            <h4>Don't Forget .gitignore</h4>
+            <p>The <code>node_modules</code> folder contains thousands of files and should never be pushed to GitHub. The <code>.gitignore</code> file tells Git to skip it.</p>
+        </div>
+    </section>
+
+    <!-- ========== DELIVERABLES ========== -->
+    <section class="deliverables" id="deliverables">
+        <h2>Deliverables</h2>
+        <p class="subtitle">Submit all three items to Canvas for full credit.</p>
+
+        <div class="grid-3">
+            <div class="dark-card">
+                <h4>1. GitHub Repository URL</h4>
+                <p>Link to your repo with complete source code</p>
+                <p class="url-example">github.com/you/express-tasks-api</p>
+            </div>
+            <div class="dark-card">
+                <h4>2. Postman Collection</h4>
+                <p>Exported .json file with all 5 requests</p>
+                <p class="url-example">express-tasks-api.json</p>
+            </div>
+            <div class="dark-card">
+                <h4>3. Screenshots</h4>
+                <p>Successful Postman tests for each endpoint</p>
+                <p class="url-example">5 screenshots showing status codes</p>
+            </div>
+        </div>
+
+        <div class="points">50 Points</div>
+
+        <div class="dark-card warning" style="margin-top: 1rem;">
+            <h4>Before Submitting</h4>
+            <p>Make sure your server starts with <code>npm run dev</code>, all 5 endpoints return correct status codes, and your Postman collection has all requests saved.</p>
+        </div>
+    </section>
+
+</main>
+
+</body>
+</html>
