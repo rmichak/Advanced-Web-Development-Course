@@ -203,24 +203,34 @@
 <span class="keyword">import</span> fs <span class="keyword">from</span> <span class="string">'fs/promises'</span>;
 <span class="keyword">import</span> path <span class="keyword">from</span> <span class="string">'path'</span>;
 
-<span class="keyword">const</span> DATA_FILE = path.<span class="function">join</span>(process.<span class="function">cwd</span>(), <span class="string">'tasks.json'</span>);
+<span class="keyword">const</span> TMP_FILE = <span class="string">'/tmp/tasks.json'</span>;
+<span class="keyword">const</span> SEED_FILE = path.<span class="function">join</span>(process.<span class="function">cwd</span>(), <span class="string">'tasks.json'</span>);
 
 <span class="keyword">export async function</span> <span class="function">readTasks</span>() {
   <span class="keyword">try</span> {
-    <span class="keyword">const</span> data = <span class="keyword">await</span> fs.<span class="function">readFile</span>(DATA_FILE, <span class="string">'utf8'</span>);
+    <span class="keyword">const</span> data = <span class="keyword">await</span> fs.<span class="function">readFile</span>(TMP_FILE, <span class="string">'utf8'</span>);
     <span class="keyword">return</span> JSON.<span class="function">parse</span>(data);
   } <span class="keyword">catch</span> {
-    <span class="keyword">return</span> [];
+    <span class="keyword">try</span> {
+      <span class="keyword">const</span> seed = <span class="keyword">await</span> fs.<span class="function">readFile</span>(SEED_FILE, <span class="string">'utf8'</span>);
+      <span class="keyword">return</span> JSON.<span class="function">parse</span>(seed);
+    } <span class="keyword">catch</span> {
+      <span class="keyword">return</span> [];
+    }
   }
 }
 
 <span class="keyword">export async function</span> <span class="function">writeTasks</span>(tasks) {
-  <span class="keyword">await</span> fs.<span class="function">writeFile</span>(DATA_FILE, JSON.<span class="function">stringify</span>(tasks, <span class="keyword">null</span>, <span class="number">2</span>));
+  <span class="keyword">await</span> fs.<span class="function">writeFile</span>(TMP_FILE, JSON.<span class="function">stringify</span>(tasks, <span class="keyword">null</span>, <span class="number">2</span>));
 }</pre>
                 </div>
                 <div class="dark-card info" style="margin-top: 1rem;">
                     <h4>ES Modules</h4>
                     <p>Next.js uses <code>import/export</code> syntax instead of <code>require/module.exports</code></p>
+                </div>
+                <div class="dark-card warning" style="margin-top: 0.5rem;">
+                    <h4>Why /tmp Instead of tasks.json?</h4>
+                    <p>Vercel's deployed environment is <strong>read-only</strong> — your project files (including <code>tasks.json</code>) can't be modified at runtime. Writing to <code>/tmp/</code> works because Vercel allows temporary file storage there. The code reads seed data from your project's <code>tasks.json</code> as a fallback, but writes all changes to <code>/tmp/tasks.json</code>. This works locally too, so you don't need separate code for dev vs production.</p>
                 </div>
             </div>
         </section>
