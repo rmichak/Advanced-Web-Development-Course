@@ -457,18 +457,18 @@
         </div>
         <p class="step-subtitle">Your React app needs two pieces of information to connect to Supabase: a Project URL and an API key.</p>
 
-        <p style="margin-bottom: 0.75rem;">In the Supabase dashboard, go to <strong>Settings</strong> (the gear icon in the left sidebar), then click <strong>API</strong> under the Configuration section. You need two values from this page:</p>
+        <p style="margin-bottom: 0.75rem;">You need two values from the Supabase dashboard. They're in different places:</p>
 
         <div class="grid-2" style="margin-bottom: 1rem;">
             <div class="dark-card">
                 <h4>Project URL</h4>
                 <p>Looks like <code>https://abcxyz.supabase.co</code></p>
-                <p style="margin-top: 0.5rem; color: #94a3b8; font-size: 0.88rem;">This is the address where your database lives on the internet.</p>
+                <p style="margin-top: 0.5rem; color: #94a3b8; font-size: 0.88rem;">Find this on the <strong>Project Overview</strong> page (the home icon in the left sidebar — it's the first page you see when you open your project).</p>
             </div>
             <div class="dark-card">
                 <h4>Anon / Public Key</h4>
                 <p>A long string starting with <code>eyJ...</code></p>
-                <p style="margin-top: 0.5rem; color: #94a3b8; font-size: 0.88rem;">This is a public API key that identifies your project. It's safe to use in client-side code.</p>
+                <p style="margin-top: 0.5rem; color: #94a3b8; font-size: 0.88rem;">Find this under <strong>Settings</strong> (gear icon) → <strong>API</strong> in the Configuration section. Look for the key labeled <strong>anon</strong> / <strong>public</strong>.</p>
             </div>
         </div>
 
@@ -594,6 +594,11 @@
         <p class="step-subtitle">Add the new imports you need for database operations and a loading state to handle the delay while data is being fetched.</p>
 
         <p style="margin-bottom: 0.75rem;">Open <code>App.jsx</code> and update the top of the file. You need three changes from your Module 5 version:</p>
+
+        <div class="dark-card info" style="margin-bottom: 0.75rem;">
+            <h4>App.jsx vs App.tsx</h4>
+            <p>If you copied your Module 5 project, your main file is probably <code>App.tsx</code> (TypeScript) rather than <code>App.jsx</code>. That's fine — the code is the same either way. As covered in Module 5, <code>.tsx</code> files are for React components written in TypeScript. Just make your edits in whichever file your project uses (<code>App.jsx</code> or <code>App.tsx</code>).</p>
+        </div>
 
         <div class="code-block">
 <pre><span class="keyword">import</span> { useState, useEffect } <span class="keyword">from</span> <span class="string">'react'</span>
